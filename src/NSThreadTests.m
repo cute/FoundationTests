@@ -1,0 +1,57 @@
+#import "FoundationTests.h"
+
+@testcase(NSThread) {
+    BOOL _thread1Passed;
+    BOOL _thread2Passed;
+}
+
+- (BOOL)testThreadCreation
+{
+    NSThread *thread = [[NSThread alloc] init];
+    testassert(thread != nil);
+    [thread release];
+
+    return YES;
+}
+
+- (BOOL)thread1
+{
+    _thread1Passed = YES;
+
+    return YES;
+}
+
+- (BOOL)testThreadSpawning1
+{
+    _thread1Passed = NO;
+    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(thread1) object:nil];
+    [thread start];
+    sleep(1);
+    testassert(_thread1Passed);
+    [thread release];
+
+    return YES;
+}
+
+- (BOOL)thread2:(NSObject *)obj
+{
+    _thread2Passed = [obj retain] != NULL;
+
+    return YES;
+}
+
+- (BOOL)testThreadSpawning2
+{
+    _thread2Passed = NO;
+    NSObject *obj = [[NSObject alloc] init];
+    NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(thread2:) object:obj];
+    [obj release];
+    [thread start];
+    sleep(1);
+    testassert(_thread2Passed);
+    [thread release];
+
+    return YES;
+}
+
+@end

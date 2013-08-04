@@ -1,0 +1,227 @@
+{
+    "xcode_project": "FoundationTests.xcodeproj", 
+    "sources": [
+        {
+            "language": "objc", 
+            "header_paths": [], 
+            "source": "FoundationTests/main.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
+            "source": "src/CFRunLoopTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
+            "source": "src/FoundationTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
+            "source": "src/NSBlockTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
+            "source": "src/NSCountedSetTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
+            "source": "src/NSDictionaryTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
+            "source": "src/NSExceptionTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
+            "source": "src/NSLockTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
+            "source": "src/NSMethodSignatureTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
+            "source": "src/NSNumberTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
+            "source": "src/NSObjCRuntimeTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
+            "source": "src/NSSortDescriptorTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
+            "source": "src/NSStringTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
+            "source": "src/NSThreadTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
+            "source": "src/NSURLTests.m", 
+            "flags": [], 
+            "defines": {}
+        }
+    ], 
+    "infoplists": [
+        "./FoundationTests/FoundationTests-Info.plist"
+    ], 
+    "libs": [], 
+    "defines": {
+        "__IPHONE_OS_VERSION_MIN_REQUIRED": 60100, 
+        "NS_BLOCK_ASSERTIONS": 1
+    }, 
+    "pchs": [
+        "./FoundationTests/FoundationTests-Prefix.pch"
+    ], 
+    "assets": [
+        {
+            "asset": "FoundationTests/Default@2x.png", 
+            "target": "Default@2x.png"
+        }, 
+        {
+            "asset": "FoundationTests/Default.png", 
+            "target": "Default.png"
+        }, 
+        {
+            "asset": "FoundationTests/Default-568h@2x.png", 
+            "target": "Default-568h@2x.png"
+        }, 
+        {
+            "asset": "FoundationTests/en.lproj/InfoPlist.strings", 
+            "target": "en.lproj/InfoPlist.strings"
+        }
+    ], 
+    "type": "app", 
+    "header_paths": [
+        {
+            "type": "iquote", 
+            "header_path": "FoundationTests-generated-files.hmap", 
+            "hmap": {}
+        }, 
+        {
+            "type": "I", 
+            "header_path": "FoundationTests-own-target-headers.hmap", 
+            "hmap": {}
+        }, 
+        {
+            "type": "I", 
+            "header_path": "FoundationTests-all-target-headers.hmap", 
+            "hmap": {}
+        }, 
+        {
+            "type": "iquote", 
+            "header_path": "FoundationTests-project-headers.hmap", 
+            "hmap": {
+                "FoundationTests.h": {
+                    "prefix": "include/", 
+                    "suffix": "FoundationTests.h", 
+                    "key": "FoundationTests.h"
+                }, 
+                "FoundationTests-Prefix.pch": {
+                    "prefix": "FoundationTests/", 
+                    "suffix": "FoundationTests-Prefix.pch", 
+                    "key": "FoundationTests-Prefix.pch"
+                }, 
+                "utlist.h": {
+                    "prefix": "include/", 
+                    "suffix": "utlist.h", 
+                    "key": "utlist.h"
+                }
+            }
+        }
+    ], 
+    "modules": [], 
+    "version": "1", 
+    "flags": [
+        "-DNS_BLOCK_ASSERTIONS=1", 
+        "-fwritable-strings", 
+        "-fasm-blocks", 
+        {
+            "flag": "-std=gnu99", 
+            "not_type": "c++"
+        }, 
+        {
+            "flag": "-fgnu-keywords", 
+            "not_type": "c++"
+        }, 
+        "-fno-asm", 
+        "-fpascal-strings", 
+        "-Wempty-body", 
+        "-Wno-deprecated-declarations", 
+        "-Wreturn-type", 
+        "-Wswitch", 
+        "-Wparentheses", 
+        "-Wformat", 
+        "-Wuninitialized", 
+        "-Wunused-value", 
+        "-Wunused-variable", 
+        {
+            "flag": "-Winvalid-offsetof", 
+            "type": "c++"
+        }, 
+        {
+            "flag": "-Wprotocol", 
+            "type": "objc"
+        }
+    ], 
+    "deps": [
+        "UIKit", 
+        "Foundation"
+    ], 
+    "config": {
+        "APPLICATION_IDENTIFIER": "apportable.FoundationTests", 
+        "TEMPLATE_VALUES": {
+            "PRODUCT_NAME": "FoundationTests", 
+            "EXECUTABLE_NAME": "FoundationTests"
+        }, 
+        "LONG_VERSION": "1.0", 
+        "SHORT_VERSION": "1.0", 
+        "APPLICATION_NAME": "FoundationTests", 
+        "APPLICATION_FULL_NAME": "FoundationTests"
+    }
+}
