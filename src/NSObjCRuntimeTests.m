@@ -462,7 +462,6 @@
 
 - (BOOL)testBitfield
 {
-    KNOWN_CRASHER();
     // NSGetSizeAndAlignment should throw NSInvalidArgumentException on bitfields
 
     void (^block)() = ^{
@@ -526,7 +525,6 @@
 
 - (BOOL)testTypeQualifiersAndComments
 {
-    KNOWN_CRASHER();
     // NSGetSizeAndAlignment should walk over type qualifiers,
     // represented by any of the characters in "nNoOrRV". It should
     // also skip over any string contained within double quotes.
@@ -553,7 +551,6 @@
 
 - (BOOL)testEmpty
 {
-    KNOWN_CRASHER();
     const char *type = "";
     NSUInteger size = -1;
     NSUInteger alignment = -1;

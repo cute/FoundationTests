@@ -12,7 +12,6 @@
 
 - (BOOL)testURLdescription
 {
-    KNOWN_CRASHER();
     NSURL *url = [[NSURL alloc] initWithString:@"basestring" relativeToURL:[NSURL URLWithString:@"relative://url"]];
     NSString *expected = @"basestring -- relative://url";
     [[url description] isEqualToString:expected];

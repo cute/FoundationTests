@@ -25,7 +25,6 @@
 
 - (BOOL)testNoninitedBehavior
 {
-    KNOWN_CRASHER();
     NSLock* lock = [NSLock alloc];
     // should warn
     [lock unlock];
@@ -126,9 +125,9 @@ typedef struct {
     int val;
 } SignalData;
 
-static void *signalingThread(void *data)
+static void *signalingThread(void *ctx)
 {
-    SignalData* signalData = (SignalData*) data;
+    SignalData* signalData = (SignalData*) ctx;
     for (int i = 0; i < kNumSignals; i++) {
         [signalData->cond lock];
 
@@ -140,11 +139,10 @@ static void *signalingThread(void *data)
     return NULL;
 }
 
+static SignalData data;
 - (BOOL)testCondition
 {
-    KNOWN_CRASHER();
     NSCondition *cond = [[NSCondition alloc] init];
-    SignalData data;
 
     data.val = 0;
     data.cond = cond;
@@ -173,7 +171,6 @@ static void *signalingThread(void *data)
 
 - (BOOL)testConditionNonInited
 {
-    KNOWN_CRASHER();
     NSCondition* cond = [NSCondition alloc];
     [cond lock];
     [cond lock];

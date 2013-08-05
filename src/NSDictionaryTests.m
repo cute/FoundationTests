@@ -103,7 +103,6 @@
 
 - (BOOL)testDoubleDeallocAllocate
 {
-    KNOWN_CRASHER();
     NSDictionary *d = [NSDictionary alloc];
 
     // Releasing twice should not throw

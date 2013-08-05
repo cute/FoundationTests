@@ -69,7 +69,6 @@
 
 - (BOOL)testSetWithCopyCreation
 {
-    KNOWN_CRASHER();
     // Ideally we would use just NSObjects for this test, but they are not copyable.
     NSSet *s = [[NSSet alloc] initWithObjects:
                    @"",
@@ -420,7 +419,6 @@
 
 - (BOOL)testCopyWithZone
 {
-    KNOWN_CRASHER();
     NSCountedSet *cs = [[NSCountedSet alloc] initWithObjects:
                            [[[NSObject alloc] init] autorelease],
                            [[[NSObject alloc] init] autorelease],
