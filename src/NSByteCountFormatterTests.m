@@ -6,7 +6,7 @@ static NSArray *unitStrings;
 
 + (void)initialize
 {
-    unitStrings = [NSArray arrayWithObjects:@"bytes", @"KB", @"MB", @"GB", @"TB", @"PB", @"EB", @"ZB", @"YB", nil];
+    unitStrings = [@[@"bytes", @"KB", @"MB", @"GB", @"TB", @"PB", @"EB", @"ZB", @"YB"] retain];
 }
 
 - (BOOL)testCreation
