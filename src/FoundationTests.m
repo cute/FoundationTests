@@ -108,7 +108,18 @@ void runFoundationTests(void)
     DEBUG_LOG("%u failures\n\n", total_failure_count);
 }
 
-void test_failure(const char *file, int line)
+static void test_failure(const char *file, int line)
 {
     DEBUG_LOG("Test failure at %s:%d\n", file, line);
+}
+
+BOOL _testassert(BOOL b, const char *file, int line)
+{
+    if (!(b))
+    {
+        test_failure(__FILE__, __LINE__);
+        return NO;
+    }
+
+    return YES;
 }

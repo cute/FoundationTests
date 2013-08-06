@@ -17,7 +17,8 @@
 } @catch(...) { \
 }
 
-#define testassert(b) { if (!(b)) { test_failure(__FILE__, __LINE__); return NO; } }
+#define testassert(b) do { if (!_testassert(b, __FILE__, __LINE__)) return NO; } while (NO)
+BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_noreturn));
 
 #if !defined(__APPLE__)
 #define KNOWN_CRASHER() DEBUG_LOG("SKIPPING KNOWN CRASHING TEST!"); testassert(0)
@@ -25,7 +26,6 @@
 #define KNOWN_CRASHER()
 #endif
 
-void test_failure(const char *file, int line);
 void runFoundationTests(void);
 
 #define TEST_CLASSES(action) \
