@@ -321,8 +321,6 @@
     return YES;
 }
 
-#warning TODO: enumerator
-#if 0
 - (BOOL)testObjectEnumerator
 {
     NSCountedSet *cs = [[NSCountedSet alloc] init];
@@ -346,7 +344,8 @@
     }
 
     id object;
-    while (object = [[cs objectEnumerator] nextObject])
+    NSEnumerator *enumerator = [cs objectEnumerator];
+    while ((object = [enumerator nextObject]) != nil)
     {
         BOOL found = NO;
         for (int i = 0; i < count; i++)
@@ -359,9 +358,11 @@
         testassert(found);
     }
 
+    // If an object is added multiple times to an NSCountedSet, it is
+    // still only enumerated once.
     for (int i = 0; i < count; i++)
     {
-        testassert(counts[i] == i);
+        testassert(counts[i] == i > 0 ? 1 : 0);
     }
 
     free(members);
@@ -370,7 +371,7 @@
     return YES;
 }
 
-- (BOOL)testForIn
+- (BOOL)testFastEnumeration
 {
     NSCountedSet *cs = [[NSCountedSet alloc] init];
     int count = 10;
@@ -405,9 +406,11 @@
         testassert(found);
     }
 
+    // If an object is added multiple times to an NSCountedSet, it is
+    // still only enumerated once.
     for (int i = 0; i < count; i++)
     {
-        testassert(counts[i] == i);
+        testassert(counts[i] == i > 0 ? 1 : 0);
     }
 
     free(members);
@@ -415,7 +418,6 @@
 
     return YES;
 }
-#endif
 
 - (BOOL)testCopyWithZone
 {

@@ -6,20 +6,20 @@
     ], 
     "assets": [
         {
-            "asset": "FoundationTests/Default@2x.png", 
-            "target": "Default@2x.png"
+            "asset": "FoundationTests/Default.png", 
+            "target": "Default.png"
         }, 
         {
             "asset": "FoundationTests/Default-568h@2x.png", 
             "target": "Default-568h@2x.png"
         }, 
         {
-            "asset": "FoundationTests/Default.png", 
-            "target": "Default.png"
-        }, 
-        {
             "asset": "FoundationTests/en.lproj/InfoPlist.strings", 
             "target": "en.lproj/InfoPlist.strings"
+        }, 
+        {
+            "asset": "FoundationTests/Default@2x.png", 
+            "target": "Default@2x.png"
         }
     ], 
     "link_flags": [], 
