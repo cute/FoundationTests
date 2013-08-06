@@ -32,6 +32,13 @@
         {
             "language": "objc", 
             "header_paths": [], 
+            "source": "src/NSByteCountFormatterTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
             "source": "src/NSCountedSetTests.m", 
             "flags": [], 
             "defines": {}

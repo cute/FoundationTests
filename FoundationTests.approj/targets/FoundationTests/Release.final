@@ -107,6 +107,13 @@
             "defines": {}
         }, 
         {
+            "source": "src/NSByteCountFormatterTests.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
             "source": "src/NSCountedSetTests.m", 
             "header_paths": [], 
             "flags": [], 
