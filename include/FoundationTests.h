@@ -40,6 +40,7 @@ action(NSNumber) \
 action(NSObjCRuntime) \
 action(NSSortDescriptor) \
 action(NSString) \
+action(NSPathUtilities) \
 action(NSThread) \
 action(NSURL) \
 

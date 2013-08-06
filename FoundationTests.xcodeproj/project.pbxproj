@@ -27,6 +27,7 @@
 		47178CC917ADDA340062E7B0 /* NSStringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CBB17ADDA340062E7B0 /* NSStringTests.m */; };
 		47178CCA17ADDA340062E7B0 /* NSThreadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CBC17ADDA340062E7B0 /* NSThreadTests.m */; };
 		47178CCB17ADDA340062E7B0 /* NSURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CBD17ADDA340062E7B0 /* NSURLTests.m */; };
+		B0AD4BA517B04DD400B5014F /* NSPathUtilites.m in Sources */ = {isa = PBXBuildFile; fileRef = B0AD4BA417B04DD400B5014F /* NSPathUtilites.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		47178CBB17ADDA340062E7B0 /* NSStringTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringTests.m; sourceTree = "<group>"; };
 		47178CBC17ADDA340062E7B0 /* NSThreadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSThreadTests.m; sourceTree = "<group>"; };
 		47178CBD17ADDA340062E7B0 /* NSURLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLTests.m; sourceTree = "<group>"; };
+		B0AD4BA417B04DD400B5014F /* NSPathUtilites.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSPathUtilites.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 				47178CBB17ADDA340062E7B0 /* NSStringTests.m */,
 				47178CBC17ADDA340062E7B0 /* NSThreadTests.m */,
 				47178CBD17ADDA340062E7B0 /* NSURLTests.m */,
+				B0AD4BA417B04DD400B5014F /* NSPathUtilites.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 				47178CC917ADDA340062E7B0 /* NSStringTests.m in Sources */,
 				47178CCA17ADDA340062E7B0 /* NSThreadTests.m in Sources */,
 				47178CCB17ADDA340062E7B0 /* NSURLTests.m in Sources */,
+				B0AD4BA517B04DD400B5014F /* NSPathUtilites.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +346,7 @@
 				47178CAB17ADD9D40062E7B0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
