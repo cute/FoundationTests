@@ -27,6 +27,7 @@
 		47178CC917ADDA340062E7B0 /* NSStringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CBB17ADDA340062E7B0 /* NSStringTests.m */; };
 		47178CCA17ADDA340062E7B0 /* NSThreadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CBC17ADDA340062E7B0 /* NSThreadTests.m */; };
 		47178CCB17ADDA340062E7B0 /* NSURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CBD17ADDA340062E7B0 /* NSURLTests.m */; };
+		5BF54E3F17B0B18500B47B76 /* NSByteCountFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */; };
 		B0AD4BD017B0B0A200B5014F /* NSPathUtilitesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B0AD4BCF17B0B0A200B5014F /* NSPathUtilitesTests.m */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +57,7 @@
 		47178CBB17ADDA340062E7B0 /* NSStringTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringTests.m; sourceTree = "<group>"; };
 		47178CBC17ADDA340062E7B0 /* NSThreadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSThreadTests.m; sourceTree = "<group>"; };
 		47178CBD17ADDA340062E7B0 /* NSURLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLTests.m; sourceTree = "<group>"; };
+		5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSByteCountFormatterTests.m; sourceTree = "<group>"; };
 		B0AD4BCF17B0B0A200B5014F /* NSPathUtilitesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSPathUtilitesTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -147,6 +149,7 @@
 				47178CBB17ADDA340062E7B0 /* NSStringTests.m */,
 				47178CBC17ADDA340062E7B0 /* NSThreadTests.m */,
 				47178CBD17ADDA340062E7B0 /* NSURLTests.m */,
+				5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -232,6 +235,7 @@
 				47178CCA17ADDA340062E7B0 /* NSThreadTests.m in Sources */,
 				47178CCB17ADDA340062E7B0 /* NSURLTests.m in Sources */,
 				B0AD4BD017B0B0A200B5014F /* NSPathUtilitesTests.m in Sources */,
+				5BF54E3F17B0B18500B47B76 /* NSByteCountFormatterTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

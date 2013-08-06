@@ -88,7 +88,7 @@
         {
             "language": "objc", 
             "header_paths": [], 
-            "source": "src/NSPathUtilites.m", 
+            "source": "src/NSPathUtilitesTests.m", 
             "flags": [], 
             "defines": {}
         }, 
@@ -134,16 +134,16 @@
     ], 
     "assets": [
         {
-            "asset": "FoundationTests/Default.png", 
-            "target": "Default.png"
-        }, 
-        {
             "asset": "FoundationTests/Default@2x.png", 
             "target": "Default@2x.png"
         }, 
         {
             "asset": "FoundationTests/Default-568h@2x.png", 
             "target": "Default-568h@2x.png"
+        }, 
+        {
+            "asset": "FoundationTests/Default.png", 
+            "target": "Default.png"
         }, 
         {
             "asset": "FoundationTests/en.lproj/InfoPlist.strings", 
