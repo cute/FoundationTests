@@ -117,7 +117,7 @@ BOOL _testassert(BOOL b, const char *file, int line)
 {
     if (!(b))
     {
-        test_failure(__FILE__, __LINE__);
+        test_failure(file, line);
         return NO;
     }
 
