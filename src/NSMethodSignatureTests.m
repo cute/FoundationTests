@@ -47,69 +47,49 @@
     testassert([methodSignature methodReturnLength] == 0);
     
     methodSignature = [obj methodSignatureForSelector:@selector(init)];
-#ifdef __LP64__
-    testassert([methodSignature methodReturnLength] == 8);
-#else
-    testassert([methodSignature methodReturnLength] == 4);
-#endif
+    testassert([methodSignature methodReturnLength] == sizeof(id));
     
     methodSignature = [obj methodSignatureForSelector:@selector(class)];
-#ifdef __LP64__
-    testassert([methodSignature methodReturnLength] == 8);
-#else
-    testassert([methodSignature methodReturnLength] == 4);
-#endif
+    testassert([methodSignature methodReturnLength] == sizeof(Class));
     
     methodSignature = [obj methodSignatureForSelector:@selector(methodForSelector:)];
-#ifdef __LP64__
-    testassert([methodSignature methodReturnLength] == 8);
-#else
-    testassert([methodSignature methodReturnLength] == 4);
-#endif
+    testassert([methodSignature methodReturnLength] == sizeof(IMP));
     
     methodSignature = [obj methodSignatureForSelector:@selector(conformsToProtocol:)];
-    testassert([methodSignature methodReturnLength] == 1);
+    testassert([methodSignature methodReturnLength] == sizeof(BOOL));
 
     methodSignature = [obj methodSignatureForSelector:@selector(hash)];
-#ifdef __LP64__
-    testassert([methodSignature methodReturnLength] == 8);
-#else
-    testassert([methodSignature methodReturnLength] == 4);
-#endif
+    testassert([methodSignature methodReturnLength] == sizeof(NSUInteger));
     [obj release];
     
     NSNumber *num = [[NSNumber alloc] initWithFloat:3.141f];
     methodSignature = [num methodSignatureForSelector:@selector(floatValue)];
-    testassert([methodSignature methodReturnLength] == 4);
+    testassert([methodSignature methodReturnLength] == sizeof(float));
     [num release];
     
     num = [[NSNumber alloc] initWithDouble:M_PI];
     methodSignature = [num methodSignatureForSelector:@selector(doubleValue)];
-    testassert([methodSignature methodReturnLength] == 8);
+    testassert([methodSignature methodReturnLength] == sizeof(double));
     [num release];
     
     num = [[NSNumber alloc] initWithChar:'d'];
     methodSignature = [num methodSignatureForSelector:@selector(charValue)];
-    testassert([methodSignature methodReturnLength] == 1);
+    testassert([methodSignature methodReturnLength] == sizeof(char));
     [num release];
     
     num = [[NSNumber alloc] initWithShort:22222];
     methodSignature = [num methodSignatureForSelector:@selector(shortValue)];
-    testassert([methodSignature methodReturnLength] == 2);
+    testassert([methodSignature methodReturnLength] == sizeof(short));
     [num release];
     
     num = [[NSNumber alloc] initWithInt:22222];
     methodSignature = [num methodSignatureForSelector:@selector(intValue)];
-    testassert([methodSignature methodReturnLength] == 4);
+    testassert([methodSignature methodReturnLength] == sizeof(int));
     [num release];
     
     num = [[NSNumber alloc] initWithInteger:22222];
     methodSignature = [num methodSignatureForSelector:@selector(integerValue)];
-#ifdef __LP64__
-    testassert([methodSignature methodReturnLength] == 8);
-#else
-    testassert([methodSignature methodReturnLength] == 4);
-#endif
+    testassert([methodSignature methodReturnLength] == sizeof(NSInteger));
     [num release];
     
     return YES;
