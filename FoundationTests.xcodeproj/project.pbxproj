@@ -30,7 +30,6 @@
 		5BF54E3F17B0B18500B47B76 /* NSByteCountFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */; };
 		B0AD4BD017B0B0A200B5014F /* NSPathUtilitesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B0AD4BCF17B0B0A200B5014F /* NSPathUtilitesTests.m */; };
 		BCA81FAA17B2E125004745B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47178C9117ADD9D40062E7B0 /* Foundation.framework */; };
-		BCA81FAD17B2E125004745B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA81FAC17B2E125004745B2 /* main.m */; };
 		BCA81FB117B2E125004745B2 /* FoundationTestsMac.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = BCA81FB017B2E125004745B2 /* FoundationTestsMac.1 */; };
 		BCA81FB517B2E152004745B2 /* CFRunLoopTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CB017ADDA340062E7B0 /* CFRunLoopTests.m */; };
 		BCA81FB617B2E152004745B2 /* FoundationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CB117ADDA340062E7B0 /* FoundationTests.m */; };
@@ -48,6 +47,7 @@
 		BCA81FC217B2E152004745B2 /* NSThreadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CBC17ADDA340062E7B0 /* NSThreadTests.m */; };
 		BCA81FC317B2E152004745B2 /* NSURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CBD17ADDA340062E7B0 /* NSURLTests.m */; };
 		BCA81FC417B2E152004745B2 /* NSByteCountFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */; };
+		BCA81FC517B31394004745B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178C9B17ADD9D40062E7B0 /* main.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -92,7 +92,6 @@
 		5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSByteCountFormatterTests.m; sourceTree = "<group>"; };
 		B0AD4BCF17B0B0A200B5014F /* NSPathUtilitesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSPathUtilitesTests.m; sourceTree = "<group>"; };
 		BCA81FA917B2E125004745B2 /* FoundationTestsMac */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FoundationTestsMac; sourceTree = BUILT_PRODUCTS_DIR; };
-		BCA81FAC17B2E125004745B2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BCA81FAF17B2E125004745B2 /* FoundationTestsMac-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FoundationTestsMac-Prefix.pch"; sourceTree = "<group>"; };
 		BCA81FB017B2E125004745B2 /* FoundationTestsMac.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = FoundationTestsMac.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -203,7 +202,6 @@
 		BCA81FAB17B2E125004745B2 /* FoundationTestsMac */ = {
 			isa = PBXGroup;
 			children = (
-				BCA81FAC17B2E125004745B2 /* main.m */,
 				BCA81FB017B2E125004745B2 /* FoundationTestsMac.1 */,
 				BCA81FAE17B2E125004745B2 /* Supporting Files */,
 			);
@@ -325,7 +323,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCA81FAD17B2E125004745B2 /* main.m in Sources */,
 				BCA81FB517B2E152004745B2 /* CFRunLoopTests.m in Sources */,
 				BCA81FB617B2E152004745B2 /* FoundationTests.m in Sources */,
 				BCA81FB717B2E152004745B2 /* NSBlockTests.m in Sources */,
@@ -342,6 +339,7 @@
 				BCA81FC217B2E152004745B2 /* NSThreadTests.m in Sources */,
 				BCA81FC317B2E152004745B2 /* NSURLTests.m in Sources */,
 				BCA81FC417B2E152004745B2 /* NSByteCountFormatterTests.m in Sources */,
+				BCA81FC517B31394004745B2 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,6 +492,7 @@
 				BCA81FB317B2E125004745B2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

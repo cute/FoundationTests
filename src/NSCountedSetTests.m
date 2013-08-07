@@ -122,12 +122,11 @@
 
 - (BOOL)testArrayCreation
 {
-#warning TODO this is not the array initializer. 
-    NSCountedSet *cs = [[NSCountedSet alloc] initWithObjects:
+    NSCountedSet *cs = [[NSCountedSet alloc] initWithArray:@[
                            [[[NSObject alloc] init] autorelease],
                            [[[NSObject alloc] init] autorelease],
                            [[[NSObject alloc] init] autorelease],
-                           nil];
+                           ]];
 
     // Array initializer should return a countable set
     testassert(cs != nil);
