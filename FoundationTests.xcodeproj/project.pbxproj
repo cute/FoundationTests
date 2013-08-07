@@ -29,7 +29,39 @@
 		47178CCB17ADDA340062E7B0 /* NSURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CBD17ADDA340062E7B0 /* NSURLTests.m */; };
 		5BF54E3F17B0B18500B47B76 /* NSByteCountFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */; };
 		B0AD4BD017B0B0A200B5014F /* NSPathUtilitesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B0AD4BCF17B0B0A200B5014F /* NSPathUtilitesTests.m */; };
+		BCA81FAA17B2E125004745B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47178C9117ADD9D40062E7B0 /* Foundation.framework */; };
+		BCA81FAD17B2E125004745B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA81FAC17B2E125004745B2 /* main.m */; };
+		BCA81FB117B2E125004745B2 /* FoundationTestsMac.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = BCA81FB017B2E125004745B2 /* FoundationTestsMac.1 */; };
+		BCA81FB517B2E152004745B2 /* CFRunLoopTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CB017ADDA340062E7B0 /* CFRunLoopTests.m */; };
+		BCA81FB617B2E152004745B2 /* FoundationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CB117ADDA340062E7B0 /* FoundationTests.m */; };
+		BCA81FB717B2E152004745B2 /* NSBlockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CB217ADDA340062E7B0 /* NSBlockTests.m */; };
+		BCA81FB817B2E152004745B2 /* NSCountedSetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CB317ADDA340062E7B0 /* NSCountedSetTests.m */; };
+		BCA81FB917B2E152004745B2 /* NSDictionaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CB417ADDA340062E7B0 /* NSDictionaryTests.m */; };
+		BCA81FBA17B2E152004745B2 /* NSExceptionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CB517ADDA340062E7B0 /* NSExceptionTests.m */; };
+		BCA81FBB17B2E152004745B2 /* NSLockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CB617ADDA340062E7B0 /* NSLockTests.m */; };
+		BCA81FBC17B2E152004745B2 /* NSMethodSignatureTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CB717ADDA340062E7B0 /* NSMethodSignatureTests.m */; };
+		BCA81FBD17B2E152004745B2 /* NSNumberTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CB817ADDA340062E7B0 /* NSNumberTests.m */; };
+		BCA81FBE17B2E152004745B2 /* NSObjCRuntimeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CB917ADDA340062E7B0 /* NSObjCRuntimeTests.m */; };
+		BCA81FBF17B2E152004745B2 /* NSPathUtilitesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B0AD4BCF17B0B0A200B5014F /* NSPathUtilitesTests.m */; };
+		BCA81FC017B2E152004745B2 /* NSSortDescriptorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CBA17ADDA340062E7B0 /* NSSortDescriptorTests.m */; };
+		BCA81FC117B2E152004745B2 /* NSStringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CBB17ADDA340062E7B0 /* NSStringTests.m */; };
+		BCA81FC217B2E152004745B2 /* NSThreadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CBC17ADDA340062E7B0 /* NSThreadTests.m */; };
+		BCA81FC317B2E152004745B2 /* NSURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CBD17ADDA340062E7B0 /* NSURLTests.m */; };
+		BCA81FC417B2E152004745B2 /* NSByteCountFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BCA81FA717B2E125004745B2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				BCA81FB117B2E125004745B2 /* FoundationTestsMac.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		47178C8C17ADD9D40062E7B0 /* FoundationTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoundationTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,6 +91,10 @@
 		47178CBD17ADDA340062E7B0 /* NSURLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLTests.m; sourceTree = "<group>"; };
 		5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSByteCountFormatterTests.m; sourceTree = "<group>"; };
 		B0AD4BCF17B0B0A200B5014F /* NSPathUtilitesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSPathUtilitesTests.m; sourceTree = "<group>"; };
+		BCA81FA917B2E125004745B2 /* FoundationTestsMac */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FoundationTestsMac; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCA81FAC17B2E125004745B2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BCA81FAF17B2E125004745B2 /* FoundationTestsMac-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FoundationTestsMac-Prefix.pch"; sourceTree = "<group>"; };
+		BCA81FB017B2E125004745B2 /* FoundationTestsMac.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = FoundationTestsMac.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +103,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				47178C9217ADD9D40062E7B0 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCA81FA617B2E125004745B2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCA81FAA17B2E125004745B2 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +123,7 @@
 				47178CAC17ADDA340062E7B0 /* include */,
 				47178CAF17ADDA340062E7B0 /* src */,
 				47178C9517ADD9D40062E7B0 /* FoundationTests */,
+				BCA81FAB17B2E125004745B2 /* FoundationTestsMac */,
 				47178C8E17ADD9D40062E7B0 /* Frameworks */,
 				47178C8D17ADD9D40062E7B0 /* Products */,
 			);
@@ -88,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				47178C8C17ADD9D40062E7B0 /* FoundationTests.app */,
+				BCA81FA917B2E125004745B2 /* FoundationTestsMac */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -154,6 +200,24 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		BCA81FAB17B2E125004745B2 /* FoundationTestsMac */ = {
+			isa = PBXGroup;
+			children = (
+				BCA81FAC17B2E125004745B2 /* main.m */,
+				BCA81FB017B2E125004745B2 /* FoundationTestsMac.1 */,
+				BCA81FAE17B2E125004745B2 /* Supporting Files */,
+			);
+			path = FoundationTestsMac;
+			sourceTree = "<group>";
+		};
+		BCA81FAE17B2E125004745B2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BCA81FAF17B2E125004745B2 /* FoundationTestsMac-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -173,6 +237,23 @@
 			productName = FoundationTests;
 			productReference = 47178C8C17ADD9D40062E7B0 /* FoundationTests.app */;
 			productType = "com.apple.product-type.application";
+		};
+		BCA81FA817B2E125004745B2 /* FoundationTestsMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCA81FB417B2E125004745B2 /* Build configuration list for PBXNativeTarget "FoundationTestsMac" */;
+			buildPhases = (
+				BCA81FA517B2E125004745B2 /* Sources */,
+				BCA81FA617B2E125004745B2 /* Frameworks */,
+				BCA81FA717B2E125004745B2 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FoundationTestsMac;
+			productName = FoundationTestsMac;
+			productReference = BCA81FA917B2E125004745B2 /* FoundationTestsMac */;
+			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
@@ -196,6 +277,7 @@
 			projectRoot = "";
 			targets = (
 				47178C8B17ADD9D40062E7B0 /* FoundationTests */,
+				BCA81FA817B2E125004745B2 /* FoundationTestsMac */,
 			);
 		};
 /* End PBXProject section */
@@ -236,6 +318,30 @@
 				47178CCB17ADDA340062E7B0 /* NSURLTests.m in Sources */,
 				B0AD4BD017B0B0A200B5014F /* NSPathUtilitesTests.m in Sources */,
 				5BF54E3F17B0B18500B47B76 /* NSByteCountFormatterTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCA81FA517B2E125004745B2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCA81FAD17B2E125004745B2 /* main.m in Sources */,
+				BCA81FB517B2E152004745B2 /* CFRunLoopTests.m in Sources */,
+				BCA81FB617B2E152004745B2 /* FoundationTests.m in Sources */,
+				BCA81FB717B2E152004745B2 /* NSBlockTests.m in Sources */,
+				BCA81FB817B2E152004745B2 /* NSCountedSetTests.m in Sources */,
+				BCA81FB917B2E152004745B2 /* NSDictionaryTests.m in Sources */,
+				BCA81FBA17B2E152004745B2 /* NSExceptionTests.m in Sources */,
+				BCA81FBB17B2E152004745B2 /* NSLockTests.m in Sources */,
+				BCA81FBC17B2E152004745B2 /* NSMethodSignatureTests.m in Sources */,
+				BCA81FBD17B2E152004745B2 /* NSNumberTests.m in Sources */,
+				BCA81FBE17B2E152004745B2 /* NSObjCRuntimeTests.m in Sources */,
+				BCA81FBF17B2E152004745B2 /* NSPathUtilitesTests.m in Sources */,
+				BCA81FC017B2E152004745B2 /* NSSortDescriptorTests.m in Sources */,
+				BCA81FC117B2E152004745B2 /* NSStringTests.m in Sources */,
+				BCA81FC217B2E152004745B2 /* NSThreadTests.m in Sources */,
+				BCA81FC317B2E152004745B2 /* NSURLTests.m in Sources */,
+				BCA81FC417B2E152004745B2 /* NSByteCountFormatterTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +437,35 @@
 			};
 			name = Release;
 		};
+		BCA81FB217B2E125004745B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FoundationTestsMac/FoundationTestsMac-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		BCA81FB317B2E125004745B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FoundationTestsMac/FoundationTestsMac-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -351,6 +486,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		BCA81FB417B2E125004745B2 /* Build configuration list for PBXNativeTarget "FoundationTestsMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCA81FB217B2E125004745B2 /* Debug */,
+				BCA81FB317B2E125004745B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

@@ -20,6 +20,7 @@
         [lock lock];
         [lock unlock];
     }
+    [lock release];
     return YES;
 }
 
@@ -92,7 +93,7 @@ static void *workerThread(void *data)
         pthread_join(threads[i], NULL);
         testassert(workOrder[i].startValue + kWorkAmountPerThread == workOrder[i].endValue);
     }
-
+    [lock release];
 
     return YES;
 }
@@ -102,7 +103,7 @@ static void *workerThread(void *data)
     NSRecursiveLock *rLock = [[NSRecursiveLock alloc] init];
 
     [self recursiveLockHelper:100 lock:rLock];
-
+    [rLock release];
     return YES;
 }
 
@@ -165,6 +166,7 @@ static SignalData data;
         testassert(data.val == ourSignalCount);
         [data.cond unlock];
     }
+    [cond release];
 
     return YES;
 }

@@ -19,8 +19,6 @@
 
     testassert(e != nil);
 
-    [e release];
-
     return YES;
 }
 
@@ -32,7 +30,6 @@
     // Exceptions are immutable and copies should be the same pointer.
     testassert(e1 == e2);
 
-    [e1 release];
     [e2 release];
 
     return YES;
@@ -52,8 +49,6 @@
 
     testassert(raised);
 
-    [e release];
-
     return YES;
 }
 
@@ -67,8 +62,6 @@
     @catch (NSException *caught) {
         testassert(caught == e);
     }
-
-    [e release];
 
     return YES;
 }

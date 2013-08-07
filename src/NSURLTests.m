@@ -5,8 +5,10 @@
 - (BOOL)testStandardizedURL
 {
     NSURL *url = [[NSURL alloc] initWithString:@"base://foo/bar/../bar/./././/baz"];
-    [url standardizedURL];
+    testassert([[[url standardizedURL] absoluteString] isEqualToString:@"base://foo/bar//baz"]);
 
+    [url release];
+    
     return YES;
 }
 
@@ -14,7 +16,8 @@
 {
     NSURL *url = [[NSURL alloc] initWithString:@"basestring" relativeToURL:[NSURL URLWithString:@"relative://url"]];
     NSString *expected = @"basestring -- relative://url";
-    [[url description] isEqualToString:expected];
+    testassert([[url description] isEqualToString:expected]);
+    [url release];
 
     return YES;
 }

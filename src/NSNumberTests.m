@@ -484,7 +484,11 @@
     testassert([[NSNumber numberWithLong:-23] boolValue] == YES);
     testassert([[NSNumber numberWithLong:42] boolValue] == YES);
     testassert([[NSNumber numberWithLong:LONG_MAX] boolValue] == YES);
+#ifdef __LP64__
+    testassert([[NSNumber numberWithLong:LONG_MIN] boolValue] == NO);
+#else
     testassert([[NSNumber numberWithLong:LONG_MIN] boolValue] == YES);
+#endif
 
     testassert([[NSNumber numberWithLong:0] charValue] == (char)0);
     testassert([[NSNumber numberWithLong:-23] charValue] == (char)-23);
@@ -768,7 +772,11 @@
     testassert([[NSNumber numberWithInteger:-23] boolValue] == YES);
     testassert([[NSNumber numberWithInteger:42] boolValue] == YES);
     testassert([[NSNumber numberWithInteger:NSIntegerMax] boolValue] == YES);
+#ifdef __LP64__
+    testassert([[NSNumber numberWithInteger:NSIntegerMin] boolValue] == NO); //mac bug
+#else
     testassert([[NSNumber numberWithInteger:NSIntegerMin] boolValue] == YES);
+#endif
 
     testassert([[NSNumber numberWithInteger:0] charValue] == (char)0);
     testassert([[NSNumber numberWithInteger:-23] charValue] == (char)-23);

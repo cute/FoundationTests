@@ -44,7 +44,6 @@ static NSArray *unitStrings;
     NSString *zeroByteString = [formatter stringFromByteCount:0];
     testassert([zeroByteString isEqual:@"Zero KB"]);
 
-    [zeroByteString release];
     [formatter release];
 
     return YES;
@@ -58,7 +57,6 @@ static NSArray *unitStrings;
     NSString *zeroByteString = [formatter stringFromByteCount:0];
     testassert([zeroByteString isEqual:@"Zero bytes"]);
 
-    [zeroByteString release];
     [formatter release];
 
     return YES;
@@ -72,7 +70,6 @@ static NSArray *unitStrings;
     NSString *zeroByteString = [formatter stringFromByteCount:0];
     testassert([zeroByteString isEqual:@"Zero KB"]);
 
-    [zeroByteString release];
     [formatter release];
 
     return YES;
@@ -86,7 +83,6 @@ static NSArray *unitStrings;
     NSString *zeroByteString = [formatter stringFromByteCount:0];
     testassert([zeroByteString isEqual:@"0 bytes"]);
 
-    [zeroByteString release];
     [formatter release];
 
     return YES;

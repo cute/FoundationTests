@@ -1,19 +1,20 @@
 //
 //  main.m
-//  ApportableTests
+//  FoundationTestsMac
 //
-//  Created by George Kulakowski on 8/2/13.
+//  Created by Daniel DeCovnick on 8/7/13.
 //  Copyright (c) 2013 Apportable. All rights reserved.
 //
 
 #import "FoundationTests.h"
 
-int main(int argc, char *argv[])
+int main(int argc, const char * argv[])
 {
-    @autoreleasepool {
-        
+
+    @autoreleasepool
+    {
         runFoundationTests();
     }
-
     return 0;
 }
+

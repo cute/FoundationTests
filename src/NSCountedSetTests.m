@@ -122,6 +122,7 @@
 
 - (BOOL)testArrayCreation
 {
+#warning TODO this is not the array initializer. 
     NSCountedSet *cs = [[NSCountedSet alloc] initWithObjects:
                            [[[NSObject alloc] init] autorelease],
                            [[[NSObject alloc] init] autorelease],
