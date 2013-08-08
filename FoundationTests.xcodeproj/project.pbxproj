@@ -48,6 +48,8 @@
 		BCA81FC317B2E152004745B2 /* NSURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CBD17ADDA340062E7B0 /* NSURLTests.m */; };
 		BCA81FC417B2E152004745B2 /* NSByteCountFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */; };
 		BCA81FC517B31394004745B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178C9B17ADD9D40062E7B0 /* main.m */; };
+		BCA81FCF17B316E5004745B2 /* NSInvocationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA81FCE17B316E5004745B2 /* NSInvocationTests.m */; };
+		BCA81FD017B316E5004745B2 /* NSInvocationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA81FCE17B316E5004745B2 /* NSInvocationTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -94,6 +96,7 @@
 		BCA81FA917B2E125004745B2 /* FoundationTestsMac */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FoundationTestsMac; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCA81FAF17B2E125004745B2 /* FoundationTestsMac-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FoundationTestsMac-Prefix.pch"; sourceTree = "<group>"; };
 		BCA81FB017B2E125004745B2 /* FoundationTestsMac.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = FoundationTestsMac.1; sourceTree = "<group>"; };
+		BCA81FCE17B316E5004745B2 /* NSInvocationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSInvocationTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +198,7 @@
 				47178CBC17ADDA340062E7B0 /* NSThreadTests.m */,
 				47178CBD17ADDA340062E7B0 /* NSURLTests.m */,
 				5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */,
+				BCA81FCE17B316E5004745B2 /* NSInvocationTests.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -316,6 +320,7 @@
 				47178CCB17ADDA340062E7B0 /* NSURLTests.m in Sources */,
 				B0AD4BD017B0B0A200B5014F /* NSPathUtilitesTests.m in Sources */,
 				5BF54E3F17B0B18500B47B76 /* NSByteCountFormatterTests.m in Sources */,
+				BCA81FCF17B316E5004745B2 /* NSInvocationTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +345,7 @@
 				BCA81FC317B2E152004745B2 /* NSURLTests.m in Sources */,
 				BCA81FC417B2E152004745B2 /* NSByteCountFormatterTests.m in Sources */,
 				BCA81FC517B31394004745B2 /* main.m in Sources */,
+				BCA81FD017B316E5004745B2 /* NSInvocationTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

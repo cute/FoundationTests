@@ -44,5 +44,6 @@ action(NSString) \
 action(NSPathUtilities) \
 action(NSThread) \
 action(NSURL) \
+action(NSInvocation) \
 
 TEST_CLASSES(@testdecl)
