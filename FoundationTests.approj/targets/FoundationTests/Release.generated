@@ -60,6 +60,13 @@
         {
             "language": "objc", 
             "header_paths": [], 
+            "source": "src/NSInvocationTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
             "source": "src/NSLockTests.m", 
             "flags": [], 
             "defines": {}
@@ -138,16 +145,16 @@
             "target": "Default.png"
         }, 
         {
+            "asset": "FoundationTests/Default@2x.png", 
+            "target": "Default@2x.png"
+        }, 
+        {
             "asset": "FoundationTests/Default-568h@2x.png", 
             "target": "Default-568h@2x.png"
         }, 
         {
             "asset": "FoundationTests/en.lproj/InfoPlist.strings", 
             "target": "en.lproj/InfoPlist.strings"
-        }, 
-        {
-            "asset": "FoundationTests/Default@2x.png", 
-            "target": "Default@2x.png"
         }
     ], 
     "type": "app", 
@@ -175,6 +182,11 @@
                     "prefix": "include/", 
                     "suffix": "FoundationTests.h", 
                     "key": "FoundationTests.h"
+                }, 
+                "FoundationTestsMac-Prefix.pch": {
+                    "prefix": "FoundationTestsMac/", 
+                    "suffix": "FoundationTestsMac-Prefix.pch", 
+                    "key": "FoundationTestsMac-Prefix.pch"
                 }, 
                 "FoundationTests-Prefix.pch": {
                     "prefix": "FoundationTests/", 
