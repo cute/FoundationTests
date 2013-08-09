@@ -2,6 +2,16 @@
 
 @testcase(NSInvocation)
 
+- (NSRange)methodReturningRange
+{
+    return NSMakeRange(500, 50);
+}
+
+- (NSString *)substringFromString:(NSString *)str withRange:(NSRange)range
+{
+    return [str substringWithRange:range];
+}
+
 - (BOOL)testIncorrectAllocInit
 {
     NSInvocation *inv = [[NSInvocation alloc] init]; // should not throw
@@ -325,4 +335,52 @@
     testassert([result isEqualToString:str2]);
     return YES;
 }
+
+- (BOOL)testStructParameter
+{
+    NSString *str = @"Foobarbazqux";
+    NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[str methodSignatureForSelector:@selector(substringWithRange:)]];
+    [inv setSelector:@selector(substringWithRange:)];
+    NSRange range = NSMakeRange(3, 6);
+    [inv setTarget:str];
+    [inv setArgument:&range atIndex:2];
+    id result = nil;
+    [inv invoke];
+    NSString *expected = @"barbaz";
+    [inv getReturnValue:&result];
+    testassert([result isEqualToString:expected]);
+    
+    return YES;
+}
+
+- (BOOL)testMixedParameters
+{
+    NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(substringFromString:withRange:)]];
+    [inv setSelector:@selector(substringFromString:withRange:)];
+    [inv setTarget:self];
+    NSRange range = NSMakeRange(6, 3);
+    NSString *str = @"Foobarbazqux";
+    [inv setArgument:&str atIndex:2];
+    [inv setArgument:&range atIndex:3];
+    [inv invoke];
+    NSString *result = nil;
+    [inv getReturnValue:&result];
+    testassert([result isEqualToString:@"baz"]);
+    
+    return YES;
+}
+
+-(BOOL)testStructReturn
+{
+    NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(methodReturningRange)]];
+    [inv setSelector:@selector(methodReturningRange)];
+    [inv setTarget:self];
+    NSRange result;
+    [inv invoke];
+    [inv getReturnValue:&result];
+    testassert(result.length = 50);
+    testassert(result.location = 500);
+    return YES;
+}
+
 @end
