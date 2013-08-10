@@ -39,6 +39,8 @@ action(NSLock) \
 action(NSMethodSignature) \
 action(NSNumber) \
 action(NSObjCRuntime) \
+action(NSScanner) \
+action(NSScannerSubclass) \
 action(NSSortDescriptor) \
 action(NSString) \
 action(NSPathUtilities) \

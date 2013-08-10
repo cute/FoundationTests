@@ -28,6 +28,8 @@
 		47178CCA17ADDA340062E7B0 /* NSThreadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CBC17ADDA340062E7B0 /* NSThreadTests.m */; };
 		47178CCB17ADDA340062E7B0 /* NSURLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CBD17ADDA340062E7B0 /* NSURLTests.m */; };
 		5BF54E3F17B0B18500B47B76 /* NSByteCountFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */; };
+		B02ABB8D17B5ECA000CB5C94 /* NSScannerSubclassTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B02ABB8B17B5ECA000CB5C94 /* NSScannerSubclassTests.m */; };
+		B02ABB8E17B5ECA000CB5C94 /* NSScannerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B02ABB8C17B5ECA000CB5C94 /* NSScannerTests.m */; };
 		B0AD4BD017B0B0A200B5014F /* NSPathUtilitesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B0AD4BCF17B0B0A200B5014F /* NSPathUtilitesTests.m */; };
 		BCA81FAA17B2E125004745B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47178C9117ADD9D40062E7B0 /* Foundation.framework */; };
 		BCA81FB117B2E125004745B2 /* FoundationTestsMac.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = BCA81FB017B2E125004745B2 /* FoundationTestsMac.1 */; };
@@ -92,6 +94,8 @@
 		47178CBC17ADDA340062E7B0 /* NSThreadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSThreadTests.m; sourceTree = "<group>"; };
 		47178CBD17ADDA340062E7B0 /* NSURLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLTests.m; sourceTree = "<group>"; };
 		5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSByteCountFormatterTests.m; sourceTree = "<group>"; };
+		B02ABB8B17B5ECA000CB5C94 /* NSScannerSubclassTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScannerSubclassTests.m; sourceTree = "<group>"; };
+		B02ABB8C17B5ECA000CB5C94 /* NSScannerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScannerTests.m; sourceTree = "<group>"; };
 		B0AD4BCF17B0B0A200B5014F /* NSPathUtilitesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSPathUtilitesTests.m; sourceTree = "<group>"; };
 		BCA81FA917B2E125004745B2 /* FoundationTestsMac */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FoundationTestsMac; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCA81FAF17B2E125004745B2 /* FoundationTestsMac-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FoundationTestsMac-Prefix.pch"; sourceTree = "<group>"; };
@@ -193,6 +197,8 @@
 				47178CB817ADDA340062E7B0 /* NSNumberTests.m */,
 				47178CB917ADDA340062E7B0 /* NSObjCRuntimeTests.m */,
 				B0AD4BCF17B0B0A200B5014F /* NSPathUtilitesTests.m */,
+				B02ABB8C17B5ECA000CB5C94 /* NSScannerTests.m */,
+				B02ABB8B17B5ECA000CB5C94 /* NSScannerSubclassTests.m */,
 				47178CBA17ADDA340062E7B0 /* NSSortDescriptorTests.m */,
 				47178CBB17ADDA340062E7B0 /* NSStringTests.m */,
 				47178CBC17ADDA340062E7B0 /* NSThreadTests.m */,
@@ -321,6 +327,8 @@
 				B0AD4BD017B0B0A200B5014F /* NSPathUtilitesTests.m in Sources */,
 				5BF54E3F17B0B18500B47B76 /* NSByteCountFormatterTests.m in Sources */,
 				BCA81FCF17B316E5004745B2 /* NSInvocationTests.m in Sources */,
+				B02ABB8D17B5ECA000CB5C94 /* NSScannerSubclassTests.m in Sources */,
+				B02ABB8E17B5ECA000CB5C94 /* NSScannerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
