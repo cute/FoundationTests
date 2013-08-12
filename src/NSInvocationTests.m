@@ -15,7 +15,7 @@
 - (BOOL)testIncorrectAllocInit
 {
     NSInvocation *inv = [[NSInvocation alloc] init]; // should not throw
-    
+
     testassert(inv == nil);
     return YES;
 }
@@ -125,7 +125,7 @@
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
     NSString *foo = [NSString string];
     void (^block)(void) = ^{
-        [inv setArgument:&foo atIndex:6];
+        [inv setArgument:(void *)&foo atIndex:6];
     };
     BOOL raised = NO;
     @try
@@ -349,7 +349,7 @@
     NSString *expected = @"barbaz";
     [inv getReturnValue:&result];
     testassert([result isEqualToString:expected]);
-    
+
     return YES;
 }
 
@@ -366,14 +366,15 @@
     NSString *result = nil;
     [inv getReturnValue:&result];
     testassert([result isEqualToString:@"baz"]);
-    
+
     return YES;
 }
 
-#warning TODO: fix NSInvocation trying to autorelease result (NSRange) below. 
-#if 0
+#warning TODO: fix NSInvocation trying to autorelease result (NSRange) below.
 -(BOOL)testStructReturn
 {
+    KNOWN_CRASHER();
+
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(methodReturningRange)]];
     [inv setSelector:@selector(methodReturningRange)];
     [inv setTarget:self];
@@ -384,5 +385,5 @@
     testassert(result.location = 500);
     return YES;
 }
-#endif 
+
 @end
