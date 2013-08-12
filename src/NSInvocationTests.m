@@ -125,7 +125,7 @@
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
     NSString *foo = [NSString string];
     void (^block)(void) = ^{
-        [inv setArgument:&foo atIndex:6];
+        [inv setArgument:(void *)&foo atIndex:6];
     };
     BOOL raised = NO;
     @try
