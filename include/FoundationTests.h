@@ -30,6 +30,7 @@ void runFoundationTests(void);
 
 #define TEST_CLASSES(action) \
 action(CFRunLoop) \
+action(NSArray) \
 action(NSBlock) \
 action(NSByteCountFormatter) \
 action(NSCountedSet) \

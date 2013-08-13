@@ -52,6 +52,7 @@
 		BCA81FC517B31394004745B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178C9B17ADD9D40062E7B0 /* main.m */; };
 		BCA81FCF17B316E5004745B2 /* NSInvocationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA81FCE17B316E5004745B2 /* NSInvocationTests.m */; };
 		BCA81FD017B316E5004745B2 /* NSInvocationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA81FCE17B316E5004745B2 /* NSInvocationTests.m */; };
+		DE06A9F217B9B7AA0069C996 /* NSArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE06A9F117B9B7AA0069C996 /* NSArrayTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -101,6 +102,7 @@
 		BCA81FAF17B2E125004745B2 /* FoundationTestsMac-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FoundationTestsMac-Prefix.pch"; sourceTree = "<group>"; };
 		BCA81FB017B2E125004745B2 /* FoundationTestsMac.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = FoundationTestsMac.1; sourceTree = "<group>"; };
 		BCA81FCE17B316E5004745B2 /* NSInvocationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSInvocationTests.m; sourceTree = "<group>"; };
+		DE06A9F117B9B7AA0069C996 /* NSArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSArrayTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +188,7 @@
 		47178CAF17ADDA340062E7B0 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				DE06A9F117B9B7AA0069C996 /* NSArrayTests.m */,
 				47178CB017ADDA340062E7B0 /* CFRunLoopTests.m */,
 				47178CB117ADDA340062E7B0 /* FoundationTests.m */,
 				47178CB217ADDA340062E7B0 /* NSBlockTests.m */,
@@ -329,6 +332,7 @@
 				BCA81FCF17B316E5004745B2 /* NSInvocationTests.m in Sources */,
 				B02ABB8D17B5ECA000CB5C94 /* NSScannerSubclassTests.m in Sources */,
 				B02ABB8E17B5ECA000CB5C94 /* NSScannerTests.m in Sources */,
+				DE06A9F217B9B7AA0069C996 /* NSArrayTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
