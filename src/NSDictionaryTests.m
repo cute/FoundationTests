@@ -491,4 +491,26 @@
     return YES;
 }
 
+- (BOOL)testGetObjectsAndKeys
+{
+    NSDictionary *dict = @{ @"k2" : @1, @"k3" : @2, @"k1" : @3 };
+    size_t size = sizeof(id) * [dict count] ;
+    id *keys = (id *)malloc(size);
+    id *objs = (id *)malloc(size);
+    id *keys2 = (id *)malloc(size);
+    id *objs2 = (id *)malloc(size);
+    
+    [dict getObjects:objs andKeys:keys];
+    [dict getObjects:objs2 andKeys:nil];
+    [dict getObjects:nil andKeys:keys2];
+    
+    testassert(memcmp(objs, objs2, size) == 0);
+    testassert(memcmp(keys, keys2, size) == 0);
+    testassert([@"k1" isEqualToString:keys[2]]);
+    testassert([@1 isEqual : objs[1]]);
+    
+    return YES;
+}
+
+
 @end
