@@ -30,7 +30,7 @@
 #ifdef __LP64__
     testassert([methodSignature frameLength] == 224); // logical 16, actual 224.
 #else
-    testassert([methodSignature frameLength] == 8);
+    testassert([methodSignature frameLength] >= 8);
 #endif
     
     methodSignature = [self methodSignatureForSelector:@selector(ridiculousMethod:::::::::::::::::::::::::::::::::::)];
