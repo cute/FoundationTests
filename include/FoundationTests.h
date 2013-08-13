@@ -32,6 +32,7 @@ void runFoundationTests(void);
 action(CFRunLoop) \
 action(NSArray) \
 action(NSBlock) \
+action(NSBundle) \
 action(NSByteCountFormatter) \
 action(NSCountedSet) \
 action(NSDictionary) \

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1AFCF46417B9842D0085CA15 /* NSBundleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AFCF46317B9842D0085CA15 /* NSBundleTests.m */; };
+		1AFCF48917B9AE350085CA15 /* 0.asset in Resources */ = {isa = PBXBuildFile; fileRef = 1AFCF48117B9AE350085CA15 /* 0.asset */; };
+		1AFCF48A17B9AE350085CA15 /* 0.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1AFCF48217B9AE350085CA15 /* 0.bundle */; };
+		1AFCF48F17B9AE480085CA15 /* folderref0 in Resources */ = {isa = PBXBuildFile; fileRef = 1AFCF48E17B9AE480085CA15 /* folderref0 */; };
 		47178C9217ADD9D40062E7B0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47178C9117ADD9D40062E7B0 /* Foundation.framework */; };
 		47178C9A17ADD9D40062E7B0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 47178C9817ADD9D40062E7B0 /* InfoPlist.strings */; };
 		47178C9C17ADD9D40062E7B0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178C9B17ADD9D40062E7B0 /* main.m */; };
@@ -69,6 +73,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1AFCF46317B9842D0085CA15 /* NSBundleTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSBundleTests.m; sourceTree = "<group>"; };
+		1AFCF48117B9AE350085CA15 /* 0.asset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 0.asset; sourceTree = "<group>"; };
+		1AFCF48217B9AE350085CA15 /* 0.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = 0.bundle; sourceTree = "<group>"; };
+		1AFCF48E17B9AE480085CA15 /* folderref0 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = folderref0; sourceTree = "<group>"; };
 		47178C8C17ADD9D40062E7B0 /* FoundationTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoundationTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47178C9117ADD9D40062E7B0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		47178C9717ADD9D40062E7B0 /* FoundationTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FoundationTests-Info.plist"; sourceTree = "<group>"; };
@@ -125,6 +133,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1AFCF48017B9AE350085CA15 /* NSBundleTests */ = {
+			isa = PBXGroup;
+			children = (
+				1AFCF48117B9AE350085CA15 /* 0.asset */,
+				1AFCF48217B9AE350085CA15 /* 0.bundle */,
+				1AFCF48317B9AE350085CA15 /* foldergroup0 */,
+				1AFCF48E17B9AE480085CA15 /* folderref0 */,
+			);
+			path = NSBundleTests;
+			sourceTree = "<group>";
+		};
+		1AFCF48317B9AE350085CA15 /* foldergroup0 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = foldergroup0;
+			sourceTree = "<group>";
+		};
 		47178C8317ADD9D40062E7B0 = {
 			isa = PBXGroup;
 			children = (
@@ -165,6 +191,7 @@
 		47178C9617ADD9D40062E7B0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1AFCF48017B9AE350085CA15 /* NSBundleTests */,
 				47178C9717ADD9D40062E7B0 /* FoundationTests-Info.plist */,
 				47178C9817ADD9D40062E7B0 /* InfoPlist.strings */,
 				47178C9B17ADD9D40062E7B0 /* main.m */,
@@ -192,22 +219,23 @@
 				47178CB017ADDA340062E7B0 /* CFRunLoopTests.m */,
 				47178CB117ADDA340062E7B0 /* FoundationTests.m */,
 				47178CB217ADDA340062E7B0 /* NSBlockTests.m */,
+				1AFCF46317B9842D0085CA15 /* NSBundleTests.m */,
+				5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */,
 				47178CB317ADDA340062E7B0 /* NSCountedSetTests.m */,
 				47178CB417ADDA340062E7B0 /* NSDictionaryTests.m */,
 				47178CB517ADDA340062E7B0 /* NSExceptionTests.m */,
+				BCA81FCE17B316E5004745B2 /* NSInvocationTests.m */,
 				47178CB617ADDA340062E7B0 /* NSLockTests.m */,
 				47178CB717ADDA340062E7B0 /* NSMethodSignatureTests.m */,
 				47178CB817ADDA340062E7B0 /* NSNumberTests.m */,
 				47178CB917ADDA340062E7B0 /* NSObjCRuntimeTests.m */,
 				B0AD4BCF17B0B0A200B5014F /* NSPathUtilitesTests.m */,
-				B02ABB8C17B5ECA000CB5C94 /* NSScannerTests.m */,
 				B02ABB8B17B5ECA000CB5C94 /* NSScannerSubclassTests.m */,
+				B02ABB8C17B5ECA000CB5C94 /* NSScannerTests.m */,
 				47178CBA17ADDA340062E7B0 /* NSSortDescriptorTests.m */,
 				47178CBB17ADDA340062E7B0 /* NSStringTests.m */,
 				47178CBC17ADDA340062E7B0 /* NSThreadTests.m */,
 				47178CBD17ADDA340062E7B0 /* NSURLTests.m */,
-				5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */,
-				BCA81FCE17B316E5004745B2 /* NSInvocationTests.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -302,6 +330,9 @@
 				47178CA217ADD9D40062E7B0 /* Default.png in Resources */,
 				47178CA417ADD9D40062E7B0 /* Default@2x.png in Resources */,
 				47178CA617ADD9D40062E7B0 /* Default-568h@2x.png in Resources */,
+				1AFCF48917B9AE350085CA15 /* 0.asset in Resources */,
+				1AFCF48A17B9AE350085CA15 /* 0.bundle in Resources */,
+				1AFCF48F17B9AE480085CA15 /* folderref0 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,6 +364,7 @@
 				B02ABB8D17B5ECA000CB5C94 /* NSScannerSubclassTests.m in Sources */,
 				B02ABB8E17B5ECA000CB5C94 /* NSScannerTests.m in Sources */,
 				DE06A9F217B9B7AA0069C996 /* NSArrayTests.m in Sources */,
+				1AFCF46417B9842D0085CA15 /* NSBundleTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
