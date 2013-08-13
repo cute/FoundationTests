@@ -508,6 +508,10 @@
     testassert(memcmp(keys, keys2, size) == 0);
     testassert([@"k1" isEqualToString:keys[2]]);
     testassert([@1 isEqual : objs[1]]);
+    free(keys);
+    free(keys2);
+    free(objs);
+    free(objs2);
     
     return YES;
 }
