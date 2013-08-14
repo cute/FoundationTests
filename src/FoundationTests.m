@@ -46,41 +46,43 @@ static void runTests(id tests)
 
         char returnType[256];
         method_getReturnType(methods[i], returnType, sizeof(returnType));
+
         if (strncmp(returnType, @encode(BOOL), sizeof(returnType)))
         {
             skip_count++;
             total_skip_count++;
-            DEBUG_LOG("%s: %s SKIPPED (return type: %s)\n", class_name, sel_name, returnType);
+            DEBUG_LOG("%s: %s SKIPPED (return type %s should be BOOL)\n", class_name, sel_name, returnType);
+            continue;
+        }
+
+        BOOL success = NO;
+
+        @try
+        {
+            success = (BOOL)imp(tests, sel);
+        }
+        @catch (id e)
+        {
+            DEBUG_LOG("%s: %s EXCEPTION THROWN\n", class_name, sel_name);
+        }
+
+        if (success)
+        {
+            success_count++;
+            total_success_count++;
+            DEBUG_LOG("%s: %s passed\n", class_name, sel_name);
         }
         else
         {
-            BOOL success = NO;
+            failure_count++;
+            total_failure_count++;
 
-            @try {
-                success = (BOOL)imp(tests, sel);
-            }
-            @catch (id e) {
-                DEBUG_LOG("%s: %s EXCEPTION THROWN\n", class_name, sel_name);
-            }
+            struct failure *f = calloc(sizeof(*f), 1);
+            f->class = class_name;
+            f->sel = sel_name;
+            DL_APPEND(failures, f);
 
-            if (success)
-            {
-                success_count++;
-                total_success_count++;
-                DEBUG_LOG("%s: %s passed\n", class_name, sel_name);
-            }
-            else
-            {
-                failure_count++;
-                total_failure_count++;
-
-                struct failure *f = calloc(sizeof(*f), 1);
-                f->class = class_name;
-                f->sel = sel_name;
-                DL_APPEND(failures, f);
-
-                DEBUG_LOG("%s: %s FAILED\n", class_name, sel_name);
-            }
+            DEBUG_LOG("%s: %s FAILED\n", class_name, sel_name);
         }
     }
 

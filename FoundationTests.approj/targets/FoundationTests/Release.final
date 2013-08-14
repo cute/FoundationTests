@@ -20,6 +20,34 @@
         {
             "asset": "FoundationTests/en.lproj/InfoPlist.strings", 
             "target": "en.lproj/InfoPlist.strings"
+        }, 
+        {
+            "asset": "FoundationTests/NSBundleTests/0.asset", 
+            "target": "0.asset"
+        }, 
+        {
+            "asset": "FoundationTests/NSBundleTests/folderref0/0.asset", 
+            "target": "folderref0/0.asset"
+        }, 
+        {
+            "asset": "FoundationTests/NSBundleTests/folderref0/folderref0-0/0.asset", 
+            "target": "folderref0/folderref0-0/0.asset"
+        }, 
+        {
+            "asset": "FoundationTests/NSBundleTests/folderref0/folderref0-0/0.bundle/0.asset", 
+            "target": "folderref0/folderref0-0/0.bundle/0.asset"
+        }, 
+        {
+            "asset": "FoundationTests/NSBundleTests/0.bundle/0.asset", 
+            "target": "0.bundle/0.asset"
+        }, 
+        {
+            "asset": "FoundationTests/NSBundleTests/0.bundle/0-0.bundle/0-0.asset", 
+            "target": "0.bundle/0-0.bundle/0-0.asset"
+        }, 
+        {
+            "asset": "FoundationTests/NSBundleTests/0.bundle/0-0.bundle/0-0-0.bundle/0-0-0.asset", 
+            "target": "0.bundle/0-0.bundle/0-0-0.bundle/0-0-0.asset"
         }
     ], 
     "link_flags": [], 
@@ -113,6 +141,13 @@
         }, 
         {
             "source": "src/NSBlockTests.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "src/NSBundleTests.m", 
             "header_paths": [], 
             "flags": [], 
             "language": "objc", 

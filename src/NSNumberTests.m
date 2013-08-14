@@ -773,7 +773,7 @@
     testassert([[NSNumber numberWithInteger:42] boolValue] == YES);
     testassert([[NSNumber numberWithInteger:NSIntegerMax] boolValue] == YES);
 #ifdef __LP64__
-    testassert([[NSNumber numberWithInteger:NSIntegerMin] boolValue] == NO); //mac bug
+    testassert([[NSNumber numberWithInteger:NSIntegerMin] boolValue] == NO); // mac bug
 #else
     testassert([[NSNumber numberWithInteger:NSIntegerMin] boolValue] == YES);
 #endif
