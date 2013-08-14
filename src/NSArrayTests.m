@@ -16,7 +16,7 @@
     self = [super init];
     if (self)
     {
-        inner = @[ @1, @2];
+        inner = [@[ @1, @2] retain];
         _didInit = YES;
     }
     return self;
