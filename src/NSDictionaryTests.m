@@ -460,4 +460,61 @@
     return YES;
 }
 
+- (BOOL)testDescription
+{
+    // If all keys are same type and type is sortable, description should sort 
+    
+    NSDictionary *dict = @{ @"k2" : @1, @"k3" : @2, @"k1" : @3 };
+    NSString *d = @"{\n    k1 = 3;\n    k2 = 1;\n    k3 = 2;\n}";
+    testassert([d isEqualToString:[dict description]]);
+    
+    NSDictionary *nestedDict =  @{ @"k2" : @1, @"k1" : @2, @"k3": @{ @"kk1" : @11, @"kk2" : @22, @"kk3" : @33}, @"k4" : @3 };
+    d = @"{\n    k1 = 2;\n    k2 = 1;\n    k3 =     {\n        kk1 = 11;\n        kk2 = 22;\n        kk3 = 33;\n    };\n    k4 = 3;\n}";
+    testassert([d isEqualToString:[nestedDict description]]);
+    
+    NSDictionary *nestedArray =  @{ @"k3" : @1, @"k2" : @[ @111, @{ @"kk1" : @11, @"kk2" : @22, @"kk3" : @33}, @333], @"k1" : @3 };
+    d = @"{\n    k1 = 3;\n    k2 =     (\n        111,\n                {\n            kk1 = 11;\n            kk2 = 22;\n            kk3 = 33;\n        },\n        333\n    );\n    k3 = 1;\n}";
+    testassert([d isEqualToString:[nestedArray description]]);
+    
+    NSArray *nestedInArray =  @[ @1, @{ @"k1": @111, @"k2" : @{ @"kk1" : @11, @"kk2" : @22, @"kk3" : @33}, @"k3": @333}, @3 ];
+    d = @"(\n    1,\n        {\n        k1 = 111;\n        k2 =         {\n            kk1 = 11;\n            kk2 = 22;\n            kk3 = 33;\n        };\n        k3 = 333;\n    },\n    3\n)";
+    testassert([d isEqualToString:[nestedInArray description]]);
+    
+    dict = @{ @2 : @1, @3 : @2, @1 : @3};
+    d = @"{\n    1 = 3;\n    2 = 1;\n    3 = 2;\n}";
+    testassert([d isEqualToString:[dict description]]);
+    
+    dict = @{ @2 : @1, @3 : @2, @1 : @3, @"k1" : @9 };
+    d = @"{\n    k1 = 9;\n    3 = 2;\n    1 = 3;\n    2 = 1;\n}";
+    testassert([d isEqualToString:[dict description]]);
+    
+    return YES;
+}
+
+- (BOOL)testGetObjectsAndKeys
+{
+    NSDictionary *dict = @{ @"k2" : @1, @"k3" : @2, @"k1" : @3 };
+    size_t size = sizeof(id) * [dict count] ;
+    id *keys = (id *)malloc(size);
+    id *objs = (id *)malloc(size);
+    id *keys2 = (id *)malloc(size);
+    id *objs2 = (id *)malloc(size);
+    
+    [dict getObjects:objs andKeys:keys];
+    [dict getObjects:objs2 andKeys:nil];
+    [dict getObjects:nil andKeys:keys2];
+    
+    testassert(memcmp(objs, objs2, size) == 0);
+    testassert(memcmp(keys, keys2, size) == 0);
+    testassert([@"k1" isEqualToString:keys[2]]);
+    testassert([@1 isEqual : objs[1]]);
+    free(keys);
+    free(keys2);
+    free(objs);
+    free(objs2);
+    
+    return YES;
+}
+
+
 @end

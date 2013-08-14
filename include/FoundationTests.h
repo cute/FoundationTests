@@ -30,7 +30,9 @@ void runFoundationTests(void);
 
 #define TEST_CLASSES(action) \
 action(CFRunLoop) \
+action(NSArray) \
 action(NSBlock) \
+action(NSBundle) \
 action(NSByteCountFormatter) \
 action(NSCountedSet) \
 action(NSDictionary) \
@@ -39,6 +41,8 @@ action(NSLock) \
 action(NSMethodSignature) \
 action(NSNumber) \
 action(NSObjCRuntime) \
+action(NSScanner) \
+action(NSScannerSubclass) \
 action(NSSortDescriptor) \
 action(NSString) \
 action(NSPathUtilities) \
