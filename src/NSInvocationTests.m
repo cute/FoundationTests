@@ -99,7 +99,7 @@
     id fooFrom;
     [inv getArgument:&fooFrom atIndex:2];
     testassert([fooFrom isEqual:foo]);
-    
+
     return YES;
 }
 
@@ -110,8 +110,8 @@
     testassert([inv argumentsRetained] == NO);
     NSUInteger rc = [dict retainCount];
     [inv setTarget:dict];
-    testassert(rc == [dict retainCount]); // target is not retained by the invocation except if the arguments are. 
-    
+    testassert(rc == [dict retainCount]); // target is not retained by the invocation except if the arguments are.
+
     return YES;
 }
 
@@ -124,8 +124,8 @@
     testassert([inv argumentsRetained] == YES);
     [inv setTarget:dict];
     testassert(rc < [dict retainCount]);
-    
-    
+
+
     return YES;
 }
 
@@ -148,7 +148,7 @@
         raised = YES;
     }
     testassert(raised == YES);
-    
+
     return YES;
 }
 
@@ -321,11 +321,11 @@
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
-    [inv invoke]; // doesn't crash or throw an exception, just silently fails. 
+    [inv invoke]; // doesn't crash or throw an exception, just silently fails.
     id result = nil;
     [inv getReturnValue:&result];
     testassert(result == nil);
-    
+
     return YES;
 }
 - (BOOL)testInvokeSelAndArgsUnset
@@ -413,7 +413,8 @@
     id result;
     [inv invoke];
     [inv getReturnValue:&result];
-    testassert([result retainCount] == [[self newObjectReturn] retainCount]); //leaky. Necessary. Result is not retained. 
+    testassert([result retainCount] == [[self newObjectReturn] retainCount]); // Leaks out of necessity. Result is not retained.
+
     return YES;
 
 }
@@ -422,19 +423,19 @@
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(newObjectReturn)]];
     [inv setTarget:self];
     [inv setSelector:@selector(newObjectReturn)];
-    [inv retainArguments]; // this probably causes a retain cycle, come to think of it.
+    [inv retainArguments]; // This probably causes a retain cycle, come to think of it.
     id result;
     [inv invoke];
     [inv getReturnValue:&result];
     testassert([result retainCount] > [[self newObjectReturn] retainCount]);
-    //leaky. Necessary. The out param is retained and autoreleased.
-    //Can't prove that within this test though. Need check retainCount
-    //immediately before and after the autoreleasepool drains in debugger.
+    // Leaky out of necessity. The out param is retained and
+    // autoreleased.  We can't prove that within this test, though, as
+    // we would need to check the retain count immediately before and
+    // after the autoreleasepool drains in a debugger.
     return YES;
 }
 
 #warning TODO: fix NSInvocation trying to autorelease result (NSRange) below.
-#if 1
 - (BOOL)testStructReturn
 {
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(methodReturningRange)]];
@@ -459,7 +460,7 @@
     testassert(result->length = 321);
     testassert(result->location = 123);
     free(result);
-    
+
     return YES;
 }
 
@@ -483,7 +484,7 @@ struct charStruct {
     [inv invoke];
     [inv getReturnValue:&result];
     testassert(result.a == 'a');
-    
+
     return YES;
 }
 
@@ -506,7 +507,7 @@ struct shortStruct {
     [inv invoke];
     [inv getReturnValue:&result];
     testassert(result.a == 12345);
-    
+
     return YES;
 }
 
@@ -531,7 +532,7 @@ struct shortCharStruct {
     [inv getReturnValue:&result];
     testassert(result.a == 12345);
     testassert(result.b == 'a');
-    
+
     return YES;
 }
 
@@ -554,7 +555,7 @@ struct intStruct {
     [inv invoke];
     [inv getReturnValue:&result];
     testassert(result.a == 678910);
-    
+
     return YES;
 }
 
@@ -579,7 +580,7 @@ struct charIntStruct {
     [inv getReturnValue:&result];
     testassert(result.b == 678910);
     testassert(result.a == 'a');
-    
+
     return YES;
 }
 
@@ -604,7 +605,7 @@ struct intCharStruct {
     [inv getReturnValue:&result];
     testassert(result.a == 678910);
     testassert(result.b == 'a');
-    
+
     return YES;
 }
 
@@ -627,7 +628,7 @@ struct longLongStruct {
     [inv invoke];
     [inv getReturnValue:&result];
     testassert(result.a == 678910111213);
-    
+
     return YES;
 }
 
@@ -652,7 +653,7 @@ struct longLongCharStruct {
     [inv getReturnValue:&result];
     testassert(result.a == 678910111213);
     testassert(result.b == 'a');
-    
+
     return YES;
 }
 
@@ -677,7 +678,7 @@ struct charLongLongStruct {
     [inv getReturnValue:&result];
     testassert(result.b == 678910111213);
     testassert(result.a == 'a');
-    
+
     return YES;
 }
 
@@ -700,7 +701,7 @@ struct doubleStruct {
     [inv invoke];
     [inv getReturnValue:&result];
     testassert(result.a == M_PI);
-    
+
     return YES;
 }
 
@@ -725,7 +726,7 @@ struct doubleCharStruct {
     [inv getReturnValue:&result];
     testassert(result.a == M_PI);
     testassert(result.b == 'a');
-    
+
     return YES;
 }
 
@@ -750,7 +751,7 @@ struct charDoubleStruct {
     [inv getReturnValue:&result];
     testassert(result.b == M_PI);
     testassert(result.a == 'a');
-    
+
     return YES;
 }
 union floatInt {
@@ -781,8 +782,8 @@ struct hugeStruct {
 //    char v:4;
     volatile int x;
     float y;
-    
-    
+
+
 };
 
 int *foo(int *bar) { return bar; };
@@ -882,10 +883,9 @@ int *baz(int *qux) { return NULL;};
 //    testassert(result.v == 6);
     testassert(result.x == 70);
     testassert(result.y == 4.42f);
-    
+
     return YES;
 }
-#endif
 
 #pragma mark - Other return types and their helpers
 #define IL(...) __VA_ARGS__
