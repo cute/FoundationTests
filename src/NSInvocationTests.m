@@ -400,7 +400,40 @@
     return YES;
 }
 
-#warning TODO: fix NSInvocation trying to autorelease result (NSRange) below. 
+- (id)newObjectReturn
+{
+    return [[NSObject alloc] init];
+}
+
+- (BOOL)testUnretainedArgsRetainsReturnValue
+{
+    NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(newObjectReturn)]];
+    [inv setTarget:self];
+    [inv setSelector:@selector(newObjectReturn)];
+    id result;
+    [inv invoke];
+    [inv getReturnValue:&result];
+    testassert([result retainCount] == [[self newObjectReturn] retainCount]); //leaky. Necessary. Result is not retained. 
+    return YES;
+
+}
+- (BOOL)testRetainedArgsRetainsReturnValue
+{
+    NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(newObjectReturn)]];
+    [inv setTarget:self];
+    [inv setSelector:@selector(newObjectReturn)];
+    [inv retainArguments]; // this probably causes a retain cycle, come to think of it.
+    id result;
+    [inv invoke];
+    [inv getReturnValue:&result];
+    testassert([result retainCount] > [[self newObjectReturn] retainCount]);
+    //leaky. Necessary. The out param is retained and autoreleased.
+    //Can't prove that within this test though. Need check retainCount
+    //immediately before and after the autoreleasepool drains in debugger.
+    return YES;
+}
+
+#warning TODO: fix NSInvocation trying to autorelease result (NSRange) below.
 #if 1
 - (BOOL)testStructReturn
 {
