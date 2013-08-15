@@ -160,7 +160,6 @@
 
 - (BOOL)testDefaultCreation
 {
-    NSString *key1 = @"key";
     id obj1 = [[NSObject alloc] init];
     NSArray *obj = [NSArray alloc];
     NSArray *arr = [obj initWithObjects:&obj1 count:1];
@@ -175,7 +174,6 @@
 
 - (BOOL)testDefaultMutableCreation
 {
-    NSString *key1 = @"key";
     id obj1 = [[NSObject alloc] init];
     NSMutableArray *arr = [[NSMutableArray alloc] initWithObjects:&obj1 count:1];
 

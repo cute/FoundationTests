@@ -257,7 +257,7 @@
     NSString *unintedString = [NSString alloc];
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[unintedString methodSignatureForSelector:@selector(initWithCString:encoding:)]];
     const char *bytes = "This is the dawning of the age of Aquarius!";
-    char *bytesArg = malloc(strlen(bytes));
+    char *bytesArg = malloc(strlen(bytes) + 1);
     strcpy(bytesArg, bytes);
     [inv setTarget:unintedString];
     [inv setSelector:@selector(initWithCString:encoding:)];
@@ -281,7 +281,7 @@
     NSString *unintedString = [NSString alloc];
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[unintedString methodSignatureForSelector:@selector(initWithCString:encoding:)]];
     const char *bytes = "This is the dawning of the age of Aquarius!";
-    char *bytesArg = malloc(strlen(bytes));
+    char *bytesArg = malloc(strlen(bytes) + 1);
     strcpy(bytesArg, bytes);
     [inv setTarget:unintedString];
     [inv setSelector:@selector(initWithCString:encoding:)];
