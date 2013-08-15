@@ -947,6 +947,8 @@ TESTTYPERETURN(double, double) // toil and trouble
 TESTTYPERETURN(long double, longDouble)
 TESTTYPERETURN(SEL, sel)
 
+#undef TESTTYPERETURN
+
 -(BOOL)testUnicharReturn
 {
     NSString *target = [[NSString alloc] initWithUTF8String:"Foo"];
