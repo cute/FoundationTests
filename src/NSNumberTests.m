@@ -58,7 +58,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithChar
+- (BOOL)testNumberWithChar1
 {
     testassert([[NSNumber numberWithChar:0] boolValue] == NO);
     testassert([[NSNumber numberWithChar:-23] boolValue] == YES);
@@ -101,7 +101,12 @@
     testassert([[NSNumber numberWithChar:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithChar:CHAR_MAX] unsignedIntValue] == (unsigned int)CHAR_MAX);
     testassert([[NSNumber numberWithChar:CHAR_MIN] unsignedIntValue] == (unsigned int)CHAR_MIN);
+    
+    return YES;
+}
 
+- (BOOL)testNumberWithChar2
+{
     testassert([[NSNumber numberWithChar:0] integerValue] == (NSInteger)0);
     testassert([[NSNumber numberWithChar:-23] integerValue] == (NSInteger)-23);
     testassert([[NSNumber numberWithChar:42] integerValue] == (NSInteger)42);
@@ -141,7 +146,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithUnsignedChar
+- (BOOL)testNumberWithUnsignedChar1
 {
     testassert([[NSNumber numberWithUnsignedChar:0] boolValue] == NO);
     testassert([[NSNumber numberWithUnsignedChar:42] boolValue] == YES);
@@ -170,6 +175,11 @@
     testassert([[NSNumber numberWithUnsignedChar:0] unsignedIntValue] == (unsigned int)0);
     testassert([[NSNumber numberWithUnsignedChar:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithUnsignedChar:UCHAR_MAX] unsignedIntValue] == (unsigned int)UCHAR_MAX);
+    return YES;
+}
+
+- (BOOL)testNumberWithUnsignedChar2
+{
 
     testassert([[NSNumber numberWithUnsignedChar:0] integerValue] == (NSInteger)0);
     testassert([[NSNumber numberWithUnsignedChar:42] integerValue] == (NSInteger)42);
@@ -198,7 +208,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithShort
+- (BOOL)testNumberWithShort1
 {
     testassert([[NSNumber numberWithShort:0] boolValue] == NO);
     testassert([[NSNumber numberWithShort:-23] boolValue] == YES);
@@ -241,7 +251,12 @@
     testassert([[NSNumber numberWithShort:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithShort:SHRT_MAX] unsignedIntValue] == (unsigned int)SHRT_MAX);
     testassert([[NSNumber numberWithShort:SHRT_MIN] unsignedIntValue] == (unsigned int)SHRT_MIN);
+    
+    return YES;
+}
 
+- (BOOL)testNumberWithShort2
+{
     testassert([[NSNumber numberWithShort:0] integerValue] == (NSInteger)0);
     testassert([[NSNumber numberWithShort:-23] integerValue] == (NSInteger)-23);
     testassert([[NSNumber numberWithShort:42] integerValue] == (NSInteger)42);
@@ -281,7 +296,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithUnsignedShort
+- (BOOL)testNumberWithUnsignedShort1
 {
     testassert([[NSNumber numberWithUnsignedShort:0] boolValue] == NO);
     testassert([[NSNumber numberWithUnsignedShort:42] boolValue] == YES);
@@ -310,7 +325,12 @@
     testassert([[NSNumber numberWithUnsignedShort:0] unsignedIntValue] == (unsigned int)0);
     testassert([[NSNumber numberWithUnsignedShort:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithUnsignedShort:USHRT_MAX] unsignedIntValue] == (unsigned int)USHRT_MAX);
+    
+    return YES;
+}
 
+- (BOOL)testNumberWithUnsignedShort2
+{
     testassert([[NSNumber numberWithUnsignedShort:0] integerValue] == (NSInteger)0);
     testassert([[NSNumber numberWithUnsignedShort:42] integerValue] == (NSInteger)42);
     testassert([[NSNumber numberWithUnsignedShort:USHRT_MAX] integerValue] == (NSInteger)USHRT_MAX);
@@ -338,7 +358,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithInt
+- (BOOL)testNumberWithInt1
 {
     testassert([[NSNumber numberWithInt:0] boolValue] == NO);
     testassert([[NSNumber numberWithInt:-23] boolValue] == YES);
@@ -375,7 +395,12 @@
     testassert([[NSNumber numberWithInt:42] intValue] == (int)42);
     testassert([[NSNumber numberWithInt:INT_MAX] intValue] == (int)INT_MAX);
     testassert([[NSNumber numberWithInt:INT_MIN] intValue] == (int)INT_MIN);
+    
+    return YES;
+}
 
+- (BOOL)testNumberWithInt2
+{
     testassert([[NSNumber numberWithInt:0] unsignedIntValue] == (unsigned int)0);
     testassert([[NSNumber numberWithInt:-23] unsignedIntValue] == (unsigned int)-23);
     testassert([[NSNumber numberWithInt:42] unsignedIntValue] == (unsigned int)42);
@@ -421,7 +446,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithUnsignedInt
+- (BOOL)testNumberWithUnsignedInt1
 {
     testassert([[NSNumber numberWithUnsignedInt:0] boolValue] == NO);
     testassert([[NSNumber numberWithUnsignedInt:42] boolValue] == YES);
@@ -450,7 +475,12 @@
     testassert([[NSNumber numberWithUnsignedInt:0] unsignedIntValue] == (unsigned int)0);
     testassert([[NSNumber numberWithUnsignedInt:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithUnsignedInt:UINT_MAX] unsignedIntValue] == (unsigned int)UINT_MAX);
+    
+    return YES;
+}
 
+- (BOOL)testNumberWithUnsignedInt2
+{
     testassert([[NSNumber numberWithUnsignedInt:0] integerValue] == (NSInteger)0);
     testassert([[NSNumber numberWithUnsignedInt:42] integerValue] == (NSInteger)42);
     testassert([[NSNumber numberWithUnsignedInt:UINT_MAX] integerValue] == (NSInteger)UINT_MAX);
@@ -478,7 +508,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithLong
+- (BOOL)testNumberWithLong1
 {
     testassert([[NSNumber numberWithLong:0] boolValue] == NO);
     testassert([[NSNumber numberWithLong:-23] boolValue] == YES);
@@ -525,7 +555,12 @@
     testassert([[NSNumber numberWithLong:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithLong:LONG_MAX] unsignedIntValue] == (unsigned int)LONG_MAX);
     testassert([[NSNumber numberWithLong:LONG_MIN] unsignedIntValue] == (unsigned int)LONG_MIN);
+    
+    return YES;
+}
 
+- (BOOL)testNumberWithLong2
+{
     testassert([[NSNumber numberWithLong:0] integerValue] == (NSInteger)0);
     testassert([[NSNumber numberWithLong:-23] integerValue] == (NSInteger)-23);
     testassert([[NSNumber numberWithLong:42] integerValue] == (NSInteger)42);
@@ -565,7 +600,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithUnsignedLong
+- (BOOL)testNumberWithUnsignedLong1
 {
     testassert([[NSNumber numberWithUnsignedLong:0] boolValue] == NO);
     testassert([[NSNumber numberWithUnsignedLong:42] boolValue] == YES);
@@ -594,7 +629,12 @@
     testassert([[NSNumber numberWithUnsignedLong:0] unsignedIntValue] == (unsigned int)0);
     testassert([[NSNumber numberWithUnsignedLong:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithUnsignedLong:ULONG_MAX] unsignedIntValue] == (unsigned int)ULONG_MAX);
+    
+    return YES;
+}
 
+- (BOOL)testNumberWithUnsignedLong2
+{
     testassert([[NSNumber numberWithUnsignedLong:0] integerValue] == (NSInteger)0);
     testassert([[NSNumber numberWithUnsignedLong:42] integerValue] == (NSInteger)42);
     testassert([[NSNumber numberWithUnsignedLong:ULONG_MAX] integerValue] == (NSInteger)ULONG_MAX);
@@ -626,7 +666,7 @@
  * @note the behavior of boolValue for long longs
  */
 
-- (BOOL)testNumberWithLongLong
+- (BOOL)testNumberWithLongLong1
 {
     testassert([[NSNumber numberWithLongLong:0] boolValue] == NO);
     testassert([[NSNumber numberWithLongLong:-23] boolValue] == YES);
@@ -669,7 +709,12 @@
     testassert([[NSNumber numberWithLongLong:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithLongLong:LLONG_MAX] unsignedIntValue] == (unsigned int)LLONG_MAX);
     testassert([[NSNumber numberWithLongLong:LLONG_MIN] unsignedIntValue] == (unsigned int)LLONG_MIN);
+    
+    return YES;
+}
 
+- (BOOL)testNumberWithLongLong2
+{
     testassert([[NSNumber numberWithLongLong:0] integerValue] == (NSInteger)0);
     testassert([[NSNumber numberWithLongLong:-23] integerValue] == (NSInteger)-23);
     testassert([[NSNumber numberWithLongLong:42] integerValue] == (NSInteger)42);
@@ -709,7 +754,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithUnsignedLongLong
+- (BOOL)testNumberWithUnsignedLongLong1
 {
     testassert([[NSNumber numberWithUnsignedLongLong:0] boolValue] == NO);
     testassert([[NSNumber numberWithUnsignedLongLong:42] boolValue] == YES);
@@ -738,7 +783,12 @@
     testassert([[NSNumber numberWithUnsignedLongLong:0] unsignedIntValue] == (unsigned int)0);
     testassert([[NSNumber numberWithUnsignedLongLong:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithUnsignedLongLong:ULLONG_MAX] unsignedIntValue] == (unsigned int)ULLONG_MAX);
+    
+    return YES;
+}
 
+- (BOOL)testNumberWithUnsignedLongLong2
+{
     testassert([[NSNumber numberWithUnsignedLongLong:0] integerValue] == (NSInteger)0);
     testassert([[NSNumber numberWithUnsignedLongLong:42] integerValue] == (NSInteger)42);
     testassert([[NSNumber numberWithUnsignedLongLong:ULLONG_MAX] integerValue] == (NSInteger)ULLONG_MAX);
@@ -766,7 +816,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithInteger
+- (BOOL)testNumberWithInteger1
 {
     testassert([[NSNumber numberWithInteger:0] boolValue] == NO);
     testassert([[NSNumber numberWithInteger:-23] boolValue] == YES);
@@ -813,7 +863,12 @@
     testassert([[NSNumber numberWithInteger:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithInteger:NSIntegerMax] unsignedIntValue] == (unsigned int)NSIntegerMax);
     testassert([[NSNumber numberWithInteger:NSIntegerMin] unsignedIntValue] == (unsigned int)NSIntegerMin);
+    
+    return YES;
+}
 
+- (BOOL)testNumberWithInteger2
+{
     testassert([[NSNumber numberWithInteger:0] integerValue] == (NSInteger)0);
     testassert([[NSNumber numberWithInteger:-23] integerValue] == (NSInteger)-23);
     testassert([[NSNumber numberWithInteger:42] integerValue] == (NSInteger)42);
@@ -853,7 +908,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithUnsignedInteger
+- (BOOL)testNumberWithUnsignedInteger1
 {
     testassert([[NSNumber numberWithUnsignedInteger:0] boolValue] == NO);
     testassert([[NSNumber numberWithUnsignedInteger:42] boolValue] == YES);
@@ -878,7 +933,12 @@
     testassert([[NSNumber numberWithUnsignedInteger:0] intValue] == (int)0);
     testassert([[NSNumber numberWithUnsignedInteger:42] intValue] == (int)42);
     testassert([[NSNumber numberWithUnsignedInteger:NSUIntegerMax] intValue] == (int)NSUIntegerMax);
+    
+    return YES;
+}
 
+- (BOOL)testNumberWithUnsignedInteger2
+{
     testassert([[NSNumber numberWithUnsignedInteger:0] unsignedIntValue] == (unsigned int)0);
     testassert([[NSNumber numberWithUnsignedInteger:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithUnsignedInteger:NSUIntegerMax] unsignedIntValue] == (unsigned int)NSUIntegerMax);
