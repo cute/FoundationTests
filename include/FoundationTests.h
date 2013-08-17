@@ -37,6 +37,7 @@ action(NSByteCountFormatter) \
 action(NSCountedSet) \
 action(NSDictionary) \
 action(NSException) \
+action(NSInvocation) \
 action(NSLock) \
 action(NSMethodSignature) \
 action(NSNumber) \
@@ -48,6 +49,6 @@ action(NSString) \
 action(NSPathUtilities) \
 action(NSThread) \
 action(NSURL) \
-action(NSInvocation) \
+action(NSUserDefaults) \
 
 TEST_CLASSES(@testdecl)
