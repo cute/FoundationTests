@@ -30,6 +30,62 @@
 
 @end
 
+@interface NSMutableArraySubclass : NSMutableArray {
+    NSMutableArray *inner;
+}
+@property (nonatomic, readonly) BOOL didInit;
+@property (nonatomic, readwrite) int cnt;
+@end
+
+@implementation NSMutableArraySubclass
+
+- (id)init
+{
+    self = [super init];
+    if (self)
+    {
+        _didInit = YES;
+        inner = [[@[ @1, @2] mutableCopy] retain];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [super dealloc];
+}
+
+- (void)insertObject:(id)anObject atIndex:(NSUInteger)index
+{
+    [inner insertObject:anObject atIndex:index];
+}
+
+- (void)removeObjectAtIndex:(NSUInteger)index
+{
+    [inner removeObjectAtIndex:index];
+}
+
+- (void)addObject:(id)anObject
+{
+    [inner addObject:anObject];
+}
+
+- (void)removeLastObject
+{
+    [inner removeLastObject];
+}
+
+- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject
+{
+    [inner replaceObjectAtIndex:index withObject:anObject];
+}
+
+- (NSUInteger)count
+{
+    return [inner count];
+}
+@end
+
 @testcase(NSArray)
 
 - (BOOL)testAllocate
@@ -496,6 +552,28 @@ static NSComparisonResult compare(id a, id b, void *context)
     NSMutableArray *m = [@[@3, @1, @2] mutableCopy];
     testassert([m count] == 3);
     
+    [m removeAllObjects];
+    testassert([m count] == 0);
+    
+    /* Check on empty array */
+    [m removeAllObjects];
+    testassert([m count] == 0);
+    
+    [m addObject:@1];
+    testassert([m count] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testSubclassRemoveAllObjects
+{
+    NSMutableArraySubclass *m = [[NSMutableArraySubclass alloc] init];
+    testassert([m count] == 2);
+    
+    [m removeAllObjects];
+    testassert([m count] == 0);
+    
+    /* Check on empty array */
     [m removeAllObjects];
     testassert([m count] == 0);
     
