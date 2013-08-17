@@ -491,4 +491,19 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
+- (BOOL)testRemoveAllObjects
+{
+    NSMutableArray *m = [@[@3, @1, @2] mutableCopy];
+    testassert([m count] == 3);
+    
+    [m removeAllObjects];
+    testassert([m count] == 0);
+    
+    [m addObject:@1];
+    testassert([m count] == 1);
+    
+    return YES;
+}
+
+
 @end
