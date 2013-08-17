@@ -516,5 +516,17 @@
     return YES;
 }
 
+- (BOOL)testEnumerateKeysAndObject
+{
+    NSDictionary *dict = @{ @"k2" : @1, @"k3" : @2, @"k1" : @3 };
+    static int sum = 0;
+    [dict enumerateKeysAndObjectsUsingBlock: ^(id key, id obj, BOOL *stop) {
+        sum += [obj intValue];
+    }];
+    
+    testassert(sum == 6);
+    
+    return YES;
+}
 
 @end
