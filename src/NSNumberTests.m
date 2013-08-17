@@ -970,6 +970,17 @@
     return YES;
 }
 
+
+- (BOOL)testIsNumber
+{
+    NSNumber *n = [NSNumber numberWithBool:YES];
+    testassert([n isNSNumber__]);
+    
+    testassert([@"abc" isNSNumber__] == NO);
+    
+    return YES;
+}
+
 #warning TODO: floating point types, stringValue
 
 @end
