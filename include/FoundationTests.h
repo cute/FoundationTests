@@ -35,6 +35,7 @@ action(NSBlock) \
 action(NSBundle) \
 action(NSByteCountFormatter) \
 action(NSCountedSet) \
+action(NSDate) \
 action(NSDictionary) \
 action(NSException) \
 action(NSInvocation) \
