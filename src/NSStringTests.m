@@ -99,6 +99,51 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL)testInitAndLength
+{
+    NSString *s1 = @"abc";
+    NSString *s2 = [NSString stringWithUTF8String:"abc"];
+    NSString *s3 = [NSString stringWithFormat:@"%c%s", 'a', "bc"];
+    
+    testassert([s1 isEqualToString:s2]);
+    testassert([s2 isEqualToString:s3]);
+    testassert([s1 length] == 3);
+    testassert([s2 length] == 3);
+    testassert([s3 length] == 3);
+    
+    return YES;
+}
+
+
+- (BOOL)testStringWithFormat
+{
+    NSString *str = @"/abc";
+    char *str2 = "~/Documents";
+    NSString *out = [NSString stringWithFormat:@"%@%s", str, &str2[1]];
+    testassert([out isEqualToString:@"/abc/Documents"]);
+    
+    return YES;
+}
+
+- (BOOL)testStringByAppendingPathComponent
+{
+    testassert([[@"" stringByAppendingPathComponent:@""] isEqualToString:@""]);
+    testassert([[@"a" stringByAppendingPathComponent:@""] isEqualToString:@"a"]);
+    testassert([[@"a/" stringByAppendingPathComponent:@""] isEqualToString:@"a"]);
+    testassert([[@"" stringByAppendingPathComponent:@"b"] isEqualToString:@"b"]);
+    testassert([[@"a" stringByAppendingPathComponent:@"b"] isEqualToString:@"a/b"]);
+    testassert([[@"a/" stringByAppendingPathComponent:@"b"] isEqualToString:@"a/b"]);
+    testassert([[@"a" stringByAppendingPathComponent:@"/b"] isEqualToString:@"a/b"]);
+    testassert([[@"a//////" stringByAppendingPathComponent:@"b"] isEqualToString:@"a/b"]);
+    testassert([[@"a////" stringByAppendingPathComponent:@"///b"] isEqualToString:@"a/b"]);
+    testassert([[@"a" stringByAppendingPathComponent:@"b/"] isEqualToString:@"a/b"]);
+    testassert([[@"/" stringByAppendingPathComponent:@""] isEqualToString:@"/"]);
+    testassert([[@"/" stringByAppendingPathComponent:@"b"] isEqualToString:@"/b"]);
+    testassert([[@"/" stringByAppendingPathComponent:@"/b"] isEqualToString:@"/b"]);
+    return YES;
+}
+
+
 - (BOOL)runLossyEncodingTest:(NSStringEncoding)encoding
 {
     NSString *baseString = @"🄰🄱🄲🄳🄴🄵🄶🄷🄸🄹🄺🄻🄼🄽🄾🄿🅀🅁🅂🅃🅄🅅🅆🅇🅈🅉";
