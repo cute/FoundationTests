@@ -3,33 +3,6 @@
 #include <stdio.h>
 #import <objc/runtime.h>
 
-@interface NSUserDefaultsSubclass : NSUserDefaults {
-    NSArray *inner;
-}
-@property (nonatomic, readonly) BOOL didInit;
-@end
-
-@implementation NSUserDefaultsSubclass
-
-- (id)init
-{
-    self = [super init];
-    if (self)
-    {
-        inner = [@[ @1, @2] retain];
-        _didInit = YES;
-    }
-    return self;
-}
-
-- (void)dealloc
-{
-    [inner release];
-    [super dealloc];
-}
-
-@end
-
 @testcase(NSUserDefaults)
 
 - (BOOL)testSetAndGet
