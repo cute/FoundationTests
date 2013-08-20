@@ -45,13 +45,14 @@
     if (self)
     {
         _didInit = YES;
-        inner = [[@[ @1, @2] mutableCopy] retain];
+        inner = [@[ @1, @2] mutableCopy];
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [inner release];
     [super dealloc];
 }
 
