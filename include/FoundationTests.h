@@ -38,6 +38,7 @@ action(NSCountedSet) \
 action(NSDate) \
 action(NSDictionary) \
 action(NSException) \
+action(NSFileManager) \
 action(NSInvocation) \
 action(NSLock) \
 action(NSMethodSignature) \
