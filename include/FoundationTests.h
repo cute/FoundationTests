@@ -52,5 +52,6 @@ action(NSPathUtilities) \
 action(NSThread) \
 action(NSURL) \
 action(NSUserDefaults) \
+action(NSValue) \
 
 TEST_CLASSES(@testdecl)
