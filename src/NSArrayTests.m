@@ -584,5 +584,23 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
+- (BOOL)testRemoveObject
+{
+    NSMutableArray *m = [@[@3, @1, @2] mutableCopy];
+    testassert([m count] == 3);
+    
+    [m removeObject:@2];
+    testassert([m count] == 2);
+    
+    m = [@[@1, @1, @2, @1] mutableCopy];
+    [m removeObject:@1];
+    testassert([m count] == 1);
+    
+    [m removeObject:@2];
+    testassert([m count] == 0);
+    
+    return YES;
+}
+
 
 @end
