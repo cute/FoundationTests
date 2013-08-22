@@ -3,6 +3,9 @@
 #include "utlist.h"
 
 #import <objc/runtime.h>
+#import <signal.h>
+#import <setjmp.h>
+
 #import "FoundationTests.h"
 
 #ifndef DEBUG_LOG
@@ -19,6 +22,15 @@ struct failure {
     struct failure *next;
     struct failure *prev;
 };
+
+static sigjmp_buf jbuf;
+static BOOL signal_hit = NO;
+
+static void test_signal(int sig)
+{
+    signal_hit = YES;
+    siglongjmp(jbuf, 1);
+}
 
 static void runTests(id tests)
 {
@@ -57,15 +69,25 @@ static void runTests(id tests)
 
         BOOL success = NO;
 
-        @try
-        {
-            success = (BOOL)imp(tests, sel);
+        void (*sigsegv_handler)(int) = signal(SIGSEGV, &test_signal);
+        void (*sigbus_handler)(int) = signal(SIGBUS, &test_signal);
+        signal_hit = NO;
+        if (sigsetjmp(jbuf, 1) == 0) {
+            @try
+            {
+                success = (BOOL)imp(tests, sel);
+            }
+            @catch (id e)
+            {
+                DEBUG_LOG("%s: %s EXCEPTION THROWN\n", class_name, sel_name);
+            }
         }
-        @catch (id e)
-        {
-            DEBUG_LOG("%s: %s EXCEPTION THROWN\n", class_name, sel_name);
-        }
-
+        
+        signal(SIGBUS, sigbus_handler);
+        signal(SIGSEGV, sigsegv_handler);
+        
+        success = success && !signal_hit;
+        
         if (success)
         {
             success_count++;
