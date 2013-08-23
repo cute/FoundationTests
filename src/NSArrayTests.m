@@ -602,5 +602,65 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
+- (BOOL) testReplaceObjectsInRange1
+{
+    NSMutableArray *m = [@[@1, @2] mutableCopy];
+    id ids[2];
+    ids[0] = @10; ids[1] = @20;
+    [m replaceObjectsInRange:NSMakeRange(0,2) withObjects:ids count:2];
+    testassert([m count] == 2);
+    testassert([[m objectAtIndex:0] intValue] + [[m objectAtIndex:1] intValue] == 30);
+    [m release];
+    
+    return YES;
+}
+
+- (BOOL) testReplaceObjectsInRange2
+{
+    NSMutableArray *m = [@[@1, @2] mutableCopy];
+    id ids[2];
+    ids[0] = @10; ids[1] = @20;
+    [m replaceObjectsInRange:NSMakeRange(0,1) withObjects:ids count:2];
+    testassert([m count] == 3);
+    testassert([[m objectAtIndex:0] intValue] + [[m objectAtIndex:1] intValue]  + [[m objectAtIndex:2] intValue] == 32);
+    [m release];
+    
+    return YES;
+}
+
+- (BOOL) testReplaceObjectsInRange3
+{
+    NSMutableArray *m = [@[] mutableCopy];
+    id ids[2];
+    [m replaceObjectsInRange:NSMakeRange(0,0) withObjects:ids count:0];
+    testassert([m count] == 0);
+    [m release];
+    
+    return YES;
+}
+
+- (BOOL) testReplaceObjectsInRange4
+{
+    NSMutableArray *m = [@[@1, @2] mutableCopy];
+    id ids[2];
+    [m replaceObjectsInRange:NSMakeRange(0,1) withObjects:ids count:0];
+    testassert([m count] == 1);
+    [m release];
+    
+    return YES;
+}
+
+- (BOOL) testReplaceObjectsInRange5
+{
+    NSMutableArray *m = [@[] mutableCopy];
+    id ids[2];
+    ids[0] = @10; ids[1] = @20;
+    [m replaceObjectsInRange:NSMakeRange(0,0) withObjects:ids count:1];
+    testassert([m count] == 1);
+    testassert([[m objectAtIndex:0] intValue] == 10);
+    [m release];
+    
+    return YES;
+}
 
 @end
