@@ -18,7 +18,7 @@
 {
     char *myCString = "This is a string.";
     char *out;
-    NSValue *theValue = [NSValue valueWithBytes:(const void *)&myCString objCType:(const char *)@encode(char **)];
+    NSValue *theValue = [NSValue valueWithBytes:(const void *)&myCString objCType:@encode(char *)];
     NSLog(@"%@", theValue);
     [theValue getValue:&out];
     testassert(out == myCString);
@@ -208,6 +208,14 @@ typedef struct {
     [val1 release];
     [val2 release];
     [val3 release];
+    
+    return YES;
+}
+
+
+- (BOOL)testHugeStruct
+{
+// TODO add huge struct test (like the one in NSInvocationTests.m)
     
     return YES;
 }
