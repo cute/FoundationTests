@@ -125,6 +125,31 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL)testStringByDeletingLastPathComponent
+{
+    testassert([[@"" stringByDeletingLastPathComponent] isEqualToString:@""]);
+    testassert([[@"/" stringByDeletingLastPathComponent] isEqualToString:@"/"]);
+    testassert([[@"a" stringByDeletingLastPathComponent] isEqualToString:@""]);
+    testassert([[@"a/" stringByDeletingLastPathComponent] isEqualToString:@""]);
+    testassert([[@"b/asdf" stringByDeletingLastPathComponent] isEqualToString:@"b"]);
+    testassert([[@"a/b/c" stringByDeletingLastPathComponent] isEqualToString:@"a/b"]);
+    testassert([[@"a/b/asldfkjalskjdfasfdasfdlkasdfjasldkjfasdlkjf" stringByDeletingLastPathComponent] isEqualToString:@"a/b"]);
+    testassert([[@"a//////b" stringByDeletingLastPathComponent] isEqualToString:@"a"]);
+    testassert([[@"a////" stringByDeletingLastPathComponent] isEqualToString:@""]);
+    testassert([[@"/a" stringByDeletingLastPathComponent] isEqualToString:@"/"]);
+    testassert([[@"/b/c" stringByDeletingLastPathComponent] isEqualToString:@"/b"]);
+    return YES;
+}
+
+
+/* stringByDeletingLastPathComponent should get rid of earlier duplicate slashes */
+ 
+- (BOOL)testStringByDeletingLastPathComponentTODO
+{
+    testassert([[@"a//b/////c///" stringByDeletingLastPathComponent] isEqualToString:@"a/b"]);
+    return YES;
+}
+
 - (BOOL)testStringByAppendingPathComponent
 {
     testassert([[@"" stringByAppendingPathComponent:@""] isEqualToString:@""]);
