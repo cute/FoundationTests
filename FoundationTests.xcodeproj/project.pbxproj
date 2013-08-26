@@ -44,6 +44,7 @@
 		DE242DCA17C1586900D668DF /* NSDateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE242DC917C1586900D668DF /* NSDateTests.m */; };
 		DE242DCD17C2A78200D668DF /* NSFileManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE242DCC17C2A78200D668DF /* NSFileManagerTests.m */; };
 		DEFB624A17C41104004908E6 /* NSValueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DEFB624917C41104004908E6 /* NSValueTests.m */; };
+		DEFB624E17CBC8E4004908E6 /* NSSetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DEFB624D17CBC8E4004908E6 /* NSSetTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -102,6 +103,7 @@
 		DE242DCC17C2A78200D668DF /* NSFileManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSFileManagerTests.m; sourceTree = "<group>"; };
 		DEB8A25B17BC373E0044AFB9 /* NSUserDefaultsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSUserDefaultsTests.m; sourceTree = "<group>"; };
 		DEFB624917C41104004908E6 /* NSValueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSValueTests.m; sourceTree = "<group>"; };
+		DEFB624D17CBC8E4004908E6 /* NSSetTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSSetTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -231,6 +233,7 @@
 				DE242DC917C1586900D668DF /* NSDateTests.m */,
 				DE242DCC17C2A78200D668DF /* NSFileManagerTests.m */,
 				DEFB624917C41104004908E6 /* NSValueTests.m */,
+				DEFB624D17CBC8E4004908E6 /* NSSetTests.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				DE242DCA17C1586900D668DF /* NSDateTests.m in Sources */,
 				DE242DCD17C2A78200D668DF /* NSFileManagerTests.m in Sources */,
 				DEFB624A17C41104004908E6 /* NSValueTests.m in Sources */,
+				DEFB624E17CBC8E4004908E6 /* NSSetTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -46,6 +46,7 @@ action(NSNumber) \
 action(NSObjCRuntime) \
 action(NSScanner) \
 action(NSScannerSubclass) \
+action(NSSet) \
 action(NSSortDescriptor) \
 action(NSString) \
 action(NSPathUtilities) \
