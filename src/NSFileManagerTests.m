@@ -23,4 +23,42 @@
     return YES;
 }
 
+- (BOOL)testFileDoesNotExist
+{
+    NSFileManager* manager = [NSFileManager defaultManager];
+    
+    testassert([manager fileExistsAtPath:@"IDontExist"] == NO);
+    return YES;
+}
+
+static NSString *makePath(NSFileManager *manager, NSString *name)
+{
+    NSError *error;
+    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES );
+    NSString* dir = [paths objectAtIndex:0];
+    NSString *path = [dir stringByAppendingPathComponent:name];
+    [manager removeItemAtPath:path error:&error];
+    return path;
+}
+
+- (BOOL)testCreateFile
+{
+    NSFileManager* manager = [NSFileManager defaultManager];
+    testassert([manager createFileAtPath:makePath(manager, @"createTest") contents:nil attributes:nil] == YES);
+    return YES;
+}
+
+- (BOOL)testFileSize
+{
+    NSError* error;
+    NSFileManager* manager = [NSFileManager defaultManager];
+    NSString *path = makePath(manager, @"fileSizeTest");
+    testassert([manager createFileAtPath:path contents:nil attributes:nil]);
+    NSDictionary* attrs = [manager attributesOfItemAtPath:path error:&error];
+    NSNumber* size = [attrs objectForKey:NSFileSize];
+    testassert(size.longValue == 0);
+    return YES;
+}
+
+
 @end
