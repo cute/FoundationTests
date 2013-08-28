@@ -14,7 +14,7 @@
 {
     NSSet *cs = [[NSSet alloc] init];
     
-    // Blank initialization should return a counted set
+    // Blank initialization should return a set
     testassert(cs != nil);
     
     [cs release];
@@ -85,7 +85,8 @@
                 nil];
     NSSet *cs = [[NSSet alloc] initWithSet:s copyItems:YES];
     
-    // Set initializer should return a countable set
+    // Set initializer should return a set
+    testassert([cs count] == 1);
     testassert(cs != nil);
     
     [s release];
@@ -296,6 +297,20 @@
     return YES;
 }
 
+- (BOOL)testNilMember
+{
+    NSObject *o1 = [[[NSObject alloc] init] autorelease];
+    NSObject *o2 = [[[NSObject alloc] init] autorelease];
+    
+    NSSet *cs = [[NSSet alloc] initWithObjects: o1, o2, o2, nil];
+    
+    testassert([cs member:nil] == nil);
+    
+    [cs release];
+    
+    return YES;
+}
+
 - (BOOL)testMember
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
@@ -305,8 +320,8 @@
     NSSet *cs = [[NSSet alloc] initWithObjects: o1, o2, o2, nil];
     
     testassert([cs member:o0] == nil);
-    testassert([cs member:o1] != nil);
-    testassert([cs member:o2] != nil);
+    testassert([cs member:o1] == o1);
+    testassert([cs member:o2] == o2);
     
     testassert([cs member:nil] == nil);
     
@@ -357,12 +372,14 @@
     {
         BOOL found = NO;
         for (int i = 0; i < count; i++)
+        {
             if ([object isEqual:members[i]])
             {
                 found = YES;
                 counts[i]++;
                 break;
             }
+        }
         testassert(found);
     }
     
@@ -405,12 +422,14 @@
     {
         BOOL found = NO;
         for (int i = 0; i < count; i++)
+        {
             if ([object isEqual:members[i]])
             {
                 found = YES;
                 counts[i]++;
                 break;
             }
+        }
         testassert(found);
     }
     

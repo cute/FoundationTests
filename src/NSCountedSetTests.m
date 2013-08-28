@@ -349,12 +349,14 @@
     {
         BOOL found = NO;
         for (int i = 0; i < count; i++)
+        {
             if ([object isEqual:members[i]])
             {
                 found = YES;
                 counts[i]++;
                 break;
             }
+        }
         testassert(found);
     }
 
@@ -397,12 +399,14 @@
     {
         BOOL found = NO;
         for (int i = 0; i < count; i++)
+        {
             if ([object isEqual:members[i]])
             {
                 found = YES;
                 counts[i]++;
                 break;
             }
+        }
         testassert(found);
     }
 
