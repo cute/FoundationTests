@@ -336,4 +336,20 @@
     return YES;
 }
 
+// Only available for MAC, and our platform
+#if (APPORTABLE || (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE)))
+- (BOOL) testNSURLForAPI
+{
+    // Test for presence of methods not included (for unknown reasons) in GNUStep
+    // - (NSData*)resourceDataUsingCache:(BOOL)shouldUseCache
+    testassert([[NSURL class] instancesRespondToSelector:@selector(resourceDataUsingCache:)]);
+    
+    // Used in our NSData implementation, but not present in Apple header
+    // - (NSData*)resourceDataUsingCache:(BOOL)shouldUseCache error:(NSError **)error
+    testassert([NSURL instancesRespondToSelector:@selector(resourceDataUsingCache:error:)]);
+
+    return YES;
+}
+#endif
+
 @end
