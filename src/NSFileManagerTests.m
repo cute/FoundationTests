@@ -60,5 +60,25 @@ static NSString *makePath(NSFileManager *manager, NSString *name)
     return YES;
 }
 
+- (BOOL)testContentsOfDirectoryAtPath
+{
+    NSError *error = nil;
+    NSArray *bundleContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[NSBundle mainBundle] bundlePath] error:&error];
+    testassert([bundleContents count] >= 8);   /* more items are likely to be added over time */
+    testassert([bundleContents containsObject:@"Info.plist"]);
+    testassert(error == nil);
+    return YES;
+}
+
+/* Android and iOS main bundle matches except for FoundationTests and PkgInfo */
+
+- (BOOL)testMainBundleContentsTODO
+{
+    NSError *error = nil;
+    NSArray *bundleContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[NSBundle mainBundle] bundlePath] error:&error];
+    testassert([bundleContents containsObject:@"FoundationTests"]);
+    testassert([bundleContents containsObject:@"PkgInfo"]);
+    return YES;
+}
 
 @end

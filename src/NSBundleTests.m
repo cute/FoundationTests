@@ -21,10 +21,19 @@ static NSBundle *zeroLevelBundle, *firstLevelBundle, *secondLevelBundle;
     return YES;
 }
 
+- (BOOL)testCFBundleGetMainBundle
+{
+    CFBundleRef cfBundle = CFBundleGetMainBundle();
+    testassert(nil != cfBundle);
+    
+    return YES;
+}
+
 - (BOOL)testMainBundlePath
 {
     mainBundlePath = [[NSBundle mainBundle] bundlePath];
     testassert(nil != mainBundlePath);
+    testassert([mainBundlePath rangeOfString:@"FoundationTests"].location != NSNotFound);
     
     return YES;
 }
