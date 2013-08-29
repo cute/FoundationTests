@@ -188,6 +188,74 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+
+- (BOOL) testStringWithString
+{
+    NSString *s = @"I'm constant";
+    NSString *s2 = [NSString stringWithString:s];
+    testassert([s isEqualToString:s2]);
+    return YES;
+}
+
+- (BOOL) testGetCharacters
+{
+    NSString *s = @"I'm constant";
+    NSUInteger length = [s length];
+    unichar buffer[length];
+    [s getCharacters:buffer];
+    testassert(buffer[0] == 'I' && buffer[length - 1] == 't');
+    
+    return YES;    
+}
+
+- (BOOL) testStringByTrimmingCharactersInSet
+{
+    NSString *abc = [@"##A#BCD#D##" stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"#"]];
+    testassert([abc isEqualToString:@"A#BCD#D"]);
+    
+    return YES;
+}
+
+- (BOOL) testStringByTrimmingCharactersInSet2
+{
+    NSString *abc = [@"##A#BCD#D@@" stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"#@"]];
+    testassert([abc isEqualToString:@"A#BCD#D"]);
+    
+    return YES;
+}
+
+- (BOOL) testStringByTrimmingCharactersInSet3
+{
+    NSString *abc = [@"@@" stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"#@"]];
+    testassert([abc isEqualToString:@""]);
+    
+    return YES;
+}
+
+- (BOOL) testStringByTrimmingCharactersInSet4
+{
+    NSString *abc = [@"@123" stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"#@"]];
+    testassert([abc isEqualToString:@"123"]);
+    
+    return YES;
+}
+
+- (BOOL) testStringByTrimmingCharactersInSet5
+{
+    NSString *abc = [@"123#" stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"#@"]];
+    testassert([abc isEqualToString:@"123"]);
+    
+    return YES;
+}
+
+- (BOOL) testStringByTrimmingCharactersInSet6
+{
+    NSString *abc = [@"" stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"#@"]];
+    testassert([abc isEqualToString:@""]);
+    
+    return YES;
+}
+
 - (BOOL)testLossyEncodingNSASCIIStringEncoding
 {
     return [self runLossyEncodingTest:NSASCIIStringEncoding];

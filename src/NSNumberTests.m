@@ -981,6 +981,30 @@
     return YES;
 }
 
+- (BOOL)testStrtod
+{
+    double d = strtod("1.99", NULL);
+    testassert(d == 1.99);
+    return YES;
+}
+
+#warning TODO strtod_l implementation
+//- (BOOL)testStrtod_l
+//{
+//    double d = strtod_l("1.99", NULL, NULL);
+//    testassert(d == 1.99);
+//    return YES;
+//}
+
+- (BOOL)testDecimalNumberWithString
+{
+    NSDecimalNumber *dn = [NSDecimalNumber decimalNumberWithString:@"1.99"];
+    double d = [dn doubleValue];
+    testassert(d >= 1.98999 && d <= 1.990001);
+    return YES;
+}
+
+
 #warning TODO: floating point types, stringValue
 
 @end

@@ -496,4 +496,15 @@
     return YES;
 }
 
+- (BOOL)testAddObjectsFromArray
+{
+    NSObject *o0 = [[[NSObject alloc] init] autorelease];
+    NSMutableSet *cs = [[NSMutableSet alloc] initWithObjects: o0, nil];
+    NSArray *a = @[@1, @2];
+    [cs addObjectsFromArray:a];
+    testassert([cs count] == 3);
+
+    return YES;
+}
+
 @end

@@ -663,4 +663,16 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
+
+- (BOOL)testAddObjectsFromArray
+{
+    NSMutableArray *cs = [@[@9] mutableCopy];
+    NSArray *a = @[@1, @2];
+    [cs addObjectsFromArray:a];
+    testassert([cs count] == 3);
+    [cs release];
+    
+    return YES;
+}
+
 @end
