@@ -81,4 +81,14 @@ static NSString *makePath(NSFileManager *manager, NSString *name)
     return YES;
 }
 
+- (BOOL)testContentsOfDirectoryAtPathWithExtension
+{
+    NSError *error = nil;
+    NSArray *bundleContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[NSBundle mainBundle] bundlePath] error:&error];
+    testassert([bundleContents count] >= 8);   /* more items are likely to be added over time */
+    testassert([bundleContents containsObject:@"Info.plist"]);
+    testassert(error == nil);
+    return YES;
+}
+
 @end

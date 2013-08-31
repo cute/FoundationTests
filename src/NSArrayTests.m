@@ -675,4 +675,49 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
+- (BOOL) testEnumeration
+{
+    NSArray *a = @[ @1, @2, @3];
+    int sum = 0;
+    for (NSNumber *n in a)
+    {
+        sum += [n intValue];
+    }
+    testassert(sum == 6);
+    return YES;
+}
+
+- (BOOL) testEnumeration2
+{
+    int sum = 0;
+    NSNumber *n;
+    NSArray *a = @[ @1, @2, @3];
+    NSEnumerator *nse = [a objectEnumerator];
+    
+    while( (n = [nse nextObject]) )
+    {
+        sum += [n intValue];
+    }
+    testassert(sum == 6);
+    return YES;
+}
+
+- (BOOL) testEnumeration3
+{
+    NSString *s = @"a Z b Z c";
+    
+    NSArray *a = [[NSArray alloc] initWithArray:[s componentsSeparatedByString:@"Z"]];
+    
+    int sum = 0;
+    NSEnumerator *nse = [a objectEnumerator];
+    
+    while([nse nextObject])
+    {
+        sum ++;
+    }
+    testassert(sum == 3);
+    [a release];
+    return YES;
+}
+
 @end
