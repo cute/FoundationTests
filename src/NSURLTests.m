@@ -48,6 +48,28 @@
     return YES;
 }
 
+- (BOOL)testInitFileURLWithNilPath
+{
+    void (^block)() = ^{
+        [[NSURL alloc] initFileURLWithPath:nil];
+    };
+    
+    // initFileURLWithPath should throw NSInvalidArgumentException
+    BOOL raised = NO;
+    
+    @try {
+        block();
+    }
+    @catch (NSException *e) {
+        testassert([[e name] isEqualToString:NSInvalidArgumentException]);
+        raised = YES;
+    }
+    
+    testassert(raised);
+    
+    return YES;
+}
+
 // Make sure empty non-User Domains return empty arrays
 
 - (BOOL) testURLsForDirectoryDocL

@@ -35,6 +35,7 @@ action(NSBlock) \
 action(NSBundle) \
 action(NSByteCountFormatter) \
 action(NSCountedSet) \
+action(NSData) \
 action(NSDate) \
 action(NSDictionary) \
 action(NSException) \
@@ -54,5 +55,6 @@ action(NSThread) \
 action(NSURL) \
 action(NSUserDefaults) \
 action(NSValue) \
+
 
 TEST_CLASSES(@testdecl)
