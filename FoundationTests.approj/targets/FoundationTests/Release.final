@@ -6,10 +6,6 @@
     ], 
     "assets": [
         {
-            "asset": "FoundationTests/Default-568h@2x.png", 
-            "target": "Default-568h@2x.png"
-        }, 
-        {
             "asset": "FoundationTests/Default@2x.png", 
             "target": "Default@2x.png"
         }, 
@@ -18,12 +14,24 @@
             "target": "Default.png"
         }, 
         {
+            "asset": "FoundationTests/Default-568h@2x.png", 
+            "target": "Default-568h@2x.png"
+        }, 
+        {
             "asset": "FoundationTests/en.lproj/InfoPlist.strings", 
             "target": "en.lproj/InfoPlist.strings"
         }, 
         {
-            "asset": "FoundationTests/NSBundleTests/0.asset", 
-            "target": "0.asset"
+            "asset": "FoundationTests/NSBundleTests/0.bundle/0.asset", 
+            "target": "0.bundle/0.asset"
+        }, 
+        {
+            "asset": "FoundationTests/NSBundleTests/0.bundle/0-0.bundle/0-0.asset", 
+            "target": "0.bundle/0-0.bundle/0-0.asset"
+        }, 
+        {
+            "asset": "FoundationTests/NSBundleTests/0.bundle/0-0.bundle/0-0-0.bundle/0-0-0.asset", 
+            "target": "0.bundle/0-0.bundle/0-0-0.bundle/0-0-0.asset"
         }, 
         {
             "asset": "FoundationTests/NSBundleTests/folderref0/0.asset", 
@@ -38,28 +46,21 @@
             "target": "folderref0/folderref0-0/0.bundle/0.asset"
         }, 
         {
-            "asset": "FoundationTests/NSBundleTests/0.bundle/0.asset", 
-            "target": "0.bundle/0.asset"
-        }, 
-        {
-            "asset": "FoundationTests/NSBundleTests/0.bundle/0-0.bundle/0-0.asset", 
-            "target": "0.bundle/0-0.bundle/0-0.asset"
-        }, 
-        {
-            "asset": "FoundationTests/NSBundleTests/0.bundle/0-0.bundle/0-0-0.bundle/0-0-0.asset", 
-            "target": "0.bundle/0-0.bundle/0-0-0.bundle/0-0-0.asset"
+            "asset": "FoundationTests/NSBundleTests/0.asset", 
+            "target": "0.asset"
         }
     ], 
     "link_flags": [], 
     "config": {
         "FEATURES": [
             "opengles2", 
-            "landscape"
+            "landscape", 
+            "write_external_storage"
         ], 
         "SHORT_VERSION": "1.0", 
         "APPLICATION_NAME": "FoundationTests", 
         "LONG_VERSION": "1.0", 
-        "APPLICATION_IDENTIFIER": "apportable.FoundationTests", 
+        "APPLICATION_IDENTIFIER": "com.apportable.FoundationTests", 
         "TEMPLATE_VALUES": {
             "PRODUCT_NAME": "FoundationTests", 
             "EXECUTABLE_NAME": "FoundationTests"
@@ -168,6 +169,20 @@
             "defines": {}
         }, 
         {
+            "source": "src/NSDataTests.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "src/NSDateTests.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
             "source": "src/NSDictionaryTests.m", 
             "header_paths": [], 
             "flags": [], 
@@ -176,6 +191,13 @@
         }, 
         {
             "source": "src/NSExceptionTests.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "src/NSFileManagerTests.m", 
             "header_paths": [], 
             "flags": [], 
             "language": "objc", 
@@ -238,6 +260,13 @@
             "defines": {}
         }, 
         {
+            "source": "src/NSSetTests.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
             "source": "src/NSSortDescriptorTests.m", 
             "header_paths": [], 
             "flags": [], 
@@ -260,6 +289,20 @@
         }, 
         {
             "source": "src/NSURLTests.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "src/NSUserDefaultsTests.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "src/NSValueTests.m", 
             "header_paths": [], 
             "flags": [], 
             "language": "objc", 
