@@ -40,6 +40,7 @@ action(NSDate) \
 action(NSDictionary) \
 action(NSException) \
 action(NSFileManager) \
+action(NSIndexSet) \
 action(NSInvocation) \
 action(NSLock) \
 action(NSMethodSignature) \
