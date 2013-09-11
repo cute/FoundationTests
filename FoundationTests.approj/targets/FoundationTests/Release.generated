@@ -60,6 +60,20 @@
         {
             "language": "objc", 
             "header_paths": [], 
+            "source": "src/NSDataTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
+            "source": "src/NSDateTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
             "source": "src/NSDictionaryTests.m", 
             "flags": [], 
             "defines": {}
@@ -68,6 +82,13 @@
             "language": "objc", 
             "header_paths": [], 
             "source": "src/NSExceptionTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
+            "source": "src/NSFileManagerTests.m", 
             "flags": [], 
             "defines": {}
         }, 
@@ -130,6 +151,13 @@
         {
             "language": "objc", 
             "header_paths": [], 
+            "source": "src/NSSetTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
             "source": "src/NSSortDescriptorTests.m", 
             "flags": [], 
             "defines": {}
@@ -154,6 +182,20 @@
             "source": "src/NSURLTests.m", 
             "flags": [], 
             "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
+            "source": "src/NSUserDefaultsTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
+            "source": "src/NSValueTests.m", 
+            "flags": [], 
+            "defines": {}
         }
     ], 
     "infoplists": [
@@ -169,10 +211,6 @@
     ], 
     "assets": [
         {
-            "asset": "FoundationTests/Default-568h@2x.png", 
-            "target": "Default-568h@2x.png"
-        }, 
-        {
             "asset": "FoundationTests/Default@2x.png", 
             "target": "Default@2x.png"
         }, 
@@ -181,20 +219,24 @@
             "target": "Default.png"
         }, 
         {
+            "asset": "FoundationTests/Default-568h@2x.png", 
+            "target": "Default-568h@2x.png"
+        }, 
+        {
             "asset": "FoundationTests/en.lproj/InfoPlist.strings", 
             "target": "en.lproj/InfoPlist.strings"
         }, 
         {
-            "asset": "FoundationTests/NSBundleTests/0.asset", 
-            "target": "0.asset"
+            "asset": "FoundationTests/NSBundleTests/0.bundle", 
+            "target": "0.bundle"
         }, 
         {
             "asset": "FoundationTests/NSBundleTests/folderref0", 
             "target": "folderref0"
         }, 
         {
-            "asset": "FoundationTests/NSBundleTests/0.bundle", 
-            "target": "0.bundle"
+            "asset": "FoundationTests/NSBundleTests/0.asset", 
+            "target": "0.asset"
         }
     ], 
     "type": "app", 
@@ -280,7 +322,7 @@
         "Foundation"
     ], 
     "config": {
-        "APPLICATION_IDENTIFIER": "apportable.FoundationTests", 
+        "APPLICATION_IDENTIFIER": "com.apportable.FoundationTests", 
         "TEMPLATE_VALUES": {
             "PRODUCT_NAME": "FoundationTests", 
             "EXECUTABLE_NAME": "FoundationTests"
