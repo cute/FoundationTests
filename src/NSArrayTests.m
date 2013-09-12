@@ -720,4 +720,29 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
+- (BOOL)testRemoveRangeExceptions
+{
+    NSMutableArray *cs = [@[@9] mutableCopy];
+    BOOL raised = NO;
+    @try {
+        [cs removeObjectAtIndex:NSNotFound];
+    }
+    @catch (NSException *caught) {
+        raised = YES;
+    }
+    testassert(raised);
+    
+    raised = NO;
+    @try {
+        [cs removeObjectAtIndex:[cs count]];
+    }
+    @catch (NSException *caught) {
+        raised = YES;
+    }
+    [cs release];
+    testassert(raised);
+    
+    return YES;
+}
+
 @end
