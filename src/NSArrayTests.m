@@ -745,4 +745,17 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
+
+- (BOOL)testContainsValue
+{
+    NSValue *bodyPoint = [NSValue valueWithPointer:(int *)0x12345678];
+    NSArray *array = [NSArray arrayWithObject:bodyPoint];
+    testassert([array containsObject:bodyPoint]);
+    
+    NSValue *bodyPoint2 = [NSValue valueWithPointer:(int *)0x12345678];
+    testassert([array containsObject:bodyPoint2]);
+    return YES;
+}
+
+
 @end
