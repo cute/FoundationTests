@@ -6,32 +6,24 @@
     ], 
     "assets": [
         {
-            "asset": "FoundationTests/Default@2x.png", 
-            "target": "Default@2x.png"
+            "asset": "FoundationTests/Default-568h@2x.png", 
+            "target": "Default-568h@2x.png"
         }, 
         {
             "asset": "FoundationTests/Default.png", 
             "target": "Default.png"
         }, 
         {
-            "asset": "FoundationTests/Default-568h@2x.png", 
-            "target": "Default-568h@2x.png"
+            "asset": "FoundationTests/Default@2x.png", 
+            "target": "Default@2x.png"
         }, 
         {
             "asset": "FoundationTests/en.lproj/InfoPlist.strings", 
             "target": "en.lproj/InfoPlist.strings"
         }, 
         {
-            "asset": "FoundationTests/NSBundleTests/0.bundle/0.asset", 
-            "target": "0.bundle/0.asset"
-        }, 
-        {
-            "asset": "FoundationTests/NSBundleTests/0.bundle/0-0.bundle/0-0.asset", 
-            "target": "0.bundle/0-0.bundle/0-0.asset"
-        }, 
-        {
-            "asset": "FoundationTests/NSBundleTests/0.bundle/0-0.bundle/0-0-0.bundle/0-0-0.asset", 
-            "target": "0.bundle/0-0.bundle/0-0-0.bundle/0-0-0.asset"
+            "asset": "FoundationTests/NSBundleTests/0.asset", 
+            "target": "0.asset"
         }, 
         {
             "asset": "FoundationTests/NSBundleTests/folderref0/0.asset", 
@@ -46,8 +38,16 @@
             "target": "folderref0/folderref0-0/0.bundle/0.asset"
         }, 
         {
-            "asset": "FoundationTests/NSBundleTests/0.asset", 
-            "target": "0.asset"
+            "asset": "FoundationTests/NSBundleTests/0.bundle/0.asset", 
+            "target": "0.bundle/0.asset"
+        }, 
+        {
+            "asset": "FoundationTests/NSBundleTests/0.bundle/0-0.bundle/0-0.asset", 
+            "target": "0.bundle/0-0.bundle/0-0.asset"
+        }, 
+        {
+            "asset": "FoundationTests/NSBundleTests/0.bundle/0-0.bundle/0-0-0.bundle/0-0-0.asset", 
+            "target": "0.bundle/0-0.bundle/0-0-0.bundle/0-0-0.asset"
         }
     ], 
     "link_flags": [], 
@@ -198,6 +198,13 @@
         }, 
         {
             "source": "src/NSFileManagerTests.m", 
+            "header_paths": [], 
+            "flags": [], 
+            "language": "objc", 
+            "defines": {}
+        }, 
+        {
+            "source": "src/NSIndexSetTests.m", 
             "header_paths": [], 
             "flags": [], 
             "language": "objc", 

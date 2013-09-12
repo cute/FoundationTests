@@ -95,6 +95,13 @@
         {
             "language": "objc", 
             "header_paths": [], 
+            "source": "src/NSIndexSetTests.m", 
+            "flags": [], 
+            "defines": {}
+        }, 
+        {
+            "language": "objc", 
+            "header_paths": [], 
             "source": "src/NSInvocationTests.m", 
             "flags": [], 
             "defines": {}
@@ -211,32 +218,32 @@
     ], 
     "assets": [
         {
-            "asset": "FoundationTests/Default@2x.png", 
-            "target": "Default@2x.png"
+            "asset": "FoundationTests/Default-568h@2x.png", 
+            "target": "Default-568h@2x.png"
         }, 
         {
             "asset": "FoundationTests/Default.png", 
             "target": "Default.png"
         }, 
         {
-            "asset": "FoundationTests/Default-568h@2x.png", 
-            "target": "Default-568h@2x.png"
+            "asset": "FoundationTests/Default@2x.png", 
+            "target": "Default@2x.png"
         }, 
         {
             "asset": "FoundationTests/en.lproj/InfoPlist.strings", 
             "target": "en.lproj/InfoPlist.strings"
         }, 
         {
-            "asset": "FoundationTests/NSBundleTests/0.bundle", 
-            "target": "0.bundle"
+            "asset": "FoundationTests/NSBundleTests/0.asset", 
+            "target": "0.asset"
         }, 
         {
             "asset": "FoundationTests/NSBundleTests/folderref0", 
             "target": "folderref0"
         }, 
         {
-            "asset": "FoundationTests/NSBundleTests/0.asset", 
-            "target": "0.asset"
+            "asset": "FoundationTests/NSBundleTests/0.bundle", 
+            "target": "0.bundle"
         }
     ], 
     "type": "app", 
