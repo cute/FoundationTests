@@ -758,4 +758,14 @@ static NSComparisonResult compare(id a, id b, void *context)
 }
 
 
+- (BOOL) testIndexesOfObjectsPassingTest
+{
+    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
+    NSIndexSet *is = [cs indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        return ([obj intValue] & 1) == 0;
+    }];
+    testassert([is count] == 2);
+    return YES;
+}
+
 @end

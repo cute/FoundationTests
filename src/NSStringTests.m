@@ -256,6 +256,14 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+
+- (BOOL) testStringByStandardizingPath
+{
+    NSString *abc = [@"/abc/" stringByStandardizingPath];
+    testassert([abc isEqualToString:@"/abc"]);
+    return YES;
+}
+
 - (BOOL)testLossyEncodingNSASCIIStringEncoding
 {
     return [self runLossyEncodingTest:NSASCIIStringEncoding];
