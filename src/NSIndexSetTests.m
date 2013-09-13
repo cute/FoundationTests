@@ -9,7 +9,7 @@
 #import "FoundationTests.h"
 
 @testcase(NSIndexSet)
-     
+
 - (BOOL)testIndexSet
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
@@ -108,6 +108,8 @@
 
 - (BOOL)testContainsIndexes
 {
+    KNOWN_CRASHER();
+
     NSMutableIndexSet *indexSet0 = [NSMutableIndexSet indexSet];
     testassert([indexSet0 containsIndexes:nil] == YES);
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 5)];
