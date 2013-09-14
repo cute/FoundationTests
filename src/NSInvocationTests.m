@@ -131,7 +131,7 @@
 
 - (BOOL)testSetArgumentAtIndexBeyondBounds
 {
-    KNOWN_CRASHER();
+    GNUSTEP_KNOWN_CRASHER();
 
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
@@ -921,7 +921,7 @@ TYPERETURN(SEL, sel, IL({@selector(self), @selector(characterAtIndex:), @selecto
 #define TESTTYPERETURN(type, nospaceType) \
 - (BOOL)test##nospaceType##Return \
 { \
-    KNOWN_CRASHER(); \
+    GNUSTEP_KNOWN_CRASHER(); \
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(nospaceType##Return)]]; \
     [inv setTarget:self]; \
     [inv setSelector:@selector(nospaceType##Return)]; \

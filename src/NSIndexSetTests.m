@@ -108,7 +108,7 @@
 
 - (BOOL)testContainsIndexes
 {
-    KNOWN_CRASHER();
+    GNUSTEP_KNOWN_CRASHER();
 
     NSMutableIndexSet *indexSet0 = [NSMutableIndexSet indexSet];
     testassert([indexSet0 containsIndexes:nil] == YES);

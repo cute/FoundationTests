@@ -464,7 +464,7 @@
 {
     // NSGetSizeAndAlignment should throw NSInvalidArgumentException on bitfields
 
-    KNOWN_CRASHER();
+    GNUSTEP_KNOWN_CRASHER();
 
     void (^block)() = ^{
         const char *type = @encode(struct { int b:23; });
@@ -527,7 +527,7 @@
 
 - (BOOL)testTypeQualifiersAndComments
 {
-    KNOWN_CRASHER();
+    GNUSTEP_KNOWN_CRASHER();
 
     // NSGetSizeAndAlignment should walk over type qualifiers,
     // represented by any of the characters in "nNoOrRV". It should
@@ -555,7 +555,7 @@
 
 - (BOOL)testEmpty
 {
-    KNOWN_CRASHER();
+    GNUSTEP_KNOWN_CRASHER();
 
     const char *type = "";
     NSUInteger size = -1;

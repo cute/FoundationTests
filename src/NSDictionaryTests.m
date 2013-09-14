@@ -103,7 +103,7 @@
 
 - (BOOL)testDoubleDeallocAllocate
 {
-    KNOWN_CRASHER();
+    GNUSTEP_KNOWN_CRASHER();
 
     NSDictionary *d = [NSDictionary alloc];
 
@@ -495,7 +495,7 @@
 
 - (BOOL)testGetObjectsAndKeys
 {
-    KNOWN_CRASHER();
+    GNUSTEP_KNOWN_CRASHER();
 
     NSDictionary *dict = @{ @"k2" : @1, @"k3" : @2, @"k1" : @3 };
     size_t size = sizeof(id) * [dict count] ;
