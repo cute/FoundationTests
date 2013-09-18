@@ -75,6 +75,84 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL)testcStringUsingEncoding
+{
+    NSString *s = @"abcd";
+    NSString *s2 = [s substringToIndex:3];
+    const char *cString = [s2 cStringUsingEncoding:NSASCIIStringEncoding];
+    testassert(cString != NULL);
+    testassert(strcmp(cString, "abc") == 0);
+    testassert(strlen(cString) == 3);
+    return YES;
+} 
+
+
+- (BOOL)testcStringUsingEncoding2
+{
+    NSString *s = @"¡™£¢∞§¶";
+    const char *cString = [s cStringUsingEncoding:NSASCIIStringEncoding];
+    testassert(cString == NULL);
+    return YES;
+}
+
+
+- (BOOL)testcStringUsingEncoding3
+{
+    NSString *s = @"¡™£¢∞§¶";
+    const char *cString = [s cStringUsingEncoding:NSUnicodeStringEncoding];
+    testassert(cString != NULL);
+    testassert(strlen(cString) == 1);
+    return YES;
+}
+
+
+- (BOOL)testCFStringGetCStringPtr
+{
+    NSString *s = @"abcd";
+    NSString *s2 = [s substringToIndex:3];
+    const char *cString = CFStringGetCStringPtr((CFStringRef)s2, kCFStringEncodingASCII);
+    testassert(cString == NULL);
+    return YES;
+}
+
+- (BOOL)testCFStringGetCStringPtr2
+{
+    NSString *s = @"abcd";
+    NSString *s2 = [s substringToIndex:3];
+    const char *cString = CFStringGetCStringPtr((CFStringRef)s2, kCFStringEncodingInvalidId);
+    testassert(cString == NULL);
+    return YES;
+}
+
+- (BOOL)testCFStringGetCStringPtr3
+{
+    NSString *s = @"abcd";
+    NSString *s2 = [s substringToIndex:3];
+    const char *cString = CFStringGetCStringPtr((CFStringRef)s2, kCFStringEncodingDOSRussian);
+    testassert(cString == NULL);
+    return YES;
+}
+
+
+- (BOOL)testCFStringGetCStringPtr4
+{
+    NSString *s = @"abcd";
+    NSString *s2 = [s substringToIndex:3];
+    const char *cString = CFStringGetCStringPtr((CFStringRef)s2, kCFStringEncodingUnicode);
+    testassert(cString == NULL);
+    return YES;
+}
+
+- (BOOL)testCFStringGetCStringPtr5
+{
+    NSString *s = @"abcd";
+    NSString *s2 = [s substringToIndex:3];
+    const char *cString = CFStringGetCStringPtr((CFStringRef)s2, kCFStringEncodingUTF32);
+    testassert(cString == NULL);
+    return YES;
+}
+
+
 - (BOOL)testLengths
 {
     // TODO
