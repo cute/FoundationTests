@@ -44,7 +44,10 @@
 		DE242DC717BFD7F600D668DF /* NSNumberTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CB817ADDA340062E7B0 /* NSNumberTests.m */; };
 		DE242DCA17C1586900D668DF /* NSDateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE242DC917C1586900D668DF /* NSDateTests.m */; };
 		DE242DCD17C2A78200D668DF /* NSFileManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE242DCC17C2A78200D668DF /* NSFileManagerTests.m */; };
+		DE6BDA8E17EA5BE8006B5392 /* NSAttributedStringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6BDA8D17EA5BE8006B5392 /* NSAttributedStringTests.m */; };
+		DE6BDA9017EA6ABD006B5392 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6BDA8F17EA6ABD006B5392 /* UIKit.framework */; };
 		DEA2B81F17DE663C00B27809 /* NSIndexSetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DEA2B81E17DE663C00B27809 /* NSIndexSetTests.m */; };
+		DEA2B82217E118F900B27809 /* NSDateFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DEA2B82117E118F900B27809 /* NSDateFormatterTests.m */; };
 		DEFB624A17C41104004908E6 /* NSValueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DEFB624917C41104004908E6 /* NSValueTests.m */; };
 		DEFB624E17CBC8E4004908E6 /* NSSetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DEFB624D17CBC8E4004908E6 /* NSSetTests.m */; };
 /* End PBXBuildFile section */
@@ -104,7 +107,10 @@
 		DE06A9F117B9B7AA0069C996 /* NSArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSArrayTests.m; sourceTree = "<group>"; };
 		DE242DC917C1586900D668DF /* NSDateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDateTests.m; sourceTree = "<group>"; };
 		DE242DCC17C2A78200D668DF /* NSFileManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSFileManagerTests.m; sourceTree = "<group>"; };
+		DE6BDA8D17EA5BE8006B5392 /* NSAttributedStringTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAttributedStringTests.m; sourceTree = "<group>"; };
+		DE6BDA8F17EA6ABD006B5392 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DEA2B81E17DE663C00B27809 /* NSIndexSetTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSIndexSetTests.m; sourceTree = "<group>"; };
+		DEA2B82117E118F900B27809 /* NSDateFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDateFormatterTests.m; sourceTree = "<group>"; };
 		DEB8A25B17BC373E0044AFB9 /* NSUserDefaultsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSUserDefaultsTests.m; sourceTree = "<group>"; };
 		DEFB624917C41104004908E6 /* NSValueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSValueTests.m; sourceTree = "<group>"; };
 		DEFB624D17CBC8E4004908E6 /* NSSetTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSSetTests.m; sourceTree = "<group>"; };
@@ -115,6 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE6BDA9017EA6ABD006B5392 /* UIKit.framework in Frameworks */,
 				47178C9217ADD9D40062E7B0 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -151,6 +158,7 @@
 		47178C8317ADD9D40062E7B0 = {
 			isa = PBXGroup;
 			children = (
+				DE6BDA8F17EA6ABD006B5392 /* UIKit.framework */,
 				47178CAC17ADDA340062E7B0 /* include */,
 				47178CAF17ADDA340062E7B0 /* src */,
 				47178C9517ADD9D40062E7B0 /* FoundationTests */,
@@ -240,6 +248,8 @@
 				DEFB624D17CBC8E4004908E6 /* NSSetTests.m */,
 				5B83DE1917D53449000B384A /* NSDataTests.m */,
 				DEA2B81E17DE663C00B27809 /* NSIndexSetTests.m */,
+				DEA2B82117E118F900B27809 /* NSDateFormatterTests.m */,
+				DE6BDA8D17EA5BE8006B5392 /* NSAttributedStringTests.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -376,6 +386,8 @@
 				DEFB624E17CBC8E4004908E6 /* NSSetTests.m in Sources */,
 				5B83DE1A17D53449000B384A /* NSDataTests.m in Sources */,
 				DEA2B81F17DE663C00B27809 /* NSIndexSetTests.m in Sources */,
+				DEA2B82217E118F900B27809 /* NSDateFormatterTests.m in Sources */,
+				DE6BDA8E17EA5BE8006B5392 /* NSAttributedStringTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
