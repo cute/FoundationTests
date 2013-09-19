@@ -26,9 +26,13 @@ BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_nor
 #define GNUSTEP_KNOWN_CRASHER()
 #endif
 
+//TODO after ICU is added
+//action(NSDateFormatter) \
+
 void runFoundationTests(void);
 
 #define TEST_CLASSES(action) \
+action(NSAttributedString) \
 action(CFRunLoop) \
 action(NSArray) \
 action(NSBlock) \
