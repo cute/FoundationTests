@@ -533,4 +533,425 @@
     return YES;
 }
 
+#pragma mark -
+#pragma mark KVC testing
+
+// https://developer.apple.com/library/ios/documentation/cocoa/conceptual/KeyValueCoding/Articles/CollectionOperators.html
+
+- (BOOL)testValueForKeyPath
+{
+    // NOTE : this also tests encapsulated NSArray and NSSet
+    
+    NSMutableSet *subset = [[NSMutableSet alloc] initWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"42", @"42", nil];
+    NSMutableArray *subarray = [[NSMutableArray alloc] initWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
+    NSMutableDictionary *loop = [[NSMutableDictionary alloc] initWithCapacity:2];
+    NSMutableDictionary *subdict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", subarray, @"subarray", loop, @"loop", subset, @"subset", nil];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:subdict, @"subdict", nil];
+
+    NSMutableArray *anArray = [[NSMutableArray alloc] initWithObjects:dict, nil];
+    [dict setObject:anArray forKey:@"anArray"];
+    
+    // inf loop ...
+    [loop setObject:dict forKey:@"dict"];
+    [loop setObject:loop forKey:@"loop"];
+
+    // Created collections should not be nil
+    testassert(subset != nil);
+    testassert(loop != nil);
+    testassert(subarray != nil);
+    testassert(subdict != nil);
+    testassert(dict != nil);
+    testassert(anArray != nil);
+    
+    // --------------------------------------------------
+    // test getting objects with various keyPaths
+    id anObj = [dict valueForKeyPath:@"subdict.subarray"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSMutableArray class]]);
+    testassert([anObj isEqual:subarray]);
+    
+    anObj = [dict valueForKeyPath:@"subdict.loop"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSMutableDictionary class]]);
+    testassert([anObj isEqual:loop]);
+    
+    anObj = [dict valueForKeyPath:@"subdict.loop.loop"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSMutableDictionary class]]);
+    testassert([anObj isEqual:loop]);
+
+    anObj = [dict valueForKeyPath:@"subdict.loop.dict"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSMutableDictionary class]]);
+    testassert([anObj isEqual:dict]);
+    
+    anObj = [dict valueForKeyPath:@"subdict.loop.loop.loop.dict.subdict.loop.dict.subdict.subarray"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSMutableArray class]]);
+    testassert([anObj isEqual:subarray]);
+
+    anObj = [dict valueForKeyPath:@"a.completely.wrong.path.that.is.syntactically.correct"];
+    testassert(anObj == nil);
+    
+    anObj = [dict valueForKeyPath:@"#!/bin/sh -c 'echo hello.world'"];
+    testassert(anObj == nil);
+
+    // --------------------------------------------------
+    // @count tests
+    anObj = [dict valueForKeyPath:@"@count"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == 2);
+    
+    anObj = [dict valueForKeyPath:@"subdict.@count"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == 6);
+    
+    anObj = [dict valueForKeyPath:@"subdict.loop.@count"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == 2);
+    
+    anObj = [dict valueForKeyPath:@"subdict.subarray.@count"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == 6);
+    
+    anObj = [dict valueForKeyPath:@"subdict.subarray.@count.right.hand.path.here.should.be.ignored"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == 6);
+    
+    anObj = [dict valueForKeyPath:@"subdict.subset.@count"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == 5);
+
+    BOOL exception = NO;
+    @try {
+        anObj = [dict valueForKeyPath:@"subdict.@count.subarray"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+        testassert([[e reason] hasSuffix:@"this class does not implement the count operation."]);
+    }
+    testassert(exception == YES);
+
+    // --------------------------------------------------
+    // @avg, @max, @min, @sum
+    
+    NSArray *operators = @[@"avg", @"max", @"min", @"sum"];
+    NSArray *results = @[
+                         @{@"valResults": @[@17, @33, @0, @0],
+                           @"valClasses": @[[NSDecimalNumber class], [NSDecimalNumber class], [NSDecimalNumber class], [NSDecimalNumber class]]
+                           },
+                         @{@"valResults": @[@101, @127, @0, @0],
+                           @"valClasses": @[[NSNumber class], [NSNumber class], [NSNull class], [NSNull class]]
+                           },
+                         @{@"valResults": @[@-2, @-6, @0, @0],
+                           @"valClasses": @[[NSNumber class], [NSNumber class], [NSNull class], [NSNull class]]
+                           },
+                         @{@"valResults": @[@103, @166, @0, @0],
+                           @"valClasses": @[[NSNumber class], [NSNumber class], [NSDecimalNumber class], [NSDecimalNumber class]]
+                           },
+                         ];
+    unsigned int i=0;
+    for (NSString *op in operators)
+    {
+        NSLog(@"testing for operator : %@", op);
+        unsigned int j=0;
+        NSDictionary *cribSheet = [results objectAtIndex:i];
+        NSArray *valClasses = [cribSheet objectForKey:@"valClasses"];
+        NSArray *valResults = [cribSheet objectForKey:@"valResults"];
+        
+        anObj = [dict valueForKeyPath:[NSString stringWithFormat:@"subdict.subarray.@%@.intValue", op]];
+        testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
+        testassert([anObj intValue] == [[valResults objectAtIndex:j] intValue]);
+        ++j;
+
+        anObj = [dict valueForKeyPath:[NSString stringWithFormat:@"subdict.subset.@%@.floatValue", op]];
+        testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
+        testassert([anObj intValue] == [[valResults objectAtIndex:j] intValue]);
+        ++j;
+
+        anObj = [dict valueForKeyPath:[NSString stringWithFormat:@"anArray.@%@.dict.subdict.subset.floatValue", op]];
+        testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
+        testassert([anObj intValue] == [[valResults objectAtIndex:j] intValue]);
+        ++j;
+
+        anObj = [dict valueForKeyPath:[NSString stringWithFormat:@"anArray.@%@.dict.subdict.subset", op]];
+        testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
+        testassert([anObj intValue] == [[valResults objectAtIndex:j] intValue]);
+        ++j;
+
+        exception = NO;
+        @try {
+            anObj = [dict valueForKeyPath:[NSString stringWithFormat:@"subdict.@%@.intValue", op]];
+        }
+        @catch (NSException *e) {
+            exception = YES;
+            testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+            NSString *s = [NSString stringWithFormat:@"this class does not implement the %@ operation.", op];
+            testassert([[e reason] hasSuffix:s]);
+        }
+        testassert(exception == YES);
+
+        exception = NO;
+        @try {
+            anObj = [dict valueForKeyPath:[NSString stringWithFormat:@"subdict.subarray.@%@.invalidKey", op]];
+        }
+        @catch (NSException *e) {
+            exception = YES;
+            testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+            testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key invalidKey."]);
+        }
+        testassert(exception == YES);
+        
+        ++i;
+    }
+
+    // --------------------------------------------------
+    // ALLOC another array for specific tests...
+    
+    NSMutableArray *anotherArray = [[NSMutableArray alloc] initWithCapacity:5];
+    [anotherArray addObject:anArray];
+    [anotherArray addObject:subarray];
+    [anotherArray addObject:@[@"foo", @"bar"]];
+    [anotherArray addObject:@[@"foo", @"bar"]];
+    //[anotherArray addObject:anotherArray]; -- recursion will crash @{distinctU,u}nionOf{Objects,Arrays}
+    [subdict setObject:anotherArray forKey:@"anotherArray"];
+
+    // --------------------------------------------------
+    // @unionOfObjects @distinctUnionOfObjects
+
+    anObj = [dict valueForKeyPath:@"subdict.subarray.@unionOfObjects.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSArray class]]);
+    testassert([anObj count] == 6);
+    
+    anObj = [dict valueForKeyPath:@"subdict.subarray.@distinctUnionOfObjects.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSArray class]]);
+    testassert([anObj count] == 4);
+    
+    anObj = [dict valueForKeyPath:@"subdict.subset.@distinctUnionOfObjects.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSSet class]]);
+    testassert([anObj count] == 5);
+    
+    anObj = [dict valueForKeyPath:@"subdict.anotherArray.@distinctUnionOfObjects.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSArray class]]);
+    testassert([anObj count] == 3);
+    
+    anObj = [dict valueForKeyPath:@"subdict.anotherArray.@unionOfObjects.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSArray class]]);
+    testassert([anObj count] == 4);
+    
+    exception = NO;
+    @try {
+        anObj = [dict valueForKeyPath:@"subdict.subset.@unionOfObjects.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+        testassert([[e reason] hasSuffix:@"this class does not implement the unionOfObjects operation."]);
+    }
+    testassert(exception == YES);
+    
+    exception = NO;
+    @try {
+        anObj = [dict valueForKeyPath:@"@distinctUnionOfObjects.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+        testassert([[e reason] hasSuffix:@"this class does not implement the distinctUnionOfObjects operation."]);
+    }
+    testassert(exception == YES);
+    
+    // --------------------------------------------------
+    // @unionOfArrays @distinctUnionOfArrays
+    // NOTE : seems to only work on an NSArray of NSArrays (returns NSArray) --OR-- NSSet of NSArrays (returns NSSet)
+
+    anObj = [dict valueForKeyPath:@"subdict.anotherArray.@unionOfArrays.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSArray class]]);
+    testassert([anObj count] == 11);
+    
+    anObj = [dict valueForKeyPath:@"subdict.anotherArray.@distinctUnionOfArrays.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSArray class]]);
+    testassert([anObj count] == 7);
+    
+    // NSSet positive test
+    NSMutableSet *anotherSet = [[NSMutableSet alloc] initWithCapacity:5];
+    [anotherSet addObject:anArray];
+    [anotherSet addObject:subarray];
+    [anotherSet addObject:@[@"foo", @"bar"]];
+    [anotherSet addObject:@[@"foo", @"bar"]];
+    [subdict setObject:anotherSet forKey:@"anotherSet"];
+    anObj = [dict valueForKeyPath:@"subdict.anotherSet.@distinctUnionOfArrays.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSSet class]]);
+    testassert([anObj count] == 7);
+    
+    exception = NO;
+    @try {
+        anObj = [dict valueForKeyPath:@"subdict.subarray.@distinctUnionOfArrays.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+        testassert([[e reason] hasSuffix:@"array argument is not an NSArray"]);
+    }
+    testassert(exception == YES);
+    
+    exception = NO;
+    @try {
+        anObj = [dict valueForKeyPath:@"subdict.subarray.@unionOfArrays.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+        testassert([[e reason] hasSuffix:@"array argument is not an NSArray"]);
+    }
+    testassert(exception == YES);
+    
+    // Also verify exception occurs on NSSet
+    exception = NO;
+    @try {
+        anObj = [dict valueForKeyPath:@"subdict.subset.@distinctUnionOfArrays.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+        testassert([[e reason] hasSuffix:@"array argument is not an NSArray"]);
+    }
+    testassert(exception == YES);
+
+    exception = NO;
+    @try {
+        anObj = [dict valueForKeyPath:@"subdict.subset.@unionOfArrays.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+        testassert([[e reason] hasSuffix:@"this class does not implement the unionOfArrays operation."]);
+    }
+    testassert(exception == YES);
+    
+    exception = NO;
+    @try {
+        anObj = [dict valueForKeyPath:@"@unionOfArrays.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+        testassert([[e reason] hasSuffix:@"this class does not implement the unionOfArrays operation."]);
+    }
+    testassert(exception == YES);
+    
+    exception = NO;
+    @try {
+        anObj = [dict valueForKeyPath:@"@distinctUnionOfArrays.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+        testassert([[e reason] hasSuffix:@"this class does not implement the distinctUnionOfArrays operation."]);
+    }
+    testassert(exception == YES);
+
+    // --------------------------------------------------
+    // @distinctUnionOfSets
+    // NOTE : seems to only work on an NSSet of NSSets (returns NSSet) --OR-- NSArray of NSSets (returns NSArray)
+    
+    [anotherArray removeAllObjects];
+    [anotherArray addObject:[NSSet setWithArray:anArray]];
+    [anotherArray addObject:[NSSet setWithArray:subarray]];
+    [anotherArray addObject:[NSSet setWithArray:@[@"foo", @"bar"]]];
+    [anotherArray addObject:[NSSet setWithArray:@[@"foo", @"bar"]]];
+    
+    [anotherSet removeAllObjects];
+    [anotherSet addObject:[NSSet setWithArray:anArray]];
+    [anotherSet addObject:[NSSet setWithArray:subarray]];
+    [anotherSet addObject:[NSSet setWithArray:@[@"foo", @"bar"]]];
+    [anotherSet addObject:[NSSet setWithArray:@[@"foo", @"bar"]]];
+    
+    anObj = [dict valueForKeyPath:@"subdict.anotherSet.@distinctUnionOfSets.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSSet class]]);
+    testassert([anObj count] == 6);
+    
+    anObj = [dict valueForKeyPath:@"subdict.anotherArray.@distinctUnionOfSets.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSArray class]]);
+    testassert([anObj count] == 6);
+
+    exception = NO;
+    @try {
+        anObj = [dict valueForKeyPath:@"subdict.subset.@distinctUnionOfSets.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+        testassert([[e reason] hasSuffix:@"set argument is not an NSSet"]);
+    }
+    testassert(exception == YES);
+    
+    exception = NO;
+    @try {
+        anObj = [dict valueForKeyPath:@"subdict.subarray.@distinctUnionOfSets.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+        testassert([[e reason] hasSuffix:@"set argument is not an NSSet"]);
+    }
+    testassert(exception == YES);
+    
+    exception = NO;
+    @try {
+        anObj = [dict valueForKeyPath:@"subdict.@distinctUnionOfSets.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+        testassert([[e reason] hasSuffix:@"this class does not implement the distinctUnionOfSets operation."]);
+    }
+    testassert(exception == YES);
+
+    // --------------------------------------------------
+    
+    [anotherSet release];
+    [anotherArray release];
+
+    [subset release];
+    [subarray release];
+    [loop release];
+    [subdict release];
+    [dict release];
+    [anArray release];
+    
+    return YES;
+}
+
+- (BOOL) _assertClass:(Class)clazz forObject:(NSObject*)anObj
+{
+    if ([clazz isEqual:[NSNull class]])
+    {
+        testassert((anObj == nil) || [anObj isKindOfClass:[NSNull class]]);
+    }
+    else
+    {
+        testassert([anObj isKindOfClass:clazz]);
+    }
+    
+    return YES;
+}
+
 @end
