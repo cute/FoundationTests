@@ -672,7 +672,6 @@
     testassert([[NSNumber numberWithLongLong:-23] boolValue] == YES);
     testassert([[NSNumber numberWithLongLong:42] boolValue] == YES);
     testassert([[NSNumber numberWithLongLong:LLONG_MAX] boolValue] == YES);
-    testassert([[NSNumber numberWithLongLong:LLONG_MIN] boolValue] == NO); // iOS bug!
 
     testassert([[NSNumber numberWithLongLong:0] charValue] == (char)0);
     testassert([[NSNumber numberWithLongLong:-23] charValue] == (char)-23);
@@ -709,6 +708,8 @@
     testassert([[NSNumber numberWithLongLong:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithLongLong:LLONG_MAX] unsignedIntValue] == (unsigned int)LLONG_MAX);
     testassert([[NSNumber numberWithLongLong:LLONG_MIN] unsignedIntValue] == (unsigned int)LLONG_MIN);
+    
+    testassert([[NSNumber numberWithLongLong:LLONG_MIN] boolValue] == NO); // iOS bug!
     
     return YES;
 }
