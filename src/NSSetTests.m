@@ -507,4 +507,12 @@
     return YES;
 }
 
+- (BOOL)testSetCreationWithVariousObjectsAndDuplicates
+{
+    NSMutableSet *aSet = [[NSMutableSet alloc] initWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"42", @"42", nil];
+    testassert([aSet count] == 5);
+    [aSet release];
+    return YES;
+}
+
 @end
