@@ -676,6 +676,28 @@
         testassert([[e reason] hasSuffix:@"this class does not implement the count operation."]);
     }
     testassert(exception == YES);
+    
+    exception = NO;
+    @try {
+        anObj = [dict valueForKeyPath:@"@anInvalidOperator.with.a.remainder.path"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+        testassert([[e reason] hasSuffix:@"this class does not implement the anInvalidOperator operation."]);
+    }
+    testassert(exception == YES);
+    
+    exception = NO;
+    @try {
+        anObj = [dict valueForKeyPath:@"@anInvalidOperator"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+        testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key anInvalidOperator."]);
+    }
+    testassert(exception == YES);
 
     // --------------------------------------------------
     // @avg, @max, @min, @sum
