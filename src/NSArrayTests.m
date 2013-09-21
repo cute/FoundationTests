@@ -768,4 +768,404 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
+#pragma mark -
+#pragma mark KVC testing
+
+// https://developer.apple.com/library/ios/documentation/cocoa/conceptual/KeyValueCoding/Articles/CollectionOperators.html
+
+- (BOOL)testValueForKeyPath
+{
+    NSDictionary *subdict = [[NSDictionary alloc] initWithObjects:@[@"fooVal", @"barVal"] forKeys:@[@"fooKey", @"barKey"]];
+    
+    NSMutableArray *anArray = [[NSMutableArray alloc] initWithObjects:subdict, [NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+    
+    NSMutableArray *recursiveArray = [[NSMutableArray alloc] initWithCapacity:5];
+    [recursiveArray addObject:recursiveArray];
+    [recursiveArray addObject:@[@"foo", @"bar"]];
+    [recursiveArray addObject:@[@"foo", @"bar"]];
+    
+    NSMutableArray *anotherArray = [[NSMutableArray alloc] initWithCapacity:5];
+    [recursiveArray addObject:@[@"foo", @"bar"]];
+    [recursiveArray addObject:@[@"foo", @"bar"]];
+    
+    //[anotherArray addObject:anotherArray]; -- recursion will crash @{distinctU,u}nionOf{Objects,Arrays}
+    
+    // Created collections should not be nil
+    testassert(subdict != nil);
+    testassert(anArray != nil);
+    testassert(recursiveArray != nil);
+    testassert(anotherArray != nil);
+    
+    BOOL exception = NO;
+    id anObj;
+    
+    // --------------------------------------------------
+    // random path tests
+    
+    @try {
+        anObj = [anArray valueForKeyPath:nil];
+    }
+    @catch (NSException *e) {
+        NSLog(@"%@ - %@ - %@", [e name], [e reason], [e userInfo]);
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+        testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key (null)."]);
+    }
+    testassert_exception_and_reset(exception);
+    
+    @try {
+        anObj = [anArray valueForKeyPath:@"lastObject"];
+    }
+    @catch (NSException *e) {
+        NSLog(@"%@ - %@ - %@", [e name], [e reason], [e userInfo]);
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+        testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key lastObject."]);
+    }
+    testassert_exception_and_reset(exception);
+    
+    @try {
+        anObj = [anArray valueForKeyPath:@""];
+    }
+    @catch (NSException *e) {
+        NSLog(@"%@ - %@ - %@", [e name], [e reason], [e userInfo]);
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+        testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key ."]);
+    }
+    testassert_exception_and_reset(exception);
+    
+    @try {
+        anObj = [anArray valueForKeyPath:@"."];
+    }
+    @catch (NSException *e) {
+        NSLog(@"%@ - %@ - %@", [e name], [e reason], [e userInfo]);
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+        testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key ."]);
+    }
+    testassert_exception_and_reset(exception);
+    
+    @try {
+        anObj = [anArray valueForKeyPath:@"@"];
+    }
+    @catch (NSException *e) {
+        NSLog(@"%@ - %@ - %@", [e name], [e reason], [e userInfo]);
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+        testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key ."]);
+    }
+    testassert_exception_and_reset(exception);
+    
+    @try {
+        anObj = [anArray valueForKeyPath:@"1"];
+    }
+    @catch (NSException *e) {
+        NSLog(@"%@ - %@ - %@", [e name], [e reason], [e userInfo]);
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+        testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key 1."]);
+    }
+    testassert_exception_and_reset(exception);
+    
+    @try {
+        anObj = [anArray valueForKeyPath:@"@1"];
+    }
+    @catch (NSException *e) {
+        NSLog(@"%@ - %@ - %@", [e name], [e reason], [e userInfo]);
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+        testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key 1."]);
+    }
+    testassert_exception_and_reset(exception);
+    
+    @try {
+        anObj = [anArray valueForKeyPath:@"@@@@@@@"];
+    }
+    @catch (NSException *e) {
+        NSLog(@"%@ - %@ - %@", [e name], [e reason], [e userInfo]);
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+        testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key @@@@@@."]);
+    }
+    testassert_exception_and_reset(exception);
+
+    // --------------------------------------------------
+    // @count tests
+    anObj = [anArray valueForKeyPath:@"@count"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == 11);
+    
+    anObj = [anArray valueForKeyPath:@"@count.should.ignore.right.hand.path"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == 11);
+    
+    @try {
+        anObj = [anArray valueForKeyPath:@"foo@count"];
+    }
+    @catch (NSException *e) {
+        NSLog(@"%@ - %@ - %@", [e name], [e reason], [e userInfo]);
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+        testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key foo@count."]);
+    }
+    testassert_exception_and_reset(exception);
+
+    // --------------------------------------------------
+    // @max, @min, @avg, @sum
+    
+    //anObj = [recursiveArray valueForKeyPath:@"@max.count"]; -- stack overflow in iOS simulator
+    //anObj = [recursiveArray valueForKeyPath:@"@min.count"]; -- ditto
+    //anObj = [recursiveArray valueForKeyPath:@"@avg.count"]; -- ditto
+    //anObj = [recursiveArray valueForKeyPath:@"@sum.count"]; -- ditto
+    
+    NSArray *operators = @[@"max", @"min", @"avg", @"sum"];
+    NSArray *results = @[
+                         @{@"valResults": @[@127, @127, [NSNull null], @"another constant NSString with a long description"],
+                           @"valClasses": @[[NSNumber class], [NSNumber class], [NSNumber class], [NSString class]]
+                           },
+                         @{@"valResults": @[@-127, @-127, [NSNull null], @""],
+                           @"valClasses": @[[NSNumber class], [NSNumber class], [NSNumber class], [NSString class]]
+                           },
+                         @{@"valResults": @[@7, @7],
+                           @"valClasses": @[[NSNumber class], [NSNumber class], [NSNumber class], [NSNull class]]
+                           },
+                         @{@"valResults": @[@82, @81, @0, @"NaN"],
+                           @"valClasses": @[[NSNumber class], [NSNumber class], [NSNumber class], [NSDecimalNumber class]]
+                           },
+                         ];
+    unsigned int i=0;
+    for (NSString *op in operators)
+    {
+        NSLog(@"testing for operator : %@", op);
+        
+        unsigned int j=0;
+        NSDictionary *cribSheet = [results objectAtIndex:i];
+        NSArray *valClasses = [cribSheet objectForKey:@"valClasses"];
+        NSArray *valResults = [cribSheet objectForKey:@"valResults"];
+        
+        anObj = [anArray valueForKeyPath:[NSString stringWithFormat:@"@%@.intValue", op]];
+        testassert(anObj != nil);
+        testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
+        testassert([anObj intValue] == [[valResults objectAtIndex:j] intValue]);
+        ++j;
+        
+        anObj = [anArray valueForKeyPath:[NSString stringWithFormat:@"@%@.floatValue", op]];
+        testassert(anObj != nil);
+        testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
+        testassert([anObj intValue] == [[valResults objectAtIndex:j] intValue]);
+        ++j;
+        
+        // array of arrays
+        anObj = [anotherArray valueForKeyPath:[NSString stringWithFormat:@"@%@.count", op]];
+        if ([op isEqualToString:@"sum"])
+        {
+            testassert(anObj != nil);
+            testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
+            testassert([anObj intValue] == [[valResults objectAtIndex:j] intValue]);
+        }
+        else
+        {
+            testassert(anObj == nil);
+        }
+        ++j;
+        
+        if ([op isEqualToString:@"avg"])
+        {
+            // cannot call @avg.description && @sum.description
+            @try {
+                anObj = [anArray valueForKeyPath:[NSString stringWithFormat:@"@%@.description", op]];
+            }
+            @catch (NSException *e) {
+                NSLog(@"%@ - %@ - %@", [e name], [e reason], [e userInfo]);
+                exception = YES;
+                testassert([[e name] isEqualToString:@"NSDecimalNumberOverflowException"]);
+                testassert([[e reason] hasSuffix:@"NSDecimalNumber overflow exception"]);
+            }
+            testassert_exception_and_reset(exception);
+        }
+        else
+        {
+            anObj = [anArray valueForKeyPath:[NSString stringWithFormat:@"@%@.description", op]];
+            testassert(anObj != nil);
+            testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
+            testassert([[anObj description] isEqual:[[valResults objectAtIndex:j] description]]);
+        }
+
+        // throw exception with invalid prefix --
+        @try {
+            anObj = [anArray valueForKeyPath:[NSString stringWithFormat:@"foo@%@.description", op]];
+        }
+        @catch (NSException *e) {
+            NSLog(@"%@ - %@ - %@", [e name], [e reason], [e userInfo]);
+            exception = YES;
+            testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+            NSString *str = [NSString stringWithFormat:@"this class is not key value coding-compliant for the key foo@%@.", op];
+            testassert([[e reason] hasSuffix:str]);
+        }
+        testassert_exception_and_reset(exception);
+
+        // throw exception for no suffix --
+        @try {
+            anObj = [anArray valueForKeyPath:[NSString stringWithFormat:@"@%@", op]];
+        }
+        @catch (NSException *e) {
+            NSLog(@"%@ - %@ - %@", [e name], [e reason], [e userInfo]);
+            exception = YES;
+            testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+            NSString *str = [NSString stringWithFormat:@"this class is not key value coding-compliant for the key %@.", op];
+            testassert([[e reason] hasSuffix:str]);
+        }
+        testassert_exception_and_reset(exception);
+        
+        // throw exception for invalid suffix --
+        @try {
+            anObj = [anArray valueForKeyPath:[NSString stringWithFormat:@"@%@.foobar", op]];
+        }
+        @catch (NSException *e) {
+            NSLog(@"%@ - %@ - %@", [e name], [e reason], [e userInfo]);
+            exception = YES;
+            testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+            NSString *str = [NSString stringWithFormat:@"this class is not key value coding-compliant for the key foobar."];
+            testassert([[e reason] hasSuffix:str]);
+        }
+        testassert_exception_and_reset(exception);
+
+        ++i;
+    }
+
+    // --------------------------------------------------
+    // @unionOfObjects @distinctUnionOfObjects
+    
+    anObj = [anArray valueForKeyPath:@"@unionOfObjects.intValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSArray class]]);
+    testassert([anObj count] == 10);
+    
+    anObj = [anArray valueForKeyPath:@"@distinctUnionOfObjects.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSArray class]]);
+    testassert([anObj count] == 9);
+    
+    anObj = [anotherArray valueForKeyPath:@"@unionOfObjects.intValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSArray class]]);
+    testassert([anObj count] == 0); // FIXME, WHY ZERO?
+    
+    // @operator as last element in path ...
+    @try {
+        anObj = [anArray valueForKeyPath:@"@unionOfObjects"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+        testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key unionOfObjects."]);
+    }
+    testassert_exception_and_reset(exception);
+    
+    // --------------------------------------------------
+    // @unionOfArrays @distinctUnionOfArrays
+    // NOTE : seems to only work on an NSSet of NSArrays (returns NSArray) --OR-- NSArray of NSArray (returns NSArray)
+    
+    //anObj = [recursiveArray valueForKeyPath:@"@unionOfArrays.description"]; -- stack overflow in iOS simulator
+
+    anObj = [anotherArray valueForKeyPath:@"@unionOfArrays.doubleValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSArray class]]);
+    testassert([anObj count] == 0); // FIXME, WHY ZERO?
+    
+    anObj = [anotherArray valueForKeyPath:@"@distinctUnionOfArrays.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSArray class]]);
+    testassert([anObj count] == 0); // FIXME, WHY ZERO?
+
+    @try {
+        anObj = [anotherArray valueForKeyPath:@"@distinctUnionOfArrays"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+        testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key distinctUnionOfArrays."]);
+    }
+    testassert_exception_and_reset(exception);
+    
+    @try {
+        anObj = [anotherArray valueForKeyPath:@"@unionOfArrays"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+        testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key unionOfArrays."]);
+    }
+    testassert_exception_and_reset(exception);
+    
+    @try {
+        anObj = [anArray valueForKeyPath:@"@distinctUnionOfArrays.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+        testassert([[e reason] hasSuffix:@"array argument is not an NSArray"]);
+    }
+    testassert_exception_and_reset(exception);
+    
+    @try {
+        anObj = [anArray valueForKeyPath:@"@unionOfArrays.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+        testassert([[e reason] hasSuffix:@"array argument is not an NSArray"]);
+    }
+    testassert_exception_and_reset(exception);
+    
+    // --------------------------------------------------
+    // @distinctUnionOfSets
+    // NOTE : seems to only work on an NSSet of NSSets (returns NSSet) --OR-- NSArray of NSSets (returns NSArray)
+    
+    [anotherArray removeAllObjects];
+    [anotherArray addObject:[NSSet setWithArray:@[@"foo", @"bar"]]];
+    [anotherArray addObject:[NSSet setWithArray:@[@"foo", @"bar"]]];
+    
+    anObj = [anotherArray valueForKeyPath:@"@distinctUnionOfSets.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSArray class]]);
+    testassert([anObj count] == 2);
+    
+    @try {
+        anObj = [anArray valueForKeyPath:@"@distinctUnionOfSets.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+        testassert([[e reason] hasSuffix:@"set argument is not an NSSet"]);
+    }
+    testassert_exception_and_reset(exception);
+    
+    // --------------------------------------------------
+    
+    [anotherArray release];
+    [recursiveArray release];
+    [subdict release];
+    [anArray release];
+    
+    return YES;
+}
+
+- (BOOL) _assertClass:(Class)clazz forObject:(NSObject*)anObj
+{
+    if ([clazz isEqual:[NSNull class]])
+    {
+        testassert((anObj == nil) || [anObj isKindOfClass:[NSNull class]]);
+    }
+    else
+    {
+        testassert([anObj isKindOfClass:clazz]);
+    }
+    
+    return YES;
+}
+
 @end
