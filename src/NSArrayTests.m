@@ -803,6 +803,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     // random path tests
     
     @try {
+        exception = NO;
         anObj = [anArray valueForKeyPath:nil];
     }
     @catch (NSException *e) {
@@ -811,9 +812,10 @@ static NSComparisonResult compare(id a, id b, void *context)
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
         testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key (null)."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [anArray valueForKeyPath:@"lastObject"];
     }
     @catch (NSException *e) {
@@ -822,9 +824,10 @@ static NSComparisonResult compare(id a, id b, void *context)
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
         testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key lastObject."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [anArray valueForKeyPath:@""];
     }
     @catch (NSException *e) {
@@ -833,9 +836,10 @@ static NSComparisonResult compare(id a, id b, void *context)
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
         testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key ."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [anArray valueForKeyPath:@"."];
     }
     @catch (NSException *e) {
@@ -844,9 +848,10 @@ static NSComparisonResult compare(id a, id b, void *context)
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
         testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key ."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [anArray valueForKeyPath:@"@"];
     }
     @catch (NSException *e) {
@@ -855,9 +860,10 @@ static NSComparisonResult compare(id a, id b, void *context)
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
         testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key ."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [anArray valueForKeyPath:@"1"];
     }
     @catch (NSException *e) {
@@ -866,9 +872,10 @@ static NSComparisonResult compare(id a, id b, void *context)
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
         testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key 1."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [anArray valueForKeyPath:@"@1"];
     }
     @catch (NSException *e) {
@@ -877,9 +884,10 @@ static NSComparisonResult compare(id a, id b, void *context)
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
         testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key 1."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [anArray valueForKeyPath:@"@@@@@@@"];
     }
     @catch (NSException *e) {
@@ -888,7 +896,7 @@ static NSComparisonResult compare(id a, id b, void *context)
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
         testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key @@@@@@."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
 
     // --------------------------------------------------
     // @count tests
@@ -903,6 +911,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     testassert([anObj intValue] == 11);
     
     @try {
+        exception = NO;
         anObj = [anArray valueForKeyPath:@"foo@count"];
     }
     @catch (NSException *e) {
@@ -911,7 +920,7 @@ static NSComparisonResult compare(id a, id b, void *context)
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
         testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key foo@count."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
 
     // --------------------------------------------------
     // @max, @min, @avg, @sum
@@ -976,6 +985,7 @@ static NSComparisonResult compare(id a, id b, void *context)
         {
             // cannot call @avg.description && @sum.description
             @try {
+                exception = NO;
                 anObj = [anArray valueForKeyPath:[NSString stringWithFormat:@"@%@.description", op]];
             }
             @catch (NSException *e) {
@@ -984,7 +994,7 @@ static NSComparisonResult compare(id a, id b, void *context)
                 testassert([[e name] isEqualToString:@"NSDecimalNumberOverflowException"]);
                 testassert([[e reason] hasSuffix:@"NSDecimalNumber overflow exception"]);
             }
-            testassert_exception_and_reset(exception);
+            testassert(exception);
         }
         else
         {
@@ -996,6 +1006,7 @@ static NSComparisonResult compare(id a, id b, void *context)
 
         // throw exception with invalid prefix --
         @try {
+            exception = NO;
             anObj = [anArray valueForKeyPath:[NSString stringWithFormat:@"foo@%@.description", op]];
         }
         @catch (NSException *e) {
@@ -1005,10 +1016,11 @@ static NSComparisonResult compare(id a, id b, void *context)
             NSString *str = [NSString stringWithFormat:@"this class is not key value coding-compliant for the key foo@%@.", op];
             testassert([[e reason] hasSuffix:str]);
         }
-        testassert_exception_and_reset(exception);
+        testassert(exception);
 
         // throw exception for no suffix --
         @try {
+            exception = NO;
             anObj = [anArray valueForKeyPath:[NSString stringWithFormat:@"@%@", op]];
         }
         @catch (NSException *e) {
@@ -1018,10 +1030,11 @@ static NSComparisonResult compare(id a, id b, void *context)
             NSString *str = [NSString stringWithFormat:@"this class is not key value coding-compliant for the key %@.", op];
             testassert([[e reason] hasSuffix:str]);
         }
-        testassert_exception_and_reset(exception);
+        testassert(exception);
         
         // throw exception for invalid suffix --
         @try {
+            exception = NO;
             anObj = [anArray valueForKeyPath:[NSString stringWithFormat:@"@%@.foobar", op]];
         }
         @catch (NSException *e) {
@@ -1031,7 +1044,7 @@ static NSComparisonResult compare(id a, id b, void *context)
             NSString *str = [NSString stringWithFormat:@"this class is not key value coding-compliant for the key foobar."];
             testassert([[e reason] hasSuffix:str]);
         }
-        testassert_exception_and_reset(exception);
+        testassert(exception);
 
         ++i;
     }
@@ -1052,10 +1065,11 @@ static NSComparisonResult compare(id a, id b, void *context)
     anObj = [anotherArray valueForKeyPath:@"@unionOfObjects.intValue"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSArray class]]);
-    testassert([anObj count] == 0); // FIXME, WHY ZERO?
+    testassert([anObj count] == 0);
     
     // @operator as last element in path ...
     @try {
+        exception = NO;
         anObj = [anArray valueForKeyPath:@"@unionOfObjects"];
     }
     @catch (NSException *e) {
@@ -1063,7 +1077,7 @@ static NSComparisonResult compare(id a, id b, void *context)
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
         testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key unionOfObjects."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     // --------------------------------------------------
     // @unionOfArrays @distinctUnionOfArrays
@@ -1082,6 +1096,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     testassert([anObj count] == 0); // FIXME, WHY ZERO?
 
     @try {
+        exception = NO;
         anObj = [anotherArray valueForKeyPath:@"@distinctUnionOfArrays"];
     }
     @catch (NSException *e) {
@@ -1089,9 +1104,10 @@ static NSComparisonResult compare(id a, id b, void *context)
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
         testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key distinctUnionOfArrays."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [anotherArray valueForKeyPath:@"@unionOfArrays"];
     }
     @catch (NSException *e) {
@@ -1099,9 +1115,10 @@ static NSComparisonResult compare(id a, id b, void *context)
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
         testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key unionOfArrays."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [anArray valueForKeyPath:@"@distinctUnionOfArrays.description"];
     }
     @catch (NSException *e) {
@@ -1109,9 +1126,10 @@ static NSComparisonResult compare(id a, id b, void *context)
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
         testassert([[e reason] hasSuffix:@"array argument is not an NSArray"]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [anArray valueForKeyPath:@"@unionOfArrays.description"];
     }
     @catch (NSException *e) {
@@ -1119,7 +1137,7 @@ static NSComparisonResult compare(id a, id b, void *context)
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
         testassert([[e reason] hasSuffix:@"array argument is not an NSArray"]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     // --------------------------------------------------
     // @distinctUnionOfSets
@@ -1135,6 +1153,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     testassert([anObj count] == 2);
     
     @try {
+        exception = NO;
         anObj = [anArray valueForKeyPath:@"@distinctUnionOfSets.description"];
     }
     @catch (NSException *e) {
@@ -1142,7 +1161,7 @@ static NSComparisonResult compare(id a, id b, void *context)
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
         testassert([[e reason] hasSuffix:@"set argument is not an NSSet"]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     // --------------------------------------------------
     

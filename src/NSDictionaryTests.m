@@ -587,6 +587,7 @@
     [subdict removeObjectForKey:@""];
     
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"subdict.subarray."];
     }
     @catch (NSException *e) {
@@ -594,7 +595,7 @@
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
         testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key ."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     anObj = [dict valueForKeyPath:@"subdict.loop"];
     testassert(anObj != nil);
@@ -630,6 +631,7 @@
     testassert([anObj intValue] == 2);
     
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"@count.subdict"];
     }
     @catch (NSException *e) {
@@ -637,7 +639,7 @@
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
         testassert([[e reason] hasSuffix:@"this class does not implement the count operation."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     anObj = [dict valueForKeyPath:@"subdict.@count"];
     testassert(anObj != nil);
@@ -665,6 +667,7 @@
     testassert([anObj intValue] == 5);
 
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"subdict.@count.subarray"];
     }
     @catch (NSException *e) {
@@ -672,9 +675,10 @@
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
         testassert([[e reason] hasSuffix:@"this class does not implement the count operation."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"@anInvalidOperator.with.a.remainder.path"];
     }
     @catch (NSException *e) {
@@ -682,9 +686,10 @@
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
         testassert([[e reason] hasSuffix:@"this class does not implement the anInvalidOperator operation."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"@anInvalidOperator"];
     }
     @catch (NSException *e) {
@@ -692,7 +697,7 @@
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
         testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key anInvalidOperator."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
 
     // --------------------------------------------------
     // @avg, @max, @min, @sum
@@ -742,6 +747,7 @@
         ++j;
         
         @try {
+            exception = NO;
             anObj = [dict valueForKeyPath:[NSString stringWithFormat:@"subdict.@%@", op]];
         }
         @catch (NSException *e) {
@@ -750,9 +756,10 @@
             NSString *s = [NSString stringWithFormat:@"this class is not key value coding-compliant for the key %@.", op];
             testassert([[e reason] hasSuffix:s]);
         }
-        testassert_exception_and_reset(exception);
+        testassert(exception);
         
         @try {
+            exception = NO;
             anObj = [dict valueForKeyPath:[NSString stringWithFormat:@"subdict.@%@.intValue", op]];
         }
         @catch (NSException *e) {
@@ -761,9 +768,10 @@
             NSString *s = [NSString stringWithFormat:@"this class does not implement the %@ operation.", op];
             testassert([[e reason] hasSuffix:s]);
         }
-        testassert_exception_and_reset(exception);
+        testassert(exception);
 
         @try {
+            exception = NO;
             anObj = [dict valueForKeyPath:[NSString stringWithFormat:@"subdict.subarray.@%@.invalidKey", op]];
         }
         @catch (NSException *e) {
@@ -771,7 +779,7 @@
             testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
             testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key invalidKey."]);
         }
-        testassert_exception_and_reset(exception);
+        testassert(exception);
         
         ++i;
     }
@@ -817,6 +825,7 @@
 
     // @operator as last element in path ...
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"subdict.subarray.@unionOfObjects"];
     }
     @catch (NSException *e) {
@@ -824,9 +833,10 @@
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
         testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key unionOfObjects."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
 
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"subdict.subset.@unionOfObjects.description"];
     }
     @catch (NSException *e) {
@@ -834,9 +844,10 @@
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
         testassert([[e reason] hasSuffix:@"this class does not implement the unionOfObjects operation."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"@distinctUnionOfObjects.description"];
     }
     @catch (NSException *e) {
@@ -844,9 +855,10 @@
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
         testassert([[e reason] hasSuffix:@"this class does not implement the distinctUnionOfObjects operation."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"@unionOfObjects.description"];
     }
     @catch (NSException *e) {
@@ -854,9 +866,10 @@
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
         testassert([[e reason] hasSuffix:@"this class does not implement the unionOfObjects operation."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"@distinctUnionOfObjects"];
     }
     @catch (NSException *e) {
@@ -864,9 +877,10 @@
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
         testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key distinctUnionOfObjects."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"@unionOfObjects"];
     }
     @catch (NSException *e) {
@@ -874,7 +888,7 @@
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
         testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key unionOfObjects."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     // --------------------------------------------------
     // @unionOfArrays @distinctUnionOfArrays
@@ -903,6 +917,7 @@
     testassert([anObj count] == 7);
     
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"subdict.subarray.@distinctUnionOfArrays.description"];
     }
     @catch (NSException *e) {
@@ -910,9 +925,10 @@
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
         testassert([[e reason] hasSuffix:@"array argument is not an NSArray"]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"subdict.subarray.@unionOfArrays.description"];
     }
     @catch (NSException *e) {
@@ -920,10 +936,11 @@
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
         testassert([[e reason] hasSuffix:@"array argument is not an NSArray"]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     // Also verify exception occurs on NSSet
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"subdict.subset.@distinctUnionOfArrays.description"];
     }
     @catch (NSException *e) {
@@ -931,9 +948,10 @@
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
         testassert([[e reason] hasSuffix:@"array argument is not an NSArray"]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
 
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"subdict.subset.@unionOfArrays.description"];
     }
     @catch (NSException *e) {
@@ -941,9 +959,10 @@
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
         testassert([[e reason] hasSuffix:@"this class does not implement the unionOfArrays operation."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"@unionOfArrays.description"];
     }
     @catch (NSException *e) {
@@ -951,9 +970,10 @@
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
         testassert([[e reason] hasSuffix:@"this class does not implement the unionOfArrays operation."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"@distinctUnionOfArrays.description"];
     }
     @catch (NSException *e) {
@@ -961,9 +981,10 @@
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
         testassert([[e reason] hasSuffix:@"this class does not implement the distinctUnionOfArrays operation."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"@unionOfArrays"];
     }
     @catch (NSException *e) {
@@ -971,9 +992,10 @@
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
         testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key unionOfArrays."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"@distinctUnionOfArrays"];
     }
     @catch (NSException *e) {
@@ -981,7 +1003,7 @@
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
         testassert([[e reason] hasSuffix:@"this class is not key value coding-compliant for the key distinctUnionOfArrays."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
 
     // --------------------------------------------------
     // @distinctUnionOfSets
@@ -1010,6 +1032,7 @@
     testassert([anObj count] == 6);
 
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"subdict.subset.@distinctUnionOfSets.description"];
     }
     @catch (NSException *e) {
@@ -1017,9 +1040,10 @@
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
         testassert([[e reason] hasSuffix:@"set argument is not an NSSet"]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"subdict.subarray.@distinctUnionOfSets.description"];
     }
     @catch (NSException *e) {
@@ -1027,9 +1051,10 @@
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
         testassert([[e reason] hasSuffix:@"set argument is not an NSSet"]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
     
     @try {
+        exception = NO;
         anObj = [dict valueForKeyPath:@"subdict.@distinctUnionOfSets.description"];
     }
     @catch (NSException *e) {
@@ -1037,7 +1062,7 @@
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
         testassert([[e reason] hasSuffix:@"this class does not implement the distinctUnionOfSets operation."]);
     }
-    testassert_exception_and_reset(exception);
+    testassert(exception);
 
     // --------------------------------------------------
     
