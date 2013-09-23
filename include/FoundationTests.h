@@ -18,7 +18,6 @@
 }
 
 #define testassert(b) do { if (!_testassert(b, __FILE__, __LINE__)) return NO; } while (NO)
-#define testassert_exception_and_reset(exception) do { testassert(exception); exception = NO; } while (NO);
 BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_noreturn));
 
 #ifdef __Foundation_h_GNUSTEP_BASE_INCLUDE
