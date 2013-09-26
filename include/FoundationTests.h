@@ -60,6 +60,7 @@ action(NSThread) \
 action(NSURL) \
 action(NSUserDefaults) \
 action(NSValue) \
+action(NSKeyValueCoding) \
 
 
 TEST_CLASSES(@testdecl)
