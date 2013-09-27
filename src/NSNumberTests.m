@@ -1005,6 +1005,21 @@
     return YES;
 }
 
+- (BOOL)testNumberComparisons
+{
+    BOOL exception = NO;
+    @try {
+        exception = NO;
+        [[NSNumber numberWithInt:42] compare:nil];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+    }
+    testassert(exception);
+    
+#warning TODO : more comparisons ...
+    return YES;
+}
 
 #warning TODO: floating point types, stringValue
 
