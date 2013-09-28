@@ -13,6 +13,14 @@
 
 @testcase(NSAttributedString)
 
+- (BOOL)testNSAttributedStringColorTest
+{
+    UIColor *one = [UIColor colorWithRed:1 green:0 blue:0 alpha:1];
+    UIColor *two = [UIColor redColor];
+    testassert([one isEqual:two]);
+    return YES;
+}
+
 - (BOOL)testNSAttributedStringString
 {
     NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"My string."];
@@ -67,6 +75,47 @@
     testassert(range.location == 0 && range.length == 7);
     return YES;
 }
+
+- (BOOL)testNSAttributedStringInitWithStringAttributedEffectiveAttributesEmpty
+{
+    NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:@"stringy"];
+    NSRange range;
+    NSDictionary *d = [attrString attributesAtIndex:3 effectiveRange:&range];
+    testassert(range.location == 0 && range.length == 7);
+    testassert([d count] == 0);
+    
+    id obj = [attrString attribute:@"foo" atIndex:5 effectiveRange:&range];
+    testassert(range.location == 0 && range.length == 7);
+    testassert(obj == nil);
+    
+    return YES;
+}
+
+- (BOOL)testNSAttributedStringInitWithStringAttributedEffectiveAttributesEmptyMutable
+{
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@"stringy"];
+    NSRange range;
+    [attrString attributesAtIndex:3 effectiveRange:&range];
+    testassert(range.location == 0 && range.length == 7);
+    
+    [attrString addAttribute:NSBackgroundColorAttributeName value:[UIColor yellowColor] range:NSMakeRange(3,2)];
+    [attrString attributesAtIndex:1 effectiveRange:&range];
+    testassert(range.location == 0 && range.length == 3);
+    
+    [attrString attributesAtIndex:6 effectiveRange:&range];
+    testassert(range.location == 5 && range.length == 2);
+    
+    NSDictionary *d = [attrString attributesAtIndex:0 effectiveRange:&range];
+    testassert(range.location == 0 && range.length == 3);
+    testassert([d count] == 0);
+    
+    id obj = [attrString attribute:@"foo" atIndex:5 effectiveRange:&range];
+    testassert(range.location == 5 && range.length == 2);
+    testassert(obj == nil);
+    
+    return YES;
+}
+
 
 - (BOOL)testNSAttributedStringStringMutable
 {
@@ -178,6 +227,26 @@
     return YES;
 }
 
+- (BOOL)testNSAttributedStringInitWithStringAttributes
+{
+    UIColor *yellow = [UIColor yellowColor];
+    UIColor *blue = [UIColor blueColor];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@"stringy"];
+    [attrString addAttribute:NSFontAttributeName value:yellow range:NSMakeRange(2,3)];
+    [attrString addAttribute:NSBackgroundColorAttributeName value:yellow range:NSMakeRange(3,3)];
+    [attrString addAttribute:NSBackgroundColorAttributeName value:blue range:NSMakeRange(4,2)];
+    
+    NSDictionary *d = [attrString attributesAtIndex:1 effectiveRange:nil];
+    testassert([d count] == 0);
+    testassert([[attrString attributesAtIndex:1 effectiveRange:nil] count] == 0);
+    testassert([[attrString attributesAtIndex:2 effectiveRange:nil] count] == 1);
+    testassert([[attrString attributesAtIndex:3 effectiveRange:nil] count] == 2);
+    testassert([[attrString attributesAtIndex:4 effectiveRange:nil] count] == 2);
+    testassert([[attrString attributesAtIndex:5 effectiveRange:nil] count] == 1);
+    testassert([[attrString attributesAtIndex:6 effectiveRange:nil] count] == 0);
+    return YES;
+}
+
 
 - (BOOL)testNSAttributedStringInitWithStringAttributedEffectiveMutableMerge1
 {
@@ -228,8 +297,7 @@
     
     [attrString addAttribute:NSBackgroundColorAttributeName value:[UIColor yellowColor] range:NSMakeRange(4,2)];
     [attrString attribute:NSBackgroundColorAttributeName atIndex:3 effectiveRange:&range];
-#warning "Make the implementation defined effectiveRange match iOS
-    testassert(range.location == 3 && range.length >= 1);
+    testassert(range.location == 3 && range.length == 3);
     
     id foo = [attrString attribute:NSBackgroundColorAttributeName atIndex:2 effectiveRange:&range];
     testassert(foo == nil);
@@ -264,8 +332,7 @@
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:preAttrString];
     
     [attrString attribute:NSBackgroundColorAttributeName atIndex:3 effectiveRange:&range];
-#warning "Make the implementation defined effectiveRange match iOS
-    testassert(range.location == 3 && range.length >= 1);
+    testassert(range.location == 3 && range.length == 3);
     
     id foo = [attrString attribute:NSBackgroundColorAttributeName atIndex:2 effectiveRange:&range];
     testassert(foo == nil);
@@ -282,8 +349,6 @@
     return YES;
 }
 
-
-
 - (BOOL)testNSAttributedStringInitWithStringAttributedLongestEffectiveMutableMiss
 {
     UIColor *color = [UIColor yellowColor];
@@ -298,6 +363,22 @@
     id val = [attrString attribute:NSBackgroundColorAttributeName atIndex:3 longestEffectiveRange:&range inRange:NSMakeRange(4, 2)];
     testassert(range.location == 0 && range.length == 0);
     testassert(val == color);
+    
+    return YES;
+}
+
+- (BOOL)testNSAttributedStringInitWithStringAttributedLongestEffectiveMutableMissAttributes
+{
+    UIColor *color = [UIColor yellowColor];
+    NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@"stringy"
+                                                                                   attributes:attrsDictionary];
+    [attrString addAttribute:NSBackgroundColorAttributeName value:[UIColor yellowColor] range:NSMakeRange(3,1)];
+    
+    NSRange range = NSMakeRange(1,2);
+    NSDictionary *val = [attrString attributesAtIndex:3 longestEffectiveRange:&range inRange:NSMakeRange(4, 2)];
+    testassert(range.location == 0 && range.length == 0);
+    testassert([val count] == 2);
     
     return YES;
 }
@@ -321,6 +402,46 @@
     testassert(range.location == 2 && range.length == 2);
     
     [attrString attribute:NSBackgroundColorAttributeName atIndex:2 longestEffectiveRange:&range inRange:NSMakeRange(0, 6)];
+    testassert(range.location == 2 && range.length == 2);
+    
+    [attrString addAttribute:@"foo" value:[UIColor redColor] range:NSMakeRange(2,1)];
+    [attrString attribute:NSBackgroundColorAttributeName atIndex:2 longestEffectiveRange:&range inRange:NSMakeRange(0, 6)];
+    testassert(range.location == 2 && range.length == 2);
+    
+    return YES;
+}
+
+- (BOOL)testNSAttributedStringInitWithStringAttributedLongestEffectiveMutableAttributes
+{
+    UIColor *color = [UIColor yellowColor];
+    NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@"stringy"
+                                                                                   attributes:attrsDictionary];
+    [attrString addAttribute:NSBackgroundColorAttributeName value:[UIColor yellowColor] range:NSMakeRange(3,1)];
+    
+    NSRange range;
+    [attrString attributesAtIndex:3 longestEffectiveRange:&range inRange:NSMakeRange(0, 6)];
+    testassert(range.location == 3 && range.length == 1);
+    
+    [attrString addAttribute:NSBackgroundColorAttributeName value:[UIColor yellowColor] range:NSMakeRange(2,1)];
+    [attrString attributesAtIndex:3 longestEffectiveRange:&range inRange:NSMakeRange(0, 6)];
+    testassert(range.location == 2 && range.length == 2);
+    
+    [attrString attributesAtIndex:2 longestEffectiveRange:&range inRange:NSMakeRange(0, 6)];
+    testassert(range.location == 2 && range.length == 2);
+    
+    [attrString addAttribute:@"foo" value:[UIColor redColor] range:NSMakeRange(2,1)];
+    [attrString attributesAtIndex:2 longestEffectiveRange:&range inRange:NSMakeRange(0, 6)];
+    testassert(range.location == 2 && range.length == 1);
+    
+    [attrString attributesAtIndex:3 longestEffectiveRange:&range inRange:NSMakeRange(0, 6)];
+    testassert(range.location == 3 && range.length == 1);
+    
+    [attrString addAttribute:@"foo" value:[UIColor redColor] range:NSMakeRange(3,1)];
+    [attrString attributesAtIndex:2 longestEffectiveRange:&range inRange:NSMakeRange(0, 6)];
+    testassert(range.location == 2 && range.length == 2);
+    
+    [attrString attributesAtIndex:3 longestEffectiveRange:&range inRange:NSMakeRange(0, 6)];
     testassert(range.location == 2 && range.length == 2);
     
     return YES;
@@ -404,21 +525,92 @@
     return YES;
 }
 
-
-- (BOOL)testEnumerateAttributesInRange
+- (BOOL)testNSAttributedStringAttributedSubstringFromRange
 {
-    __block BOOL found = NO;
+    UIColor *red = [UIColor redColor];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"My string."];
+    [attributedString addAttribute:NSForegroundColorAttributeName value:red range:NSMakeRange(2,2)];
+    
+    NSAttributedString *selectedString = [attributedString attributedSubstringFromRange:NSMakeRange(1,4)];
+
+    UIColor *color = [selectedString attribute:NSForegroundColorAttributeName atIndex:3 effectiveRange:nil];
+    testassert(color == nil);
+    
+    color = [selectedString attribute:NSForegroundColorAttributeName atIndex:2 effectiveRange:nil];
+    testassert(color == red);
+    
+    testassert([[selectedString attributesAtIndex:0 effectiveRange:nil] count] == 0);
+    testassert([[selectedString attributesAtIndex:1 effectiveRange:nil] count] == 1);
+    testassert([[selectedString attributesAtIndex:2 effectiveRange:nil] count] == 1);
+    testassert([[selectedString attributesAtIndex:3 effectiveRange:nil] count] == 0);
+    return YES;
+}
+
+- (BOOL)testNSAttributedStringEnumerateAttributesInRange
+{
+    __block NSUInteger found = NO;
+    __block NSUInteger count = 0;
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"My string."];
     [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(1,4)];
     
-    NSAttributedString *selectedString = [attributedString attributedSubstringFromRange:NSMakeRange(1,4)];
-    [selectedString enumerateAttributesInRange:NSMakeRange(0, [selectedString length])
+    [attributedString enumerateAttributesInRange:NSMakeRange(0, 6)
                                        options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired
                                     usingBlock:^(NSDictionary *attributes, NSRange range, BOOL *stop)
      {
-         found = [[attributes objectForKey:NSForegroundColorAttributeName] isEqual:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]];
+         found += [[attributes objectForKey:NSForegroundColorAttributeName] isEqual:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]] ? 1 : 0;
+         count++;
      }];
-    testassert(found);
+    testassert(count == 3);
+    testassert(found == 1);
+    
+    count = 0;
+    found = 0;
+    
+    NSAttributedString *selectedString = [attributedString attributedSubstringFromRange:NSMakeRange(1,4)];
+
+    [selectedString enumerateAttributesInRange:NSMakeRange(0, [selectedString length])
+                                       options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired
+                                    usingBlock:^(NSDictionary *attributes, NSRange range, BOOL *stop)
+    {
+        found += [[attributes objectForKey:NSForegroundColorAttributeName] isEqual:[UIColor colorWithRed:1 green:0 blue:0 alpha:1]] ? 1 : 0;
+        count++;
+    }];
+    testassert(count == 1);
+    testassert(found == 1);
+    return YES;
+}
+
+- (BOOL)testNSAttributedStringEnumerateAttribute
+{
+    __block NSUInteger found = 0;
+    __block NSUInteger count = 0;
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"My string."];
+    [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(1,4)];
+    
+    [attributedString enumerateAttribute:NSForegroundColorAttributeName inRange:NSMakeRange(0, 6)
+                                         options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired
+                                      usingBlock:^(id val, NSRange range, BOOL *stop)
+     {
+         found |= val != nil ? 1 : 0;
+         count++;
+     }];
+    testassert(count == 3);
+    testassert(found == 1);
+    
+    count = 0;
+    found = 0;
+    
+    NSAttributedString *selectedString = [attributedString attributedSubstringFromRange:NSMakeRange(1,4)];
+    
+    [selectedString enumerateAttribute:NSForegroundColorAttributeName inRange:NSMakeRange(0, [selectedString length])
+                                       options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired
+                                    usingBlock:^(id val, NSRange range, BOOL *stop)
+     {
+         found = val != nil ? 1 : 0;
+         count++;
+     }];
+    testassert(count == 1);
+    testassert(found == 1);
     return YES;
 }
 
