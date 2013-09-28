@@ -457,6 +457,18 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 
 #endif
 
+- (BOOL)testStringComparisons
+{
+    NSComparisonResult result = [[NSString stringWithString:@"foo"] compare:nil];
+    testassert(result == NSOrderedDescending);
+    
+    result = [@"foo" compare:nil];
+    testassert(result == NSOrderedDescending);
+    
+#warning TODO : this is incomplete ...
+    return YES;
+}
+
 @end
 
 #warning TODO: String tests & cleanup
