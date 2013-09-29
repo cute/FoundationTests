@@ -349,6 +349,48 @@
     return YES;
 }
 
+- (BOOL)testNSAttributedStringInitWithAttributedStringAttributedEffectiveMutableMergeFromImmutable
+{
+    UIColor *yellow = [UIColor yellowColor];
+    NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:yellow forKey:NSFontAttributeName];
+    NSAttributedString *preAttrString = [[NSAttributedString alloc] initWithString:@"stringy"
+                                                                                      attributes:attrsDictionary];
+
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:preAttrString];
+    
+    UIColor *color = [attrString attribute:NSFontAttributeName atIndex:2 effectiveRange:nil];
+    testassert(color == yellow);
+    
+    [attrString addAttribute:NSBackgroundColorAttributeName value:[UIColor yellowColor] range:NSMakeRange(3,1)];
+    testassert([[attrString string] isEqualToString:@"stringy"]);
+    
+    NSRange range;
+    [attrString attribute:NSBackgroundColorAttributeName atIndex:3 effectiveRange:&range];
+    testassert(range.location == 3 && range.length == 1);
+    
+    [attrString addAttribute:NSBackgroundColorAttributeName value:[UIColor yellowColor] range:NSMakeRange(4,2)];
+    
+    [attrString attribute:NSBackgroundColorAttributeName atIndex:3 effectiveRange:&range];
+    testassert(range.location == 3 && range.length == 3);
+    
+    [preAttrString attribute:NSBackgroundColorAttributeName atIndex:3 effectiveRange:&range];
+    testassert(range.location == 0 && range.length == 7);
+    
+    id foo = [attrString attribute:NSBackgroundColorAttributeName atIndex:2 effectiveRange:&range];
+    testassert(foo == nil);
+    testassert(range.location == 0 && range.length == 3);
+    
+    [attrString addAttribute:NSFontAttributeName value:[UIColor blueColor] range:NSMakeRange(4,1)];
+    
+    [attrString attribute:NSBackgroundColorAttributeName atIndex:3 effectiveRange:&range];
+    testassert(range.location == 3 && range.length == 1);
+    
+    [attrString attribute:NSBackgroundColorAttributeName atIndex:4 effectiveRange:&range];
+    testassert(range.location == 4 && range.length == 1);
+    
+    return YES;
+}
+
 - (BOOL)testNSAttributedStringInitWithStringAttributedLongestEffectiveMutableMiss
 {
     UIColor *color = [UIColor yellowColor];
