@@ -48,6 +48,7 @@
 		DE242DC717BFD7F600D668DF /* NSNumberTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CB817ADDA340062E7B0 /* NSNumberTests.m */; };
 		DE242DCA17C1586900D668DF /* NSDateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE242DC917C1586900D668DF /* NSDateTests.m */; };
 		DE242DCD17C2A78200D668DF /* NSFileManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE242DCC17C2A78200D668DF /* NSFileManagerTests.m */; };
+		DE69B48917FB4E2A00EB5F59 /* CFGetTypeIDTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE69B48817FB4E2A00EB5F59 /* CFGetTypeIDTests.m */; };
 		DE6BDA8E17EA5BE8006B5392 /* NSAttributedStringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6BDA8D17EA5BE8006B5392 /* NSAttributedStringTests.m */; };
 		DE6BDA9017EA6ABD006B5392 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6BDA8F17EA6ABD006B5392 /* UIKit.framework */; };
 		DEA2B81F17DE663C00B27809 /* NSIndexSetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DEA2B81E17DE663C00B27809 /* NSIndexSetTests.m */; };
@@ -114,6 +115,7 @@
 		DE06A9F117B9B7AA0069C996 /* NSArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSArrayTests.m; sourceTree = "<group>"; };
 		DE242DC917C1586900D668DF /* NSDateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDateTests.m; sourceTree = "<group>"; };
 		DE242DCC17C2A78200D668DF /* NSFileManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSFileManagerTests.m; sourceTree = "<group>"; };
+		DE69B48817FB4E2A00EB5F59 /* CFGetTypeIDTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CFGetTypeIDTests.m; sourceTree = "<group>"; };
 		DE6BDA8D17EA5BE8006B5392 /* NSAttributedStringTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAttributedStringTests.m; sourceTree = "<group>"; };
 		DE6BDA8F17EA6ABD006B5392 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DEA2B81E17DE663C00B27809 /* NSIndexSetTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSIndexSetTests.m; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 		47178CAF17ADDA340062E7B0 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				DE69B48817FB4E2A00EB5F59 /* CFGetTypeIDTests.m */,
 				DEB8A25B17BC373E0044AFB9 /* NSUserDefaultsTests.m */,
 				DE06A9F117B9B7AA0069C996 /* NSArrayTests.m */,
 				47178CB017ADDA340062E7B0 /* CFRunLoopTests.m */,
@@ -401,6 +404,7 @@
 				DE6BDA8E17EA5BE8006B5392 /* NSAttributedStringTests.m in Sources */,
 				4A54638817F0C18700876D50 /* NSKeyValueCodingTests.m in Sources */,
 				58B2D03917EBBC0300A999DA /* NSPortTests.m in Sources */,
+				DE69B48917FB4E2A00EB5F59 /* CFGetTypeIDTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

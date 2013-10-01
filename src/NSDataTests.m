@@ -78,24 +78,6 @@
     return YES;
 }
 
-- (BOOL) testDataCFTypeID
-{
-    NSData *data = [NSData data];
-    testassert((int)[data _cfTypeID] == CFDataGetTypeID());
-    testassert(CFGetTypeID(data) == CFDataGetTypeID());
-    [data release];
-    return YES;
-}
-
-- (BOOL) testMutableDataCFTypeID
-{
-    NSMutableData *data = [NSMutableData dataWithLength:7];
-    testassert((int)[data _cfTypeID] == CFDataGetTypeID());
-    testassert(CFGetTypeID(data) == CFDataGetTypeID());
-    [data release];
-    return YES;
-}
-
 - (BOOL) testMutableDataWithData
 {
     NSData *data = [NSData dataWithBytes:"abc" length:3];
