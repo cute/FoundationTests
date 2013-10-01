@@ -13,6 +13,10 @@ static volatile BOOL gotEndEvent = NO;
 
 - (BOOL)testPortMaker
 {
+#ifdef APPORTABLE
+    return NO;
+    // avoid crash
+#else
     dispatch_queue_t queue = dispatch_queue_create("testPortMaker", DISPATCH_QUEUE_SERIAL);
     dispatch_sync(queue, ^{
         
@@ -37,6 +41,7 @@ static volatile BOOL gotEndEvent = NO;
     data = nil;
     
     return result;
+#endif
 }
 
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode
