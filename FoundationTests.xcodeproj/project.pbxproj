@@ -17,6 +17,9 @@
 		47178CA417ADD9D40062E7B0 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47178CA317ADD9D40062E7B0 /* Default@2x.png */; };
 		47178CA617ADD9D40062E7B0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47178CA517ADD9D40062E7B0 /* Default-568h@2x.png */; };
 		4A54638817F0C18700876D50 /* NSKeyValueCodingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A54638717F0C18700876D50 /* NSKeyValueCodingTests.m */; };
+		58B2D03917EBBC0300A999DA /* NSPortTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B2D03817EBBC0300A999DA /* NSPortTests.m */; };
+		58B2D03A17EBBC0300A999DA /* NSPortTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B2D03817EBBC0300A999DA /* NSPortTests.m */; };
+		58D2CED817FA50EF00B5585D /* bigfile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 58D2CED717FA50EF00B5585D /* bigfile.txt */; };
 		5B83DE1A17D53449000B384A /* NSDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B83DE1917D53449000B384A /* NSDataTests.m */; };
 		BCA81FAA17B2E125004745B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47178C9117ADD9D40062E7B0 /* Foundation.framework */; };
 		BCA81FB117B2E125004745B2 /* FoundationTestsMac.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = BCA81FB017B2E125004745B2 /* FoundationTestsMac.1 */; };
@@ -97,6 +100,8 @@
 		47178CBC17ADDA340062E7B0 /* NSThreadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSThreadTests.m; sourceTree = "<group>"; };
 		47178CBD17ADDA340062E7B0 /* NSURLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLTests.m; sourceTree = "<group>"; };
 		4A54638717F0C18700876D50 /* NSKeyValueCodingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSKeyValueCodingTests.m; sourceTree = "<group>"; };
+		58B2D03817EBBC0300A999DA /* NSPortTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSPortTests.m; sourceTree = "<group>"; };
+		58D2CED717FA50EF00B5585D /* bigfile.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bigfile.txt; sourceTree = "<group>"; };
 		5B83DE1917D53449000B384A /* NSDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataTests.m; sourceTree = "<group>"; };
 		5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSByteCountFormatterTests.m; sourceTree = "<group>"; };
 		B02ABB8B17B5ECA000CB5C94 /* NSScannerSubclassTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScannerSubclassTests.m; sourceTree = "<group>"; };
@@ -206,6 +211,7 @@
 				47178CA117ADD9D40062E7B0 /* Default.png */,
 				47178CA317ADD9D40062E7B0 /* Default@2x.png */,
 				47178CA517ADD9D40062E7B0 /* Default-568h@2x.png */,
+				58D2CED717FA50EF00B5585D /* bigfile.txt */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -253,6 +259,7 @@
 				DEA2B81E17DE663C00B27809 /* NSIndexSetTests.m */,
 				DEA2B82117E118F900B27809 /* NSDateFormatterTests.m */,
 				DE6BDA8D17EA5BE8006B5392 /* NSAttributedStringTests.m */,
+				58B2D03817EBBC0300A999DA /* NSPortTests.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -345,6 +352,7 @@
 			files = (
 				47178C9A17ADD9D40062E7B0 /* InfoPlist.strings in Resources */,
 				47178CA217ADD9D40062E7B0 /* Default.png in Resources */,
+				58D2CED817FA50EF00B5585D /* bigfile.txt in Resources */,
 				47178CA417ADD9D40062E7B0 /* Default@2x.png in Resources */,
 				47178CA617ADD9D40062E7B0 /* Default-568h@2x.png in Resources */,
 				1AFCF48917B9AE350085CA15 /* 0.asset in Resources */,
@@ -392,6 +400,7 @@
 				DEA2B82217E118F900B27809 /* NSDateFormatterTests.m in Sources */,
 				DE6BDA8E17EA5BE8006B5392 /* NSAttributedStringTests.m in Sources */,
 				4A54638817F0C18700876D50 /* NSKeyValueCodingTests.m in Sources */,
+				58B2D03917EBBC0300A999DA /* NSPortTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +409,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCA81FC517B31394004745B2 /* main.m in Sources */,
+				58B2D03A17EBBC0300A999DA /* NSPortTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

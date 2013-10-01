@@ -61,6 +61,7 @@ action(NSURL) \
 action(NSUserDefaults) \
 action(NSValue) \
 action(NSKeyValueCoding) \
+action(NSPort) \
 
 
 TEST_CLASSES(@testdecl)
