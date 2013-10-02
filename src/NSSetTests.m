@@ -515,4 +515,63 @@
     return YES;
 }
 
+- (BOOL)testMinusSet
+{
+    NSObject *o0 = [[[NSObject alloc] init] autorelease];
+    NSObject *o1 = [[[NSObject alloc] init] autorelease];
+    NSObject *o2 = [[[NSObject alloc] init] autorelease];
+    NSObject *o3 = [[[NSObject alloc] init] autorelease];
+    
+    NSMutableSet *cs = [[NSMutableSet alloc] initWithObjects: o1, o2, o0, nil];
+    NSSet *s = [[NSSet alloc] initWithObjects:o0, o3, o2, nil];
+    
+    [cs minusSet:s];
+    testassert([cs count] == 1);
+    testassert([cs member:o1] == o1);
+    testassert([cs member:o2] == nil);
+    [cs release];
+    [s release];
+    return YES;
+}
+
+- (BOOL)testIntersectSet
+{
+    NSObject *o0 = [[[NSObject alloc] init] autorelease];
+    NSObject *o1 = [[[NSObject alloc] init] autorelease];
+    NSObject *o2 = [[[NSObject alloc] init] autorelease];
+    NSObject *o3 = [[[NSObject alloc] init] autorelease];
+    
+    NSMutableSet *cs = [[NSMutableSet alloc] initWithObjects: o1, o2, o0, nil];
+    NSSet *s = [[NSSet alloc] initWithObjects:o0, o2, o3, nil];
+    
+    [cs intersectSet:s];
+    testassert([cs count] == 2);
+    testassert([cs member:o1] == nil);
+    testassert([cs member:o2] == o2);
+    [cs release];
+    [s release];
+    return YES;
+}
+
+
+- (BOOL)testUnionSet
+{
+    NSObject *o0 = [[[NSObject alloc] init] autorelease];
+    NSObject *o1 = [[[NSObject alloc] init] autorelease];
+    NSObject *o2 = [[[NSObject alloc] init] autorelease];
+    NSObject *o3 = [[[NSObject alloc] init] autorelease];
+    
+    NSMutableSet *cs = [[NSMutableSet alloc] initWithObjects: o1, o2, o0, nil];
+    NSSet *s = [[NSSet alloc] initWithObjects:o0, o2, o3, nil];
+    
+    [cs unionSet:s];
+    testassert([cs count] == 4);
+    testassert([cs member:o1] == o1);
+    testassert([cs member:o2] == o2);
+    [cs release];
+    [s release];
+    return YES;
+}
+
+
 @end
