@@ -409,6 +409,34 @@
     return YES;
 }
 
+- (BOOL)testNSAttributedStringInitWithStringAttributedLongestEffectiveAttributes
+{
+    UIColor *color = [UIColor yellowColor];
+    NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
+    NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:@"stringy" attributes:attrsDictionary];                                                                       
+    
+    NSRange range = NSMakeRange(1,2);
+    NSDictionary *val = [attrString attributesAtIndex:3 longestEffectiveRange:&range inRange:NSMakeRange(4, 2)];
+    testassert(range.location == 4 && range.length == 2);
+    testassert([val count] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testNSAttributedStringInitWithStringAttributedLongestEffectiveAttribute
+{
+    UIColor *color = [UIColor yellowColor];
+    NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
+    NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:@"stringy" attributes:attrsDictionary];
+    
+    NSRange range = NSMakeRange(1,2);
+    UIColor *color2 = [attrString attribute:NSFontAttributeName atIndex:5 longestEffectiveRange:&range inRange:NSMakeRange(4, 2)];
+    testassert(range.location == 4 && range.length == 2);
+    testassert(color2 == color);
+    
+    return YES;
+}
+
 - (BOOL)testNSAttributedStringInitWithStringAttributedLongestEffectiveMutableMissAttributes
 {
     UIColor *color = [UIColor yellowColor];
