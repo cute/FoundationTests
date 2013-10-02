@@ -567,6 +567,43 @@
     return YES;
 }
 
+- (BOOL)testNSAttributedStringCopy
+{
+    UIColor *red = [UIColor redColor];
+    NSDictionary *dict = @{NSForegroundColorAttributeName: red};
+    NSAttributedString *preCopy = [[NSAttributedString alloc] initWithString:@"My string." attributes:dict];
+    NSAttributedString *attributedString = [preCopy copy];
+    
+    
+    UIColor *color = [attributedString attribute:NSForegroundColorAttributeName atIndex:3 effectiveRange:nil];
+    testassert(color == red);
+    
+    testassert([[attributedString string] isEqualToString:@"My string."]);
+    return YES;
+}
+
+- (BOOL)testNSAttributedStringMutableCopy
+{
+    UIColor *red = [UIColor redColor];
+    NSAttributedString *preCopy = [[NSAttributedString alloc] initWithString:@"My string."];
+    NSMutableAttributedString *attributedString = [preCopy mutableCopy];
+    [attributedString addAttribute:NSForegroundColorAttributeName value:red range:NSMakeRange(2,2)];
+    
+    NSAttributedString *selectedString = [attributedString attributedSubstringFromRange:NSMakeRange(1,4)];
+    
+    UIColor *color = [selectedString attribute:NSForegroundColorAttributeName atIndex:3 effectiveRange:nil];
+    testassert(color == nil);
+    
+    color = [selectedString attribute:NSForegroundColorAttributeName atIndex:2 effectiveRange:nil];
+    testassert(color == red);
+    
+    testassert([[selectedString attributesAtIndex:0 effectiveRange:nil] count] == 0);
+    testassert([[selectedString attributesAtIndex:1 effectiveRange:nil] count] == 1);
+    testassert([[selectedString attributesAtIndex:2 effectiveRange:nil] count] == 1);
+    testassert([[selectedString attributesAtIndex:3 effectiveRange:nil] count] == 0);
+    return YES;
+}
+
 - (BOOL)testNSAttributedStringAttributedSubstringFromRange
 {
     UIColor *red = [UIColor redColor];
