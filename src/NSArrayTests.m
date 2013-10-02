@@ -804,6 +804,28 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
+- (BOOL) testEnumerateObjectsWithOptionsConcurrent
+{
+    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
+    __block int sum = 0;
+    [cs enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
+        sum += [obj intValue];
+    }];
+    testassert(sum == 10);
+    return YES;
+}
+
+- (BOOL) testEnumerateObjectsWithOptionsReverseConcurrent
+{
+    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
+    __block int sum = 0;
+    [cs enumerateObjectsWithOptions:NSEnumerationReverse | NSEnumerationConcurrent usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
+        sum += [obj intValue];
+    }];
+    testassert(sum == 10);
+    return YES;
+}
+
 //- (BOOL) testEnumerateObjectsAtIndexes
 //{
 //    NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(2,2)];
