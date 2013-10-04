@@ -19,10 +19,32 @@
 }
 
 
-- (BOOL)testPathExtensionNil
+- (BOOL)testPathExtensionEmptyStart
 {
-    NSString *s = nil;
-    testassert([s pathExtension] == nil);
+    NSString *s = @"";
+    testassert([[s pathExtension] isEqualToString:@""]);
+    return YES;
+}
+
+
+- (BOOL)testPathExtensionDot
+{
+    NSString *s = @".";
+    testassert([[s pathExtension] isEqualToString:@""]);
+    return YES;
+}
+
+- (BOOL)testPathExtensionDotEnd
+{
+    NSString *s = @"abc.";
+    testassert([[s pathExtension] isEqualToString:@""]);
+    return YES;
+}
+
+- (BOOL)testPathExtensionLeadingDot
+{
+    NSString *s = @".xyz";
+    testassert([[s pathExtension] isEqualToString:@""]);
     return YES;
 }
 
