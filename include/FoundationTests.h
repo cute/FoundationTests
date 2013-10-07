@@ -38,7 +38,6 @@ BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_nor
 void runFoundationTests(void);
 
 #define TEST_CLASSES(action) \
-action(NSURLConnection) \
 action(CFRunLoop) \
 action(CFGetTypeID) \
 action(NSAttributedString) \
