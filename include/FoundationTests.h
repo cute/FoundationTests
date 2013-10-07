@@ -26,12 +26,19 @@ BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_nor
 #define GNUSTEP_KNOWN_CRASHER()
 #endif
 
+#if defined(APPORTABLE) && !defined(__Foundation_h_GNUSTEP_BASE_INCLUDE)
+#define APPORTABLE_KNOWN_CRASHER() DEBUG_LOG("SKIPPING KNOWN CRASHING TEST!"); testassert(0)
+#else
+#define APPORTABLE_KNOWN_CRASHER()
+#endif
+
 //TODO after ICU is added
 //action(NSDateFormatter) \
 
 void runFoundationTests(void);
 
 #define TEST_CLASSES(action) \
+action(NSURLConnection) \
 action(CFRunLoop) \
 action(CFGetTypeID) \
 action(NSAttributedString) \
