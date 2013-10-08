@@ -74,7 +74,6 @@
 {
     NSMutableData *data = [NSMutableData dataWithLength:7];
     testassert([data length] == 7);
-    [data release];
     return YES;
 }
 
@@ -83,8 +82,6 @@
     NSData *data = [NSData dataWithBytes:"abc" length:3];
     NSMutableData *data2 = [NSMutableData dataWithData:data];
     testassert([data2 length] == 3);
-    [data release];
-    [data2 release];
     return YES;
 }
 
@@ -93,8 +90,6 @@
     NSMutableData *data = [NSMutableData dataWithLength:7];
     NSMutableData *data2 = [NSMutableData dataWithData:data];
     testassert([data2 length] == 7);
-    [data release];
-    [data2 release];
     return YES;
 }
 @end

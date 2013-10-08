@@ -145,7 +145,6 @@ static CFRuntimeClass MyObjectClass = {
     NSData *data = [NSData data];
     testassert((int)[data _cfTypeID] == CFDataGetTypeID());
     testassert(CFGetTypeID(data) == CFDataGetTypeID());
-    [data release];
     return YES;
 }
 
@@ -154,7 +153,6 @@ static CFRuntimeClass MyObjectClass = {
     NSMutableData *data = [NSMutableData dataWithLength:7];
     testassert((int)[data _cfTypeID] == CFDataGetTypeID());
     testassert(CFGetTypeID(data) == CFDataGetTypeID());
-    [data release];
     return YES;
 }
 
