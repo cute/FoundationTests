@@ -106,6 +106,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 }
 
 
+// Fails with XCode 5
 - (BOOL)testCFStringGetCStringPtr
 {
     NSString *s = @"abcd";
@@ -124,6 +125,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+// Fails with XCode 5
 - (BOOL)testCFStringGetCStringPtr3
 {
     NSString *s = @"abcd";
