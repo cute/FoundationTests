@@ -336,6 +336,33 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL) testStringByDeletingPathExtension
+{
+    NSString *abc = [@"abc.xyz" stringByDeletingPathExtension];
+    testassert([abc isEqualToString:@"abc"]);
+    return YES;
+}
+
+- (BOOL) testStringByDeletingPathExtension2
+{
+    NSString *abc = [@".xyz" stringByDeletingPathExtension];
+    testassert([abc isEqualToString:@".xyz"]);
+    return YES;
+}
+
+- (BOOL) testStringByDeletingPathExtension3
+{
+    NSString *abc = [@"xyz" stringByDeletingPathExtension];
+    testassert([abc isEqualToString:@"xyz"]);
+    return YES;
+}
+
+- (BOOL) testStringByDeletingPathExtension4
+{
+    NSString *abc = [@"" stringByDeletingPathExtension];
+    testassert([abc isEqualToString:@""]);
+    return YES;
+}
 
 - (BOOL) testStringByStandardizingPath
 {
