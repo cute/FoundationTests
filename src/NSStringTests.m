@@ -364,6 +364,13 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL) testStringByDeletingPathExtension5
+{
+    NSString *abc = [@"abc..xyz" stringByDeletingPathExtension];
+    testassert([abc isEqualToString:@"abc."]);
+    return YES;
+}
+
 - (BOOL) testStringByStandardizingPath
 {
     NSString *abc = [@"/abc/" stringByStandardizingPath];
