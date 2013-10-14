@@ -54,6 +54,7 @@ action(NSFileHandle) \
 action(NSFileManager) \
 action(NSIndexSet) \
 action(NSInvocation) \
+action(NSKVO) \
 action(NSLock) \
 action(NSMethodSignature) \
 action(NSNumber) \
