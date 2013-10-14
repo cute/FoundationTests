@@ -50,6 +50,7 @@ action(NSData) \
 action(NSDate) \
 action(NSDictionary) \
 action(NSException) \
+action(NSFileHandle) \
 action(NSFileManager) \
 action(NSIndexSet) \
 action(NSInvocation) \
