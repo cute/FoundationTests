@@ -8,7 +8,7 @@
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
     
     NSString *shoes = @"Wearing";
-    NSString *mayhem = @"ß!:\n\n\r;;\r\n\r\n\n\n\\\\ \\ '\"\\012345";
+    NSString *mayhem = @("ß!:\n\n\r;;\r\n\r\n\n\n\\\\ \\ '\"\\012345");
     
     [req setValue:shoes forHTTPHeaderField:@"Shoes"];
     [req setValue:mayhem forHTTPHeaderField:@"Mayhem"]; // This should fail to set
