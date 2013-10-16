@@ -55,6 +55,7 @@ action(NSFileManager) \
 action(NSIndexSet) \
 action(NSInvocation) \
 action(NSKVO) \
+action(NSLocale) \
 action(NSLock) \
 action(NSMethodSignature) \
 action(NSNumber) \
