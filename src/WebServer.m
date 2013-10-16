@@ -71,7 +71,7 @@ static void *webserver_thread(void *ctx);
     {
         char buf[2048];
         
-        int ret = recv(sessionSock, buf, sizeof(buf) - 1, MSG_PEEK);
+        ssize_t ret = recv(sessionSock, buf, sizeof(buf) - 1, MSG_PEEK);
         
         if(ret < 1)
         {
@@ -84,12 +84,14 @@ static void *webserver_thread(void *ctx);
         
         if(res)
         {
-            ret = recv(sessionSock, buf, buf - res + 4, 0);
+            ret = recv(sessionSock, buf, res - buf + 4, 0);
         }
         else
         {
             ret = recv(sessionSock, buf, ret, 0);
         }
+        
+        NSParameterAssert(ret != -1);
         
         [data appendBytes:buf length:ret];
         

@@ -11,6 +11,8 @@
 static NSMutableData *data = nil;
 static volatile BOOL gotEndEvent = NO;
 
+#if !defined(TARGET_OS_MAC) || !TARGET_OS_MAC
+
 - (BOOL)testPortMaker
 {
     APPORTABLE_KNOWN_CRASHER();
@@ -72,5 +74,7 @@ static volatile BOOL gotEndEvent = NO;
             break;
     }
 }
+
+#endif
 
 @end

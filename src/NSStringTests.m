@@ -205,6 +205,40 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL)testNullCharacters
+{
+    testassert(([[NSString stringWithFormat:@"%c", '\0'] length] == 0));
+    
+    unichar zero = 0;
+    NSString *weirdStr = [NSString stringWithCharacters:&zero length:1];
+    
+    testassert(weirdStr.length == 1);
+    
+    weirdStr = [weirdStr stringByAppendingString:@"123"];
+    
+    testassert(weirdStr.length == 4);
+    
+    weirdStr = [NSString stringWithFormat:@"%@", weirdStr];
+    
+    testassert(weirdStr.length == 4);
+    
+    weirdStr = [NSString stringWithFormat:@"%c%@", '\0', weirdStr];
+    
+    testassert(weirdStr.length == 4);
+    
+    weirdStr = [weirdStr stringByAppendingString:[NSString stringWithCharacters:&zero length:1]];
+    
+    testassert(weirdStr.length == 5);
+    
+    testassert([weirdStr characterAtIndex:0] == 0);
+    testassert([weirdStr characterAtIndex:1] == '1');
+    testassert([weirdStr characterAtIndex:2] == '2');
+    testassert([weirdStr characterAtIndex:3] == '3');
+    testassert([weirdStr characterAtIndex:4] == 0);
+    
+    return YES;
+}
+
 - (BOOL)testStringByDeletingLastPathComponent
 {
     testassert([[@"" stringByDeletingLastPathComponent] isEqualToString:@""]);
