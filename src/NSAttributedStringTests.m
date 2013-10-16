@@ -8,10 +8,15 @@
 
 #import "FoundationTests.h"
 #import <Foundation/NSAttributedString.h>
+
+#if !defined(TARGET_OS_MAC) || !TARGET_OS_MAC
 #import <UIKit/UIColor.h>
 #import <UIKit/UIFont.h>
+#endif
 
 @testcase(NSAttributedString)
+
+#if !defined(TARGET_OS_MAC) || !TARGET_OS_MAC
 
 - (BOOL)testNSAttributedStringColorTest
 {
@@ -720,5 +725,7 @@
     testassert(found == 1);
     return YES;
 }
+
+#endif
 
 @end
