@@ -61,6 +61,39 @@ static int connectTo(const char *hostname, unsigned short port)
     return fd;
 }
 
+- (BOOL)testBadDomain
+{
+    int fd = connectTo("google.com", 443);
+    
+    SSLContextRef ref = SSLCreateContext(NULL, kSSLClientSide, kSSLStreamType);
+    
+    testassert(ref != NULL);
+    
+    OSStatus res;
+    
+    res = SSLSetIOFuncs(ref, readFunc, writeFunc);
+    
+    testassert(res == 0);
+    
+    res = SSLSetConnection(ref, &fd);
+    
+    testassert(res == 0);
+    
+    res = SSLSetPeerDomainName(ref, "baddomain.com", strlen("baddomain.com"));
+    
+    testassert(res == 0);
+    
+    res = SSLHandshake(ref);
+    
+    testassert(res == errSSLXCertChainInvalid);
+    
+    CFRelease(ref);
+    
+    close(fd);
+    
+    return YES;
+}
+
 - (BOOL)testRequest
 {
     int fd = connectTo("google.com", 443);
@@ -104,6 +137,8 @@ static int connectTo(const char *hostname, unsigned short port)
     testassert(NULL != strstr(buf, "HTTP/1.0 200 OK"));
     
     CFRelease(ref);
+    
+    close(fd);
     
     return YES;
 }
