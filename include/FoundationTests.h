@@ -71,6 +71,14 @@ action(NSUserDefaults) \
 action(NSValue) \
 action(NSKeyValueCoding) \
 action(NSPort) \
+action(NSURLConnection) \
+action(NSNumberFormatter) \
+action(NSURLRequest) \
+action(NSHTTPCookieStorage) \
+action(NSCachedURLResponse) \
+action(NSURLCache) \
+action(NSURLAuthenticationChallenge) \
+action(SecItem) \
 
 
 TEST_CLASSES(@testdecl)
