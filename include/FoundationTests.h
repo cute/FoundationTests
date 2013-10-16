@@ -38,6 +38,7 @@ BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_nor
 void runFoundationTests(void);
 
 #define TEST_CLASSES(action) \
+action(SecureTransport) \
 action(CFRunLoop) \
 action(CFGetTypeID) \
 action(NSAttributedString) \
