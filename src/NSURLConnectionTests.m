@@ -5,6 +5,7 @@
 
 - (BOOL)testSynchronous
 {
+    APPORTABLE_KNOWN_CRASHER();
     NSString *urlStr = [NSString stringWithFormat:@"http://%@/website.html", [WebServer.shared hostnameString]];
     
     NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
