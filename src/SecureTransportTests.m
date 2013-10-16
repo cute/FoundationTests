@@ -8,12 +8,20 @@
 
 static OSStatus readFunc(SSLConnectionRef connection, void *data, size_t *dataLength)
 {
-    ssize_t res = recv(*(int*)connection, data, (int)*dataLength, 0);
+    void *eptr = data + *dataLength;
     
-    *dataLength = res > 0 ? res : 0;
+    ssize_t res;
     
-    if(res < 1)
-        return errSSLClosedGraceful;
+    do {
+        
+        res = read(*(int*)connection, data, eptr - data);
+        
+        if(res < 1)
+            return errSSLClosedGraceful;
+        
+        data += res;
+    
+    } while (data < eptr);
     
     return noErr;
 }
@@ -77,12 +85,7 @@ static int connectTo(const char *hostname, unsigned short port)
     
     res = SSLHandshake(ref);
     
-    if(res != 0) {
-        
-        NSLog(@"SSLHandshake error: %ld", res);
-        
-        testassert(res == 0);
-    }
+    testassert(res == 0);
     
     const char *request = "GET / HTTP/1.0\r\n\r\n";
     size_t proccessed = 0;
