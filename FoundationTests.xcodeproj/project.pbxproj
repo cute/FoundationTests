@@ -74,6 +74,11 @@
 		58C57F34180E16EF008C28D3 /* SecItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C57F33180E16EF008C28D3 /* SecItemTests.m */; };
 		58C57F37180E17BD008C28D3 /* WebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C57F36180E17BD008C28D3 /* WebServer.m */; };
 		58D2CED817FA50EF00B5585D /* bigfile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 58D2CED717FA50EF00B5585D /* bigfile.txt */; };
+		58DD2827180F51F7007C4D8F /* SecureTransportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58DD2826180F51F7007C4D8F /* SecureTransportTests.m */; };
+		58DD2828180F51F7007C4D8F /* SecureTransportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58DD2826180F51F7007C4D8F /* SecureTransportTests.m */; };
+		58DD282B180F520E007C4D8F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58DD282A180F520E007C4D8F /* Security.framework */; };
+		58DD282D180F5213007C4D8F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58DD282C180F5213007C4D8F /* Security.framework */; };
+		58DD282E180F55E7007C4D8F /* NSLocaleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE212C22180EF73300DDB3AA /* NSLocaleTests.m */; };
 		5B83DE1A17D53449000B384A /* NSDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B83DE1917D53449000B384A /* NSDataTests.m */; };
 		BCA81FAA17B2E125004745B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47178C9117ADD9D40062E7B0 /* Foundation.framework */; };
 		BCA81FB117B2E125004745B2 /* FoundationTestsMac.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = BCA81FB017B2E125004745B2 /* FoundationTestsMac.1 */; };
@@ -172,6 +177,9 @@
 		58C57F35180E17BD008C28D3 /* WebServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebServer.h; sourceTree = "<group>"; };
 		58C57F36180E17BD008C28D3 /* WebServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebServer.m; sourceTree = "<group>"; };
 		58D2CED717FA50EF00B5585D /* bigfile.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bigfile.txt; sourceTree = "<group>"; };
+		58DD2826180F51F7007C4D8F /* SecureTransportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecureTransportTests.m; sourceTree = "<group>"; };
+		58DD282A180F520E007C4D8F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		58DD282C180F5213007C4D8F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		5B83DE1917D53449000B384A /* NSDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataTests.m; sourceTree = "<group>"; };
 		5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSByteCountFormatterTests.m; sourceTree = "<group>"; };
 		B02ABB8B17B5ECA000CB5C94 /* NSScannerSubclassTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScannerSubclassTests.m; sourceTree = "<group>"; };
@@ -202,6 +210,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58DD282B180F520E007C4D8F /* Security.framework in Frameworks */,
 				DE6BDA9017EA6ABD006B5392 /* UIKit.framework in Frameworks */,
 				47178C9217ADD9D40062E7B0 /* Foundation.framework in Frameworks */,
 			);
@@ -211,6 +220,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58DD282D180F5213007C4D8F /* Security.framework in Frameworks */,
 				BCA81FAA17B2E125004745B2 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -239,7 +249,6 @@
 		47178C8317ADD9D40062E7B0 = {
 			isa = PBXGroup;
 			children = (
-				DE6BDA8F17EA6ABD006B5392 /* UIKit.framework */,
 				47178CAC17ADDA340062E7B0 /* include */,
 				47178CAF17ADDA340062E7B0 /* src */,
 				47178C9517ADD9D40062E7B0 /* FoundationTests */,
@@ -261,6 +270,9 @@
 		47178C8E17ADD9D40062E7B0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				58DD282C180F5213007C4D8F /* Security.framework */,
+				58DD282A180F520E007C4D8F /* Security.framework */,
+				DE6BDA8F17EA6ABD006B5392 /* UIKit.framework */,
 				47178C9117ADD9D40062E7B0 /* Foundation.framework */,
 			);
 			name = Frameworks;
@@ -346,6 +358,8 @@
 				DEB8A25B17BC373E0044AFB9 /* NSUserDefaultsTests.m */,
 				DEFB624917C41104004908E6 /* NSValueTests.m */,
 				58C57F33180E16EF008C28D3 /* SecItemTests.m */,
+				58DD2826180F51F7007C4D8F /* SecureTransportTests.m */,
+				DE212C22180EF73300DDB3AA /* NSLocaleTests.m */,
 				58C57F38180E17C2008C28D3 /* WebServer */,
 				DE212C25180F431000DDB3AA /* NSTimeZoneTests.m */,
 			);
@@ -514,6 +528,7 @@
 				DE212C26180F431000DDB3AA /* NSTimeZoneTests.m in Sources */,
 				58C57F34180E16EF008C28D3 /* SecItemTests.m in Sources */,
 				58C57F37180E17BD008C28D3 /* WebServer.m in Sources */,
+				58DD2827180F51F7007C4D8F /* SecureTransportTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -566,6 +581,8 @@
 				58664D36180F28BA00B72D1F /* NSURLAuthenticationChallengeTests.m in Sources */,
 				58664D37180F28BA00B72D1F /* SecItemTests.m in Sources */,
 				58664D38180F28E500B72D1F /* NSAttributedStringTests.m in Sources */,
+				58DD2828180F51F7007C4D8F /* SecureTransportTests.m in Sources */,
+				58DD282E180F55E7007C4D8F /* NSLocaleTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

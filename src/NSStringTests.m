@@ -236,6 +236,10 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     testassert([weirdStr characterAtIndex:3] == '3');
     testassert([weirdStr characterAtIndex:4] == 0);
     
+    testassert([@"foo\0bar" length] == 7);
+    testassert([@"\0foobar" length] == 7);
+    testassert([@"foobar\0" length] == 7);
+    
     return YES;
 }
 
