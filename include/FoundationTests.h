@@ -67,6 +67,7 @@ action(NSSortDescriptor) \
 action(NSString) \
 action(NSPathUtilities) \
 action(NSThread) \
+action(NSTimeZone) \
 action(NSURL) \
 action(NSUserDefaults) \
 action(NSValue) \
