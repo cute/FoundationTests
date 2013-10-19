@@ -9,6 +9,7 @@
 @implementation RetainTestObject {
     BOOL wasRetained;
     BOOL wasReleased;
+    BOOL wasAutoreleased;
 }
 
 - (id)retain
@@ -23,6 +24,12 @@
     [super release];
 }
 
+- (id)autorelease
+{
+    wasAutoreleased = YES;
+    return [super autorelease];
+}
+
 - (BOOL)wasReleased
 {
     return wasReleased;
@@ -31,6 +38,11 @@
 - (BOOL)wasRetained
 {
     return wasRetained;
+}
+
+- (BOOL)wasAutoreleased
+{
+    return wasAutoreleased;
 }
 
 @end
@@ -355,7 +367,7 @@
     return YES;
 }
 
-- (BOOL)testDirectLeakedObjectSetter
+- (BOOL)testDirectReassignObjectSetter
 {
     Direct *d = [[Direct alloc] init];
     RetainTestObject *retainTest1 = [[RetainTestObject alloc] init];
@@ -363,6 +375,7 @@
     [d setValue:retainTest1 forKey:@"object"];
     [d setValue:retainTest2 forKey:@"object"];
     testassert(![retainTest1 wasReleased]);
+    testassert([retainTest1 wasAutoreleased]);
     [retainTest1 release];
     [retainTest2 release];
     [d release];
