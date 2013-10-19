@@ -7,10 +7,14 @@
 //
 
 #import "FoundationTests.h"
+#import "WebServer.h"
 
 int main(int argc, char *argv[])
 {
     @autoreleasepool {
+        
+        [WebServer shared];
+        
         runFoundationTests();
     }
 

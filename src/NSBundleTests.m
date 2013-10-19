@@ -38,6 +38,14 @@ static NSBundle *zeroLevelBundle, *firstLevelBundle, *secondLevelBundle;
     return YES;
 }
 
+
+- (BOOL)testMainBundleIdentifier
+{
+    NSString *s = [[NSBundle mainBundle] bundleIdentifier];
+    testassert([s isEqualToString:@"com.apportable.FoundationTests"]);
+    return YES;
+}
+
 - (BOOL)testValidNonMainBundleAllocInitCreation
 {
     zeroLevelBundle = [[NSBundle alloc] initWithPath:[mainBundlePath stringByAppendingPathComponent:@"0.bundle"]];

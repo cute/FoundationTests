@@ -106,12 +106,14 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 }
 
 
+// Fails with XCode 4
 - (BOOL)testCFStringGetCStringPtr
 {
     NSString *s = @"abcd";
     NSString *s2 = [s substringToIndex:3];
     const char *cString = CFStringGetCStringPtr((CFStringRef)s2, kCFStringEncodingASCII);
-    testassert(cString == NULL);
+    testassert(cString != NULL);
+    testassert(strcmp(cString, "abc") == 0);
     return YES;
 }
 
@@ -124,15 +126,16 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+// Fails with XCode 4
 - (BOOL)testCFStringGetCStringPtr3
 {
     NSString *s = @"abcd";
     NSString *s2 = [s substringToIndex:3];
     const char *cString = CFStringGetCStringPtr((CFStringRef)s2, kCFStringEncodingDOSRussian);
-    testassert(cString == NULL);
+    testassert(cString != NULL);
+    testassert(strcmp(cString, "abc") == 0);
     return YES;
 }
-
 
 - (BOOL)testCFStringGetCStringPtr4
 {
@@ -152,6 +155,34 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+// Fails with XCode 4
+- (BOOL)testCFStringGetCStringPtr6
+{
+    CFStringRef s = CFSTR("abc");
+    const char *cString = CFStringGetCStringPtr(s, kCFStringEncodingASCII);
+    testassert(cString != NULL);
+    testassert(strcmp(cString, "abc") == 0);
+    return YES;
+}
+
+// Fails with XCode 4
+- (BOOL)testCFStringGetCStringPtr7
+{
+    CFStringRef s = CFSTR("a/bc");
+    const char *cString = CFStringGetCStringPtr(s, kCFStringEncodingASCII);
+    testassert(cString != NULL);
+    testassert(strcmp(cString, "a/bc") == 0);
+    return YES;
+}
+
+- (BOOL)testCFStringGetCString
+{
+    CFStringRef s = CFSTR("abc");
+    char cString[4];
+    CFStringGetCString(s, cString, 4, kCFStringEncodingASCII);
+    testassert(strcmp(cString, "abc") == 0);
+    return YES;
+}
 
 - (BOOL)testLengths
 {
@@ -199,6 +230,44 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     char *str2 = "~/Documents";
     NSString *out = [NSString stringWithFormat:@"%@%s", str, &str2[1]];
     testassert([out isEqualToString:@"/abc/Documents"]);
+    
+    return YES;
+}
+
+- (BOOL)testNullCharacters
+{
+    testassert(([[NSString stringWithFormat:@"%c", '\0'] length] == 0));
+    
+    unichar zero = 0;
+    NSString *weirdStr = [NSString stringWithCharacters:&zero length:1];
+    
+    testassert(weirdStr.length == 1);
+    
+    weirdStr = [weirdStr stringByAppendingString:@"123"];
+    
+    testassert(weirdStr.length == 4);
+    
+    weirdStr = [NSString stringWithFormat:@"%@", weirdStr];
+    
+    testassert(weirdStr.length == 4);
+    
+    weirdStr = [NSString stringWithFormat:@"%c%@", '\0', weirdStr];
+    
+    testassert(weirdStr.length == 4);
+    
+    weirdStr = [weirdStr stringByAppendingString:[NSString stringWithCharacters:&zero length:1]];
+    
+    testassert(weirdStr.length == 5);
+    
+    testassert([weirdStr characterAtIndex:0] == 0);
+    testassert([weirdStr characterAtIndex:1] == '1');
+    testassert([weirdStr characterAtIndex:2] == '2');
+    testassert([weirdStr characterAtIndex:3] == '3');
+    testassert([weirdStr characterAtIndex:4] == 0);
+    
+    testassert([@"foo\0bar" length] == 7);
+    testassert([@"\0foobar" length] == 7);
+    testassert([@"foobar\0" length] == 7);
     
     return YES;
 }
@@ -334,6 +403,40 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL) testStringByDeletingPathExtension
+{
+    NSString *abc = [@"abc.xyz" stringByDeletingPathExtension];
+    testassert([abc isEqualToString:@"abc"]);
+    return YES;
+}
+
+- (BOOL) testStringByDeletingPathExtension2
+{
+    NSString *abc = [@".xyz" stringByDeletingPathExtension];
+    testassert([abc isEqualToString:@".xyz"]);
+    return YES;
+}
+
+- (BOOL) testStringByDeletingPathExtension3
+{
+    NSString *abc = [@"xyz" stringByDeletingPathExtension];
+    testassert([abc isEqualToString:@"xyz"]);
+    return YES;
+}
+
+- (BOOL) testStringByDeletingPathExtension4
+{
+    NSString *abc = [@"" stringByDeletingPathExtension];
+    testassert([abc isEqualToString:@""]);
+    return YES;
+}
+
+- (BOOL) testStringByDeletingPathExtension5
+{
+    NSString *abc = [@"abc..xyz" stringByDeletingPathExtension];
+    testassert([abc isEqualToString:@"abc."]);
+    return YES;
+}
 
 - (BOOL) testStringByStandardizingPath
 {
@@ -456,6 +559,18 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 }
 
 #endif
+
+- (BOOL)testStringComparisons
+{
+    NSComparisonResult result = [[NSString stringWithString:@"foo"] compare:nil];
+    testassert(result == NSOrderedDescending);
+    
+    result = [@"foo" compare:nil];
+    testassert(result == NSOrderedDescending);
+    
+#warning TODO : this is incomplete ...
+    return YES;
+}
 
 @end
 

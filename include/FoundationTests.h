@@ -26,10 +26,22 @@ BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_nor
 #define GNUSTEP_KNOWN_CRASHER()
 #endif
 
+#if defined(APPORTABLE) && !defined(__Foundation_h_GNUSTEP_BASE_INCLUDE)
+#define APPORTABLE_KNOWN_CRASHER() DEBUG_LOG("SKIPPING KNOWN CRASHING TEST!"); testassert(0)
+#else
+#define APPORTABLE_KNOWN_CRASHER()
+#endif
+
+//TODO after ICU is added
+//action(NSDateFormatter) \
+
 void runFoundationTests(void);
 
 #define TEST_CLASSES(action) \
+action(SecureTransport) \
 action(CFRunLoop) \
+action(CFGetTypeID) \
+action(NSAttributedString) \
 action(NSArray) \
 action(NSBlock) \
 action(NSBundle) \
@@ -39,9 +51,12 @@ action(NSData) \
 action(NSDate) \
 action(NSDictionary) \
 action(NSException) \
+action(NSFileHandle) \
 action(NSFileManager) \
 action(NSIndexSet) \
 action(NSInvocation) \
+action(NSKVO) \
+action(NSLocale) \
 action(NSLock) \
 action(NSMethodSignature) \
 action(NSNumber) \
@@ -53,10 +68,20 @@ action(NSSortDescriptor) \
 action(NSString) \
 action(NSPathUtilities) \
 action(NSThread) \
+action(NSTimeZone) \
 action(NSURL) \
 action(NSUserDefaults) \
 action(NSValue) \
 action(NSKeyValueCoding) \
+action(NSPort) \
+action(NSURLConnection) \
+action(NSNumberFormatter) \
+action(NSURLRequest) \
+action(NSHTTPCookieStorage) \
+action(NSCachedURLResponse) \
+action(NSURLCache) \
+action(NSURLAuthenticationChallenge) \
+action(SecItem) \
 
 
 TEST_CLASSES(@testdecl)

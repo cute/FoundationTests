@@ -768,4 +768,116 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
+- (BOOL) testEnumerateObjects
+{
+    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
+    __block int sum = 0;
+    [cs enumerateObjectsUsingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
+        sum += [obj intValue];
+        *stop = idx == 2;
+    }];
+    testassert(sum == 6);
+    return YES;
+}
+
+- (BOOL) testEnumerateObjectsWithOptions
+{
+    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
+    __block int sum = 0;
+    [cs enumerateObjectsWithOptions:0 usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
+        sum += [obj intValue];
+        *stop = idx == 2;
+    }];
+    testassert(sum == 6);
+    return YES;
+}
+
+- (BOOL) testEnumerateObjectsWithOptionsReverse
+{
+    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
+    __block int sum = 0;
+    [cs enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
+        sum += [obj intValue];
+        *stop = idx == 2;
+    }];
+    testassert(sum == 7);
+    return YES;
+}
+
+- (BOOL) testEnumerateObjectsWithOptionsConcurrent
+{
+    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
+    __block int sum = 0;
+    [cs enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
+        sum += [obj intValue];
+    }];
+    testassert(sum == 10);
+    return YES;
+}
+
+- (BOOL) testEnumerateObjectsWithOptionsReverseConcurrent
+{
+    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
+    __block int sum = 0;
+    [cs enumerateObjectsWithOptions:NSEnumerationReverse | NSEnumerationConcurrent usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
+        sum += [obj intValue];
+    }];
+    testassert(sum == 10);
+    return YES;
+}
+
+//- (BOOL) testEnumerateObjectsAtIndexes
+//{
+//    NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(2,2)];
+//    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
+//    __block int sum = 0;
+//    [cs enumerateObjectsAtIndexes:is options:0 usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
+//        sum += [obj intValue];
+//        *stop = idx == 2;
+//    }];
+//    testassert(sum == 3);
+//    return YES;
+//}
+//
+//- (BOOL) testEnumerateObjectsAtIndexesException
+//{
+//    NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(3,2)];
+//    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
+//    BOOL raised = NO;
+//    __block int sum = 0;
+//@try {
+//    [cs enumerateObjectsAtIndexes:is options:0 usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
+//        sum += [obj intValue];
+//        *stop = idx == 2;
+//    }];
+//    }
+//    @catch (NSException *caught) {
+//        raised = YES;
+//    }
+//    testassert(raised);
+//    
+//    raised = NO;
+//    @try {
+//        [cs enumerateObjectsAtIndexes:is options:0 usingBlock:nil];
+//    }
+//    @catch (NSException *caught) {
+//        raised = YES;
+//    }
+//    testassert(raised);
+//    return YES;
+//}
+//
+//- (BOOL) testEnumerateObjectsAtIndexesReverse
+//{
+//    NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(1,3)];
+//    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
+//    __block int sum = 0;
+//    [cs enumerateObjectsAtIndexes:is options:NSEnumerationReverse usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
+//        sum += [obj intValue];
+//        *stop = idx == 2;
+//    }];
+//    testassert(sum == 7);
+//    return YES;
+//}
+
 @end

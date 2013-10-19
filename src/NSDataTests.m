@@ -70,4 +70,26 @@
     return YES;
 }
 
+- (BOOL) testMutableDataWithLength
+{
+    NSMutableData *data = [NSMutableData dataWithLength:7];
+    testassert([data length] == 7);
+    return YES;
+}
+
+- (BOOL) testMutableDataWithData
+{
+    NSData *data = [NSData dataWithBytes:"abc" length:3];
+    NSMutableData *data2 = [NSMutableData dataWithData:data];
+    testassert([data2 length] == 3);
+    return YES;
+}
+
+- (BOOL) testMutableDataWithDataMutable
+{
+    NSMutableData *data = [NSMutableData dataWithLength:7];
+    NSMutableData *data2 = [NSMutableData dataWithData:data];
+    testassert([data2 length] == 7);
+    return YES;
+}
 @end

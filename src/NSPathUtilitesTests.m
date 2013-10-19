@@ -4,6 +4,57 @@
 
 @testcase(NSPathUtilities)
 
+- (BOOL)testPathExtension
+{
+    NSString *s = @"abc.xyz";
+    testassert([[s pathExtension] isEqualToString:@"xyz"]);
+    return YES;
+}
+
+- (BOOL)testPathExtensionEmpty
+{
+    NSString *s = @"abc";
+    testassert([[s pathExtension] isEqualToString:@""]);
+    return YES;
+}
+
+
+- (BOOL)testPathExtensionEmptyStart
+{
+    NSString *s = @"";
+    testassert([[s pathExtension] isEqualToString:@""]);
+    return YES;
+}
+
+
+- (BOOL)testPathExtensionDot
+{
+    NSString *s = @".";
+    testassert([[s pathExtension] isEqualToString:@""]);
+    return YES;
+}
+
+- (BOOL)testPathExtensionDotEnd
+{
+    NSString *s = @"abc.";
+    testassert([[s pathExtension] isEqualToString:@""]);
+    return YES;
+}
+
+- (BOOL)testPathExtensionLeadingDot
+{
+    NSString *s = @".xyz";
+    testassert([[s pathExtension] isEqualToString:@""]);
+    return YES;
+}
+
+- (BOOL)testPathExtensionDouble
+{
+    NSString *s = @"abc.xyz.uvw";
+    testassert([[s pathExtension] isEqualToString:@"uvw"]);
+    return YES;
+}
+
 - (BOOL)testPathWithComponentsNil
 {
     BOOL raised = NO;
