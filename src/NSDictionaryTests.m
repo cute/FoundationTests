@@ -533,4 +533,67 @@
     return YES;
 }
 
+static Boolean strEqual(const void *a, const void *b)
+{
+	Boolean result = strcmp(a, b) == 0;
+    return result;
+}
+
+static CFHashCode strHash(const void *a)
+{
+    const char *b = (const char *)a;
+    int result = 0;
+    while (*b++)
+    {
+        result += ((result << 8) - result) ^ *b;
+    }
+    return result;
+}
+
+static CFDictionaryKeyCallBacks cStringCallbacks = {
+	/* CFIndex version; */ 0,
+	/* CFDictionaryRetainCallBack retain;*/ NULL,
+	/* CFDictionaryReleaseCallBack release;*/ NULL,
+	/* CFDictionaryCopyDescriptionCallBack copyDescription;*/ NULL,
+	/* CFDictionaryEqualCallBack equal;*/ strEqual,
+	/* CFDictionaryHashCallBack hash;*/ strHash,
+};
+
+static CFDictionaryValueCallBacks dataCallbacks = {
+	/* CFIndex version; */ 0,
+	/* CFDictionaryRetainCallBack retain;*/ NULL,
+	/* CFDictionaryReleaseCallBack release;*/ NULL,
+	/* CFDictionaryCopyDescriptionCallBack copyDescription;*/ NULL,
+	/* CFDictionaryEqualCallBack equal;*/ NULL,
+};
+
+static const char *allKeys[] = {
+	"Europe/Vaduz",
+	"Mideast/Riyadh89",
+	"America/Jujuy",
+	"Pacific/Pago_Pago",
+	"Pacific/Port_Moresby",
+	"US/Aleutian",
+};
+
+static const char *allData[] = {
+	"Libya",
+	"Pacific/Niue",
+	"Mexico/BajaNorte",
+	"Asia/Riyadh88",
+	"Etc/GMT+2",
+	"America/Jamaica",
+};
+
+- (BOOL)testCFDictionaryWithCStringKey
+{
+	CFDictionaryRef d = CFDictionaryCreate(NULL, (const void **)allKeys, (const void **)allData, 6, &cStringCallbacks, &dataCallbacks);
+    char localCopy[15];   /* Make sure key value is different */
+    char *base = "America/Jujuy";
+    strcpy(localCopy, base);
+    const char *value = CFDictionaryGetValue(d, localCopy);
+    testassert(strcmp(value, "Mexico/BajaNorte") == 0);
+    return YES;
+}
+
 @end
