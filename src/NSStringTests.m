@@ -106,13 +106,14 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 }
 
 
-// Fails with XCode 5
+// Fails with XCode 4
 - (BOOL)testCFStringGetCStringPtr
 {
     NSString *s = @"abcd";
     NSString *s2 = [s substringToIndex:3];
     const char *cString = CFStringGetCStringPtr((CFStringRef)s2, kCFStringEncodingASCII);
-    testassert(cString == NULL);
+    testassert(cString != NULL);
+    testassert(strcmp(cString, "abc") == 0);
     return YES;
 }
 
@@ -125,13 +126,14 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-// Fails with XCode 5
+// Fails with XCode 4
 - (BOOL)testCFStringGetCStringPtr3
 {
     NSString *s = @"abcd";
     NSString *s2 = [s substringToIndex:3];
     const char *cString = CFStringGetCStringPtr((CFStringRef)s2, kCFStringEncodingDOSRussian);
-    testassert(cString == NULL);
+    testassert(cString != NULL);
+    testassert(strcmp(cString, "abc") == 0);
     return YES;
 }
 
@@ -151,6 +153,22 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     NSString *s2 = [s substringToIndex:3];
     const char *cString = CFStringGetCStringPtr((CFStringRef)s2, kCFStringEncodingUTF32);
     testassert(cString == NULL);
+    return YES;
+}
+
+- (BOOL)testCFStringGetCStringPtr6
+{
+    CFStringRef s = CFSTR("abc");
+    const char *cString = CFStringGetCStringPtr(s, kCFStringEncodingASCII);
+    testassert(strcmp(cString, "abc") == 0);
+    return YES;
+}
+
+- (BOOL)testCFStringGetCStringPtr7
+{
+    CFStringRef s = CFSTR("a/bc");
+    const char *cString = CFStringGetCStringPtr(s, kCFStringEncodingASCII);
+    testassert(strcmp(cString, "a/bc") == 0);
     return YES;
 }
 
