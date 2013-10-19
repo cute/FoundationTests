@@ -137,7 +137,6 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-
 - (BOOL)testCFStringGetCStringPtr4
 {
     NSString *s = @"abcd";
@@ -156,22 +155,34 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+// Fails with XCode 4
 - (BOOL)testCFStringGetCStringPtr6
 {
     CFStringRef s = CFSTR("abc");
     const char *cString = CFStringGetCStringPtr(s, kCFStringEncodingASCII);
+    testassert(cString != NULL);
     testassert(strcmp(cString, "abc") == 0);
     return YES;
 }
 
+// Fails with XCode 4
 - (BOOL)testCFStringGetCStringPtr7
 {
     CFStringRef s = CFSTR("a/bc");
     const char *cString = CFStringGetCStringPtr(s, kCFStringEncodingASCII);
+    testassert(cString != NULL);
     testassert(strcmp(cString, "a/bc") == 0);
     return YES;
 }
 
+- (BOOL)testCFStringGetCString
+{
+    CFStringRef s = CFSTR("abc");
+    char cString[4];
+    CFStringGetCString(s, cString, 4, kCFStringEncodingASCII);
+    testassert(strcmp(cString, "abc") == 0);
+    return YES;
+}
 
 - (BOOL)testLengths
 {
