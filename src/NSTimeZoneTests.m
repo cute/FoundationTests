@@ -192,9 +192,9 @@ static NSDate *makeNSDate(int year, int month, int day)
     [comps setDay:day];
     [comps setMonth:month];
     [comps setYear:year];
-    [comps setHour:0];
-    [comps setMinute:0];
-    [comps setSecond:0];
+//    [comps setHour:0];   // Unitialized should be treated as zero
+//    [comps setMinute:0];
+//    [comps setSecond:0];
     NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDate *date = [cal dateFromComponents:comps];
     [comps release];
