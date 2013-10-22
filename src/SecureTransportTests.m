@@ -42,7 +42,14 @@ static int connectTo(const char *hostname, unsigned short port)
 {
     int fd = socket(AF_INET, SOCK_STREAM, 0);
     
+#ifdef APPORTABLE
+    extern struct hostent *
+    __real_gethostbyname2(const char *name, int af);
+    
+    struct hostent *hostent = __real_gethostbyname2("google.com", AF_INET);
+#else
     struct hostent *hostent = gethostbyname2("google.com", AF_INET);
+#endif
     
     NSCAssert(hostent, @"gethostbyname2");
     NSCAssert(hostent->h_addr_list[0], @"gethostbyname2");
