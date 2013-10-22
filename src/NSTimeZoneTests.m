@@ -75,9 +75,9 @@ static CFAbsoluteTime makeCFAbsoluteTime(int year, int month, int day)
     gregDate.year = year;
     gregDate.month = month;
     gregDate.day = day;
-//    gregDate.hour = 17;
-//    gregDate.minute = 33;
-//    gregDate.second = 22.7;
+    gregDate.hour = 0;
+    gregDate.minute = 0;
+    gregDate.second = 0;
     
     // Convert the Gregorian date to absolute time.
     return CFGregorianDateGetAbsoluteTime(gregDate, NULL);
@@ -92,7 +92,6 @@ static CFAbsoluteTime makeCFAbsoluteTime(int year, int month, int day)
     testassert(ti == 3600);
     return YES;
 }
-
 
 - (BOOL)testCFTimeZoneGetNextDaylightSavingTimeTransition
 {
@@ -118,13 +117,6 @@ static CFAbsoluteTime makeCFAbsoluteTime(int year, int month, int day)
     CFTimeInterval ti = CFTimeZoneGetSecondsFromGMT(tz, t);
     
     testassert(ti == -25200);
-    return YES;
-}
-
-// fails on xcode 4
-- (BOOL)testCFTimeZoneGetTypeID
-{
-    testassert(CFTimeZoneGetTypeID() == 257);
     return YES;
 }
 
@@ -196,21 +188,17 @@ static CFAbsoluteTime makeCFAbsoluteTime(int year, int month, int day)
 
 static NSDate *makeNSDate(int year, int month, int day)
 {
-#ifdef APPORTABLE // NEED_NSDATECOMPONENTS
-    return nil;
-#else
     NSDateComponents *comps = [[NSDateComponents alloc] init];
     [comps setDay:day];
     [comps setMonth:month];
     [comps setYear:year];
-    //    [comps setHour:hour];
-    //    [comps setMinute:minute];
-    //    [comps setSecond:second];
+    [comps setHour:0];
+    [comps setMinute:0];
+    [comps setSecond:0];
     NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDate *date = [cal dateFromComponents:comps];
     [comps release];
     return date;
-#endif
 }
 
 - (BOOL) testDaylightSavingTimeOffsetForDate
@@ -239,7 +227,7 @@ static NSDate *makeNSDate(int year, int month, int day)
 
 - (BOOL) testIsDaylightSavingTime
 {
-    NSTimeZone *tz = [[NSTimeZone alloc] initWithName:@"US/Hawaii"];  // never in Hawaii
+    NSTimeZone *tz = [[NSTimeZone alloc] initWithName:@"US/Hawaii"];  // no DST in Hawaii
     BOOL b = [tz isDaylightSavingTime];
     testassert(!b);
     return YES;
@@ -279,15 +267,15 @@ static NSDate *makeNSDate(int year, int month, int day)
     return YES;
 }
 
-- (BOOL) testDaylightSavingTimeTransition
+- (BOOL) testNextDaylightSavingTimeTransition
 {
-    NSTimeZone *tz = [[NSTimeZone alloc] initWithName:@"US/Hawaii"];  // never in Hawaii
+    NSTimeZone *tz = [[NSTimeZone alloc] initWithName:@"US/Hawaii"];  // no DST in Hawaii
     NSDate *d = [tz nextDaylightSavingTimeTransition];
     testassert(d == nil);
     return YES;
 }
 
-- (BOOL) testDaylightSavingTimeTransitionAfterDate
+- (BOOL) testNextDaylightSavingTimeTransitionAfterDate
 {
     NSTimeZone *tz = [[NSTimeZone alloc] initWithName:@"America/Los_Angeles"];
     NSDate *date = makeNSDate(2013, 10, 19);
