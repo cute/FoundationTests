@@ -51,6 +51,7 @@ static int connectTo(const char *hostname, unsigned short port)
     
     memset(&sockaddr, 0, sizeof(sockaddr));
     
+    testassert(hostent != NULL);
     memcpy(&sockaddr.sin_addr, *hostent->h_addr_list, hostent->h_length);
     sockaddr.sin_port = htons(port);
     
