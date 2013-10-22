@@ -62,6 +62,15 @@ static int connectTo(const char *hostname, unsigned short port)
     return fd;
 }
 
+- (BOOL)testBadParams
+{
+    testassert(SSLCreateContext(NULL, 55, kSSLStreamType) != NULL);
+    testassert(SSLCreateContext(NULL, kSSLClientSide, 55) != NULL);
+    testassert(SSLCreateContext(NULL, 55, 55) != NULL);
+    
+    return YES;
+}
+
 - (BOOL)testBadDomain
 {
     int fd = connectTo("google.com", 443);
