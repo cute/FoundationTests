@@ -38,7 +38,6 @@ BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_nor
 void runFoundationTests(void);
 
 #define TEST_CLASSES(action) \
-action(SecureTransport) \
 action(CFRunLoop) \
 action(CFGetTypeID) \
 action(NSAttributedString) \
@@ -49,6 +48,7 @@ action(NSByteCountFormatter) \
 action(NSCountedSet) \
 action(NSData) \
 action(NSDate) \
+action(NSDateFormatter) \
 action(NSDictionary) \
 action(NSException) \
 action(NSFileHandle) \
@@ -60,6 +60,7 @@ action(NSLocale) \
 action(NSLock) \
 action(NSMethodSignature) \
 action(NSNumber) \
+action(NSNumberFormatter) \
 action(NSObjCRuntime) \
 action(NSScanner) \
 action(NSScannerSubclass) \
@@ -75,13 +76,12 @@ action(NSValue) \
 action(NSKeyValueCoding) \
 action(NSPort) \
 action(NSURLConnection) \
-action(NSNumberFormatter) \
 action(NSURLRequest) \
 action(NSHTTPCookieStorage) \
 action(NSCachedURLResponse) \
 action(NSURLCache) \
 action(NSURLAuthenticationChallenge) \
 action(SecItem) \
-
+action(SecureTransport) \
 
 TEST_CLASSES(@testdecl)
