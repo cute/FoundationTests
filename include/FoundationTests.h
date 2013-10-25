@@ -32,9 +32,6 @@ BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_nor
 #define APPORTABLE_KNOWN_CRASHER()
 #endif
 
-//TODO after ICU is added
-//action(NSDateFormatter) \
-
 void runFoundationTests(void);
 
 #define TEST_CLASSES(action) \
@@ -45,6 +42,7 @@ action(NSArray) \
 action(NSBlock) \
 action(NSBundle) \
 action(NSByteCountFormatter) \
+action(NSCalendar) \
 action(NSCountedSet) \
 action(NSData) \
 action(NSDate) \

@@ -86,6 +86,8 @@
 		DE212C23180EF73300DDB3AA /* NSLocaleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE212C22180EF73300DDB3AA /* NSLocaleTests.m */; };
 		DE212C26180F431000DDB3AA /* NSTimeZoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE212C25180F431000DDB3AA /* NSTimeZoneTests.m */; };
 		DE227B42181846040004570F /* NSTimeZoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE212C25180F431000DDB3AA /* NSTimeZoneTests.m */; };
+		DE227B451819BEB00004570F /* NSCalendarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE227B441819BEB00004570F /* NSCalendarTests.m */; };
+		DE227B461819BEB50004570F /* NSCalendarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE227B441819BEB00004570F /* NSCalendarTests.m */; };
 		DE242DAA17BC433C00D668DF /* NSUserDefaultsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DEB8A25B17BC373E0044AFB9 /* NSUserDefaultsTests.m */; };
 		DE242DAB17BC433C00D668DF /* NSArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE06A9F117B9B7AA0069C996 /* NSArrayTests.m */; };
 		DE242DAC17BC433C00D668DF /* CFRunLoopTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CB017ADDA340062E7B0 /* CFRunLoopTests.m */; };
@@ -193,6 +195,8 @@
 		DE06A9F117B9B7AA0069C996 /* NSArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSArrayTests.m; sourceTree = "<group>"; };
 		DE212C22180EF73300DDB3AA /* NSLocaleTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSLocaleTests.m; sourceTree = "<group>"; };
 		DE212C25180F431000DDB3AA /* NSTimeZoneTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSTimeZoneTests.m; sourceTree = "<group>"; };
+		DE227B431819BEB00004570F /* NSCalendarTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSCalendarTests.h; sourceTree = "<group>"; };
+		DE227B441819BEB00004570F /* NSCalendarTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSCalendarTests.m; sourceTree = "<group>"; };
 		DE242DC917C1586900D668DF /* NSDateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDateTests.m; sourceTree = "<group>"; };
 		DE242DCC17C2A78200D668DF /* NSFileManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSFileManagerTests.m; sourceTree = "<group>"; };
 		DE69B48817FB4E2A00EB5F59 /* CFGetTypeIDTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CFGetTypeIDTests.m; sourceTree = "<group>"; };
@@ -363,6 +367,8 @@
 				DE212C22180EF73300DDB3AA /* NSLocaleTests.m */,
 				58C57F38180E17C2008C28D3 /* WebServer */,
 				DE212C25180F431000DDB3AA /* NSTimeZoneTests.m */,
+				DE227B431819BEB00004570F /* NSCalendarTests.h */,
+				DE227B441819BEB00004570F /* NSCalendarTests.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -487,6 +493,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE227B451819BEB00004570F /* NSCalendarTests.m in Sources */,
 				47178C9C17ADD9D40062E7B0 /* main.m in Sources */,
 				DE242DAA17BC433C00D668DF /* NSUserDefaultsTests.m in Sources */,
 				DE242DAB17BC433C00D668DF /* NSArrayTests.m in Sources */,
@@ -542,6 +549,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE227B461819BEB50004570F /* NSCalendarTests.m in Sources */,
 				BCA81FC517B31394004745B2 /* main.m in Sources */,
 				58B2D03A17EBBC0300A999DA /* NSPortTests.m in Sources */,
 				58664D0D180F28A100B72D1F /* WebServer.m in Sources */,
