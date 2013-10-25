@@ -65,4 +65,16 @@
     return YES;
 }
 
+- (BOOL) testNSNumberFormatterGrouping
+{
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    [formatter setGroupingSize:2];
+    [formatter setGroupingSeparator:@"#"];
+    NSString *formattedOutput = [formatter stringFromNumber:@1234567];
+    testassert([formattedOutput isEqualToString:@"1#23#45#67"]);
+    [formatter release];
+    return YES;
+}
+
 @end
