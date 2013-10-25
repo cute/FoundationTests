@@ -809,7 +809,9 @@ static NSComparisonResult compare(id a, id b, void *context)
     NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
     __block int sum = 0;
     [cs enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
-        sum += [obj intValue];
+        @synchronized(self) {
+            sum += [obj intValue];
+        }
     }];
     testassert(sum == 10);
     return YES;
@@ -820,7 +822,9 @@ static NSComparisonResult compare(id a, id b, void *context)
     NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
     __block int sum = 0;
     [cs enumerateObjectsWithOptions:NSEnumerationReverse | NSEnumerationConcurrent usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
-        sum += [obj intValue];
+        @synchronized(self) {
+            sum += [obj intValue];
+        }
     }];
     testassert(sum == 10);
     return YES;
