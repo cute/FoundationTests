@@ -195,7 +195,6 @@
 		DE06A9F117B9B7AA0069C996 /* NSArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSArrayTests.m; sourceTree = "<group>"; };
 		DE212C22180EF73300DDB3AA /* NSLocaleTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSLocaleTests.m; sourceTree = "<group>"; };
 		DE212C25180F431000DDB3AA /* NSTimeZoneTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSTimeZoneTests.m; sourceTree = "<group>"; };
-		DE227B431819BEB00004570F /* NSCalendarTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSCalendarTests.h; sourceTree = "<group>"; };
 		DE227B441819BEB00004570F /* NSCalendarTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSCalendarTests.m; sourceTree = "<group>"; };
 		DE242DC917C1586900D668DF /* NSDateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDateTests.m; sourceTree = "<group>"; };
 		DE242DCC17C2A78200D668DF /* NSFileManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSFileManagerTests.m; sourceTree = "<group>"; };
@@ -367,7 +366,6 @@
 				DE212C22180EF73300DDB3AA /* NSLocaleTests.m */,
 				58C57F38180E17C2008C28D3 /* WebServer */,
 				DE212C25180F431000DDB3AA /* NSTimeZoneTests.m */,
-				DE227B431819BEB00004570F /* NSCalendarTests.h */,
 				DE227B441819BEB00004570F /* NSCalendarTests.m */,
 			);
 			path = src;
