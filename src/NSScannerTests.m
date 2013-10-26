@@ -37,7 +37,7 @@
     int value = -1;
     testassert([scanner scanInt:&value]);
     testassert(value == 123);
-    
+    testassert([scanner scanLocation] == 3);
     return YES;
 }
 
@@ -50,7 +50,7 @@
     int value = -1;
     testassert([scanner scanInt:&value]);
     testassert(value == 123);
-    
+    testassert([scanner scanLocation] == 5);
     return YES;
 }
 
@@ -63,7 +63,7 @@
     int value = -1;
     testassert([scanner scanInt:&value]);
     testassert(value == -123);
-    
+    testassert([scanner scanLocation] == 7);
     return YES;
 }
 
@@ -74,7 +74,7 @@
     int value = -1;
     testassert([scanner scanInt:&value]);
     testassert(value == INT_MAX);
-    
+    testassert([scanner scanLocation] == 11);
     return YES;
 }
 
@@ -85,7 +85,7 @@
     long long value = -1;
     testassert([scanner scanLongLong:&value]);
     testassert(value == 12345678901);
-    
+    testassert([scanner scanLocation] == 11);
     return YES;
 }
 
@@ -97,7 +97,7 @@
     long long value = -1;
     testassert([scanner scanLongLong:&value]);
     testassert(value == -98712345678901);
-    
+    testassert([scanner scanLocation] == 15);
     return YES;
 }
 
@@ -109,7 +109,7 @@
     long long value = -1;
     testassert([scanner scanLongLong:&value]);
     testassert(value == LONG_LONG_MIN);
-    
+    testassert([scanner scanLocation] == 22);
     return YES;
 }
 
@@ -122,7 +122,7 @@
     testassert([scanner.charactersToBeSkipped isEqual:[NSCharacterSet whitespaceAndNewlineCharacterSet]]);
     testassert(scanner.charactersToBeSkipped == [NSCharacterSet whitespaceAndNewlineCharacterSet]);
     testassert(scanner.locale == nil);
-    
+    testassert([scanner scanLocation] == 0);
     return YES;
 }
 
@@ -223,7 +223,7 @@
     NSString* result = nil;
     testassert([scanner scanCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"ABZ"] intoString:&result]);
     testassert([result isEqualToString:@"AB"]);
-    
+    testassert([scanner scanLocation] == 5);
     [scanner release];
     
     return YES;
@@ -248,6 +248,28 @@
     testassert([result isEqualToString:@"XYZ"]);
     testassert([scanner scanLocation] == 6);
     
+    [scanner release];
+    
+    return YES;
+}
+
+- (BOOL)testSetScanLocationOverflow
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"ABCXYZ"];
+    scanner.scanLocation = 6;
+    
+    BOOL sawException = NO;
+    @try
+    {
+        scanner.scanLocation = 10;
+    }
+    @catch(NSException *e)
+    {
+        sawException = YES;
+        testassert([[e name] isEqualToString:@"NSRangeException"]);
+    }
+    testassert(sawException);
+    testassert([scanner scanLocation] == 6);
     [scanner release];
     
     return YES;
