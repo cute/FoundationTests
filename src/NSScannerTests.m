@@ -279,17 +279,19 @@
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"ABCXYZ"];
    
-    [scanner scanUpToString:@"CX" intoString:nil];
+    testassert([scanner scanUpToString:@"CX" intoString:nil]);
     testassert([scanner scanLocation] == 2);
 
-    [scanner scanString:@"C" intoString:nil];
+    testassert(![scanner scanString:@"X" intoString:nil]);
+    testassert([scanner scanString:@"C" intoString:nil]);
     testassert([scanner scanLocation] == 3);
     
     NSString *newString;
-    [scanner scanUpToString:@"Z" intoString:&newString];
+    testassert([scanner scanUpToString:@"Z" intoString:&newString]);
     testassert([scanner scanLocation] == 5);
     testassert([newString isEqualToString:@"XY"]);
-    
+    testassert(![scanner scanUpToString:@"Z" intoString:&newString]);
+    testassert(![scanner scanString:@"ABC" intoString:&newString]);
     [scanner release];
     
     return YES;
