@@ -28,6 +28,91 @@
     return YES;
 }
 
+- (BOOL)testScannerWithStringNotEmpty
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"123"];
+    
+    testassert([scanner.string isEqualToString:@"123"]);
+    
+    int value = -1;
+    testassert([scanner scanInt:&value]);
+    testassert(value == 123);
+    
+    return YES;
+}
+
+- (BOOL)testScannerWithStringLeadingSpaces
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"  123"];
+    
+    testassert([scanner.string isEqualToString:@"  123"]);
+    
+    int value = -1;
+    testassert([scanner scanInt:&value]);
+    testassert(value == 123);
+    
+    return YES;
+}
+
+- (BOOL)testScannerWithStringNegative
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"   -123 14"];
+    
+    testassert([scanner.string isEqualToString:@"   -123 14"]);
+    
+    int value = -1;
+    testassert([scanner scanInt:&value]);
+    testassert(value == -123);
+    
+    return YES;
+}
+
+- (BOOL)testScannerWithStringOverflow
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"12345678901"];
+    
+    int value = -1;
+    testassert([scanner scanInt:&value]);
+    testassert(value == INT_MAX);
+    
+    return YES;
+}
+
+- (BOOL)testScannerWithLongLong
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"12345678901"];
+    
+    long long value = -1;
+    testassert([scanner scanLongLong:&value]);
+    testassert(value == 12345678901);
+    
+    return YES;
+}
+
+
+- (BOOL)testScannerWithNegativeLongLong
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"-98712345678901"];
+    
+    long long value = -1;
+    testassert([scanner scanLongLong:&value]);
+    testassert(value == -98712345678901);
+    
+    return YES;
+}
+
+
+- (BOOL)testScannerWithSLongLongOverflow
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"  -9223372036854775809 "];
+    
+    long long value = -1;
+    testassert([scanner scanLongLong:&value]);
+    testassert(value == LONG_LONG_MIN);
+    
+    return YES;
+}
+
 - (BOOL)testScannerWithStringDefaultConfiguration
 {
     NSScanner* scanner = [NSScanner scannerWithString:@""];
@@ -72,7 +157,7 @@
     return YES;
 }
 
-- (BOOL)testScanCharactersFromSetEmtpy
+- (BOOL)testScanCharactersFromSetEmpty
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@""];
     
@@ -98,13 +183,33 @@
     return YES;
 }
 
+- (BOOL)testCFStringFindCharacterFromSet
+{
+    NSCharacterSet *charSet = [NSCharacterSet characterSetWithCharactersInString:@"ABC"];
+    NSString *s = @"ABBAXYZA";
+    CFRange found;
+    testassert(CFStringFindCharacterFromSet((CFStringRef)s, (CFCharacterSetRef)charSet, CFRangeMake(0,8 ), 1, &found));
+    testassert(found.location == 0 && found.length == 1);
+    return YES;
+}
+
+- (BOOL)testNSStringRangeOfCharacterFromSet
+{
+    NSCharacterSet *charSet = [NSCharacterSet characterSetWithCharactersInString:@"ABC"];
+    NSString *s = @"ABBAXYZA";
+    NSRange found = [s rangeOfCharacterFromSet:[charSet invertedSet] options:1 range:NSMakeRange(0, 8)];
+    testassert(found.location == 4 && found.length == 1);
+    return YES;
+}
+
 - (BOOL)testScanCharactersFromSetSimple
 {
-    NSScanner* scanner = [[NSScanner alloc] initWithString:@"ABBAXYZ"];
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"ABBABXYZA"];
     
     NSString* result = nil;
     testassert([scanner scanCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"ABC"] intoString:&result]);
-    testassert([result isEqualToString:@"ABBA"]);
+    testassert([result isEqualToString:@"ABBAB"]);
+    testassert([scanner scanLocation] == 5);
     
     [scanner release];
     
@@ -124,6 +229,15 @@
     return YES;
 }
 
+- (BOOL)testNSStringRangeOfCharacterFromSet2
+{
+    NSCharacterSet *charSet = [NSCharacterSet characterSetWithCharactersInString:@"XYZ"];
+    NSString *s = @"ABCXYZ";
+    NSRange found = [s rangeOfCharacterFromSet:[charSet invertedSet] options:1 range:NSMakeRange(3, 3)];
+    testassert(found.location == NSNotFound && found.length == 0);
+    return YES;
+}
+
 - (BOOL)testScanCharactersFromSetLocation
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"ABCXYZ"];
@@ -132,6 +246,27 @@
     NSString* result = nil;
     testassert([scanner scanCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"XYZ"] intoString:&result]);
     testassert([result isEqualToString:@"XYZ"]);
+    testassert([scanner scanLocation] == 6);
+    
+    [scanner release];
+    
+    return YES;
+}
+
+- (BOOL)testScanCharactersScanUpToString
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"ABCXYZ"];
+   
+    [scanner scanUpToString:@"CX" intoString:nil];
+    testassert([scanner scanLocation] == 2);
+
+    [scanner scanString:@"C" intoString:nil];
+    testassert([scanner scanLocation] == 3);
+    
+    NSString *newString;
+    [scanner scanUpToString:@"Z" intoString:&newString];
+    testassert([scanner scanLocation] == 5);
+    testassert([newString isEqualToString:@"XY"]);
     
     [scanner release];
     
