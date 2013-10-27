@@ -28,6 +28,21 @@
     return YES;
 }
 
+- (BOOL)testScannerIsAtEnd
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"ABC"];
+    testassert(![scanner isAtEnd]);
+    scanner.scanLocation = 3;
+    testassert([scanner isAtEnd]);
+    
+    scanner = [NSScanner scannerWithString:@"ABC  \n\t"];
+    scanner.scanLocation = 3;
+    testassert(scanner.isAtEnd);
+    testassert(scanner.scanLocation == 3);
+    
+    return YES;
+}
+
 - (BOOL)testScannerWithStringNotEmpty
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"123"];
@@ -78,6 +93,16 @@
     return YES;
 }
 
+- (BOOL)testScanInteger
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"123"];
+    NSInteger value = -1;
+    testassert([scanner scanInteger:&value]);
+    testassert(value == 123);
+    testassert([scanner scanLocation] == 3);
+    return YES;
+}
+
 - (BOOL)testScannerWithLongLong
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"12345678901"];
@@ -110,6 +135,46 @@
     testassert([scanner scanLongLong:&value]);
     testassert(value == LONG_LONG_MIN);
     testassert([scanner scanLocation] == 22);
+    return YES;
+}
+
+- (BOOL)testScanFloat
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"123"];
+    float value = -1.f;
+    testassert([scanner scanFloat:&value]);
+    testassert(value == 123.f);
+    testassert([scanner scanLocation] == 3);
+    return YES;
+}
+
+- (BOOL)testScanFloat2
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@" 123.5000 "];  // terminating binary for equality test
+    float value = -1.f;
+    testassert([scanner scanFloat:&value]);
+    testassert(value == 123.5f);
+    testassert([scanner scanLocation] == 9);
+    return YES;
+}
+
+- (BOOL)testScanDouble
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"123"];
+    double value = -1.0;
+    testassert([scanner scanDouble:&value]);
+    testassert(value == 123.0);
+    testassert([scanner scanLocation] == 3);
+    return YES;
+}
+
+- (BOOL)testScanDouble2
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@" 123.5000 "]; // terminating binary for equality test
+    double value = -1.0;
+    testassert([scanner scanDouble:&value]);
+    testassert(value == 123.5);
+    testassert([scanner scanLocation] == 9);
     return YES;
 }
 
@@ -275,13 +340,35 @@
     return YES;
 }
 
-- (BOOL)testScanCharactersScanUpToString
+- (BOOL)testScanCharactersScanUpToCharacters
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"ABCXYZ"];
    
-    testassert([scanner scanUpToString:@"CX" intoString:nil]);
+    testassert([scanner scanUpToCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"CX"] intoString:nil]);
     testassert([scanner scanLocation] == 2);
 
+    testassert(![scanner scanCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"X"] intoString:nil]);
+    testassert([scanner scanCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"C"] intoString:nil]);
+    testassert([scanner scanLocation] == 3);
+    
+    NSString *newString;
+    testassert([scanner scanUpToCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"Z"] intoString:&newString]);
+    testassert([scanner scanLocation] == 5);
+    testassert([newString isEqualToString:@"XY"]);
+    testassert(![scanner scanUpToCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"Z"] intoString:&newString]);
+    testassert(![scanner scanCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@"ABC"] intoString:&newString]);
+    [scanner release];
+    
+    return YES;
+}
+
+- (BOOL)testScanCharactersScanUpToString
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"ABCXYZ"];
+    
+    testassert([scanner scanUpToString:@"CX" intoString:nil]);
+    testassert([scanner scanLocation] == 2);
+    
     testassert(![scanner scanString:@"X" intoString:nil]);
     testassert([scanner scanString:@"C" intoString:nil]);
     testassert([scanner scanLocation] == 3);
@@ -296,5 +383,18 @@
     
     return YES;
 }
+
+- (BOOL)testScanCharactersToBeSkipped
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"AAAABCXYZ"];
+    testassert(![scanner scanString:@"BCX" intoString:nil]);
+    testassert([scanner scanLocation] == 0);
+    [scanner setCharactersToBeSkipped:[NSCharacterSet characterSetWithCharactersInString:@"A"]];
+    testassert([scanner scanString:@"BCX" intoString:nil]);
+    testassert([scanner scanLocation] == 7);
+    return YES;
+}
+
+    
 
 @end
