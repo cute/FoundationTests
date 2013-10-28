@@ -100,6 +100,7 @@
 
 - (BOOL)testZeroObservances
 {
+    IOS_SIMULATOR_BUG_FAILURE();  // with xcode 5.0.1
     OBSERVER_PROLOGUE(Observable, @"anInt", 0, NULL);
 
     testassert([observer observationCountForKeyPath:keyPath] == 0);
@@ -109,6 +110,7 @@
 
 - (BOOL)testSingleObservance
 {
+    IOS_SIMULATOR_BUG_FAILURE();  // with xcode 5.0.1
     OBSERVER_PROLOGUE(Observable, @"anInt", 0, NULL);
 
     [observable setAnInt:42];
