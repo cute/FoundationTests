@@ -49,6 +49,7 @@ action(NSBlock) \
 action(NSBundle) \
 action(NSByteCountFormatter) \
 action(NSCalendar) \
+action(NSCoder) \
 action(NSCountedSet) \
 action(NSData) \
 action(NSDate) \
