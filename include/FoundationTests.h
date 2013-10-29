@@ -54,6 +54,7 @@ action(NSCountedSet) \
 action(NSData) \
 action(NSDate) \
 action(NSDateFormatter) \
+action(NSDecimalNumber) \
 action(NSDictionary) \
 action(NSException) \
 action(NSFileHandle) \
