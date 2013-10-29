@@ -17,6 +17,7 @@
 		47178CA217ADD9D40062E7B0 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 47178CA117ADD9D40062E7B0 /* Default.png */; };
 		47178CA417ADD9D40062E7B0 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47178CA317ADD9D40062E7B0 /* Default@2x.png */; };
 		47178CA617ADD9D40062E7B0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47178CA517ADD9D40062E7B0 /* Default-568h@2x.png */; };
+		47BAA20018203D8000E7C337 /* NSDecimalNumberTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BAA1FF18203D8000E7C337 /* NSDecimalNumberTests.m */; };
 		47E33E4B180C873A00A7E10F /* NSKVOTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47E33E4A180C873A00A7E10F /* NSKVOTests.m */; };
 		4A54638817F0C18700876D50 /* NSKeyValueCodingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A54638717F0C18700876D50 /* NSKeyValueCodingTests.m */; };
 		58664D0B180E47E700B72D1F /* website.html in Resources */ = {isa = PBXBuildFile; fileRef = 58664D0A180E47E700B72D1F /* website.html */; };
@@ -167,6 +168,7 @@
 		47178CBB17ADDA340062E7B0 /* NSStringTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringTests.m; sourceTree = "<group>"; };
 		47178CBC17ADDA340062E7B0 /* NSThreadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSThreadTests.m; sourceTree = "<group>"; };
 		47178CBD17ADDA340062E7B0 /* NSURLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLTests.m; sourceTree = "<group>"; };
+		47BAA1FF18203D8000E7C337 /* NSDecimalNumberTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDecimalNumberTests.m; sourceTree = "<group>"; };
 		47E33E4A180C873A00A7E10F /* NSKVOTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSKVOTests.m; sourceTree = "<group>"; };
 		4A54638717F0C18700876D50 /* NSKeyValueCodingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSKeyValueCodingTests.m; sourceTree = "<group>"; };
 		58664D0A180E47E700B72D1F /* website.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = website.html; sourceTree = "<group>"; };
@@ -333,6 +335,7 @@
 				5B83DE1917D53449000B384A /* NSDataTests.m */,
 				DEA2B82117E118F900B27809 /* NSDateFormatterTests.m */,
 				DE242DC917C1586900D668DF /* NSDateTests.m */,
+				47BAA1FF18203D8000E7C337 /* NSDecimalNumberTests.m */,
 				47178CB417ADDA340062E7B0 /* NSDictionaryTests.m */,
 				47178CB517ADDA340062E7B0 /* NSExceptionTests.m */,
 				DEE0C5BC1809D1EE00CA59BD /* NSFileHandleTests.m */,
@@ -508,6 +511,7 @@
 				DE242DB417BC433C00D668DF /* NSInvocationTests.m in Sources */,
 				DE242DB517BC433C00D668DF /* NSLockTests.m in Sources */,
 				DE242DB617BC434900D668DF /* NSMethodSignatureTests.m in Sources */,
+				47BAA20018203D8000E7C337 /* NSDecimalNumberTests.m in Sources */,
 				DEE0C5BD1809D1EE00CA59BD /* NSFileHandleTests.m in Sources */,
 				DE242DBC17BC446900D668DF /* NSObjCRuntimeTests.m in Sources */,
 				DE242DBD17BC446900D668DF /* NSPathUtilitesTests.m in Sources */,
