@@ -17,6 +17,13 @@
     return YES;
 }
 
+- (BOOL)test_cfNumberType
+{
+    NSDecimalNumber *n = [NSDecimalNumber decimalNumberWithString:@"1.99"];
+    testassert([n _cfNumberType] == kCFNumberDoubleType);
+    return YES;
+}
+
 - (BOOL)testDecimalNumberDoubleValue
 {
     NSDecimalNumber *dn = [NSDecimalNumber decimalNumberWithString:@"1.99"];

@@ -28,6 +28,18 @@
     return YES;
 }
 
+- (BOOL)testScannerWithStringSpaces
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"    "];
+    
+    int value = -1;
+    testassert(![scanner scanInt:&value]);
+    testassert(value == -1);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
 - (BOOL)testScannerIsAtEnd
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"ABC"];
@@ -395,6 +407,42 @@
     return YES;
 }
 
+- (BOOL)testScanDecimal
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@" 5.67   0 -0 -12 .981"];
+    NSDecimal decimal;
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 567);
+    testassert(decimal._exponent == -2);
+    testassert([scanner scanLocation] == 5);
     
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._isNegative == 0);
+    testassert([scanner scanLocation] == 9);
+    
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._isNegative == 0);
+    testassert([scanner scanLocation] == 12);
+    
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 12);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._isNegative == 1);
+    testassert([scanner scanLocation] == 16);
+
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 981);
+    testassert(decimal._exponent == -3);
+    testassert(decimal._isNegative == 0);
+    testassert([scanner scanLocation] == 21);
+    
+    return YES;
+}
+
+
 
 @end
