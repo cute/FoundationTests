@@ -59,7 +59,12 @@
     
     testassert([request HTTPBodyStream] == nil);
     
+    // radar://15366677
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_7_0
     testassert([request HTTPShouldHandleCookies] == YES);
+#elif __IPHONE_OS_VERSION_MAX_ALLOWED <= __IPHONE_6_1
+    testassert([request HTTPShouldHandleCookies] == YES);
+#endif
     
     testassert([request HTTPShouldUsePipelining] == NO);
     
@@ -118,8 +123,12 @@
     testassert([request HTTPBody] == nil);
     
     testassert([request HTTPBodyStream] == nil);
-    
+    // radar://15366677
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_7_0
     testassert([request HTTPShouldHandleCookies] == YES);
+#elif __IPHONE_OS_VERSION_MAX_ALLOWED <= __IPHONE_6_1
+    testassert([request HTTPShouldHandleCookies] == YES);
+#endif
     
     testassert([request HTTPShouldUsePipelining] == NO);
     
