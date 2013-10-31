@@ -167,6 +167,84 @@
     return YES;
 }
 
+- (BOOL)testEmptyArchive
+{
+    NSData* objectEncoded = [NSKeyedArchiver archivedDataWithRootObject:nil];
+    testassert([objectEncoded length] == 135);
+    const char *bytes = [objectEncoded bytes];
+    // should be "bplist00\xd4\x01\x02\x03\x04\x05\b\n\vT$topX$objectsX$versionY$archiver\xd1\x06\aTroot\x80"
+    testassert(strncmp(bytes, "bplist00", 8) == 0);
+    testassert(strncmp(&bytes[14], "\b\n\vT$topX$objectsX$versionY$archiver", 36) == 0);
+    testassert(strncmp(&bytes[52], "\aTroot", 6) == 0);
+    return YES;
+}
+
+- (BOOL)testSimpleArchiveNumber
+{
+    NSData* objectEncoded = [NSKeyedArchiver archivedDataWithRootObject:@123];
+    testassert([objectEncoded length] == 139);
+    const char *bytes = [objectEncoded bytes];
+    // should be "bplist00\xd4\x01\x02\x03\x04\x05\b\v\fT$topX$objectsX$versionY$archiver\xd1\x06\aTroot\x80\x01\xa2\t\nU$null\x10{\x12"
+    testassert(strncmp(bytes, "bplist00", 8) == 0);
+    testassert(strncmp(&bytes[14], "\b\v\fT$topX$objectsX$versionY$archiver", 36) == 0);
+    testassert(strncmp(&bytes[52], "\aTroot", 6) == 0);
+    testassert(bytes[70] == 123);
+    return YES;
+}
+
+- (BOOL)testSimpleArchiveString
+{
+    NSData* objectEncoded = [NSKeyedArchiver archivedDataWithRootObject:@"abcdefg"];
+    testassert([objectEncoded length] == 145);
+    const char *bytes = [objectEncoded bytes];
+    // should be "bplist00\xd4\x01\x02\x03\x04\x05\b\v\fT$topX$objectsX$versionY$archiver\xd1\x06\aTroot\x80\x01\xa2\t\nU$nullWabcdefg\x12"
+    testassert(strncmp(bytes, "bplist00", 8) == 0);
+    testassert(strncmp(&bytes[14], "\b\v\fT$topX$objectsX$versionY$archiver", 36) == 0);
+    testassert(strncmp(&bytes[52], "\aTroot", 6) == 0);
+    testassert(strncmp(&bytes[70], "abcdefg", 7) == 0);
+    return YES;
+}
+
+//"bplist00\xd4\x01\x02\x03\x04\x05\b\x1c\x1dT$topX$objectsX$versionY$archiver\xd1\x06\aTroot\x80\x01\xa6\t\n\x12\x13\x14\x15U$null\xd2\v\f\r\x0eV$classZNS.objects\x80\x05\xa3\x0f\x10\x11\x80\x02\x80\x03\x80\x04\x10\x01\x10\x02\x10\x03\xd2\x16\x17\x18\eX$classesZ$classname\xa2\x19\x1aWNSArrayXNSObjectWNSArray\x12"
+
+- (BOOL)testSimpleArchiveArray
+{
+    NSData* objectEncoded = [NSKeyedArchiver archivedDataWithRootObject:@[ @4, @5, @6]];
+    testassert([objectEncoded length] == 252);
+    const char *bytes = [objectEncoded bytes];
+    // should be "bplist00\xd4\x01\x02\x03\x04\x05\b\v\fT$topX$objectsX$versionY$archiver\xd1\x06\aTroot\x80\x01\xa2\t\nU$nullWabcdefg\x12"
+    testassert(strncmp(bytes, "bplist00", 8) == 0);
+    testassert(strncmp(&bytes[14], "\b\x1c\x1dT$topX$objectsX$versionY$archiver", 36) == 0);
+    testassert(strncmp(&bytes[52], "\aTroot", 6) == 0);
+    testassert(strncmp(&bytes[80], "classZNS.objects", 16) == 0);
+    testassert(strncmp(&bytes[119], "X$classesZ$classname", 20) == 0);
+    testassert(strncmp(&bytes[142], "WNSArrayXNSObjectWNSArray", 25) == 0);
+    testassert(bytes[109] == 4);
+    testassert(bytes[111] == 5);
+    testassert(bytes[113] == 6);
+    return YES;
+}
+
+// "bplist00\xd4\x01\x02\x03\x04\x05\b !T$topX$objectsX$versionY$archiver\xd1\x06\aTroot\x80\x01\xa7\t\n\x15\x16\x17\x18\x19U$null\xd3\v\f\r\x0e\x11\x12ZNS.objectsV$classWNS.keys\xa2\x0f\x10\x80\x04\x80\x05\x80\x06\xa2\x13\x14\x80\x02\x80\x03SabcSdef\x10\x04\x10\t\xd2\x1a\e\x1c\x1fX$classesZ$classname\xa2\x1d\x1e\NSDictionaryXNSObject\NSDictionary\x12"
+
+- (BOOL)testSimpleArchiveDictionary
+{
+    NSData* objectEncoded = [NSKeyedArchiver archivedDataWithRootObject:@{ @"abc": @4, @"def": @9}];
+    testassert([objectEncoded length] == 287);
+    const char *bytes = [objectEncoded bytes];
+    // should be "bplist00\xd4\x01\x02\x03\x04\x05\b\v\fT$topX$objectsX$versionY$archiver\xd1\x06\aTroot\x80\x01\xa2\t\nU$nullWabcdefg\x12"
+    testassert(strncmp(bytes, "bplist00", 8) == 0);
+    testassert(strncmp(&bytes[17], "T$topX$objectsX$versionY$archiver", 33) == 0);
+    testassert(strncmp(&bytes[52], "\aTroot", 6) == 0);
+    testassert(strncmp(&bytes[81], "ZNS.objectsV$classWNS.keys", 25) == 0);
+    testassert(strncmp(&bytes[123], "SabcSdef", 8) == 0);
+    testassert(strncmp(&bytes[140], "X$classesZ$classname", 20) == 0);
+    testassert(strncmp(&bytes[164], "NSDictionaryXNSObject", 21) == 0);
+    testassert(bytes[132] == 4);
+    testassert(bytes[134] == 9);
+    return YES;
+}
+
 - (BOOL)testBasicObjectsEncodeDecode
 {
     for (id (^c)(void) in [self NSCodingSupportedClasses])
