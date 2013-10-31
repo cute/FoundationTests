@@ -71,7 +71,19 @@
     return [[[self alloc] init] autorelease];
 }
 @end
+@interface ReallyBadObservable : Observable
+@end
 
+@implementation ReallyBadObservable
+- (void)setAnInt:(int)anInt
+{
+    _anInt = anInt;
+}
++ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key
+{
+    return NO;
+}
+@end
 @interface BadObservable : Observable
 @end
 
@@ -193,6 +205,95 @@
 
     OBSERVER_EPILOGUE();
 }
+
+-(BOOL)testMidCycleUnregister
+{
+    @autoreleasepool
+    {
+        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
+        Observer *observer = [Observer observer];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable willChangeValueForKey:@"anInt"];
+        [badObservable setAnInt:50];
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        [badObservable didChangeValueForKey:@"anInt"];
+        testassert([observer observationCountForKeyPath:@"anInt"] == 0);
+        return YES;
+    }
+}
+-(BOOL)testMidCycleRegister
+{
+    @autoreleasepool
+    {
+        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
+        Observer *observer = [Observer observer];
+        Observer *observer2 = [Observer observer];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable willChangeValueForKey:@"anInt"];
+        [badObservable addObserver:observer2 forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable setAnInt:50];
+        [badObservable didChangeValueForKey:@"anInt"];
+        testassert([observer observationCountForKeyPath:@"anInt"] == 1); //TODO: is this a bug in iOS?
+        testassert([observer2 observationCountForKeyPath:@"anInt"] == 0);
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        [badObservable removeObserver:observer2 forKeyPath:@"anInt"];
+        return YES;
+    }
+}
+-(BOOL)testMidCycleRegisterSame
+{
+    @autoreleasepool
+    {
+        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
+        Observer *observer = [Observer observer];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable willChangeValueForKey:@"anInt"];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable setAnInt:50];
+        [badObservable didChangeValueForKey:@"anInt"];
+        testassert([observer observationCountForKeyPath:@"anInt"] == 1); //TODO: is this a bug in iOS?
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        return YES;
+    }
+}
+
+-(BOOL)testMidCyclePartialUnregister
+{
+    @autoreleasepool
+    {
+        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
+        Observer *observer = [Observer observer];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable willChangeValueForKey:@"anInt"];
+        [badObservable setAnInt:50];
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        [badObservable didChangeValueForKey:@"anInt"];
+        testassert([observer observationCountForKeyPath:@"anInt"] == 2); //This seems wrong. 
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        return YES;
+    }
+}
+
+-(BOOL)testMidCycleReregister
+{
+    @autoreleasepool
+    {
+        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
+        Observer *observer = [Observer observer];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable willChangeValueForKey:@"anInt"];
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        [badObservable setAnInt:50];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable didChangeValueForKey:@"anInt"];
+        testassert([observer observationCountForKeyPath:@"anInt"] == 1); // really?
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        return YES;
+    }
+}
+
 
 #undef OBSERVER_PROLOGUE
 #undef OBSERVER_EPILOGUE
