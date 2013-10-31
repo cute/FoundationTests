@@ -179,6 +179,108 @@
     return YES;
 }
 
+- (BOOL) testInitForWritingWithMutableDataBool
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeBool:YES forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 135);
+    const char *bytes = [data bytes];
+    // "bplist00\xd4\x01\x02\x03\x04\x05\b\n\vT$topX$objectsX$versionY$archiver\xd1\x06\aUmyKey\t\xa1\tU$null\x12"
+    testassert(strncmp(bytes, "bplist00", 8) == 0);
+    testassert(strncmp(&bytes[14], "\b\n\vT$topX$objectsX$versionY$archiver", 36) == 0);
+    testassert(strncmp(&bytes[52], "\aUmyKey", 7) == 0);
+    testassert(bytes[59] == 9);
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithMutableDataDouble
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeDouble:-91.73 forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 143);
+    const char *bytes = [data bytes];
+    // "bplist00\xd4\x01\x02\x03\x04\x05\b\n\vT$topX$objectsX$versionY$archiver\xd1\x06\aUmyKey#\xc0V\xee\xb8Q\xeb\x85\x1f\xa1\tU$null\x12"
+    testassert(strncmp(bytes, "bplist00", 8) == 0);
+    testassert(strncmp(&bytes[14], "\b\n\vT$topX$objectsX$versionY$archiver", 36) == 0);
+    testassert(strncmp(&bytes[52], "\aUmyKey", 7) == 0);
+    testassert(bytes[59] == 35);
+    testassert(bytes[61] == 86);
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithMutableDataFloat
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeFloat:3.14159f forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 139);
+    const char *bytes = [data bytes];
+    // "bplist00\xd4\x01\x02\x03\x04\x05\b\n\vT$topX$objectsX$versionY$archiver\xd1\x06\aUmyKey"@I\x0f\xd0\xa1\tU$null\x12"
+    testassert(strncmp(bytes, "bplist00", 8) == 0);
+    testassert(strncmp(&bytes[14], "\b\n\vT$topX$objectsX$versionY$archiver", 36) == 0);
+    testassert(strncmp(&bytes[52], "\aUmyKey", 7) == 0);
+    testassert(bytes[60] == 64);
+    testassert(bytes[62] == 15);
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithMutableDataInt
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeInt:123 forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 136);
+    const char *bytes = [data bytes];
+    // "bplist00\xd4\x01\x02\x03\x04\x05\b\n\vT$topX$objectsX$versionY$archiver\xd1\x06\aUmyKey\x10{\xa1\tU$null\x12"
+    testassert(strncmp(bytes, "bplist00", 8) == 0);
+    testassert(strncmp(&bytes[14], "\b\n\vT$topX$objectsX$versionY$archiver", 36) == 0);
+    testassert(strncmp(&bytes[52], "\aUmyKey", 7) == 0);
+    testassert(bytes[60] == 123);
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithMutableDataInt32
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeInt32:123 forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 136);
+    const char *bytes = [data bytes];
+    // "bplist00\xd4\x01\x02\x03\x04\x05\b\n\vT$topX$objectsX$versionY$archiver\xd1\x06\aUmyKey\x10{\xa1\tU$null\x12"
+    testassert(strncmp(bytes, "bplist00", 8) == 0);
+    testassert(strncmp(&bytes[14], "\b\n\vT$topX$objectsX$versionY$archiver", 36) == 0);
+    testassert(strncmp(&bytes[52], "\aUmyKey", 7) == 0);
+    testassert(bytes[60] == 123);
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithMutableDataInt64
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeInt64:LONG_LONG_MAX forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 143);
+    const char *bytes = [data bytes];
+    // "bplist00\xd4\x01\x02\x03\x04\x05\b\n\vT$topX$objectsX$versionY$archiver\xd1\x06\aUmyKey\x13\x7f\xff\xff\xff\xff\xff\xff\xff\xa1\tU$null\x12"
+    testassert(strncmp(bytes, "bplist00", 8) == 0);
+    testassert(strncmp(&bytes[14], "\b\n\vT$topX$objectsX$versionY$archiver", 36) == 0);
+    testassert(strncmp(&bytes[52], "\aUmyKey", 7) == 0);
+    testassert(bytes[60] == 127);
+    for (int i = 61; i <= 67; i++)
+    {
+        testassert((unsigned char)bytes[i] == 0xff);
+    }
+    return YES;
+}
+
 - (BOOL)testSimpleArchiveNumber
 {
     NSData* objectEncoded = [NSKeyedArchiver archivedDataWithRootObject:@123];
