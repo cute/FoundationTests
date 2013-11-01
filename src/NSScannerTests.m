@@ -126,7 +126,6 @@
     return YES;
 }
 
-
 - (BOOL)testScannerWithNegativeLongLong
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"-98712345678901"];
@@ -135,6 +134,35 @@
     testassert([scanner scanLongLong:&value]);
     testassert(value == -98712345678901);
     testassert([scanner scanLocation] == 15);
+    return YES;
+}
+
+- (BOOL)testScanHexInt
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"0x1a3 4444"];
+    unsigned value = -1;
+    testassert([scanner scanHexInt:&value]);
+    testassert(value == 0x1a3);
+    testassert([scanner scanLocation] == 5);
+
+    testassert([scanner scanHexInt:&value]);
+    testassert(value == 0x4444);
+    testassert([scanner scanLocation] == 10);
+    return YES;
+}
+
+- (BOOL)testScannerHexLongLong
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"f7 0x1234abCDe01"];
+    
+    unsigned long long value = -1;
+    testassert([scanner scanHexLongLong:&value]);
+    testassert(value == 0xf7);
+    testassert([scanner scanLocation] == 2);
+    
+    testassert([scanner scanHexLongLong:&value]);
+    testassert(value == 0x1234abCDe01);
+    testassert([scanner scanLocation] == 16);
     return YES;
 }
 
