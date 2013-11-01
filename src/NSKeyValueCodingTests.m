@@ -205,7 +205,7 @@
     return YES;
 }
 
-- (BOOL)testDirectUknown
+- (BOOL)testDirectUnknown
 {
     Direct *d = [[Direct alloc] init];
     BOOL thrown = NO;
