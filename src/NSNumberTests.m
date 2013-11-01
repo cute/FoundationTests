@@ -997,14 +997,6 @@
 //    return YES;
 //}
 
-- (BOOL)testDecimalNumberWithString
-{
-    NSDecimalNumber *dn = [NSDecimalNumber decimalNumberWithString:@"1.99"];
-    double d = [dn doubleValue];
-    testassert(d >= 1.98999 && d <= 1.990001);
-    return YES;
-}
-
 - (BOOL)testNumberComparisons
 {
     BOOL exception = NO;

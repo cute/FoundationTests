@@ -28,6 +28,18 @@
     return YES;
 }
 
+- (BOOL)testScannerWithStringSpaces
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"    "];
+    
+    int value = -1;
+    testassert(![scanner scanInt:&value]);
+    testassert(value == -1);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
 - (BOOL)testScannerIsAtEnd
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"ABC"];
@@ -114,7 +126,6 @@
     return YES;
 }
 
-
 - (BOOL)testScannerWithNegativeLongLong
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"-98712345678901"];
@@ -123,6 +134,35 @@
     testassert([scanner scanLongLong:&value]);
     testassert(value == -98712345678901);
     testassert([scanner scanLocation] == 15);
+    return YES;
+}
+
+- (BOOL)testScanHexInt
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"0x1a3 4444"];
+    unsigned value = -1;
+    testassert([scanner scanHexInt:&value]);
+    testassert(value == 0x1a3);
+    testassert([scanner scanLocation] == 5);
+
+    testassert([scanner scanHexInt:&value]);
+    testassert(value == 0x4444);
+    testassert([scanner scanLocation] == 10);
+    return YES;
+}
+
+- (BOOL)testScannerHexLongLong
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"f7 0x1234abCDe01"];
+    
+    unsigned long long value = -1;
+    testassert([scanner scanHexLongLong:&value]);
+    testassert(value == 0xf7);
+    testassert([scanner scanLocation] == 2);
+    
+    testassert([scanner scanHexLongLong:&value]);
+    testassert(value == 0x1234abCDe01);
+    testassert([scanner scanLocation] == 16);
     return YES;
 }
 
@@ -395,6 +435,42 @@
     return YES;
 }
 
+- (BOOL)testScanDecimal
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@" 5.67   0 -0 -12 .981"];
+    NSDecimal decimal;
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 567);
+    testassert(decimal._exponent == -2);
+    testassert([scanner scanLocation] == 5);
     
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._isNegative == 0);
+    testassert([scanner scanLocation] == 9);
+    
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._isNegative == 0);
+    testassert([scanner scanLocation] == 12);
+    
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 12);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._isNegative == 1);
+    testassert([scanner scanLocation] == 16);
+
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 981);
+    testassert(decimal._exponent == -3);
+    testassert(decimal._isNegative == 0);
+    testassert([scanner scanLocation] == 21);
+    
+    return YES;
+}
+
+
 
 @end

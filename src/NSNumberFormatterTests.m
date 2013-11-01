@@ -77,4 +77,42 @@
     return YES;
 }
 
+- (BOOL) testFormattedDecimal
+{    
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    NSDecimalNumber *dn = [NSDecimalNumber decimalNumberWithString:@"49.0"];
+    NSString *formattedOutput = [formatter stringFromNumber:dn];
+    testassert([formattedOutput isEqualToString:@"49"]);
+    [formatter release];
+    return YES;
+}
+
+- (BOOL) testNSNumberMaximumFractionDigits
+{
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    
+    NSDecimalNumber *dn = [NSDecimalNumber decimalNumberWithString:@"1.9726345"];
+    [formatter setMaximumFractionDigits:3];
+    NSString *formattedOutput = [formatter stringFromNumber:dn];
+    testassert([formattedOutput isEqualToString:@"1.973"]);
+    [formatter release];
+    return YES;
+}
+
+- (BOOL) testNSNumberLocaleOther
+{
+    NSLocale *frLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"fr_FR"];
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setLocale:frLocale];
+    
+    NSDecimalNumber *dn = [NSDecimalNumber decimalNumberWithString:@"1.9726345"];
+    [formatter setMaximumFractionDigits:3];
+    
+    NSString *formattedOutput = [formatter stringFromNumber:dn];
+    testassert([formattedOutput isEqualToString:@"1,973"]);
+    [formatter release];
+    [frLocale release];
+    return YES;
+}
+
 @end
