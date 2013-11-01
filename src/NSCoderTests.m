@@ -192,6 +192,7 @@
     testassert(strncmp(&bytes[14], "\b\n\vT$topX$objectsX$versionY$archiver", 36) == 0);
     testassert(strncmp(&bytes[52], "\aUmyKey", 7) == 0);
     testassert(bytes[59] == 9);
+    testassert(strncmp(&bytes[76], "NSKeyedArchiver", 15) == 0);
     return YES;
 }
 
