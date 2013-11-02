@@ -389,11 +389,11 @@
 }
 
 #warning TODO
-#if 0
 
 - (BOOL)testFileCreation
 {
-    NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:@"Info.plist"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"FoundationTests-Info" ofType:@"plist"];
+    NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:path];
 
     // File initializer should return a dictionary
     testassert(dict != nil);
@@ -406,7 +406,8 @@
 
 - (BOOL)testFileMutableCreation
 {
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithContentsOfFile:@"Info.plist"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"FoundationTests-Info" ofType:@"plist"];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
 
     // File initializer should return a dictionary
     testassert(dict != nil);
@@ -420,7 +421,8 @@
 
 - (BOOL)testURLCreation
 {
-    NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfURL:[NSURL fileURLWithPath:@"Info.plist"]];
+    NSURL *URL = [[NSBundle mainBundle] URLForResource:@"FoundationTests-Info" withExtension:@"plist"];
+    NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfURL:URL];
 
     // File initializer should return a dictionary
     testassert(dict != nil);
@@ -431,9 +433,19 @@
     return YES;
 }
 
+- (BOOL)testURLNilCreation
+{
+    NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfURL:[NSURL URLWithString:nil]];
+    
+    testassert(dict == nil);
+    
+    return YES;
+}
+
 - (BOOL)testURLMutableCreation
 {
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithContentsOfURL:[NSURL fileURLWithPath:@"Info.plist"]];
+    NSURL *URL = [[NSBundle mainBundle] URLForResource:@"FoundationTests-Info" withExtension:@"plist"];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithContentsOfURL:URL];
 
     // File initializer should return a dictionary
     testassert(dict != nil);
@@ -445,7 +457,6 @@
     return YES;
 }
 
-#endif
 
 - (BOOL)testSubclassCreation
 {
