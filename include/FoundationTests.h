@@ -33,7 +33,7 @@ BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_nor
 #endif
 
 #if TARGET_IPHONE_SIMULATOR
-#define IOS_SIMULATOR_BUG_FAILURE() NSLog(@"SKIPPING FAILURE DUE TO SIMULATOR BUG!"); return YES
+#define IOS_SIMULATOR_BUG_FAILURE() NSLog(@"SKIPPING FAILURE DUE TO SIMULATOR BUG!"); testassert(0)
 #else
 #define IOS_SIMULATOR_BUG_FAILURE()
 #endif
