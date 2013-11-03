@@ -181,7 +181,7 @@ static CFAbsoluteTime makeCFAbsoluteTime(int year, int month, int day)
     
     tz = [[NSTimeZone alloc] initWithName:@"America/Los_Angeles"];
     ti = [tz daylightSavingTimeOffset];
-    testassert(ti == 3600);
+    testassert(ti == ([tz isDaylightSavingTime] ? 3600 : 0));
     
     return YES;
 }
