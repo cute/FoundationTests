@@ -116,7 +116,6 @@
 		DE242DCD17C2A78200D668DF /* NSFileManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE242DCC17C2A78200D668DF /* NSFileManagerTests.m */; };
 		DE323BE41821CE36003742EC /* NSDecimalNumberTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BAA1FF18203D8000E7C337 /* NSDecimalNumberTests.m */; };
 		DE323BE51821CE74003742EC /* NSCoderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 470A08B4181C647C006BFAB4 /* NSCoderTests.m */; };
-		DE35B00418281DE7003E743A /* FoundationTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 47178C9717ADD9D40062E7B0 /* FoundationTests-Info.plist */; };
 		DE69B48917FB4E2A00EB5F59 /* CFGetTypeIDTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE69B48817FB4E2A00EB5F59 /* CFGetTypeIDTests.m */; };
 		DE6BDA8E17EA5BE8006B5392 /* NSAttributedStringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6BDA8D17EA5BE8006B5392 /* NSAttributedStringTests.m */; };
 		DE6BDA9017EA6ABD006B5392 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE6BDA8F17EA6ABD006B5392 /* UIKit.framework */; };
@@ -486,7 +485,6 @@
 				58D2CED817FA50EF00B5585D /* bigfile.txt in Resources */,
 				47178CA417ADD9D40062E7B0 /* Default@2x.png in Resources */,
 				47178CA617ADD9D40062E7B0 /* Default-568h@2x.png in Resources */,
-				DE35B00418281DE7003E743A /* FoundationTests-Info.plist in Resources */,
 				1AFCF48917B9AE350085CA15 /* 0.asset in Resources */,
 				1AFCF48A17B9AE350085CA15 /* 0.bundle in Resources */,
 				1AFCF48F17B9AE480085CA15 /* folderref0 in Resources */,
