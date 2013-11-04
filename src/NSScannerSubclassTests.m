@@ -38,7 +38,8 @@
     
     testassert(scanner.class == objc_getClass("MyScanner"));
     
-    [[scanner initWithString:@""] release];
+    NSString *s = @"abc";
+    [[scanner initWithString:s] autorelease];
     
     return YES;
 }

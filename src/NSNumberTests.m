@@ -24,6 +24,32 @@
     testassert(n1 == n3);
     testassert(n1 == n4);
 
+    testassert([y1 isKindOfClass:[NSNumber class]]);
+    testassert([n1 isKindOfClass:[NSNumber class]]);
+
+    return YES;
+}
+
+- (BOOL)testSharedNumberInstances
+{
+    NSNumber* nan = [NSNumber numberWithDouble:NAN];
+    NSNumber* nan2 = [NSNumber numberWithDouble:NAN];
+
+    testassert(nan == nan2);
+    testassert([nan isKindOfClass:[NSNumber class]]);
+
+    NSNumber* pinfinity = [NSNumber numberWithDouble:+INFINITY];
+    NSNumber* pinfinity2 = [NSNumber numberWithDouble:+INFINITY];
+
+    testassert(pinfinity == pinfinity2);
+    testassert([pinfinity isKindOfClass:[NSNumber class]]);
+
+    NSNumber* ninfinity = [NSNumber numberWithDouble:-INFINITY];
+    NSNumber* ninfinity2 = [NSNumber numberWithDouble:-INFINITY];
+
+    testassert(ninfinity == ninfinity2);
+    testassert([ninfinity isKindOfClass:[NSNumber class]]);
+
     return YES;
 }
 
@@ -996,14 +1022,6 @@
 //    testassert(d == 1.99);
 //    return YES;
 //}
-
-- (BOOL)testDecimalNumberWithString
-{
-    NSDecimalNumber *dn = [NSDecimalNumber decimalNumberWithString:@"1.99"];
-    double d = [dn doubleValue];
-    testassert(d >= 1.98999 && d <= 1.990001);
-    return YES;
-}
 
 - (BOOL)testNumberComparisons
 {

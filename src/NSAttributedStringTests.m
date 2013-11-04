@@ -9,14 +9,14 @@
 #import "FoundationTests.h"
 #import <Foundation/NSAttributedString.h>
 
-#if (!defined(TARGET_OS_MAC) || !TARGET_OS_MAC)
+#ifndef IM_A_MAC_TARGET
 #import <UIKit/UIColor.h>
 #import <UIKit/UIFont.h>
 #endif
 
 @testcase(NSAttributedString)
 
-#if (!defined(TARGET_OS_MAC) || !TARGET_OS_MAC)
+#ifndef IM_A_MAC_TARGET
 
 - (BOOL)testNSAttributedStringColorTest
 {

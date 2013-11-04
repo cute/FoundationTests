@@ -32,13 +32,15 @@ BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_nor
 #define APPORTABLE_KNOWN_CRASHER()
 #endif
 
-//TODO after ICU is added
-//action(NSDateFormatter) \
+#if TARGET_IPHONE_SIMULATOR
+#define IOS_SIMULATOR_BUG_FAILURE() NSLog(@"SKIPPING FAILURE DUE TO SIMULATOR BUG!"); testassert(0)
+#else
+#define IOS_SIMULATOR_BUG_FAILURE()
+#endif
 
 void runFoundationTests(void);
 
 #define TEST_CLASSES(action) \
-action(SecureTransport) \
 action(CFRunLoop) \
 action(CFGetTypeID) \
 action(NSAttributedString) \
@@ -46,9 +48,13 @@ action(NSArray) \
 action(NSBlock) \
 action(NSBundle) \
 action(NSByteCountFormatter) \
+action(NSCalendar) \
+action(NSCoder) \
 action(NSCountedSet) \
 action(NSData) \
 action(NSDate) \
+action(NSDateFormatter) \
+action(NSDecimalNumber) \
 action(NSDictionary) \
 action(NSException) \
 action(NSFileHandle) \
@@ -60,6 +66,7 @@ action(NSLocale) \
 action(NSLock) \
 action(NSMethodSignature) \
 action(NSNumber) \
+action(NSNumberFormatter) \
 action(NSObjCRuntime) \
 action(NSScanner) \
 action(NSScannerSubclass) \
@@ -75,13 +82,12 @@ action(NSValue) \
 action(NSKeyValueCoding) \
 action(NSPort) \
 action(NSURLConnection) \
-action(NSNumberFormatter) \
 action(NSURLRequest) \
 action(NSHTTPCookieStorage) \
 action(NSCachedURLResponse) \
 action(NSURLCache) \
 action(NSURLAuthenticationChallenge) \
 action(SecItem) \
-
+action(SecureTransport) \
 
 TEST_CLASSES(@testdecl)

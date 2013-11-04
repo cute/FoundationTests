@@ -10,6 +10,111 @@
 
 @testcase(NSDateFormatter)
 
+- (BOOL)testCFDateFormatterLongStyle
+{
+    CFDateRef date = CFDateCreate(NULL, 123456);
+    CFLocaleRef currentLocale = CFLocaleCopyCurrent();
+    
+    CFDateFormatterRef dateFormatter = CFDateFormatterCreate(NULL, currentLocale, kCFDateFormatterLongStyle, kCFDateFormatterLongStyle);
+    
+    NSString *formattedString = (NSString *)CFDateFormatterCreateStringWithDate(NULL, dateFormatter, date);
+    
+    testassert([formattedString isEqualToString:@"January 2, 2001 at 2:17:36 AM PST"]);
+    
+    // Memory management
+    CFRelease(date);
+    CFRelease(currentLocale);
+    CFRelease(dateFormatter);
+    CFRelease(formattedString);
+    return YES;
+}
+
+- (BOOL)testCFDateFormatterNoStyle
+{
+    CFDateRef date = CFDateCreate(NULL, 123456);
+    CFLocaleRef currentLocale = CFLocaleCopyCurrent();
+    
+    CFDateFormatterRef dateFormatter = CFDateFormatterCreate(NULL, currentLocale, kCFDateFormatterShortStyle, kCFDateFormatterNoStyle);
+    
+    NSString *formattedString = (NSString *)CFDateFormatterCreateStringWithDate(NULL, dateFormatter, date);
+    
+    testassert([formattedString isEqualToString:@"1/2/01"]);
+    
+    // Memory management
+    CFRelease(date);
+    CFRelease(currentLocale);
+    CFRelease(dateFormatter);
+    CFRelease(formattedString);
+    return YES;
+}
+
+- (BOOL)testCFDateFormatterComparing
+{
+    CFDateRef date = CFDateCreate(NULL, 123456);
+    CFStringRef enUSLocaleIdentifier = CFSTR("en_US");
+    CFLocaleRef enUSLocale = CFLocaleCreate(NULL, enUSLocaleIdentifier);
+    
+    // Create different date formatters
+    CFDateFormatterRef shortFormatter = CFDateFormatterCreate
+    (NULL, enUSLocale, kCFDateFormatterShortStyle, kCFDateFormatterShortStyle);
+    CFDateFormatterRef mediumFormatter = CFDateFormatterCreate
+    (NULL, enUSLocale, kCFDateFormatterMediumStyle, kCFDateFormatterMediumStyle);
+    CFDateFormatterRef longFormatter = CFDateFormatterCreate
+    (NULL, enUSLocale, kCFDateFormatterLongStyle, kCFDateFormatterLongStyle);
+    CFDateFormatterRef fullFormatter = CFDateFormatterCreate
+    (NULL, enUSLocale, kCFDateFormatterFullStyle, kCFDateFormatterFullStyle);
+    
+    // Create formatted strings
+    CFStringRef shortString = CFDateFormatterCreateStringWithDate
+    (NULL, shortFormatter, date);
+    CFStringRef mediumString = CFDateFormatterCreateStringWithDate
+    (NULL, mediumFormatter, date);
+    CFStringRef longString = CFDateFormatterCreateStringWithDate
+    (NULL, longFormatter, date);
+    CFStringRef fullString = CFDateFormatterCreateStringWithDate
+    (NULL, fullFormatter, date);
+    
+    testassert([(NSString *)shortString isEqualToString:@"1/2/01, 2:17 AM"]);
+    testassert([(NSString *)mediumString isEqualToString:@"Jan 2, 2001, 2:17:36 AM"]);
+    testassert([(NSString *)longString isEqualToString:@"January 2, 2001 at 2:17:36 AM PST"]);
+    testassert([(NSString *)fullString isEqualToString:@"Tuesday, January 2, 2001 at 2:17:36 AM Pacific Standard Time"]);
+    
+    // Memory management
+    CFRelease(date);
+    CFRelease(enUSLocale);
+    CFRelease(shortFormatter);
+    CFRelease(mediumFormatter);
+    CFRelease(longFormatter);
+    CFRelease(fullFormatter);
+    CFRelease(shortString);
+    CFRelease(mediumString);
+    CFRelease(longString);
+    CFRelease(fullString);
+    
+    return YES;
+}
+
+- (BOOL)testCFDateFixedFormats
+{
+    CFLocaleRef currentLocale = CFLocaleCopyCurrent();
+    CFDateRef date = CFDateCreate(NULL, 123456);
+    
+    CFDateFormatterRef customDateFormatter = CFDateFormatterCreate
+    (NULL, currentLocale, kCFDateFormatterNoStyle, kCFDateFormatterNoStyle);
+    CFStringRef customDateFormat = CFSTR("yyyy-MM-dd*HH:mm");
+    CFDateFormatterSetFormat(customDateFormatter, customDateFormat);
+    
+    CFStringRef customFormattedDateString = CFDateFormatterCreateStringWithDate(NULL, customDateFormatter, date);
+    testassert([(NSString *)customFormattedDateString isEqualToString:@"2001-01-02*02:17"]);
+    
+    // Memory management
+    CFRelease(currentLocale);
+    CFRelease(date);
+    CFRelease(customDateFormatter);
+    CFRelease(customFormattedDateString);
+    return YES;
+}
+
 - (BOOL)testNSDateFormatterShortStyle
 {
     NSDate *today = [NSDate dateWithTimeIntervalSinceNow:0];
