@@ -604,6 +604,24 @@ static const char *allData[] = {
     strcpy(localCopy, base);
     const char *value = CFDictionaryGetValue(d, localCopy);
     testassert(strcmp(value, "Mexico/BajaNorte") == 0);
+
+    return YES;
+}
+
+- (BOOL)testDictionaryWithContentsOfFile
+{
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:nil];
+    testassert(dict == nil);
+    
+    dict = [NSDictionary dictionaryWithContentsOfFile:@"/An/Invalid/File/Path"];
+    testassert(dict == nil);
+
+    NSLog(@"%@",[[NSBundle mainBundle] resourcePath]);
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"FoundationTests-Info" ofType:@"plist"];
+    dict = [NSDictionary dictionaryWithContentsOfFile:path];
+    testassert(dict != nil);
+    testassert([dict count] > 0);
+
     return YES;
 }
 
