@@ -1,4 +1,5 @@
 #import "FoundationTests.h"
+#import <objc/runtime.h>
 
 @interface Observer : NSObject
 @end
@@ -110,6 +111,42 @@
         return result; \
     }
 
+- (BOOL)testBasicNotifyingInstanceCharacteristics
+{
+    @autoreleasepool
+    {
+        Observable *observable = [Observable observable];
+        Observer *observer = [Observer observer];
+        Class originalObservableClass = object_getClass(observable);
+        IMP originalClassIMP = class_getMethodImplementation(originalObservableClass, @selector(class));
+        IMP originalDeallocIMP = class_getMethodImplementation(originalObservableClass, @selector(dealloc));
+        IMP original_isKVOAIMP = class_getMethodImplementation(originalObservableClass, @selector(_isKVOA)); // this should be NULL.
+        IMP originalSetterIMP = class_getMethodImplementation(originalObservableClass, @selector(setAnInt:));
+        id originalObservationInfo = [observable observationInfo];
+        [observable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        id notifyingObservationInfo = [observable observationInfo];
+        Class notifyingObservableClass = object_getClass(observable);
+        IMP notifyingClassIMP = class_getMethodImplementation(notifyingObservableClass, @selector(class));
+        IMP notifyingDeallocIMP = class_getMethodImplementation(notifyingObservableClass, @selector(dealloc));
+        IMP notifying_isKVOAIMP = class_getMethodImplementation(notifyingObservableClass, @selector(_isKVOA));
+        IMP notifyingSetterIMP = class_getMethodImplementation(notifyingObservableClass, @selector(setAnInt:));
+        testassert([observable class] == [Observable class]);
+        testassert(object_getClass(observable) == NSClassFromString(@"NSKVONotifying_Observable"));
+        testassert([observable class] != object_getClass(observable));
+        testassert(originalObservableClass != notifyingObservableClass);
+        testassert(originalClassIMP != notifyingClassIMP);
+        testassert(originalDeallocIMP != notifyingDeallocIMP);
+        testassert(original_isKVOAIMP != notifying_isKVOAIMP);
+        testassert(originalSetterIMP != notifyingSetterIMP);
+        testassert(originalObservationInfo != notifyingObservationInfo);
+        [observable removeObserver:observer forKeyPath:@"anInt"];
+        id postRemoveObservationInfo = [observable observationInfo];
+        testassert(originalObservableClass == object_getClass(observable));
+        testassert(postRemoveObservationInfo == originalObservationInfo);
+        return YES;
+    }
+}
+
 - (BOOL)testZeroObservances
 {
     OBSERVER_PROLOGUE(Observable, @"anInt", 0, NULL);
@@ -179,7 +216,7 @@
 
 - (BOOL)testManyObservancesWithBadObservable
 {
-    static const NSUInteger iterations = 100000;
+    static const NSUInteger iterations = 10;
 
     OBSERVER_PROLOGUE(BadObservable, @"anInt", 0, NULL);
 
