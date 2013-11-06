@@ -181,7 +181,7 @@
 
 - (BOOL)testEmptyArchiveDecoded
 {
-    NSData* objectEncoded = [NSKeyedArchiver archivedDataWithRootObject:nil];
+    NSData *objectEncoded = [NSKeyedArchiver archivedDataWithRootObject:nil];
     NSKeyedUnarchiver *unarchive = [NSKeyedUnarchiver unarchiveObjectWithData:objectEncoded];
     testassert([unarchive decodeObjectForKey:@"alsfdj"] == nil);
 
@@ -238,7 +238,7 @@
     NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     testassert([unarchive decodeIntForKey:@"myKey"] == 30000);
     [unarchive finishDecoding];
-    
+
     return YES;
 }
 
@@ -330,6 +330,7 @@
     testassert(returnedLength == 10);
     testassert(strncmp((const char *)decodeBytes,  "abcdefghijklmop", returnedLength) == 0);
     [unarchive finishDecoding];
+    
     return YES;
 }
 
@@ -347,6 +348,7 @@
     testassert(returnedLength == 15);
     testassert(strncmp((const char *)decodeBytes,  "abcdefghijklmop", returnedLength) == 0);
     [unarchive finishDecoding];
+
     return YES;
 }
 
@@ -365,6 +367,7 @@
     testassert(returnedLength == 25);
     testassert(strncmp((const char *)decodeBytes, "abcdefghijklmopqrstuvwzyz", returnedLength) == 0);
     [unarchive finishDecoding];
+    
     return YES;
 }
 
