@@ -169,7 +169,7 @@
 
 - (BOOL)testManyObservances
 {
-    static const NSUInteger iterations = 100000;
+    static const NSUInteger iterations = 10;
 
     OBSERVER_PROLOGUE(Observable, @"anInt", 0, NULL);
 
