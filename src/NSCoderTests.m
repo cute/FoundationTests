@@ -179,6 +179,15 @@
     return YES;
 }
 
+- (BOOL)testEmptyArchiveDecoded
+{
+    NSData* objectEncoded = [NSKeyedArchiver archivedDataWithRootObject:nil];
+    NSKeyedUnarchiver *unarchive = [NSKeyedUnarchiver unarchiveObjectWithData:objectEncoded];
+    testassert([unarchive decodeObjectForKey:@"alsfdj"] == nil);
+
+    return YES;
+}
+
 - (BOOL) testInitForWritingWithMutableDataEmpty
 {
     NSMutableData *data = [NSMutableData data];
@@ -191,6 +200,90 @@
     testassert(strncmp(bytes, "bplist00", 8) == 0);
     testassert(strncmp(&bytes[15], "\b\tT$topX$objectsX$versionY$archiver", 35) == 0);
     testassert(strncmp(&bytes[67], "NSKeyedArchiver", 15) == 0);
+    
+    return YES;
+}
+
+
+- (BOOL) testInitForWritingWithMutableDataInt
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeInt:123 forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 136);
+    const char *bytes = [data bytes];
+    // "bplist00\xd4\x01\x02\x03\x04\x05\b\n\vT$topX$objectsX$versionY$archiver\xd1\x06\aUmyKey\x10{\xa1\tU$null\x12"
+    testassert(strncmp(bytes, "bplist00", 8) == 0);
+    testassert(strncmp(&bytes[14], "\b\n\vT$topX$objectsX$versionY$archiver", 36) == 0);
+    testassert(strncmp(&bytes[52], "\aUmyKey", 7) == 0);
+    testassert(bytes[60] == 123);
+    
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    testassert([unarchive decodeIntForKey:@"myKey"] == 123);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithMutableDataIntBigger
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeInt:30000 forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 137);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    testassert([unarchive decodeIntForKey:@"myKey"] == 30000);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithMutableDataIntMax
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeInt:INT_MAX forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 139);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    testassert([unarchive decodeIntForKey:@"myKey"] == INT_MAX);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithMutableDataIntNegative
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeInt:-5 forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 143);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    testassert([unarchive decodeIntForKey:@"myKey"] == -5);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithMutableDataIntMin
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeInt:INT_MIN forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 143);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    testassert([unarchive decodeIntForKey:@"myKey"] == INT_MIN);
+    [unarchive finishDecoding];
+    
     return YES;
 }
 
@@ -208,6 +301,11 @@
     testassert(strncmp(&bytes[52], "\aUmyKey", 7) == 0);
     testassert(bytes[59] == 9);
     testassert(strncmp(&bytes[76], "NSKeyedArchiver", 15) == 0);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    testassert([unarchive decodeBoolForKey:@"myKey"]);
+    [unarchive finishDecoding];
+    
     return YES;
 }
 
@@ -225,6 +323,48 @@
     testassert(strncmp(&bytes[14], "\b\n\vT$topX$objectsX$versionY$archiver", 36) == 0);
     testassert(strncmp(&bytes[52], "\aUmyKeyJabcdefghij", 18) == 0);
     testassert(strncmp(&bytes[86], "NSKeyedArchiver", 15) == 0);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSUInteger returnedLength;
+    const uint8_t *decodeBytes = [unarchive decodeBytesForKey:@"myKey" returnedLength:&returnedLength];
+    testassert(returnedLength == 10);
+    testassert(strncmp((const char *)decodeBytes,  "abcdefghijklmop", returnedLength) == 0);
+    [unarchive finishDecoding];
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithMutableDataBytes15
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeBytes:(const uint8_t *)"abcdefghijklmop" length:15 forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 152);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSUInteger returnedLength;
+    const uint8_t *decodeBytes = [unarchive decodeBytesForKey:@"myKey" returnedLength:&returnedLength];
+    testassert(returnedLength == 15);
+    testassert(strncmp((const char *)decodeBytes,  "abcdefghijklmop", returnedLength) == 0);
+    [unarchive finishDecoding];
+    return YES;
+}
+
+
+- (BOOL) testInitForWritingWithMutableDataBytesLong
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeBytes:(const uint8_t *)"abcdefghijklmopqrstuvwzyz" length:25 forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 162);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSUInteger returnedLength;
+    const uint8_t *decodeBytes = [unarchive decodeBytesForKey:@"myKey" returnedLength:&returnedLength];
+    testassert(returnedLength == 25);
+    testassert(strncmp((const char *)decodeBytes, "abcdefghijklmopqrstuvwzyz", returnedLength) == 0);
+    [unarchive finishDecoding];
     return YES;
 }
 
@@ -242,6 +382,11 @@
     testassert(strncmp(&bytes[52], "\aUmyKey", 7) == 0);
     testassert(bytes[59] == 35);
     testassert(bytes[61] == 86);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    testassert([unarchive decodeDoubleForKey:@"myKey"] == -91.73);
+    [unarchive finishDecoding];
+    
     return YES;
 }
 
@@ -259,22 +404,11 @@
     testassert(strncmp(&bytes[52], "\aUmyKey", 7) == 0);
     testassert(bytes[60] == 64);
     testassert(bytes[62] == 15);
-    return YES;
-}
-
-- (BOOL) testInitForWritingWithMutableDataInt
-{
-    NSMutableData *data = [NSMutableData data];
-    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
-    [archive encodeInt:123 forKey:@"myKey"];
-    [archive finishEncoding];
-    testassert([data length] == 136);
-    const char *bytes = [data bytes];
-    // "bplist00\xd4\x01\x02\x03\x04\x05\b\n\vT$topX$objectsX$versionY$archiver\xd1\x06\aUmyKey\x10{\xa1\tU$null\x12"
-    testassert(strncmp(bytes, "bplist00", 8) == 0);
-    testassert(strncmp(&bytes[14], "\b\n\vT$topX$objectsX$versionY$archiver", 36) == 0);
-    testassert(strncmp(&bytes[52], "\aUmyKey", 7) == 0);
-    testassert(bytes[60] == 123);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    testassert([unarchive decodeFloatForKey:@"myKey"] == 3.14159f);
+    [unarchive finishDecoding];
+    
     return YES;
 }
 
@@ -282,15 +416,19 @@
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
-    [archive encodeInt32:123 forKey:@"myKey"];
+    [archive encodeInt32:-65000 forKey:@"myKey"];
     [archive finishEncoding];
-    testassert([data length] == 136);
+    testassert([data length] == 143);
     const char *bytes = [data bytes];
     // "bplist00\xd4\x01\x02\x03\x04\x05\b\n\vT$topX$objectsX$versionY$archiver\xd1\x06\aUmyKey\x10{\xa1\tU$null\x12"
     testassert(strncmp(bytes, "bplist00", 8) == 0);
     testassert(strncmp(&bytes[14], "\b\n\vT$topX$objectsX$versionY$archiver", 36) == 0);
     testassert(strncmp(&bytes[52], "\aUmyKey", 7) == 0);
-    testassert(bytes[60] == 123);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    testassert([unarchive decodeInt32ForKey:@"myKey"] == -65000);
+    [unarchive finishDecoding];
+    
     return YES;
 }
 
@@ -311,6 +449,11 @@
     {
         testassert((unsigned char)bytes[i] == 0xff);
     }
+
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    testassert([unarchive decodeInt64ForKey:@"myKey"] == LONG_LONG_MAX);
+    [unarchive finishDecoding];
+    
     return YES;
 }
 
