@@ -8,6 +8,30 @@
 
 #import "FoundationTests.h"
 
+@interface SimpleClass : NSObject <NSCoding>
+@property int a;
+@property BOOL didEncode;
+@end
+@implementation SimpleClass
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if (self)
+    {
+        _a = [aDecoder decodeIntForKey:@"ABC"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    _a = 123;
+    [aCoder encodeInt:_a forKey:@"ABC"];
+    _didEncode = YES;
+}
+
+@end
+
 @interface FoundationTestKeyedCoderTest : NSObject <NSCoding>
 @property (strong, nonatomic) NSString* objectString;
 @property (strong, nonatomic) NSArray* objectArray;
@@ -154,6 +178,25 @@
 }
 
 #pragma mark - Basic stuff
+
+- (BOOL) testInitForWritingWithSimpleClass
+{
+    NSMutableData *data = [NSMutableData data];
+    SimpleClass *obj = [[SimpleClass alloc] init];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeObject:obj forKey:@"myKey"];
+    testassert([obj didEncode]);
+    [archive finishEncoding];
+    testassert([data length] == 231);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    SimpleClass *obj2 = [unarchive decodeObjectForKey:@"myKey"];
+    testassert([obj2 a] == 123);
+    testassert([obj2 didEncode] == NO);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
 
 - (BOOL)testBasicObjectsNScodingIsImplemented
 {
@@ -455,6 +498,82 @@
 
     NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     testassert([unarchive decodeInt64ForKey:@"myKey"] == LONG_LONG_MAX);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithMutableMultiple
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeDouble:3.14 forKey:@"doubleKey"];
+    [archive encodeFloat:-30.5 forKey:@"floatKey"];
+    [archive encodeInteger:987 forKey:@"integerKey"];
+    [archive finishEncoding];
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    testassert([unarchive decodeDoubleForKey:@"myKey"] == 0.0);
+    testassert([unarchive decodeDoubleForKey:@"doubleKey"] == 3.14);
+    testassert([unarchive decodeFloatForKey:@"floatKey"] == -30.5);
+    testassert([unarchive decodeIntegerForKey:@"integerKey"] == 987);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithMutableOverwrite
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeDouble:3.14 forKey:@"doubleKey"];
+    [archive encodeDouble:9.5 forKey:@"doubleKey"];  // Should generate warning in log like
+    // 2013-11-06 11:44:51.622 FoundationTests[98844:a0b] *** NSKeyedArchiver warning: replacing existing value for key 'doubleKey'; probable duplication of encoding keys in class hierarchy
+    [archive finishEncoding];
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    testassert([unarchive decodeDoubleForKey:@"doubleKey"] == 9.5);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithMutableDataBytesTwiceLong
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeBytes:(const uint8_t *)"abcdefghijklmopqrstuvwzyz" length:25 forKey:@"myKey"];
+    [archive encodeBytes:(const uint8_t *)"abcdefghijklmopqrstuvwzyz" length:25 forKey:@"myKey2"];
+    [archive finishEncoding];
+    testassert([data length] == 201);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSUInteger returnedLength;
+    const uint8_t *decodeBytes = [unarchive decodeBytesForKey:@"myKey" returnedLength:&returnedLength];
+    testassert(returnedLength == 25);
+    testassert(strncmp((const char *)decodeBytes, "abcdefghijklmopqrstuvwzyz", returnedLength) == 0);
+    
+    const uint8_t *decodeBytes2 = [unarchive decodeBytesForKey:@"myKey" returnedLength:&returnedLength];
+    testassert(returnedLength == 25);
+    testassert(strncmp((const char *)decodeBytes2, "abcdefghijklmopqrstuvwzyz", returnedLength) == 0);
+
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithDictionary
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    NSDictionary *dict = @{};
+    [archive encodeObject:dict forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 252);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSDictionary *dict2 = [unarchive decodeObjectForKey:@"myKey"];
+    testassert([dict isEqualToDictionary:dict2]);
     [unarchive finishDecoding];
     
     return YES;
