@@ -82,10 +82,7 @@
 		58DD282D180F5213007C4D8F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58DD282C180F5213007C4D8F /* Security.framework */; };
 		58DD282E180F55E7007C4D8F /* NSLocaleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE212C22180EF73300DDB3AA /* NSLocaleTests.m */; };
 		5B83DE1A17D53449000B384A /* NSDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B83DE1917D53449000B384A /* NSDataTests.m */; };
-		94B5902F1829E47B0008F848 /* ForwardingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B5902E1829E47B0008F848 /* ForwardingTests.m */; };
-		94B59032182B1D890008F848 /* NSProxyTests.m in Resources */ = {isa = PBXBuildFile; fileRef = 94B59031182B1D890008F848 /* NSProxyTests.m */; };
 		94B59033182B1D970008F848 /* NSProxyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B59031182B1D890008F848 /* NSProxyTests.m */; };
-		94B59034182B36AC0008F848 /* NSProxyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B59031182B1D890008F848 /* NSProxyTests.m */; };
 		94B59035182B3A9E0008F848 /* ForwardingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B5902E1829E47B0008F848 /* ForwardingTests.m */; };
 		BCA81FAA17B2E125004745B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47178C9117ADD9D40062E7B0 /* Foundation.framework */; };
 		BCA81FB117B2E125004745B2 /* FoundationTestsMac.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = BCA81FB017B2E125004745B2 /* FoundationTestsMac.1 */; };
@@ -498,7 +495,6 @@
 				1AFCF48A17B9AE350085CA15 /* 0.bundle in Resources */,
 				1AFCF48F17B9AE480085CA15 /* folderref0 in Resources */,
 				58664D0B180E47E700B72D1F /* website.html in Resources */,
-				94B59032182B1D890008F848 /* NSProxyTests.m in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,8 +556,6 @@
 				58C57F34180E16EF008C28D3 /* SecItemTests.m in Sources */,
 				58C57F37180E17BD008C28D3 /* WebServer.m in Sources */,
 				58DD2827180F51F7007C4D8F /* SecureTransportTests.m in Sources */,
-				94B5902F1829E47B0008F848 /* ForwardingTests.m in Sources */,
-				94B59034182B36AC0008F848 /* NSProxyTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

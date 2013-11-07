@@ -2,11 +2,6 @@
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 
-#ifdef APPORTABLE
-#warning "TODO: Apportable's new Foundation doesn't have NSProxy yet, so use this work-around to keep the tests linking."
-#define NSProxy NSObject
-#endif
-
 struct PAIR
 {
     unsigned long long first;
