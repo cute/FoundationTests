@@ -43,6 +43,7 @@ void runFoundationTests(void);
 #define TEST_CLASSES(action) \
 action(CFRunLoop) \
 action(CFGetTypeID) \
+action(Forwarding) \
 action(NSAttributedString) \
 action(NSArray) \
 action(NSBlock) \
@@ -81,6 +82,7 @@ action(NSUserDefaults) \
 action(NSValue) \
 action(NSKeyValueCoding) \
 action(NSPort) \
+action(NSProxy) \
 action(NSURLConnection) \
 action(NSURLRequest) \
 action(NSHTTPCookieStorage) \
