@@ -81,6 +81,7 @@ action(NSUserDefaults) \
 action(NSValue) \
 action(NSKeyValueCoding) \
 action(NSPort) \
+action(NSProxy) \
 action(NSURLConnection) \
 action(NSURLRequest) \
 action(NSHTTPCookieStorage) \

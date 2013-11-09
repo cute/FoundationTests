@@ -1,70 +1,124 @@
 #import "FoundationTests.h"
-
-@interface NSProxyTestHelper : NSProxy
-@end
-
-@implementation NSProxyTestHelper
-- (id)method
-{
-    return @42;
-}
-
-- (id)method:(id)value
-{
-    return value;
-}
-
-- (id)concatStrings:(id)x and:(id)y
-{
-    return [(NSString*)x stringByAppendingString:(NSString*)y];
-}
-@end
+#import <objc/runtime.h>
 
 @testcase(NSProxy)
 
-#define ASSERT_NOT_IMPLEMENTED(callexpr) \
-    do { \
-        @try { \
-            callexpr; \
-            NSLog(@"error: expected %s to not be implemented", #callexpr); \
-            testassert(NO); \
-        } \
-        @catch (NSException *e) { \
-            testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]); \
-        } \
-    } while(0)
-
-- (BOOL)testMethodExistence
+- (BOOL)testAlloc
 {
-    Class NSProxyTestHelperClass = [NSProxyTestHelper class];
-    testassert([NSProxyTestHelperClass respondsToSelector:@selector(alloc)]);
+    testassert([NSProxy alloc] != nil);
+    return YES;
+}
 
-    NSProxy *proxy = [NSProxyTestHelper alloc];
-    [proxy retain];
-    [proxy release];
-    [proxy autorelease];
-    [proxy hash];
-    [proxy isEqual:proxy];
-    testassert([proxy class] == NSProxyTestHelperClass);
-    testassert([[proxy debugDescription] hasPrefix:@"<NSProxyTestHelper:"]);
-    testassert([[proxy description] hasPrefix:@"<NSProxyTestHelper:"]);
-    testassert([proxy forwardingTargetForSelector:@selector(method)] == nil);
-    testassert([proxy isProxy]);
-    testassert([[proxy performSelector:@selector(method)] isEqual:@42]);
-    testassert([[proxy performSelector:@selector(method:) withObject:@17] isEqual:@17]);
-    testassert([[proxy performSelector:@selector(concatStrings:and:) withObject:@"42" withObject:@"17"] isEqual:@"4217"]);
-    testassert([proxy retainCount] == 1);
-    ASSERT_NOT_IMPLEMENTED([proxy className]);
-    ASSERT_NOT_IMPLEMENTED([proxy conformsToProtocol:@protocol(NSObject)]);
-    ASSERT_NOT_IMPLEMENTED([proxy copy]);
-    ASSERT_NOT_IMPLEMENTED([proxy init]);
-    ASSERT_NOT_IMPLEMENTED([proxy isKindOfClass:NSProxyTestHelperClass]);
-    ASSERT_NOT_IMPLEMENTED([proxy isMemberOfClass:NSProxyTestHelperClass]);
-    ASSERT_NOT_IMPLEMENTED([proxy methodSignatureForSelector:@selector(method)]);
-    ASSERT_NOT_IMPLEMENTED([proxy methodForSelector:@selector(method)]);
-    ASSERT_NOT_IMPLEMENTED([proxy mutableCopy]);
-    ASSERT_NOT_IMPLEMENTED([proxy respondsToSelector:@selector(method)]);
+- (BOOL)testRetainReleaseAutorelease
+{
+    NSProxy *p = [NSProxy alloc];
+    [p retain];
+    [p release];
+    [p autorelease];
+    return YES;
+}
 
+- (BOOL)testBaseMethods
+{
+    NSProxy *p = [NSProxy alloc];
+    [p hash];
+    [p isEqual:p];
+    [p release];
+    return YES;
+}
+
+- (BOOL)testClass
+{
+    NSProxy *p = [NSProxy alloc];
+    testassert([p class] == objc_getClass("NSProxy"));
+    [p release];
+    return YES;
+}
+
+- (BOOL)testForwardingTarget
+{
+    NSProxy *p = [NSProxy alloc];
+    testassert([p forwardingTargetForSelector:@selector(test)] == nil);
+    [p release];
+    return YES;
+}
+
+- (BOOL)testImplementsConformsToProtocol
+{
+    Class cls = objc_getClass("NSProxy");
+    testassert(class_getInstanceMethod(cls, @selector(conformsToProtocol:)) != NULL);
+    return YES;
+}
+
+- (BOOL)testImplementsMethodSignatureForSelector
+{
+    Class cls = objc_getClass("NSProxy");
+    testassert(class_getInstanceMethod(cls, @selector(methodSignatureForSelector:)) != NULL);
+    return YES;
+}
+
+- (BOOL)testMethodSignatureForSelector
+{
+    NSProxy *p = [NSProxy alloc];
+    BOOL exceptionCaught = NO;
+    @try {
+        [p methodSignatureForSelector:@selector(init)];
+    } @catch(NSException *e) {
+        if ([[e name] isEqualToString:NSInvalidArgumentException])
+        {
+            exceptionCaught = YES;
+        }
+    }
+    testassert(exceptionCaught == YES);
+    [p release];
+    return YES;
+}
+
+- (BOOL)testImplementsIsKindOfClass
+{
+    Class cls = objc_getClass("NSProxy");
+    testassert(class_getInstanceMethod(cls, @selector(isKindOfClass:)) != NULL);
+    return YES;
+}
+
+- (BOOL)testIsKindOfClass
+{
+    NSProxy *p = [NSProxy alloc];
+    BOOL exceptionCaught = NO;
+    @try {
+        [p isKindOfClass:[NSProxy class]];
+    } @catch(NSException *e) {
+        if ([[e name] isEqualToString:NSInvalidArgumentException])
+        {
+            exceptionCaught = YES;
+        }
+    }
+    testassert(exceptionCaught == YES);
+    [p release];
+    return YES;
+}
+
+- (BOOL)testImplementsIsMemberOfClass
+{
+    Class cls = objc_getClass("NSProxy");
+    testassert(class_getInstanceMethod(cls, @selector(isMemberOfClass:)) != NULL);
+    return YES;
+}
+
+- (BOOL)testIsMemberOfClass
+{
+    NSProxy *p = [NSProxy alloc];
+    BOOL exceptionCaught = NO;
+    @try {
+        [p isMemberOfClass:[NSProxy class]];
+    } @catch(NSException *e) {
+        if ([[e name] isEqualToString:NSInvalidArgumentException])
+        {
+            exceptionCaught = YES;
+        }
+    }
+    testassert(exceptionCaught == YES);
+    [p release];
     return YES;
 }
 
