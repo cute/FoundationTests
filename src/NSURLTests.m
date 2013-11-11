@@ -358,6 +358,15 @@
     return YES;
 }
 
+- (BOOL)testURLByStandardizingPath
+{
+    NSURL *url = [NSURL fileURLWithPath:@"/foo/bar/baz/../foo/./.././baz"];
+    NSURL *standardized = [url URLByStandardizingPath];
+    testassert([[standardized path] isEqualToString:@"/foo/bar/baz"]);
+    return YES;
+}
+
+
 // Only available for MAC, and our platform
 #if (APPORTABLE || (TARGET_OS_MAC && !(TARGET_OS_EMBEDDED || TARGET_OS_IPHONE)))
 - (BOOL) testNSURLForAPI
