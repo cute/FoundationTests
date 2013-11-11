@@ -409,6 +409,207 @@
     return YES;
 }
 
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary
+{
+    BOOL exception = NO;
+    id anObj = nil;
+    
+    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subarray, @"subarray", [NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", @"fooVal", @"fooKey", nil];
+    
+    [subdict setObject:dict forKey:@"parent"];
+    [dict setObject:dict forKey:@"self"];
+    
+    NSUInteger dictCount = [dict count];
+    NSUInteger subdictCount = [subdict count];
+    
+    // silent FAIL cases ...
+    
+    NSString *aPathWithAts = @"a@.@path@with.at@symbols@.";
+    [dict setValue:@"foo" forKeyPath:aPathWithAts];
+    testassert([dict count] == dictCount);
+    testassert([subdict count] == subdictCount);
+    anObj = [dict valueForKeyPath:aPathWithAts];
+    testassert(anObj == nil);
+    
+    NSString *validYetNonexistentKeyPath = @"a.väl|d.yét.n0nEx1$t3nt.kéy´.p@th!";
+    [dict setValue:@"foo" forKeyPath:validYetNonexistentKeyPath];
+    testassert([dict count] == dictCount);
+    testassert([subdict count] == subdictCount);
+    anObj = [dict valueForKeyPath:validYetNonexistentKeyPath];
+    testassert(anObj == nil);
+    
+    NSString *anotherWhackyKeyPath = @"!#$@aasdf}.\\[-$uiå∑œΩ≈©†®´√ˆ¨∆äopio`~/?.,<>><.<;:'\"{#$@#$l.k@rqADF|+_w^ier.23]]]48&*(*&()";
+    [dict setValue:@"foo" forKeyPath:anotherWhackyKeyPath];
+    testassert([dict count] == dictCount);
+    testassert([subdict count] == subdictCount);
+    anObj = [dict valueForKeyPath:anotherWhackyKeyPath];
+    testassert(anObj == nil);
+    
+    NSString *beginDot = @".self.subdict";
+    [dict setValue:@"foo" forKeyPath:beginDot];
+    testassert([dict count] == dictCount);
+    testassert([subdict count] == subdictCount);
+    anObj = [dict valueForKeyPath:beginDot];
+    testassert(anObj == nil);
+
+    NSString *unaryDot = @".";
+    [dict setValue:@"foo" forKeyPath:unaryDot];
+    testassert([dict count] == dictCount);
+    testassert([subdict count] == subdictCount);
+    anObj = [dict valueForKeyPath:unaryDot];
+    testassert(anObj == nil);
+    
+    NSString *dotsBros = @"........................................................................................";
+    [dict setValue:@"foo" forKeyPath:dotsBros];
+    testassert([dict count] == dictCount);
+    testassert([subdict count] == subdictCount);
+    anObj = [dict valueForKeyPath:dotsBros];
+    testassert(anObj == nil);
+    
+    // various success cases ...
+    
+    NSString *emptyPath = @"";
+    [dict setValue:@"foo" forKeyPath:emptyPath];
+    ++dictCount;
+    testassert([dict count] == dictCount);
+    testassert([subdict count] == subdictCount);
+    anObj = [dict valueForKeyPath:emptyPath];
+    testassert([anObj isEqualToString:@"foo"]);
+    
+    NSString *lastDot = @"self.subdict.parent.subdict.";
+    [dict setValue:@"foo" forKeyPath:lastDot];
+    ++subdictCount;
+    testassert([dict count] == dictCount);
+    testassert([subdict count] == subdictCount);
+    anObj = [dict valueForKeyPath:lastDot];
+    testassert([anObj isEqualToString:@"foo"]);
+    testassert([anObj isEqualToString:@"foo"]);
+
+    NSString *fooKeyPath = @"self.self.subdict.parent.fooKey";
+    [dict setValue:@"bar" forKeyPath:fooKeyPath];
+    testassert([dict count] == dictCount);
+    testassert([subdict count] == subdictCount);
+    anObj = [dict valueForKeyPath:fooKeyPath];
+    testassert([anObj isEqualToString:@"bar"]);
+    
+    NSString *bazKeyPath = @"subdict.bazKey";
+    NSString *aLongRecursiveBazKeyPath = @"self.self.subdict.parent.self.self.self.subdict.parent.subdict.bazKey";
+    [dict setValue:@"foo" forKeyPath:aLongRecursiveBazKeyPath];
+    testassert([dict count] == dictCount);
+    testassert([subdict count] == subdictCount);
+    anObj = [dict valueForKeyPath:bazKeyPath];
+    testassert([anObj isEqualToString:@"foo"]);
+    
+    [dict setValue:@"bazVal" forKeyPath:bazKeyPath];
+    testassert([dict count] == dictCount);
+    testassert([subdict count] == subdictCount);
+    anObj = [dict valueForKeyPath:aLongRecursiveBazKeyPath];
+    testassert([anObj isEqualToString:@"bazVal"]);
+    
+    NSString *aNewKeyPath = @"subdict.aNewKey";
+    [dict setValue:@"aNewKeyVal" forKeyPath:aNewKeyPath];
+    ++subdictCount;
+    testassert([dict count] == dictCount);
+    testassert([subdict count] == subdictCount);
+    anObj = [dict valueForKeyPath:aNewKeyPath];
+    testassert([anObj isEqualToString:@"aNewKeyVal"]);
+    
+    NSString *aSomewhatRidiculouslyLongRecursivePath = @"self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.fooKey";
+    [dict setValue:@"bazz" forKeyPath:aSomewhatRidiculouslyLongRecursivePath];
+    testassert([dict count] == dictCount);
+    testassert([subdict count] == subdictCount);
+    anObj = [dict valueForKeyPath:aSomewhatRidiculouslyLongRecursivePath];
+    testassert([anObj isEqualToString:@"bazz"]);
+    
+    // special operators
+    
+    NSString *maxValuePath = @"subdict.@max";
+    [dict setValue:@"altMax" forKeyPath:maxValuePath];
+    ++subdictCount;
+    testassert([dict count] == dictCount);
+    testassert([subdict count] == subdictCount);
+    // valueForKey{,Path} should prolly be tested here and elsewhere
+    anObj = [subdict objectForKey:@"@max"];
+    testassert([anObj isEqualToString:@"altMax"]);
+    
+    // TODO : More @operator tests
+    
+    NSString *aPathWithCountOperator = @"@count";
+    [dict setValue:@"hmm" forKeyPath:aPathWithCountOperator];
+    ++dictCount;
+    testassert([dict count] == dictCount);
+    testassert([subdict count] == subdictCount);
+    anObj = [dict valueForKeyPath:aPathWithCountOperator];
+    testassert([anObj intValue] == 5);
+    anObj = [dict valueForKey:aPathWithCountOperator];
+    testassert([anObj intValue] == 5);
+    anObj = [dict objectForKey:aPathWithCountOperator];
+    testassert([anObj isEqualToString:@"hmm"]);
+    
+    NSString *anotherPathWithCountOperator = @"subdict.@count";
+    [dict setValue:@"yea" forKeyPath:anotherPathWithCountOperator];
+    ++subdictCount;
+    testassert([dict count] == dictCount);
+    testassert([subdict count] == subdictCount);
+    anObj = [dict valueForKeyPath:anotherPathWithCountOperator];
+    testassert([anObj intValue] == 9);
+    anObj = [dict valueForKey:anotherPathWithCountOperator];
+    testassert(anObj == nil);
+    anObj = [dict objectForKey:anotherPathWithCountOperator];
+    testassert(anObj == nil);
+    anObj = [subdict objectForKey:@"@count"];
+    testassert([anObj isEqualToString:@"yea"]);
+    
+    // assertion cases ...
+    
+    @try {
+        exception = NO;
+        [dict setValue:@"foo" forKeyPath:nil];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+    }
+    testassert(exception);
+    
+    NSString *atDotPath = @"@.";
+    @try {
+        exception = NO;
+        [dict setValue:@"foo" forKeyPath:atDotPath];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    // strange cases
+    
+    NSString *setValueOutFromUnderItselfPath = @"subdict.parent.subdict";
+    [dict setValue:@"gone" forKeyPath:setValueOutFromUnderItselfPath];
+    testassert([dict count] == dictCount);
+    testassert([subdict count] == subdictCount);
+    anObj = [dict valueForKeyPath:@"subdict"];
+    testassert([anObj isEqualToString:@"gone"]);
+    @try {
+        exception = NO;
+        anObj = [dict valueForKeyPath:setValueOutFromUnderItselfPath];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    [dict setObject:subdict forKey:@"subdict"];// reset
+
+    return YES;
+}
+
+// TODO : NSMutableArray , NSMutableSet setValue:forKeyPath: tests ...
+
+
 // https://developer.apple.com/library/ios/documentation/cocoa/conceptual/KeyValueCoding/Articles/CollectionOperators.html
 
 - (BOOL)test_NSDictionary_valueForKeyPath_Basics
@@ -460,6 +661,19 @@
     @try {
         exception = NO;
         anObj = [dict valueForKeyPath:@"subdict.subarray."];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    anObj = [dict valueForKeyPath:@"subdict.bazKey"];
+    testassert([anObj isEqualToString:@"bazVal"]);
+    
+    @try {
+        exception = NO;
+        anObj = [dict valueForKeyPath:@"subdict.bazKey.invalid"];
     }
     @catch (NSException *e) {
         exception = YES;
@@ -562,6 +776,16 @@
     @catch (NSException *e) {
         exception = YES;
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    @try {
+        exception = NO;
+        anObj = [dict valueForKeyPath:@"@."];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
     }
     testassert(exception);
     
