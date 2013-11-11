@@ -19,14 +19,12 @@
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
     testassert([directories count] > 0);
-    int t = LITTLE_ENDIAN;
     return YES;
 }
 
 - (BOOL)testFileDoesNotExist
 {
     NSFileManager* manager = [NSFileManager defaultManager];
-    
     testassert([manager fileExistsAtPath:@"IDontExist"] == NO);
     return YES;
 }
