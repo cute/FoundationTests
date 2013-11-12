@@ -840,54 +840,94 @@
 
 // TODO : NSMutableArray , NSMutableSet setValue:forKeyPath: tests ...
 
+#pragma mark -
+#pragma mark NSDictionary KVC tests
 
-// https://developer.apple.com/library/ios/documentation/cocoa/conceptual/KeyValueCoding/Articles/CollectionOperators.html
-
-- (BOOL)test_NSDictionary_valueForKeyPath_Basics
+- (BOOL)test_NSDictionary_valueForKeyPath_NilPath
 {
-    BOOL exception = NO;
     id anObj;
-    NSMutableSet *subset = [NSMutableSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"42", @"42", nil];
-    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
-    NSMutableDictionary *loop = [NSMutableDictionary dictionary];
-    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", subarray, @"subarray", loop, @"loop", subset, @"subset", nil];
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
-    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:dict, nil];
-    [dict setObject:anArray forKey:@"anArray"];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"fooVal", @"fooKey", nil];
     
-    // inf loop ...
-    [loop setObject:dict forKey:@"dict"];
-    [loop setObject:loop forKey:@"loop"];
-
-    // Created collections should not be nil
-    testassert(subset != nil);
-    testassert(loop != nil);
-    testassert(subarray != nil);
-    testassert(subdict != nil);
-    testassert(dict != nil);
-    testassert(anArray != nil);
-    
-    // --------------------------------------------------
-    // test getting objects with various keyPaths
     anObj = [dict valueForKeyPath:nil];
     testassert(anObj == nil);
+    
+    return YES;
+}
 
+- (BOOL)test_NSDictionary_valueForKeyPath_EmptyPath
+{
+    id anObj;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"empty", @"", nil];
+    
+    anObj = [dict valueForKeyPath:@""];
+    testassert([anObj isEqualToString:@"empty"]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_ValidShortPath
+{
+    id anObj;
+    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", subarray, @"subarray", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+    
     anObj = [dict valueForKeyPath:@"subdict.subarray"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSMutableArray class]]);
     testassert([anObj isEqual:subarray]);
     
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_LeadingDot
+{
+    id anObj;
+    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", subarray, @"subarray", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+
     anObj = [dict valueForKeyPath:@".subdict.subarray"];
     testassert(anObj == nil);
+    
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_TrailingDot
+{
+    id anObj;
+    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", subarray, @"subarray", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
     
     anObj = [dict valueForKeyPath:@"subdict."];
     testassert(anObj == nil);
     
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_TrailingDot2
+{
+    id anObj;
+    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", subarray, @"subarray", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+
     [subdict setObject:@"foo" forKey:@""];
     anObj = [dict valueForKeyPath:@"subdict."];
     testassert([anObj isKindOfClass:[NSString class]]);
     testassert([anObj isEqualToString:@"foo"]);
-    [subdict removeObjectForKey:@""];
+    
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_TrailingDot3
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", subarray, @"subarray", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
     
     @try {
         exception = NO;
@@ -899,6 +939,17 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_InvalidKey
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", subarray, @"subarray", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+
     anObj = [dict valueForKeyPath:@"subdict.bazKey"];
     testassert([anObj isEqualToString:@"bazVal"]);
     
@@ -911,6 +962,21 @@
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
     }
     testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_RecursivePaths
+{
+    id anObj;
+    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
+    NSMutableDictionary *loop = [NSMutableDictionary dictionary];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", subarray, @"subarray", loop, @"loop", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+    
+    // inf loop ...
+    [loop setObject:dict forKey:@"dict"];
+    [loop setObject:loop forKey:@"loop"];
     
     anObj = [dict valueForKeyPath:@"subdict.loop"];
     testassert(anObj != nil);
@@ -931,19 +997,44 @@
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSMutableArray class]]);
     testassert([anObj isEqual:subarray]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_InvalidPaths
+{
+    id anObj;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"fooVal", @"fooKey", nil];
 
     anObj = [dict valueForKeyPath:@"a.completely.wrong.path.that.is.syntactically.correct"];
     testassert(anObj == nil);
     
     anObj = [dict valueForKeyPath:@"#!/bin/sh -c 'echo hello.world'"];
     testassert(anObj == nil);
+    
+    return YES;
+}
 
-    // --------------------------------------------------
-    // @count tests
+// @count
+
+- (BOOL)test_NSDictionary_valueForKeyPath_CountOperator1
+{
+    id anObj;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"fooVal", @"fooKey", @"barVal", @"barKey", nil];
+    
     anObj = [dict valueForKeyPath:@"@count"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSNumber class]]);
     testassert([anObj intValue] == 2);
+    
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_CountOperator2
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"fooVal", @"fooKey", @"barVal", @"barKey", nil];
     
     @try {
         exception = NO;
@@ -955,34 +1046,18 @@
     }
     testassert(exception);
     
-    anObj = [dict valueForKeyPath:@"subdict.@count"];
-    testassert(anObj != nil);
-    testassert([anObj isKindOfClass:[NSNumber class]]);
-    testassert([anObj intValue] == 6);
-    
-    anObj = [dict valueForKeyPath:@"subdict.loop.@count"];
-    testassert(anObj != nil);
-    testassert([anObj isKindOfClass:[NSNumber class]]);
-    testassert([anObj intValue] == 2);
-    
-    anObj = [dict valueForKeyPath:@"subdict.subarray.@count"];
-    testassert(anObj != nil);
-    testassert([anObj isKindOfClass:[NSNumber class]]);
-    testassert([anObj intValue] == 6);
-    
-    anObj = [dict valueForKeyPath:@"subdict.subarray.@count.right.hand.path.here.should.be.ignored"];
-    testassert(anObj != nil);
-    testassert([anObj isKindOfClass:[NSNumber class]]);
-    testassert([anObj intValue] == 6);
-    
-    anObj = [dict valueForKeyPath:@"subdict.subset.@count"];
-    testassert(anObj != nil);
-    testassert([anObj isKindOfClass:[NSNumber class]]);
-    testassert([anObj intValue] == 5);
+    return YES;
+}
 
+- (BOOL)test_NSDictionary_valueForKeyPath_CountOperator3
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"fooVal", @"fooKey", @"barVal", @"barKey", nil];
+    
     @try {
         exception = NO;
-        anObj = [dict valueForKeyPath:@"subdict.@count.subarray"];
+        anObj = [dict valueForKeyPath:@"@count.invalid.righthand.path"];
     }
     @catch (NSException *e) {
         exception = YES;
@@ -990,6 +1065,47 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_CountOperator4
+{
+    id anObj;
+    NSMutableDictionary *loop = [NSMutableDictionary dictionary];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+    
+    [loop setObject:dict forKey:@"dict"];
+    [loop setObject:subdict forKey:@"subdict"];
+    [loop setObject:loop forKey:@"loop"];
+    [dict setObject:loop forKey:@"loop"];
+    
+    anObj = [dict valueForKeyPath:@"@count"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == 2);
+    
+    anObj = [dict valueForKeyPath:@"subdict.@count"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == 3);
+    
+    anObj = [dict valueForKeyPath:@"loop.loop.@count"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == 3);
+    
+    return YES;
+}
+
+// -
+
+- (BOOL)test_NSDictionary_valueForKeyPath_InvalidOperatorWithRemainderPath
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"fooVal", @"fooKey", nil];
+
     @try {
         exception = NO;
         anObj = [dict valueForKeyPath:@"@anInvalidOperator.with.a.remainder.path"];
@@ -1000,6 +1116,15 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_InvalidOperator
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"fooVal", @"fooKey", nil];
+   
     @try {
         exception = NO;
         anObj = [dict valueForKeyPath:@"@anInvalidOperator"];
@@ -1010,6 +1135,15 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_InvalidOperatorWithDot
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"fooVal", @"fooKey", nil];
+
     @try {
         exception = NO;
         anObj = [dict valueForKeyPath:@"@."];
@@ -1023,162 +1157,58 @@
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_AvgMaxMinSum
+// @avg
+
+- (BOOL)test_NSDictionary_valueForKeyPath_AvgOperator1
 {
     BOOL exception = NO;
     id anObj;
-    NSMutableSet *subset = [NSMutableSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"42", @"42", nil];
-    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
-    NSMutableDictionary *loop = [NSMutableDictionary dictionary];
-    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", subarray, @"subarray", loop, @"loop", subset, @"subset", nil];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
-    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:dict, nil];
-    [dict setObject:anArray forKey:@"anArray"];
-
-    // --------------------------------------------------
-    // @avg, @max, @min, @sum
     
-    NSArray *operators = @[@"avg", @"max", @"min", @"sum"];
-    NSArray *results = @[
-                         @{@"valResults": @[@17, @33, @0, @0],
-                           @"valClasses": @[[NSDecimalNumber class], [NSDecimalNumber class], [NSDecimalNumber class], [NSDecimalNumber class]]
-                           },
-                         @{@"valResults": @[@101, @127, @0, @0],
-                           @"valClasses": @[[NSNumber class], [NSNumber class], [NSNull class], [NSNull class]]
-                           },
-                         @{@"valResults": @[@-2, @-6, @0, @0],
-                           @"valClasses": @[[NSNumber class], [NSNumber class], [NSNull class], [NSNull class]]
-                           },
-                         @{@"valResults": @[@103, @166, @0, @0],
-                           @"valClasses": @[[NSNumber class], [NSNumber class], [NSDecimalNumber class], [NSDecimalNumber class]]
-                           },
-                         ];
-    unsigned int i=0;
-    for (NSString *op in operators)
-    {
-        NSLog(@"testing for operator : %@", op);
-        unsigned int j=0;
-        NSDictionary *cribSheet = [results objectAtIndex:i];
-        NSArray *valClasses = [cribSheet objectForKey:@"valClasses"];
-        NSArray *valResults = [cribSheet objectForKey:@"valResults"];
-        
-        anObj = [dict valueForKeyPath:[NSString stringWithFormat:@"subdict.subarray.@%@.intValue", op]];
-        testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
-        testassert([anObj intValue] == [[valResults objectAtIndex:j] intValue]);
-        ++j;
-
-        anObj = [dict valueForKeyPath:[NSString stringWithFormat:@"subdict.subset.@%@.floatValue", op]];
-        testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
-        testassert([anObj intValue] == [[valResults objectAtIndex:j] intValue]);
-        ++j;
-
-        anObj = [dict valueForKeyPath:[NSString stringWithFormat:@"anArray.@%@.dict.subdict.subset.floatValue", op]];
-        testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
-        testassert([anObj intValue] == [[valResults objectAtIndex:j] intValue]);
-        ++j;
-
-        anObj = [dict valueForKeyPath:[NSString stringWithFormat:@"anArray.@%@.dict.subdict.subset", op]];
-        testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
-        testassert([anObj intValue] == [[valResults objectAtIndex:j] intValue]);
-        ++j;
-        
-        @try {
-            exception = NO;
-            anObj = [dict valueForKeyPath:[NSString stringWithFormat:@"subdict.@%@", op]];
-        }
-        @catch (NSException *e) {
-            exception = YES;
-            testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
-        }
-        testassert(exception);
-        
-        @try {
-            exception = NO;
-            anObj = [dict valueForKeyPath:[NSString stringWithFormat:@"subdict.@%@.intValue", op]];
-        }
-        @catch (NSException *e) {
-            exception = YES;
-            testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
-        }
-        testassert(exception);
-
-        @try {
-            exception = NO;
-            anObj = [dict valueForKeyPath:[NSString stringWithFormat:@"subdict.subarray.@%@.invalidKey", op]];
-        }
-        @catch (NSException *e) {
-            exception = YES;
-            testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
-        }
-        testassert(exception);
-        
-        ++i;
-    }
-    
-    return YES;
-}
-
-- (BOOL)test_NSDictionary_valueForKeyPath_unionOfObjects_distinctUnionOfObjects
-{
-    BOOL exception = NO;
-    id anObj;
-    NSMutableSet *subset = [NSMutableSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"42", @"42", nil];
-    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
-    NSMutableDictionary *loop = [NSMutableDictionary dictionary];
-    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", subarray, @"subarray", loop, @"loop", subset, @"subset", nil];
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
-    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:dict, nil];
-    [dict setObject:anArray forKey:@"anArray"];
-    
-    NSMutableArray *anotherArray = [NSMutableArray array];
-    [anotherArray addObject:anArray];
-    [anotherArray addObject:subarray];
-    [anotherArray addObject:@[@"foo", @"bar"]];
-    [anotherArray addObject:@[@"foo", @"bar"]];
-    [subdict setObject:anotherArray forKey:@"anotherArray"];
-
-    // --------------------------------------------------
-    // @unionOfObjects @distinctUnionOfObjects
-
-    anObj = [dict valueForKeyPath:@"subdict.subarray.@unionOfObjects.description"];
-    testassert(anObj != nil);
-    testassert([anObj isKindOfClass:[NSArray class]]);
-    testassert([anObj count] == 6);
-    
-    anObj = [dict valueForKeyPath:@"subdict.subarray.@distinctUnionOfObjects.description"];
-    testassert(anObj != nil);
-    testassert([anObj isKindOfClass:[NSArray class]]);
-    testassert([anObj count] == 4);
-    
-    anObj = [dict valueForKeyPath:@"subdict.subset.@distinctUnionOfObjects.description"];
-    testassert(anObj != nil);
-    testassert([anObj isKindOfClass:[NSSet class]]);
-    testassert([anObj count] == 5);
-    
-    anObj = [dict valueForKeyPath:@"subdict.anotherArray.@distinctUnionOfObjects.description"];
-    testassert(anObj != nil);
-    testassert([anObj isKindOfClass:[NSArray class]]);
-    testassert([anObj count] == 3);
-    
-    anObj = [dict valueForKeyPath:@"subdict.anotherArray.@unionOfObjects.description"];
-    testassert(anObj != nil);
-    testassert([anObj isKindOfClass:[NSArray class]]);
-    testassert([anObj count] == 4);
-
-    // @operator as last element in path ...
     @try {
         exception = NO;
-        anObj = [dict valueForKeyPath:@"subdict.subarray.@unionOfObjects"];
+        anObj = [dict valueForKeyPath:@"@avg"];
     }
     @catch (NSException *e) {
         exception = YES;
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
     }
     testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_AvgOperator2
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+        
+    @try {
+        exception = NO;
+        anObj = [dict valueForKeyPath:@"subdict.@avg"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_AvgOperator3
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
 
     @try {
         exception = NO;
-        anObj = [dict valueForKeyPath:@"subdict.subset.@unionOfObjects.description"];
+        anObj = [dict valueForKeyPath:@"subdict.@avg.intValue"];
     }
     @catch (NSException *e) {
         exception = YES;
@@ -1186,15 +1216,202 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+// @max
+
+- (BOOL)test_NSDictionary_valueForKeyPath_MaxOperator1
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+    
     @try {
         exception = NO;
-        anObj = [dict valueForKeyPath:@"@distinctUnionOfObjects.description"];
+        anObj = [dict valueForKeyPath:@"@max"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_MaxOperator2
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+    
+    @try {
+        exception = NO;
+        anObj = [dict valueForKeyPath:@"subdict.@max"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_MaxOperator3
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+    
+    @try {
+        exception = NO;
+        anObj = [dict valueForKeyPath:@"subdict.@max.intValue"];
     }
     @catch (NSException *e) {
         exception = YES;
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
     }
     testassert(exception);
+    
+    return YES;
+}
+
+// @min
+
+- (BOOL)test_NSDictionary_valueForKeyPath_MinOperator1
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+    
+    @try {
+        exception = NO;
+        anObj = [dict valueForKeyPath:@"@min"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_MinOperator2
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+    
+    @try {
+        exception = NO;
+        anObj = [dict valueForKeyPath:@"subdict.@min"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_MinOperator3
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+    
+    @try {
+        exception = NO;
+        anObj = [dict valueForKeyPath:@"subdict.@min.intValue"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+// @sum
+
+- (BOOL)test_NSDictionary_valueForKeyPath_SumOperator1
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+    
+    @try {
+        exception = NO;
+        anObj = [dict valueForKeyPath:@"@sum"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+- (BOOL)test_NSDictionary_valueForKeyPath_SumOperator2
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+    
+    @try {
+        exception = NO;
+        anObj = [dict valueForKeyPath:@"subdict.@sum"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_SumOperator3
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+    
+    @try {
+        exception = NO;
+        anObj = [dict valueForKeyPath:@"subdict.@sum.intValue"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+// @unionOfObjects
+
+- (BOOL)test_NSDictionary_valueForKeyPath_unionOfObjects1
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
     
     @try {
         exception = NO;
@@ -1206,16 +1423,16 @@
     }
     testassert(exception);
     
-    @try {
-        exception = NO;
-        anObj = [dict valueForKeyPath:@"@distinctUnionOfObjects"];
-    }
-    @catch (NSException *e) {
-        exception = YES;
-        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
-    }
-    testassert(exception);
-    
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_unionOfObjects2
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+
     @try {
         exception = NO;
         anObj = [dict valueForKeyPath:@"@unionOfObjects"];
@@ -1229,92 +1446,56 @@
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_unionOfArrays_distinctUnionOfArrays
+// @distinctUnionOfObjects
+
+- (BOOL)test_NSDictionary_valueForKeyPath_distinctUnionOfObjects1
 {
     BOOL exception = NO;
     id anObj;
-    NSMutableSet *subset = [NSMutableSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"42", @"42", nil];
-    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
-    NSMutableDictionary *loop = [NSMutableDictionary dictionary];
-    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", subarray, @"subarray", loop, @"loop", subset, @"subset", nil];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
-    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:dict, nil];
-    [dict setObject:anArray forKey:@"anArray"];
-    
-    NSMutableArray *anotherArray = [NSMutableArray array];
-    [anotherArray addObject:anArray];
-    [anotherArray addObject:subarray];
-    [anotherArray addObject:@[@"foo", @"bar"]];
-    [anotherArray addObject:@[@"foo", @"bar"]];
-    [subdict setObject:anotherArray forKey:@"anotherArray"];
-    
-    // --------------------------------------------------
-    // @unionOfArrays @distinctUnionOfArrays
-    // NOTE : seems to only work on an NSArray of NSArrays (returns NSArray) --OR-- NSSet of NSArrays (returns NSSet)
-
-    anObj = [dict valueForKeyPath:@"subdict.anotherArray.@unionOfArrays.description"];
-    testassert(anObj != nil);
-    testassert([anObj isKindOfClass:[NSArray class]]);
-    testassert([anObj count] == 11);
-    
-    anObj = [dict valueForKeyPath:@"subdict.anotherArray.@distinctUnionOfArrays.description"];
-    testassert(anObj != nil);
-    testassert([anObj isKindOfClass:[NSArray class]]);
-    testassert([anObj count] == 7);
-    
-    // NSSet positive test
-    NSMutableSet *anotherSet = [NSMutableSet set];
-    [anotherSet addObject:anArray];
-    [anotherSet addObject:subarray];
-    [anotherSet addObject:@[@"foo", @"bar"]];
-    [anotherSet addObject:@[@"foo", @"bar"]];
-    [subdict setObject:anotherSet forKey:@"anotherSet"];
-    
-    anObj = [dict valueForKeyPath:@"subdict.anotherSet.@distinctUnionOfArrays.description"];
-    testassert(anObj != nil);
-    testassert([anObj isKindOfClass:[NSSet class]]);
-    testassert([anObj count] == 7);
-    
-    @try {
-        exception = NO;
-        anObj = [dict valueForKeyPath:@"subdict.subarray.@distinctUnionOfArrays.description"];
-    }
-    @catch (NSException *e) {
-        exception = YES;
-        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
-    }
-    testassert(exception);
-    
-    @try {
-        exception = NO;
-        anObj = [dict valueForKeyPath:@"subdict.subarray.@unionOfArrays.description"];
-    }
-    @catch (NSException *e) {
-        exception = YES;
-        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
-    }
-    testassert(exception);
-    
-    // Also verify exception occurs on NSSet
-    @try {
-        exception = NO;
-        anObj = [dict valueForKeyPath:@"subdict.subset.@distinctUnionOfArrays.description"];
-    }
-    @catch (NSException *e) {
-        exception = YES;
-        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
-    }
-    testassert(exception);
 
     @try {
         exception = NO;
-        anObj = [dict valueForKeyPath:@"subdict.subset.@unionOfArrays.description"];
+        anObj = [dict valueForKeyPath:@"@distinctUnionOfObjects.description"];
     }
     @catch (NSException *e) {
         exception = YES;
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
     }
     testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_distinctUnionOfObjects2
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+
+    @try {
+        exception = NO;
+        anObj = [dict valueForKeyPath:@"@distinctUnionOfObjects"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+// @unionOfArrays
+
+- (BOOL)test_NSDictionary_valueForKeyPath_unionOfArrays1
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
     
     @try {
         exception = NO;
@@ -1326,16 +1507,16 @@
     }
     testassert(exception);
     
-    @try {
-        exception = NO;
-        anObj = [dict valueForKeyPath:@"@distinctUnionOfArrays.description"];
-    }
-    @catch (NSException *e) {
-        exception = YES;
-        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
-    }
-    testassert(exception);
-    
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_unionOfArrays2
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+
     @try {
         exception = NO;
         anObj = [dict valueForKeyPath:@"@unionOfArrays"];
@@ -1346,6 +1527,37 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+// @distinctUnionOfArrays
+
+- (BOOL)test_NSDictionary_valueForKeyPath_distinctUnionOfArrays1
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
+
+    @try {
+        exception = NO;
+        anObj = [dict valueForKeyPath:@"@distinctUnionOfArrays.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSDictionary_valueForKeyPath_distinctUnionOfArrays2
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
     @try {
         exception = NO;
         anObj = [dict valueForKeyPath:@"@distinctUnionOfArrays"];
@@ -1355,67 +1567,18 @@
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
     }
     testassert(exception);
+    
+    return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_distinctUnionOfSets
+// @distinctUnionOfSets
+
+- (BOOL)test_NSDictionary_valueForKeyPath_distinctUnionOfSets1
 {
     BOOL exception = NO;
     id anObj;
-    NSMutableSet *subset = [NSMutableSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"42", @"42", nil];
-    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
-    NSMutableDictionary *loop = [NSMutableDictionary dictionary];
-    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", subarray, @"subarray", loop, @"loop", subset, @"subset", nil];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
-    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:dict, nil];
-    [dict setObject:anArray forKey:@"anArray"];
-    
-    NSMutableArray *anotherArray = [NSMutableArray array];
-    [anotherArray addObject:[NSSet setWithArray:anArray]];
-    [anotherArray addObject:[NSSet setWithArray:subarray]];
-    [anotherArray addObject:[NSSet setWithArray:@[@"foo", @"bar"]]];
-    [anotherArray addObject:[NSSet setWithArray:@[@"foo", @"bar"]]];
-    [subdict setObject:anotherArray forKey:@"anotherArray"];
-    
-    NSMutableSet *anotherSet = [NSMutableSet set];
-    [anotherSet addObject:[NSSet setWithArray:anArray]];
-    [anotherSet addObject:[NSSet setWithArray:subarray]];
-    [anotherSet addObject:[NSSet setWithArray:@[@"foo", @"bar"]]];
-    [anotherSet addObject:[NSSet setWithArray:@[@"foo", @"bar"]]];
-    [subdict setObject:anotherSet forKey:@"anotherSet"];
-
-    // --------------------------------------------------
-    // @distinctUnionOfSets
-    // NOTE : seems to only work on an NSSet of NSSets (returns NSSet) --OR-- NSArray of NSSets (returns NSArray)
-    
-    anObj = [dict valueForKeyPath:@"subdict.anotherSet.@distinctUnionOfSets.description"];
-    testassert(anObj != nil);
-    testassert([anObj isKindOfClass:[NSSet class]]);
-    testassert([anObj count] == 6);
-    
-    anObj = [dict valueForKeyPath:@"subdict.anotherArray.@distinctUnionOfSets.description"];
-    testassert(anObj != nil);
-    testassert([anObj isKindOfClass:[NSArray class]]);
-    testassert([anObj count] == 6);
-
-    @try {
-        exception = NO;
-        anObj = [dict valueForKeyPath:@"subdict.subset.@distinctUnionOfSets.description"];
-    }
-    @catch (NSException *e) {
-        exception = YES;
-        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
-    }
-    testassert(exception);
-    
-    @try {
-        exception = NO;
-        anObj = [dict valueForKeyPath:@"subdict.subarray.@distinctUnionOfSets.description"];
-    }
-    @catch (NSException *e) {
-        exception = YES;
-        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
-    }
-    testassert(exception);
     
     @try {
         exception = NO;
@@ -1426,21 +1589,38 @@
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
     }
     testassert(exception);
-
-    // --------------------------------------------------
     
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Basics
+- (BOOL)test_NSDictionary_valueForKeyPath_distinctUnionOfSets2
 {
     BOOL exception = NO;
     id anObj;
-    NSDictionary *subdict = [NSDictionary dictionaryWithObjects:@[@"fooVal", @"barVal"] forKeys:@[@"fooKey", @"barKey"]];
-    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:subdict, [NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", nil];
     
-    // --------------------------------------------------
-    // random path tests
+    @try {
+        exception = NO;
+        anObj = [dict valueForKeyPath:@"@distinctUnionOfSets"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+#pragma mark -
+#pragma mark NSArray KVC tests
+
+- (BOOL)test_NSArray_valueForKeyPath_NilPath
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
     
     @try {
         exception = NO;
@@ -1452,6 +1632,15 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_InvalidPath
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
     @try {
         exception = NO;
         anObj = [anArray valueForKeyPath:@"lastObject"];
@@ -1461,6 +1650,15 @@
         testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
     }
     testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_EmptyPath
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
     
     @try {
         exception = NO;
@@ -1472,6 +1670,15 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_DotPath
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
     @try {
         exception = NO;
         anObj = [anArray valueForKeyPath:@"."];
@@ -1482,6 +1689,15 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_UnaryAt
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
     @try {
         exception = NO;
         anObj = [anArray valueForKeyPath:@"@"];
@@ -1492,6 +1708,15 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_One
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
     @try {
         exception = NO;
         anObj = [anArray valueForKeyPath:@"1"];
@@ -1502,6 +1727,15 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_AtOne
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
     @try {
         exception = NO;
         anObj = [anArray valueForKeyPath:@"@1"];
@@ -1512,9 +1746,18 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Ats
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+    
     @try {
         exception = NO;
-        anObj = [anArray valueForKeyPath:@"@@@@@@@"];
+        anObj = [anArray valueForKeyPath:@"@@@@@@@@@@@@@@@@@@@@@@@"];
     }
     @catch (NSException *e) {
         exception = YES;
@@ -1522,18 +1765,43 @@
     }
     testassert(exception);
     
-    // --------------------------------------------------
-    // @count tests
+    return YES;
+}
+
+// @count
+
+- (BOOL)test_NSArray_valueForKeyPath_CountOperator
+{
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
     anObj = [anArray valueForKeyPath:@"@count"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSNumber class]]);
-    testassert([anObj intValue] == 11);
+    testassert([anObj intValue] == 10);
     
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_CountOperatorIgnoreRighthandPath
+{
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
     anObj = [anArray valueForKeyPath:@"@count.should.ignore.right.hand.path"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSNumber class]]);
-    testassert([anObj intValue] == 11);
+    testassert([anObj intValue] == 10);
     
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_CountOperatorPrefix
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
     @try {
         exception = NO;
         anObj = [anArray valueForKeyPath:@"foo@count"];
@@ -1562,155 +1830,500 @@
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_MaxMinAvgSum
+// @max
+
+- (BOOL)test_NSArray_valueForKeyPath_Max1
 {
-    BOOL exception = NO;
     id anObj;
-    NSDictionary *subdict = [NSDictionary dictionaryWithObjects:@[@"fooVal", @"barVal"] forKeys:@[@"fooKey", @"barKey"]];
-    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:subdict, [NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
-    NSMutableArray *anotherArray = [NSMutableArray array];
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
     
-    // --------------------------------------------------
-    // @max, @min, @avg, @sum
-    
-    NSArray *operators = @[@"max", @"min", @"avg", @"sum"];
-    NSArray *results = @[
-                         @{@"valResults": @[@127, @127, [NSNull null], @"another constant NSString with a long description"],
-                           @"valClasses": @[[NSNumber class], [NSNumber class], [NSNumber class], [NSString class]]
-                           },
-                         @{@"valResults": @[@-127, @-127, [NSNull null], @""],
-                           @"valClasses": @[[NSNumber class], [NSNumber class], [NSNumber class], [NSString class]]
-                           },
-                         @{@"valResults": @[@7, @7],
-                           @"valClasses": @[[NSNumber class], [NSNumber class], [NSNumber class], [NSNull class]]
-                           },
-                         @{@"valResults": @[@82, @81, @0, @"NaN"],
-                           @"valClasses": @[[NSNumber class], [NSNumber class], [NSNumber class], [NSDecimalNumber class]]
-                           },
-                         ];
-    unsigned int i=0;
-    for (NSString *op in operators)
-    {
-        NSLog(@"testing for operator : %@", op);
-        
-        unsigned int j=0;
-        NSDictionary *cribSheet = [results objectAtIndex:i];
-        NSArray *valClasses = [cribSheet objectForKey:@"valClasses"];
-        NSArray *valResults = [cribSheet objectForKey:@"valResults"];
-        
-        anObj = [anArray valueForKeyPath:[NSString stringWithFormat:@"@%@.intValue", op]];
-        testassert(anObj != nil);
-        testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
-        testassert([anObj intValue] == [[valResults objectAtIndex:j] intValue]);
-        ++j;
-        
-        anObj = [anArray valueForKeyPath:[NSString stringWithFormat:@"@%@.floatValue", op]];
-        testassert(anObj != nil);
-        testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
-        testassert([anObj intValue] == [[valResults objectAtIndex:j] intValue]);
-        ++j;
-        
-        // array of arrays
-        anObj = [anotherArray valueForKeyPath:[NSString stringWithFormat:@"@%@.count", op]]; // HACK use anArray instead?
-        if ([op isEqualToString:@"sum"])
-        {
-            testassert(anObj != nil);
-            testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
-            testassert([anObj intValue] == [[valResults objectAtIndex:j] intValue]);
-        }
-        else
-        {
-            testassert(anObj == nil);
-        }
-        ++j;
-        
-        if ([op isEqualToString:@"avg"])
-        {
-            // cannot call @avg.description && @sum.description
-            @try {
-                exception = NO;
-                anObj = [anArray valueForKeyPath:[NSString stringWithFormat:@"@%@.description", op]];
-            }
-            @catch (NSException *e) {
-                exception = YES;
-                testassert([[e name] isEqualToString:@"NSDecimalNumberOverflowException"]);
-            }
-            testassert(exception);
-        }
-        else
-        {
-            anObj = [anArray valueForKeyPath:[NSString stringWithFormat:@"@%@.description", op]];
-            testassert(anObj != nil);
-            testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
-            testassert([[anObj description] isEqual:[[valResults objectAtIndex:j] description]]);
-        }
-        
-        // throw exception with invalid prefix --
-        @try {
-            exception = NO;
-            anObj = [anArray valueForKeyPath:[NSString stringWithFormat:@"foo@%@.description", op]];
-        }
-        @catch (NSException *e) {
-            exception = YES;
-            testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
-        }
-        testassert(exception);
-        
-        // throw exception for no suffix --
-        @try {
-            exception = NO;
-            anObj = [anArray valueForKeyPath:[NSString stringWithFormat:@"@%@", op]];
-        }
-        @catch (NSException *e) {
-            exception = YES;
-            testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
-        }
-        testassert(exception);
-        
-        // throw exception for invalid suffix --
-        @try {
-            exception = NO;
-            anObj = [anArray valueForKeyPath:[NSString stringWithFormat:@"@%@.foobar", op]];
-        }
-        @catch (NSException *e) {
-            exception = YES;
-            testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
-        }
-        testassert(exception);
-        
-        ++i;
-    }
+    anObj = [anArray valueForKeyPath:@"@max.intValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == [@127 intValue]);
     
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_unionOfObjects_distinctUnionOfObjects
+- (BOOL)test_NSArray_valueForKeyPath_Max2
+{
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    anObj = [anArray valueForKeyPath:@"@max.floatValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == [@127 intValue]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Max3
+{
+    id anObj;
+
+    NSMutableArray *anotherArray = [NSMutableArray array];
+    anObj = [anotherArray valueForKeyPath:@"@max.count"];
+    testassert(anObj == nil);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Max4
+{
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    anObj = [anArray valueForKeyPath:@"@max.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSString class]]);
+    testassert([[anObj description] isEqualToString:@"another constant NSString with a long description"]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Max5
 {
     BOOL exception = NO;
     id anObj;
-    NSDictionary *subdict = [NSDictionary dictionaryWithObjects:@[@"fooVal", @"barVal"] forKeys:@[@"fooKey", @"barKey"]];
-    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:subdict, [NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
-    NSMutableArray *anotherArray = [NSMutableArray array];
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [anArray valueForKeyPath:@"foo@max.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
     
-    // --------------------------------------------------
-    // @unionOfObjects @distinctUnionOfObjects
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Max6
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [anArray valueForKeyPath:@"@max"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Max7
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [anArray valueForKeyPath:@"@max.foobar"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+// @min
+
+- (BOOL)test_NSArray_valueForKeyPath_Min1
+{
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    anObj = [anArray valueForKeyPath:@"@min.intValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == [@-127 intValue]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Min2
+{
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    anObj = [anArray valueForKeyPath:@"@min.floatValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == [@-127 intValue]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Min3
+{
+    id anObj;
+
+    NSMutableArray *anotherArray = [NSMutableArray array];
+    anObj = [anotherArray valueForKeyPath:@"@min.count"];
+    testassert(anObj == nil);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Min4
+{
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    anObj = [anArray valueForKeyPath:@"@min.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSString class]]);
+    testassert([[anObj description] isEqualToString:@""]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Min5
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [anArray valueForKeyPath:@"foo@min.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Min6
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [anArray valueForKeyPath:@"@min"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Min7
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [anArray valueForKeyPath:@"@min.foobar"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+// @avg
+
+- (BOOL)test_NSArray_valueForKeyPath_Avg1
+{
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+    
+    anObj = [anArray valueForKeyPath:@"@avg.intValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == [@8 intValue]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Avg2
+{
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    anObj = [anArray valueForKeyPath:@"@avg.floatValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == [@8 intValue]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Avg3
+{
+    id anObj;
+
+    NSMutableArray *anotherArray = [NSMutableArray array];
+    anObj = [anotherArray valueForKeyPath:@"@avg.count"];
+    testassert(anObj == nil);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Avg4
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [anArray valueForKeyPath:@"@avg.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSDecimalNumberOverflowException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Avg5
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [anArray valueForKeyPath:@"foo@avg.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Avg6
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [anArray valueForKeyPath:@"@avg"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Avg7
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [anArray valueForKeyPath:@"@avg.foobar"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+// @sum
+
+- (BOOL)test_NSArray_valueForKeyPath_Sum1
+{
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    anObj = [anArray valueForKeyPath:@"@sum.intValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == [@82 intValue]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Sum2
+{
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    anObj = [anArray valueForKeyPath:@"@sum.floatValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == [@81 intValue]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Sum3
+{
+    id anObj;
+
+    NSMutableArray *anotherArray = [NSMutableArray array];
+    anObj = [anotherArray valueForKeyPath:@"@sum.count"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == [@0 intValue]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Sum4
+{
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    anObj = [anArray valueForKeyPath:@"@sum.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([[anObj description] isEqualToString:@"NaN"]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Sum5
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    // throw exception with invalid prefix --
+    @try {
+        exception = NO;
+        anObj = [anArray valueForKeyPath:@"foo@sum.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Sum6
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    // throw exception for no suffix --
+    @try {
+        exception = NO;
+        anObj = [anArray valueForKeyPath:@"@sum"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_Sum7
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    // throw exception for invalid suffix --
+    @try {
+        exception = NO;
+        anObj = [anArray valueForKeyPath:@"@sum.foobar"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+// @unionOfObjects
+
+- (BOOL)test_NSArray_valueForKeyPath_unionOfObjects1
+{
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
     
     anObj = [anArray valueForKeyPath:@"@unionOfObjects.intValue"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSArray class]]);
     testassert([anObj count] == 10);
     
-    anObj = [anArray valueForKeyPath:@"@distinctUnionOfObjects.description"];
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_unionOfObjects2
+{
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    anObj = [anArray valueForKeyPath:@"@unionOfObjects.description"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSArray class]]);
-    testassert([anObj count] == 9);
+    testassert([anObj count] == 10);
     
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_unionOfObjects3
+{
+    id anObj;
+
+    NSMutableArray *anotherArray = [NSMutableArray array];
     anObj = [anotherArray valueForKeyPath:@"@unionOfObjects.intValue"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSArray class]]);
     testassert([anObj count] == 0);
+    
+    return YES;
+}
 
-    // @operator as last element in path ...
+- (BOOL)test_NSArray_valueForKeyPath_unionOfObjects4
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
     @try {
         exception = NO;
         anObj = [anArray valueForKeyPath:@"@unionOfObjects"];
@@ -1724,21 +2337,75 @@
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_unionOfArrays_distinctUnionOfArrays
+// @distinctUnionOfObjects
+
+- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfObjects1
+{
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+    
+    anObj = [anArray valueForKeyPath:@"@distinctUnionOfObjects.intValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSArray class]]);
+    testassert([anObj count] == 7);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfObjects2
+{
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    anObj = [anArray valueForKeyPath:@"@distinctUnionOfObjects.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSArray class]]);
+    testassert([anObj count] == 9);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfObjects3
+{
+    id anObj;
+
+    NSMutableArray *anotherArray = [NSMutableArray array];
+    anObj = [anotherArray valueForKeyPath:@"@distinctUnionOfObjects.intValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSArray class]]);
+    testassert([anObj count] == 0);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfObjects4
 {
     BOOL exception = NO;
     id anObj;
-    NSDictionary *subdict = [NSDictionary dictionaryWithObjects:@[@"fooVal", @"barVal"] forKeys:@[@"fooKey", @"barKey"]];
-    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:subdict, [NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    // @operator as last element in path ...
+    @try {
+        exception = NO;
+        anObj = [anArray valueForKeyPath:@"@distinctUnionOfObjects"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+// @unionOfArrays
+
+- (BOOL)test_NSArray_valueForKeyPath_unionOfArrays1
+{
+    id anObj;
     NSMutableArray *anotherArray = [NSMutableArray array];
     [anotherArray addObject:[NSArray arrayWithObjects:@[@1, @2, @42], @[@1, @2, @42], @3.3, @[@1, @2, @3], nil]];
     [anotherArray addObject:[NSArray arrayWithObjects:@"hello", @"world", @"-23", nil]];
-    
-    // --------------------------------------------------
-    // @unionOfArrays @distinctUnionOfArrays
-    // NOTE : seems to only work on an NSSet of NSArrays (returns NSArray) --OR-- NSArray of NSArray (returns NSArray)
-    
-    //anObj = [recursiveArray valueForKeyPath:@"@unionOfArrays.description"]; -- stack overflow in iOS simulator
     
     anObj = [anotherArray valueForKeyPath:@"@unionOfArrays.doubleValue"];
     testassert(anObj != nil);
@@ -1748,24 +2415,17 @@
     testassert([subObj isKindOfClass:[NSArray class]]);
     testassert([subObj count] == 3);
     
-    anObj = [anotherArray valueForKeyPath:@"@distinctUnionOfArrays.description"];
-    testassert(anObj != nil);
-    testassert([anObj isKindOfClass:[NSArray class]]);
-    testassert([anObj count] == 6);
-    subObj = [anObj objectAtIndex:0];
-    testassert([subObj isKindOfClass:[NSArray class]]);
-    testassert([subObj count] == 3);
-    
-    @try {
-        exception = NO;
-        anObj = [anotherArray valueForKeyPath:@"@distinctUnionOfArrays"];
-    }
-    @catch (NSException *e) {
-        exception = YES;
-        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
-    }
-    testassert(exception);
-    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_unionOfArrays2
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anotherArray = [NSMutableArray array];
+    [anotherArray addObject:[NSArray arrayWithObjects:@[@1, @2, @42], @[@1, @2, @42], @3.3, @[@1, @2, @3], nil]];
+    [anotherArray addObject:[NSArray arrayWithObjects:@"hello", @"world", @"-23", nil]];
+
     @try {
         exception = NO;
         anObj = [anotherArray valueForKeyPath:@"@unionOfArrays"];
@@ -1776,16 +2436,15 @@
     }
     testassert(exception);
     
-    @try {
-        exception = NO;
-        anObj = [anArray valueForKeyPath:@"@distinctUnionOfArrays.description"];
-    }
-    @catch (NSException *e) {
-        exception = YES;
-        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
-    }
-    testassert(exception);
-    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_unionOfArrays3
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
     @try {
         exception = NO;
         anObj = [anArray valueForKeyPath:@"@unionOfArrays.description"];
@@ -1799,25 +2458,121 @@
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfSets
+// @distinctUnionOfArrays
+
+- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfArrays1
+{
+    id anObj;
+    NSMutableArray *anotherArray = [NSMutableArray array];
+    [anotherArray addObject:[NSArray arrayWithObjects:@[@1, @2, @42], @[@1, @2, @42], @3.3, @[@1, @2, @3], nil]];
+    [anotherArray addObject:[NSArray arrayWithObjects:@"hello", @"world", @"-23", nil]];
+    
+    anObj = [anotherArray valueForKeyPath:@"@distinctUnionOfArrays.doubleValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSArray class]]);
+    testassert([anObj count] == 5);
+    id subObj = [anObj objectAtIndex:0];
+    testassert([subObj isKindOfClass:[NSNumber class]]);
+    testassert([subObj intValue] == 0);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfArrays2
+{
+    id anObj;
+    NSMutableArray *anotherArray = [NSMutableArray array];
+    [anotherArray addObject:[NSArray arrayWithObjects:@[@1, @2, @42], @[@1, @2, @42], @3.3, @[@1, @2, @3], nil]];
+    [anotherArray addObject:[NSArray arrayWithObjects:@"hello", @"world", @"-23", nil]];
+
+    anObj = [anotherArray valueForKeyPath:@"@distinctUnionOfArrays.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSArray class]]);
+    testassert([anObj count] == 6);
+    id subObj = [anObj objectAtIndex:0];
+    testassert([subObj isKindOfClass:[NSArray class]]);
+    testassert([subObj count] == 3);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfArrays3
 {
     BOOL exception = NO;
     id anObj;
-    NSDictionary *subdict = [NSDictionary dictionaryWithObjects:@[@"fooVal", @"barVal"] forKeys:@[@"fooKey", @"barKey"]];
-    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:subdict, [NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
     NSMutableArray *anotherArray = [NSMutableArray array];
-    [anotherArray addObject:[NSSet setWithArray:@[@"foo", @"bar"]]];
-    [anotherArray addObject:[NSSet setWithArray:@[@"foo", @"bar"]]];
+    [anotherArray addObject:[NSArray arrayWithObjects:@[@1, @2, @42], @[@1, @2, @42], @3.3, @[@1, @2, @3], nil]];
+    [anotherArray addObject:[NSArray arrayWithObjects:@"hello", @"world", @"-23", nil]];
+
+    @try {
+        exception = NO;
+        anObj = [anotherArray valueForKeyPath:@"@distinctUnionOfArrays"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
     
-    // --------------------------------------------------
-    // @distinctUnionOfSets
-    // NOTE : seems to only work on an NSSet of NSSets (returns NSSet) --OR-- NSArray of NSSets (returns NSArray)
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfArrays4
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [anArray valueForKeyPath:@"@distinctUnionOfArrays.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+    }
+    testassert(exception);
     
+    return YES;
+}
+
+// @distinctUnionOfSets
+
+- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfSets1
+{
+    id anObj;
+    NSMutableArray *anotherArray = [NSMutableArray array];
+    [anotherArray addObject:[NSSet setWithObjects:[NSSet setWithObjects:@1, @2, @42, nil], [NSSet setWithObjects:@1, @2, @42, nil], @3.3, [NSSet setWithObjects:@1, @2, @3, nil], nil]];
+    [anotherArray addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", nil]];
     
     anObj = [anotherArray valueForKeyPath:@"@distinctUnionOfSets.description"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSArray class]]);
-    testassert([anObj count] == 2);
+    testassert([anObj count] == 6);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfSets2
+{
+    id anObj;
+    NSMutableArray *anotherArray = [NSMutableArray array];
+    [anotherArray addObject:[NSSet setWithObjects:[NSSet setWithObjects:@1, @2, @42, nil], [NSSet setWithObjects:@1, @2, @42, nil], @3.3, [NSSet setWithObjects:@1, @2, @3, nil], nil]];
+    [anotherArray addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", nil]];
+    
+    anObj = [anotherArray valueForKeyPath:@"@distinctUnionOfSets.intValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSArray class]]);
+    testassert([anObj count] == 5);
+    
+    return YES;
+}
+
+- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfSets3
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
     
     @try {
         exception = NO;
@@ -1829,24 +2584,17 @@
     }
     testassert(exception);
     
-    // --------------------------------------------------
-    
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Basics
+#pragma mark -
+#pragma mark NSSet KVC Tests
+
+- (BOOL)test_NSSet_valueForKeyPath_NilPath
 {
     BOOL exception = NO;
     id anObj;
-    NSDictionary *subdict = [NSDictionary dictionaryWithObjects:@[@"fooVal", @"barVal"] forKeys:@[@"fooKey", @"barKey"]];
-    NSSet *aSet = [NSSet setWithObjects:subdict, [NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
-    
-    // Created collections should not be nil
-    testassert(subdict != nil);
-    testassert(aSet != nil);
-    
-    // --------------------------------------------------
-    // random path tests
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
     
     @try {
         exception = NO;
@@ -1858,6 +2606,15 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_InvalidPath
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
     @try {
         exception = NO;
         anObj = [aSet valueForKeyPath:@"lastObject"];
@@ -1868,6 +2625,15 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_EmptyPath
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
     @try {
         exception = NO;
         anObj = [aSet valueForKeyPath:@""];
@@ -1878,6 +2644,15 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_UnaryDot
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
     @try {
         exception = NO;
         anObj = [aSet valueForKeyPath:@"."];
@@ -1888,6 +2663,15 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_UnaryAt
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
     @try {
         exception = NO;
         anObj = [aSet valueForKeyPath:@"@"];
@@ -1898,6 +2682,15 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_One
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
     @try {
         exception = NO;
         anObj = [aSet valueForKeyPath:@"1"];
@@ -1908,6 +2701,15 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_AtOne
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
     @try {
         exception = NO;
         anObj = [aSet valueForKeyPath:@"@1"];
@@ -1918,6 +2720,15 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Ats
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
     @try {
         exception = NO;
         anObj = [aSet valueForKeyPath:@"@@@@@@@"];
@@ -1928,18 +2739,41 @@
     }
     testassert(exception);
     
-    // --------------------------------------------------
-    // @count tests
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_CountOperator
+{
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
     anObj = [aSet valueForKeyPath:@"@count"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSNumber class]]);
-    testassert([anObj intValue] == 10);
+    testassert([anObj intValue] == 9);
     
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_CountOperatorIgnoreRighthandPath
+{
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
     anObj = [aSet valueForKeyPath:@"@count.should.ignore.right.hand.path"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSNumber class]]);
-    testassert([anObj intValue] == 10);
+    testassert([anObj intValue] == 9);
     
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_CountOperatorInvalidPrefix
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
     @try {
         exception = NO;
         anObj = [aSet valueForKeyPath:@"foo@count"];
@@ -1967,131 +2801,446 @@
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPathMaxMinAvgSumOperators
+// @max
+
+- (BOOL)test_NSSet_valueForKeyPath_Max1
+{
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+    
+    anObj = [aSet valueForKeyPath:@"@max.intValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == [@127 intValue]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Max2
+{
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    anObj = [aSet valueForKeyPath:@"@max.floatValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == [@127 intValue]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Max3
+{
+    id anObj;
+
+    NSMutableSet *anotherSet = [NSMutableSet set];
+    anObj = [anotherSet valueForKeyPath:@"@max.count"];
+    testassert(anObj == nil);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Max4
+{
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    anObj = [aSet valueForKeyPath:@"@max.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSString class]]);
+    testassert([[anObj description] isEqualToString:@"another constant NSString with a long description"]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Max5
 {
     BOOL exception = NO;
     id anObj;
-    NSDictionary *subdict = [NSDictionary dictionaryWithObjects:@[@"fooVal", @"barVal"] forKeys:@[@"fooKey", @"barKey"]];
-    NSSet *aSet = [NSSet setWithObjects:subdict, [NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
-    NSMutableSet *anotherSet = [NSMutableSet set];
-    
-    // --------------------------------------------------
-    // @max, @min, @avg, @sum
-    
-    NSArray *operators = @[@"max", @"min", @"avg", @"sum"];
-    NSArray *results = @[
-                         @{@"valResults": @[@127, @127, [NSNull null], @"another constant NSString with a long description"],
-                           @"valClasses": @[[NSNumber class], [NSNumber class], [NSNumber class], [NSString class]]
-                           },
-                         @{@"valResults": @[@-127, @-127, [NSNull null], @""],
-                           @"valClasses": @[[NSNumber class], [NSNumber class], [NSNumber class], [NSString class]]
-                           },
-                         @{@"valResults": @[@4, @3],
-                           @"valClasses": @[[NSNumber class], [NSNumber class], [NSNumber class], [NSNull class]]
-                           },
-                         @{@"valResults": @[@40, @39, @0, @"NaN"],
-                           //@"valClasses": @[[NSNumber class], [NSNumber class], [NSNumber class], [NSDecimalNumber class]]
-                           @"valClasses": @[[NSNumber class], [NSNumber class], [NSNumber class], [NSNumber class]]
-                           },
-                         ];
-    unsigned int i=0;
-    for (NSString *op in operators)
-    {
-        NSLog(@"testing for operator : %@", op);
-        
-        unsigned int j=0;
-        NSDictionary *cribSheet = [results objectAtIndex:i];
-        NSArray *valClasses = [cribSheet objectForKey:@"valClasses"];
-        NSArray *valResults = [cribSheet objectForKey:@"valResults"];
-        
-        anObj = [aSet valueForKeyPath:[NSString stringWithFormat:@"@%@.intValue", op]];
-        testassert(anObj != nil);
-        testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
-        testassert([anObj intValue] == [[valResults objectAtIndex:j] intValue]);
-        ++j;
-        
-        anObj = [aSet valueForKeyPath:[NSString stringWithFormat:@"@%@.floatValue", op]];
-        testassert(anObj != nil);
-        testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
-        testassert([anObj intValue] == [[valResults objectAtIndex:j] intValue]);
-        ++j;
-        
-        // array of arrays
-        anObj = [anotherSet valueForKeyPath:[NSString stringWithFormat:@"@%@.count", op]];//FIXME... aSet?
-        if ([op isEqualToString:@"sum"])
-        {
-            testassert(anObj != nil);
-            testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
-            testassert([anObj intValue] == [[valResults objectAtIndex:j] intValue]);
-        }
-        else
-        {
-            testassert(anObj == nil);
-        }
-        ++j;
-        
-        if ([op isEqualToString:@"avg"])
-        {
-            // cannot call @avg.description && @sum.description
-/* HACK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            @try {
-                exception = NO;
-                anObj = [aSet valueForKeyPath:[NSString stringWithFormat:@"@%@.description", op]];
-            }
-            @catch (NSException *e) {
-                exception = YES;
-                testassert([[e name] isEqualToString:@"NSDecimalNumberOverflowException"]);
-            }
-            testassert(exception);
- */
-        }
-        else
-        {
-            anObj = [aSet valueForKeyPath:[NSString stringWithFormat:@"@%@.description", op]];
-            testassert(anObj != nil);
-            testassert([self _assertClass:[valClasses objectAtIndex:j] forObject:anObj]);
-            // HACK !!!!!!!!!!!!!!!!
-            if (![op isEqualToString:@"sum"])
-            {
-                testassert([[anObj description] isEqual:[[valResults objectAtIndex:j] description]]);
-            }
-        }
-        
-        // throw exception with invalid prefix --
-        @try {
-            exception = NO;
-            anObj = [aSet valueForKeyPath:[NSString stringWithFormat:@"foo@%@.description", op]];
-        }
-        @catch (NSException *e) {
-            exception = YES;
-            testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
-        }
-        testassert(exception);
-        
-        // throw exception for no suffix --
-        @try {
-            exception = NO;
-            anObj = [aSet valueForKeyPath:[NSString stringWithFormat:@"@%@", op]];
-        }
-        @catch (NSException *e) {
-            exception = YES;
-            testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
-        }
-        testassert(exception);
-        
-        // throw exception for invalid suffix --
-        @try {
-            exception = NO;
-            anObj = [aSet valueForKeyPath:[NSString stringWithFormat:@"@%@.foobar", op]];
-        }
-        @catch (NSException *e) {
-            exception = YES;
-            testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
-        }
-        testassert(exception);
-        
-        ++i;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [aSet valueForKeyPath:@"foo@max.description"];
     }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Max6
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [aSet valueForKeyPath:@"@max"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Max7
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [aSet valueForKeyPath:@"@max.foobar"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+// @min
+
+- (BOOL)test_NSSet_valueForKeyPath_Min1
+{
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+    
+    anObj = [aSet valueForKeyPath:@"@min.intValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == [@-127 intValue]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Min2
+{
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    anObj = [aSet valueForKeyPath:@"@min.floatValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == [@-127 intValue]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Min3
+{
+    id anObj;
+
+    NSMutableSet *anotherSet = [NSMutableSet set];
+    anObj = [anotherSet valueForKeyPath:@"@min.count"];
+    testassert(anObj == nil);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Min4
+{
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    anObj = [aSet valueForKeyPath:@"@min.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSString class]]);
+    testassert([[anObj description] isEqualToString:@""]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Min5
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [aSet valueForKeyPath:@"foo@min.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Min6
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [aSet valueForKeyPath:@"@min"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Min7
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [aSet valueForKeyPath:@"@min.foobar"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+// @avg
+
+- (BOOL)test_NSSet_valueForKeyPath_Avg1
+{
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    anObj = [aSet valueForKeyPath:@"@avg.intValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == [@4 intValue]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Avg2
+{
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    anObj = [aSet valueForKeyPath:@"@avg.floatValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == [@4 intValue]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Avg3
+{
+    id anObj;
+
+    NSMutableSet *anotherSet = [NSMutableSet set];
+    anObj = [anotherSet valueForKeyPath:@"@avg.count"];
+    testassert(anObj == nil);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Avg4
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [aSet valueForKeyPath:@"@avg.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSDecimalNumberOverflowException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Avg5
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [aSet valueForKeyPath:@"foo@avg.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Avg6
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [aSet valueForKeyPath:@"@avg"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Avg7
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [aSet valueForKeyPath:@"@avg.foobar"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+// @sum
+
+- (BOOL)test_NSSet_valueForKeyPath_Sum1
+{
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    anObj = [aSet valueForKeyPath:@"@sum.intValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == [@40 intValue]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Sum2
+{
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    anObj = [aSet valueForKeyPath:@"@sum.floatValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == [@39 intValue]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Sum3
+{
+    id anObj;
+
+    NSMutableSet *anotherSet = [NSMutableSet set];
+    anObj = [anotherSet valueForKeyPath:@"@sum.count"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert([anObj intValue] == [@0 intValue]);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Sum4
+{
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    anObj = [aSet valueForKeyPath:@"@sum.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSNumber class]]);
+    testassert(isnan([anObj doubleValue]));
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Sum5
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [aSet valueForKeyPath:@"foo@sum.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Sum6
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [aSet valueForKeyPath:@"@sum"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_Sum7
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [aSet valueForKeyPath:@"@sum.foobar"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
     
     return YES;
 }
@@ -2135,21 +3284,13 @@
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_unionOfObjects_distinctUnionOfObjects
+// @unionOfObjects
+
+- (BOOL)test_NSSet_valueForKeyPath_unionOfObjects1
 {
     BOOL exception = NO;
     id anObj;
-    NSDictionary *subdict = [NSDictionary dictionaryWithObjects:@[@"fooVal", @"barVal"] forKeys:@[@"fooKey", @"barKey"]];
-    NSSet *aSet = [NSSet setWithObjects:subdict, [NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
-    NSMutableSet *anotherSet = [NSMutableSet set];
-    [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
-    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
-    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
-    NSArray *subAry = [NSArray arrayWithObjects:@[ @"helloset", @"helloset" ], @"helloset", @"helloset", @"arrayobj", nil];
-    [anotherSet addObject:subAry];
-
-    // --------------------------------------------------
-    // @unionOfObjects @distinctUnionOfObjects
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
     
     @try {
         exception = NO;
@@ -2161,21 +3302,133 @@
     }
     testassert(exception);
     
-    // ---
-    testassert([anotherSet count] == 3);
+    return YES;
+}
 
-    anObj = [anotherSet valueForKeyPath:@"@distinctUnionOfObjects.description"];
+- (BOOL)test_NSSet_valueForKeyPath_unionOfObjects2
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [aSet valueForKeyPath:@"@unionOfObjects.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_unionOfObjects3
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    @try {
+        exception = NO;
+        anObj = [aSet valueForKeyPath:@"@unionOfObjects"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_unionOfObjects4
+{
+    NSMutableSet *anotherSet = [NSMutableSet set];
+    [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    NSArray *subAry = [NSArray arrayWithObjects:@[ @"helloset", @"helloset" ], @"helloset", @"helloset", @"arrayobj", nil];
+    [anotherSet addObject:subAry];
+    testassert([anotherSet count] == 3);
+    BOOL exception = NO;
+    id anObj;
+    
+    @try {
+        anObj = [anotherSet valueForKeyPath:@"@unionOfObjects.description"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_unionOfObjects5
+{
+    NSMutableSet *anotherSet = [NSMutableSet set];
+    [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    NSArray *subAry = [NSArray arrayWithObjects:@[ @"helloset", @"helloset" ], @"helloset", @"helloset", @"arrayobj", nil];
+    [anotherSet addObject:subAry];
+    testassert([anotherSet count] == 3);
+    BOOL exception = NO;
+    id anObj;
+
+    @try {
+        anObj = [anotherSet valueForKeyPath:@"@unionOfObjects.intValue"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+    }
+    testassert(exception);
+
+    return YES;
+}
+
+// @distinctUnionOfObjects
+
+- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfObjects1
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+    
+    exception = NO;
+    anObj = [aSet valueForKeyPath:@"@distinctUnionOfObjects.intValue"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSSet class]]);
-    testassert([anObj count] == 3);
-    testassert([anObj isEqual:anotherSet]);
+    testassert([anObj count] == 7);
     
-    anObj = [anotherSet valueForKeyPath:@"@distinctUnionOfObjects.intValue"];
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfObjects2
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
+    exception = NO;
+    anObj = [aSet valueForKeyPath:@"@distinctUnionOfObjects.description"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSSet class]]);
-    testassert([anObj count] == 3);
+    testassert([anObj count] == 9);
     
-    // @operator as last element in path ...
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfObjects3
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
     @try {
         exception = NO;
         anObj = [aSet valueForKeyPath:@"@distinctUnionOfObjects"];
@@ -2186,26 +3439,52 @@
     }
     testassert(exception);
     
-    @try {
-        exception = NO;
-        anObj = [aSet valueForKeyPath:@"@distinctUnionOfObjects.intValue"];
-    }
-    @catch (NSException *e) {
-        // why exactly is this happening?  can't seem to make it happen with NSArray...
-        exception = YES;
-        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
-    }
-    testassert(exception);
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfObjects4
+{
+    NSMutableSet *anotherSet = [NSMutableSet set];
+    [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    NSArray *subAry = [NSArray arrayWithObjects:@[ @"helloset", @"helloset" ], @"helloset", @"helloset", @"arrayobj", nil];
+    [anotherSet addObject:subAry];
+    testassert([anotherSet count] == 3);
+    
+    id anObj = [anotherSet valueForKeyPath:@"@distinctUnionOfObjects.description"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSSet class]]);
+    testassert([anObj count] == 3);
+    testassert([anObj isEqual:anotherSet]);
     
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_unionOfArrays_distinctUnionOfArrays
+- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfObjects5
+{
+    NSMutableSet *anotherSet = [NSMutableSet set];
+    [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    NSArray *subAry = [NSArray arrayWithObjects:@[ @"helloset", @"helloset" ], @"helloset", @"helloset", @"arrayobj", nil];
+    [anotherSet addObject:subAry];
+    testassert([anotherSet count] == 3);
+
+    id anObj = [anotherSet valueForKeyPath:@"@distinctUnionOfObjects.intValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSSet class]]);
+    testassert([anObj count] == 3);
+    
+    return YES;
+}
+
+// @unionOfArrays
+
+- (BOOL)test_NSSet_valueForKeyPath_unionOfArrays1
 {
     BOOL exception = NO;
     id anObj;
-    NSDictionary *subdict = [NSDictionary dictionaryWithObjects:@[@"fooVal", @"barVal"] forKeys:@[@"fooKey", @"barKey"]];
-    NSSet *aSet = [NSSet setWithObjects:subdict, [NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
     NSMutableSet *anotherSet = [NSMutableSet set];
     [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
     [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
@@ -2213,9 +3492,29 @@
     NSArray *subAry = [NSArray arrayWithObjects:@[ @"helloset", @"helloset" ], @"helloset", @"helloset", @"arrayobj", nil];
     [anotherSet addObject:subAry];
     
-    // --------------------------------------------------
-    // @unionOfArrays @distinctUnionOfArrays
-    // NOTE : seems to only work on an NSSet of NSArray/NSSet (returns NSArray/NSSet) --OR-- NSArray of NSArray/NSSet (returns NSArray/NSSet)
+    @try {
+        exception = NO;
+        anObj = [anotherSet valueForKeyPath:@"@unionOfArrays"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+    }
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_unionOfArrays2
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableSet *anotherSet = [NSMutableSet set];
+    [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    NSArray *subAry = [NSArray arrayWithObjects:@[ @"helloset", @"helloset" ], @"helloset", @"helloset", @"arrayobj", nil];
+    [anotherSet addObject:subAry];
     
     @try {
         exception = NO;
@@ -2227,27 +3526,126 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_unionOfArrays3
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableSet *anotherSet = [NSMutableSet set];
+    [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    NSArray *subAry = [NSArray arrayWithObjects:@[ @"helloset", @"helloset" ], @"helloset", @"helloset", @"arrayobj", nil];
+    [anotherSet addObject:subAry];
+
     @try {
-        exception = NO;
-        anObj = [anotherSet valueForKeyPath:@"@unionOfArrays"];
+        anObj = [anotherSet valueForKeyPath:@"@unionOfArrays.description"];
     }
     @catch (NSException *e) {
         exception = YES;
-        testassert([[e name] isEqualToString:@"NSUnknownKeyException"]);
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
     }
     testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_unionOfArrays4
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableSet *anotherSet = [NSMutableSet set];
+    [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    NSArray *subAry = [NSArray arrayWithObjects:@[ @"helloset", @"helloset" ], @"helloset", @"helloset", @"arrayobj", nil];
+    [anotherSet addObject:subAry];
+
+    @try {
+        anObj = [anotherSet valueForKeyPath:@"@unionOfArrays.doubleValue"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+    }
+    testassert(exception);
+
+    return YES;
+}
+
+// @distinctUnionOfArrays
+
+- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfArrays1
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableSet *anotherSet = [NSMutableSet set];
+    [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    NSArray *subAry = [NSArray arrayWithObjects:@[ @"helloset", @"helloset" ], @"helloset", @"helloset", @"arrayobj", nil];
+    [anotherSet addObject:subAry];
+    
+    exception = NO;
+    anObj = [anotherSet valueForKeyPath:@"@distinctUnionOfArrays.intValue"];
+    testassert(anObj != nil);
+    testassert([anObj isKindOfClass:[NSSet class]]);
+    testassert([anObj count] == 5);
+#warning TODO: iterate/verify subobjects
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfArrays2
+{
+    id anObj;
+    NSMutableSet *anotherSet = [NSMutableSet set];
+    [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    NSArray *subAry = [NSArray arrayWithObjects:@[ @"helloset", @"helloset" ], @"helloset", @"helloset", @"arrayobj", nil];
+    [anotherSet addObject:subAry];
 
     anObj = [anotherSet valueForKeyPath:@"@distinctUnionOfArrays.description"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSSet class]]);
     testassert([anObj count] == 9);
 #warning TODO: iterate/verify subobjects
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfArrays3
+{
+    id anObj;
+    NSMutableSet *anotherSet = [NSMutableSet set];
+    [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    NSArray *subAry = [NSArray arrayWithObjects:@[ @"helloset", @"helloset" ], @"helloset", @"helloset", @"arrayobj", nil];
+    [anotherSet addObject:subAry];
 
     anObj = [anotherSet valueForKeyPath:@"@distinctUnionOfArrays.doubleValue"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSSet class]]);
     testassert([anObj count] == 5);
 #warning TODO: iterate/verify subobjects
+    
+    return YES;
+}
+
+- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfArrays4
+{
+    BOOL exception = NO;
+    id anObj;
+    NSMutableSet *anotherSet = [NSMutableSet set];
+    [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
+    NSArray *subAry = [NSArray arrayWithObjects:@[ @"helloset", @"helloset" ], @"helloset", @"helloset", @"arrayobj", nil];
+    [anotherSet addObject:subAry];
 
     @try {
         exception = NO;
@@ -2259,41 +3657,35 @@
     }
     testassert(exception);
     
-    NSNumber *aNumber = [NSNumber numberWithInt:1001];
-    [anotherSet addObject:aNumber];
-    @try {
-        exception = NO;
-        anObj = [aSet valueForKeyPath:@"@distinctUnionOfArrays.intValue"];
-    }
-    @catch (NSException *e) {
-        exception = YES;
-        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
-    }
-    testassert(exception);
-    [anotherSet removeObject:aNumber];
-    
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfSets
+// @distinctUnionOfSets
+
+- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfSets1
 {
-    BOOL exception = NO;
     id anObj;
-    NSDictionary *subdict = [NSDictionary dictionaryWithObjects:@[@"fooVal", @"barVal"] forKeys:@[@"fooKey", @"barKey"]];
-    NSSet *aSet = [NSSet setWithObjects:subdict, [NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
     NSMutableSet *anotherSet = [NSMutableSet set];
     [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
     [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
     [anotherSet addObject:[NSSet setWithObjects:@"helloset", @"helloset", @"helloset", @"worldset", @"-22", nil]];
-    // --------------------------------------------------
-    // @distinctUnionOfSets
-    // NOTE : seems to only work on an NSSet of NSSets (returns NSSet) --OR-- NSArray of NSSets (returns NSArray)
     
     anObj = [anotherSet valueForKeyPath:@"@distinctUnionOfSets.description"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSSet class]]);
-    testassert([anObj count] == 7);    
+    testassert([anObj count] == 7);
     
+    return YES;
+}
+
+#pragma mark -
+
+- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfSets2
+{
+    BOOL exception = NO;
+    id anObj;
+    NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
+
     @try {
         exception = NO;
         anObj = [aSet valueForKeyPath:@"@distinctUnionOfSets.description"];
@@ -2304,14 +3696,11 @@
     }
     testassert(exception);
     
-    // --------------------------------------------------
-    
     return YES;
 }
 
-- (BOOL)test_valueForKeyPath_strangeExceptions
+- (BOOL)test_valueForKeyPath_strangeExceptions1
 {
-    NSSet *aSet = [NSSet setWithObjects:[NSMutableString stringWithString:@"an NSMutableString"], nil];
     NSArray *anArray = [NSArray arrayWithObjects:[NSMutableString stringWithString:@"an NSMutableString"], nil];
     BOOL exception = NO;
     id aValue;
@@ -2326,6 +3715,15 @@
     }
     testassert(exception);
     
+    return YES;
+}
+
+- (BOOL)test_valueForKeyPath_strangeExceptions2
+{
+    NSSet *aSet = [NSSet setWithObjects:[NSMutableString stringWithString:@"an NSMutableString"], nil];
+    BOOL exception = NO;
+    id aValue;
+
     @try {
         exception = NO;
         aValue = [aSet valueForKeyPath:@"@avg.description"];
@@ -2362,20 +3760,6 @@
     testassert([aValue isKindOfClass:[NSSet class]]);
     testassert([aValue isEqual:set]);
     testassert([aValue count] == 0);
-    return YES;
-}
-
-- (BOOL) _assertClass:(Class)clazz forObject:(NSObject*)anObj
-{
-    if ([clazz isEqual:[NSNull class]])
-    {
-        testassert((anObj == nil) || [anObj isKindOfClass:[NSNull class]]);
-    }
-    else
-    {
-        testassert([anObj isKindOfClass:clazz]);
-    }
-    
     return YES;
 }
 
