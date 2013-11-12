@@ -409,9 +409,167 @@
     return YES;
 }
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary
+// [NSMutableDictionary setValue:forKeyPath:] silent FAIL cases ...
+
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_PathWithAtSymbols
 {
-    BOOL exception = NO;
+    id anObj = nil;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
+    [dict setObject:dict forKey:@"self"];
+    NSUInteger dictCount = [dict count];
+    
+    NSString *aPathWithAts = @"a@.@path@with.at@symbols@.";
+    [dict setValue:@"foo" forKeyPath:aPathWithAts];
+    testassert([dict count] == dictCount);
+    anObj = [dict valueForKeyPath:aPathWithAts];
+    testassert(anObj == nil);
+    
+    return YES;
+}
+
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_ValidYetNonexistentASCIIKeyPath
+{
+    id anObj = nil;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
+    [dict setObject:dict forKey:@"self"];
+    NSUInteger dictCount = [dict count];
+    
+    NSString *validYetNonexistentKeyPath = @"a.valid.yet.nonexistent.key.path";
+    [dict setValue:@"foo" forKeyPath:validYetNonexistentKeyPath];
+    testassert([dict count] == dictCount);
+    anObj = [dict valueForKeyPath:validYetNonexistentKeyPath];
+    testassert(anObj == nil);
+    
+    return YES;
+}
+
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_ValidYetNonexistentKeyPathWithSomeUnicodeSymbols
+{
+    id anObj = nil;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
+    [dict setObject:dict forKey:@"self"];
+    NSUInteger dictCount = [dict count];
+
+    NSString *validYetNonexistentKeyPath = @"a.väl|d.yét.n0nEx1$t3nt.kéy´.p@th!";
+    [dict setValue:@"foo" forKeyPath:validYetNonexistentKeyPath];
+    testassert([dict count] == dictCount);
+    anObj = [dict valueForKeyPath:validYetNonexistentKeyPath];
+    testassert(anObj == nil);
+    
+    return YES;
+}
+
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_AnotherWhackyKeyPathWithMoarUnicodeSymbols
+{
+    id anObj = nil;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
+    [dict setObject:dict forKey:@"self"];
+    NSUInteger dictCount = [dict count];
+    
+    NSString *anotherWhackyKeyPath = @"!#$@aasdf}.\\[-$uiå∑œΩ≈©†®´√ˆ¨∆äopio`~/?.,<>><.<;:'\"{#$@#$l.k@rqADF|+_w^ier.23]]]48&*(*&()";
+    [dict setValue:@"foo" forKeyPath:anotherWhackyKeyPath];
+    testassert([dict count] == dictCount);
+    anObj = [dict valueForKeyPath:anotherWhackyKeyPath];
+    testassert(anObj == nil);
+    
+    return YES;
+}
+
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_LeadingDot
+{
+    id anObj = nil;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
+    [dict setObject:dict forKey:@"self"];
+    NSUInteger dictCount = [dict count];
+    
+    NSString *beginDot = @".self.subdict";
+    [dict setValue:@"foo" forKeyPath:beginDot];
+    testassert([dict count] == dictCount);
+    anObj = [dict valueForKeyPath:beginDot];
+    testassert(anObj == nil);
+    
+    return YES;
+}
+
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_UnaryDot
+{
+    id anObj = nil;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
+    [dict setObject:dict forKey:@"self"];
+    NSUInteger dictCount = [dict count];
+    
+    NSString *unaryDot = @".";
+    [dict setValue:@"foo" forKeyPath:unaryDot];
+    testassert([dict count] == dictCount);
+    anObj = [dict valueForKeyPath:unaryDot];
+    testassert(anObj == nil);
+    
+    return YES;
+}
+
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_DotsBros
+{
+    id anObj = nil;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
+    [dict setObject:dict forKey:@"self"];
+    NSUInteger dictCount = [dict count];
+    
+    NSString *dotsBros = @"........................................................................................";
+    [dict setValue:@"foo" forKeyPath:dotsBros];
+    testassert([dict count] == dictCount);
+    anObj = [dict valueForKeyPath:dotsBros];
+    testassert(anObj == nil);
+    
+    return YES;
+}
+
+// [NSMutableDictionary setValue:forKeyPath:] success cases ...
+
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_EmptyPath
+{
+    id anObj = nil;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
+    [dict setObject:dict forKey:@"self"];
+    NSUInteger dictCount = [dict count];
+    
+    NSString *emptyPath = @"";
+    [dict setValue:@"foo" forKeyPath:emptyPath];
+    ++dictCount;
+    testassert([dict count] == dictCount);
+    anObj = [dict valueForKeyPath:emptyPath];
+    testassert([anObj isEqualToString:@"foo"]);
+    
+    return YES;
+}
+
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_LastDot
+{
+    id anObj = nil;
+    
+    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subarray, @"subarray", [NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", @"fooVal", @"fooKey", nil];
+    
+    [subdict setObject:dict forKey:@"parent"];
+    [dict setObject:dict forKey:@"self"];
+    
+    NSUInteger dictCount = [dict count];
+    NSUInteger subdictCount = [subdict count];
+
+    NSString *lastDot = @"self.subdict.parent.subdict.";
+    [dict setValue:@"foo" forKeyPath:lastDot];
+    ++subdictCount;
+    testassert([dict count] == dictCount);
+    testassert([subdict count] == subdictCount);
+    anObj = [dict valueForKeyPath:lastDot];
+    testassert([anObj isEqualToString:@"foo"]);
+    testassert([anObj isEqualToString:@"foo"]);
+    
+    return YES;
+}
+
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_SelfReferentialPath
+{
     id anObj = nil;
     
     NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
@@ -424,75 +582,29 @@
     NSUInteger dictCount = [dict count];
     NSUInteger subdictCount = [subdict count];
     
-    // silent FAIL cases ...
-    
-    NSString *aPathWithAts = @"a@.@path@with.at@symbols@.";
-    [dict setValue:@"foo" forKeyPath:aPathWithAts];
-    testassert([dict count] == dictCount);
-    testassert([subdict count] == subdictCount);
-    anObj = [dict valueForKeyPath:aPathWithAts];
-    testassert(anObj == nil);
-    
-    NSString *validYetNonexistentKeyPath = @"a.väl|d.yét.n0nEx1$t3nt.kéy´.p@th!";
-    [dict setValue:@"foo" forKeyPath:validYetNonexistentKeyPath];
-    testassert([dict count] == dictCount);
-    testassert([subdict count] == subdictCount);
-    anObj = [dict valueForKeyPath:validYetNonexistentKeyPath];
-    testassert(anObj == nil);
-    
-    NSString *anotherWhackyKeyPath = @"!#$@aasdf}.\\[-$uiå∑œΩ≈©†®´√ˆ¨∆äopio`~/?.,<>><.<;:'\"{#$@#$l.k@rqADF|+_w^ier.23]]]48&*(*&()";
-    [dict setValue:@"foo" forKeyPath:anotherWhackyKeyPath];
-    testassert([dict count] == dictCount);
-    testassert([subdict count] == subdictCount);
-    anObj = [dict valueForKeyPath:anotherWhackyKeyPath];
-    testassert(anObj == nil);
-    
-    NSString *beginDot = @".self.subdict";
-    [dict setValue:@"foo" forKeyPath:beginDot];
-    testassert([dict count] == dictCount);
-    testassert([subdict count] == subdictCount);
-    anObj = [dict valueForKeyPath:beginDot];
-    testassert(anObj == nil);
-
-    NSString *unaryDot = @".";
-    [dict setValue:@"foo" forKeyPath:unaryDot];
-    testassert([dict count] == dictCount);
-    testassert([subdict count] == subdictCount);
-    anObj = [dict valueForKeyPath:unaryDot];
-    testassert(anObj == nil);
-    
-    NSString *dotsBros = @"........................................................................................";
-    [dict setValue:@"foo" forKeyPath:dotsBros];
-    testassert([dict count] == dictCount);
-    testassert([subdict count] == subdictCount);
-    anObj = [dict valueForKeyPath:dotsBros];
-    testassert(anObj == nil);
-    
-    // various success cases ...
-    
-    NSString *emptyPath = @"";
-    [dict setValue:@"foo" forKeyPath:emptyPath];
-    ++dictCount;
-    testassert([dict count] == dictCount);
-    testassert([subdict count] == subdictCount);
-    anObj = [dict valueForKeyPath:emptyPath];
-    testassert([anObj isEqualToString:@"foo"]);
-    
-    NSString *lastDot = @"self.subdict.parent.subdict.";
-    [dict setValue:@"foo" forKeyPath:lastDot];
-    ++subdictCount;
-    testassert([dict count] == dictCount);
-    testassert([subdict count] == subdictCount);
-    anObj = [dict valueForKeyPath:lastDot];
-    testassert([anObj isEqualToString:@"foo"]);
-    testassert([anObj isEqualToString:@"foo"]);
-
     NSString *fooKeyPath = @"self.self.subdict.parent.fooKey";
     [dict setValue:@"bar" forKeyPath:fooKeyPath];
     testassert([dict count] == dictCount);
     testassert([subdict count] == subdictCount);
     anObj = [dict valueForKeyPath:fooKeyPath];
     testassert([anObj isEqualToString:@"bar"]);
+    
+    return YES;
+}
+
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_LongerSelfReferentialPath
+{
+    id anObj = nil;
+    
+    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subarray, @"subarray", [NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", @"fooVal", @"fooKey", nil];
+    
+    [subdict setObject:dict forKey:@"parent"];
+    [dict setObject:dict forKey:@"self"];
+    
+    NSUInteger dictCount = [dict count];
+    NSUInteger subdictCount = [subdict count];
     
     NSString *bazKeyPath = @"subdict.bazKey";
     NSString *aLongRecursiveBazKeyPath = @"self.self.subdict.parent.self.self.self.subdict.parent.subdict.bazKey";
@@ -508,6 +620,23 @@
     anObj = [dict valueForKeyPath:aLongRecursiveBazKeyPath];
     testassert([anObj isEqualToString:@"bazVal"]);
     
+    return YES;
+}
+
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_AddingNewSubKey
+{
+    id anObj = nil;
+    
+    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subarray, @"subarray", [NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", @"fooVal", @"fooKey", nil];
+    
+    [subdict setObject:dict forKey:@"parent"];
+    [dict setObject:dict forKey:@"self"];
+    
+    NSUInteger dictCount = [dict count];
+    NSUInteger subdictCount = [subdict count];
+    
     NSString *aNewKeyPath = @"subdict.aNewKey";
     [dict setValue:@"aNewKeyVal" forKeyPath:aNewKeyPath];
     ++subdictCount;
@@ -516,6 +645,23 @@
     anObj = [dict valueForKeyPath:aNewKeyPath];
     testassert([anObj isEqualToString:@"aNewKeyVal"]);
     
+    return YES;
+}
+
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_RediculouslyLongRecursiveKeyPath
+{
+    id anObj = nil;
+    
+    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subarray, @"subarray", [NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", @"fooVal", @"fooKey", nil];
+    
+    [subdict setObject:dict forKey:@"parent"];
+    [dict setObject:dict forKey:@"self"];
+    
+    NSUInteger dictCount = [dict count];
+    NSUInteger subdictCount = [subdict count];
+    
     NSString *aSomewhatRidiculouslyLongRecursivePath = @"self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.self.subdict.parent.self.self.fooKey";
     [dict setValue:@"bazz" forKeyPath:aSomewhatRidiculouslyLongRecursivePath];
     testassert([dict count] == dictCount);
@@ -523,7 +669,24 @@
     anObj = [dict valueForKeyPath:aSomewhatRidiculouslyLongRecursivePath];
     testassert([anObj isEqualToString:@"bazz"]);
     
-    // special operators
+    return YES;
+}
+
+// [NSMutableDictionary setValue:forKeyPath:] special operators tests ...
+
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_MaxOperator
+{
+    id anObj = nil;
+    
+    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subarray, @"subarray", [NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", @"fooVal", @"fooKey", nil];
+    
+    [subdict setObject:dict forKey:@"parent"];
+    [dict setObject:dict forKey:@"self"];
+    
+    NSUInteger dictCount = [dict count];
+    NSUInteger subdictCount = [subdict count];
     
     NSString *maxValuePath = @"subdict.@max";
     [dict setValue:@"altMax" forKeyPath:maxValuePath];
@@ -534,7 +697,22 @@
     anObj = [subdict objectForKey:@"@max"];
     testassert([anObj isEqualToString:@"altMax"]);
     
-    // TODO : More @operator tests
+    return YES;
+}
+
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_CountOperator
+{
+    id anObj = nil;
+    
+    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subarray, @"subarray", [NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", @"fooVal", @"fooKey", nil];
+    
+    [subdict setObject:dict forKey:@"parent"];
+    [dict setObject:dict forKey:@"self"];
+    
+    NSUInteger dictCount = [dict count];
+    NSUInteger subdictCount = [subdict count];
     
     NSString *aPathWithCountOperator = @"@count";
     [dict setValue:@"hmm" forKeyPath:aPathWithCountOperator];
@@ -542,11 +720,28 @@
     testassert([dict count] == dictCount);
     testassert([subdict count] == subdictCount);
     anObj = [dict valueForKeyPath:aPathWithCountOperator];
-    testassert([anObj intValue] == 5);
+    testassert([anObj intValue] == 4);
     anObj = [dict valueForKey:aPathWithCountOperator];
-    testassert([anObj intValue] == 5);
+    testassert([anObj intValue] == 4);
     anObj = [dict objectForKey:aPathWithCountOperator];
     testassert([anObj isEqualToString:@"hmm"]);
+    
+    return YES;
+}
+
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_SubPathCountOperator
+{
+    id anObj = nil;
+    
+    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subarray, @"subarray", [NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", @"fooVal", @"fooKey", nil];
+    
+    [subdict setObject:dict forKey:@"parent"];
+    [dict setObject:dict forKey:@"self"];
+    
+    NSUInteger dictCount = [dict count];
+    NSUInteger subdictCount = [subdict count];
     
     NSString *anotherPathWithCountOperator = @"subdict.@count";
     [dict setValue:@"yea" forKeyPath:anotherPathWithCountOperator];
@@ -554,7 +749,7 @@
     testassert([dict count] == dictCount);
     testassert([subdict count] == subdictCount);
     anObj = [dict valueForKeyPath:anotherPathWithCountOperator];
-    testassert([anObj intValue] == 9);
+    testassert([anObj intValue] == 6);
     anObj = [dict valueForKey:anotherPathWithCountOperator];
     testassert(anObj == nil);
     anObj = [dict objectForKey:anotherPathWithCountOperator];
@@ -562,7 +757,18 @@
     anObj = [subdict objectForKey:@"@count"];
     testassert([anObj isEqualToString:@"yea"]);
     
-    // assertion cases ...
+    return YES;
+}
+
+// TODO : More @operator tests ...
+
+// [NSMutableDictionary setValue:forKeyPath:] assertion cases ...
+
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_Assertion1
+{
+    BOOL exception = NO;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
+    [dict setObject:dict forKey:@"self"];
     
     @try {
         exception = NO;
@@ -573,6 +779,15 @@
         testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
     }
     testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_Assertion2
+{
+    BOOL exception = NO;
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
+    [dict setObject:dict forKey:@"self"];
     
     NSString *atDotPath = @"@.";
     @try {
@@ -585,7 +800,23 @@
     }
     testassert(exception);
     
-    // strange cases
+    return YES;
+}
+    
+- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_Assertion3
+{
+    BOOL exception = NO;
+    id anObj = nil;
+    
+    NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
+    NSMutableDictionary *subdict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subarray, @"subarray", [NSNumber numberWithFloat:3.14], @"piApproxKey", @"bazVal", @"bazKey", [NSNull null], @"nsNullKey", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:subdict, @"subdict", @"fooVal", @"fooKey", nil];
+    
+    [subdict setObject:dict forKey:@"parent"];
+    [dict setObject:dict forKey:@"self"];
+    
+    NSUInteger dictCount = [dict count];
+    NSUInteger subdictCount = [subdict count];
     
     NSString *setValueOutFromUnderItselfPath = @"subdict.parent.subdict";
     [dict setValue:@"gone" forKeyPath:setValueOutFromUnderItselfPath];
