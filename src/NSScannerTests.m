@@ -115,6 +115,161 @@
     return YES;
 }
 
+- (BOOL)testScanInt_Empty
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@""];
+    int value = 0;
+    testassert(![scanner scanInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanInt_Dot
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"."];
+    int value = 0;
+    
+    testassert(![scanner scanInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanInt_ZeroDot
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"0."];
+    int value = 0;
+    
+    testassert([scanner scanInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanInt_Zero
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"0"];
+    int value = 0;
+    
+    testassert([scanner scanInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanInt_Zeroes
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"000000000000"];
+    int value = 0;
+    
+    testassert([scanner scanInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 12);
+    
+    return YES;
+}
+
+- (BOOL)testScanInt_Dots
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"............"];
+    int value = 0;
+    
+    testassert(![scanner scanInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanInt_DotsAndStuff
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"1.0."];
+    int value = 0;
+    
+    testassert([scanner scanInt:&value]);
+    testassert(value == 1.0);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanInt_Minus
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"-"];
+    int value = 0;
+    
+    testassert(![scanner scanInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanInt_Minuses
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"-------"];
+    int value = 0;
+    
+    testassert(![scanner scanInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanInt_Pluses
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"+++++++++"];
+    int value = 0;
+    
+    testassert(![scanner scanInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanInt_Plus
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"+"];
+    int value = 0;
+    
+    testassert(![scanner scanInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanInt_NegativeZero
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"-0.000"];
+    int value = 0;
+    
+    testassert([scanner scanInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 2);
+    
+    return YES;
+}
+
+- (BOOL)testScanInt_PlusZero
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"+0.000"];
+    int value = 0;
+    
+    testassert([scanner scanInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 2);
+    
+    return YES;
+}
+
 - (BOOL)testScannerWithLongLong
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"12345678901"];
@@ -137,6 +292,161 @@
     return YES;
 }
 
+- (BOOL)testScanLongLong_Empty
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@""];
+    long long value = 0LL;
+    testassert(![scanner scanLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanLongLong_Dot
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"."];
+    long long value = 0LL;
+    
+    testassert(![scanner scanLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanLongLong_ZeroDot
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"0."];
+    long long value = 0LL;
+    
+    testassert([scanner scanLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanLongLong_Zero
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"0"];
+    long long value = 0LL;
+    
+    testassert([scanner scanLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanLongLong_Zeroes
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"000000000000"];
+    long long value = 0LL;
+    
+    testassert([scanner scanLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 12);
+    
+    return YES;
+}
+
+- (BOOL)testScanLongLong_Dots
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"............"];
+    long long value = 0LL;
+    
+    testassert(![scanner scanLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanLongLong_DotsAndStuff
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"1.0."];
+    long long value = 0LL;
+    
+    testassert([scanner scanLongLong:&value]);
+    testassert(value == 1.0);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanLongLong_Minus
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"-"];
+    long long value = 0LL;
+    
+    testassert(![scanner scanLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanLongLong_Minuses
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"-------"];
+    long long value = 0LL;
+    
+    testassert(![scanner scanLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanLongLong_Pluses
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"+++++++++"];
+    long long value = 0LL;
+    
+    testassert(![scanner scanLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanLongLong_Plus
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"+"];
+    long long value = 0LL;
+    
+    testassert(![scanner scanLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanLongLong_NegativeZero
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"-0.000"];
+    long long value = 0LL;
+    
+    testassert([scanner scanLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 2);
+    
+    return YES;
+}
+
+- (BOOL)testScanLongLong_PlusZero
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"+0.000"];
+    long long value = 0LL;
+    
+    testassert([scanner scanLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 2);
+    
+    return YES;
+}
+
 - (BOOL)testScanHexInt
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"0x1a3 4444"];
@@ -148,6 +458,161 @@
     testassert([scanner scanHexInt:&value]);
     testassert(value == 0x4444);
     testassert([scanner scanLocation] == 10);
+    return YES;
+}
+
+- (BOOL)testScanHexInt_Empty
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@""];
+    unsigned value = 0;
+    testassert(![scanner scanHexInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexInt_Dot
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"."];
+    unsigned value = 0;
+    
+    testassert(![scanner scanHexInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexInt_ZeroDot
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"0."];
+    unsigned value = 0;
+    
+    testassert([scanner scanHexInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexInt_Zero
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"0"];
+    unsigned value = 0;
+    
+    testassert([scanner scanHexInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexInt_Zeroes
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"000000000000"];
+    unsigned value = 0;
+    
+    testassert([scanner scanHexInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 12);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexInt_Dots
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"............"];
+    unsigned value = 0;
+    
+    testassert(![scanner scanHexInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexInt_DotsAndStuff
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"1.0."];
+    unsigned value = 0;
+    
+    testassert([scanner scanHexInt:&value]);
+    testassert(value == 1.0);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexInt_Minus
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"-"];
+    unsigned value = 0;
+    
+    testassert(![scanner scanHexInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexInt_Minuses
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"-------"];
+    unsigned value = 0;
+    
+    testassert(![scanner scanHexInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexInt_Pluses
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"+++++++++"];
+    unsigned value = 0;
+    
+    testassert(![scanner scanHexInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexInt_Plus
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"+"];
+    unsigned value = 0;
+    
+    testassert(![scanner scanHexInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexInt_NegativeZero
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"-0.000"];
+    unsigned value = 0;
+    
+    testassert(![scanner scanHexInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexInt_PlusZero
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"+0.000"];
+    unsigned value = 0;
+    
+    testassert(![scanner scanHexInt:&value]);
+    testassert(value == 0);
+    testassert([scanner scanLocation] == 0);
+    
     return YES;
 }
 
@@ -166,6 +631,160 @@
     return YES;
 }
 
+- (BOOL)testScanHexLongLong_Empty
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@""];
+    unsigned long long value = 0LL;
+    testassert(![scanner scanHexLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexLongLong_Dot
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"."];
+    unsigned long long value = 0LL;
+    
+    testassert(![scanner scanHexLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexLongLong_ZeroDot
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"0."];
+    unsigned long long value = 0LL;
+    
+    testassert([scanner scanHexLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexLongLong_Zero
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"0"];
+    unsigned long long value = 0LL;
+    
+    testassert([scanner scanHexLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexLongLong_Zeroes
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"000000000000"];
+    unsigned long long value = 0LL;
+    
+    testassert([scanner scanHexLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 12);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexLongLong_Dots
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"............"];
+    unsigned long long value = 0LL;
+    
+    testassert(![scanner scanHexLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexLongLong_DotsAndStuff
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"1.0."];
+    unsigned long long value = 0LL;
+    
+    testassert([scanner scanHexLongLong:&value]);
+    testassert(value == 1.0);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexLongLong_Minus
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"-"];
+    unsigned long long value = 0LL;
+    
+    testassert(![scanner scanHexLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexLongLong_Minuses
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"-------"];
+    unsigned long long value = 0LL;
+    
+    testassert(![scanner scanHexLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexLongLong_Pluses
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"+++++++++"];
+    unsigned long long value = 0LL;
+    
+    testassert(![scanner scanHexLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexLongLong_Plus
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"+"];
+    unsigned long long value = 0LL;
+    
+    testassert(![scanner scanHexLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexLongLong_NegativeZero
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"-0.000"];
+    unsigned long long value = 0LL;
+    
+    testassert(![scanner scanHexLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexLongLong_PlusZero
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"+0.000"];
+    unsigned long long value = 0LL;
+    
+    testassert(![scanner scanHexLongLong:&value]);
+    testassert(value == 0LL);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
 
 - (BOOL)testScannerWithSLongLongOverflow
 {
@@ -366,6 +985,240 @@
     testassert([scanner scanDouble:&value]);
     testassert(value == 123.5);
     testassert([scanner scanLocation] == 9);
+    return YES;
+}
+
+- (BOOL)testScanDouble_Empty
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@""];
+    double value = 0.0;
+    testassert(![scanner scanDouble:&value]);
+    testassert(value == 0.0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanDouble_Negative1
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"-42"];
+    double value = -1.0;
+    testassert([scanner scanDouble:&value]);
+    testassert(value == -42.0);
+    testassert([scanner scanLocation] == 3);
+    return YES;
+}
+
+- (BOOL)testScanDouble_Positive
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"+42.1818"];
+    double value = -1.0;
+    testassert([scanner scanDouble:&value]);
+    testassert(value == 42.1818);
+    testassert([scanner scanLocation] == 8);
+    return YES;
+}
+
+- (BOOL)testScanDouble_Exponent1
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@".1e7"];
+    double value = -1.0;
+    testassert([scanner scanDouble:&value]);
+    testassert(value == 1000000.0);
+    testassert([scanner scanLocation] == 4);
+    return YES;
+}
+
+- (BOOL)testScanDouble_Exponent2
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"0.1e7"];
+    double value = -1.0;
+    testassert([scanner scanDouble:&value]);
+    testassert(value == 1000000.0);
+    testassert([scanner scanLocation] == 5);
+    return YES;
+}
+
+- (BOOL)testScanDouble_Exponent3
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"1.1e+7"];
+    double value = -1.0;
+    testassert([scanner scanDouble:&value]);
+    testassert(value == 11000000.0);
+    testassert([scanner scanLocation] == 6);
+    return YES;
+}
+
+- (BOOL)testScanDouble_Exponent4
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"10.1E6"];
+    double value = -1.0;
+    testassert([scanner scanDouble:&value]);
+    testassert(value == 10100000.0);
+    testassert([scanner scanLocation] == 6);
+    return YES;
+}
+
+- (BOOL)testScanDouble_Exponent5
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"1.0e-6"];
+    double value = -1.0;
+    testassert([scanner scanDouble:&value]);
+    testassert(value == 0.0000010);
+    testassert([scanner scanLocation] == 6);
+    return YES;
+}
+- (BOOL)testScanDouble_Exponent6
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"0.0e0"];
+    double value = -1.0;
+    testassert([scanner scanDouble:&value]);
+    testassert(value == 0.0);
+    testassert([scanner scanLocation] == 5);
+    return YES;
+}
+
+- (BOOL)testScanDouble_Dot
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"."];
+    double value = 0.0;
+    
+    testassert(![scanner scanDouble:&value]);
+    testassert(value == 0.0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanDouble_ZeroDot
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"0."];
+    double value = 0.0;
+    
+    testassert([scanner scanDouble:&value]);
+    testassert(value == 0.0);
+    testassert([scanner scanLocation] == 2);
+    
+    return YES;
+}
+
+- (BOOL)testScanDouble_Zero
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"0"];
+    double value = 0.0;
+    
+    testassert([scanner scanDouble:&value]);
+    testassert(value == 0.0);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanDouble_Zeroes
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"000000000000"];
+    double value = 0.0;
+    
+    testassert([scanner scanDouble:&value]);
+    testassert(value == 0.0);
+    testassert([scanner scanLocation] == 12);
+    
+    return YES;
+}
+
+- (BOOL)testScanDouble_Dots
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"............"];
+    double value = 0.0;
+    
+    testassert(![scanner scanDouble:&value]);
+    testassert(value == 0.0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanDouble_DotsAndStuff
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"1.0.0.0.0.0.0"];
+    double value = 0.0;
+    
+    testassert([scanner scanDouble:&value]);
+    testassert(value == 1.0);
+    testassert([scanner scanLocation] == 3);
+    
+    return YES;
+}
+
+- (BOOL)testScanDouble_Minus
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"-"];
+    double value = 0.0;
+    
+    testassert(![scanner scanDouble:&value]);
+    testassert(value == 0.0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanDouble_Minuses
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"-------"];
+    double value = 0.0;
+    
+    testassert(![scanner scanDouble:&value]);
+    testassert(value == 0.0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanDouble_Pluses
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"+++++++++"];
+    double value = 0.0;
+    
+    testassert(![scanner scanDouble:&value]);
+    testassert(value == 0.0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanDouble_Plus
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"+"];
+    double value = 0.0;
+    
+    testassert(![scanner scanDouble:&value]);
+    testassert(value == 0.0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanDouble_NegativeZero
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"-0.000"];
+    double value = 0.0;
+    
+    testassert([scanner scanDouble:&value]);
+    testassert(value == 0.0);
+    testassert([scanner scanLocation] == 6);
+    
+    return YES;
+}
+
+- (BOOL)testScanDouble_PlusZero
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"+0.000"];
+    double value = 0.0;
+    
+    testassert([scanner scanDouble:&value]);
+    testassert(value == 0.0);
+    testassert([scanner scanLocation] == 6);
+    
     return YES;
 }
 
