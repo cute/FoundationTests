@@ -352,7 +352,39 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     [s getCharacters:buffer];
     testassert(buffer[0] == 'I' && buffer[length - 1] == 't');
     
-    return YES;    
+    return YES;
+}
+
+- (BOOL) testGetCharacters_isNotNilTerminated
+{
+    NSString *s = @"föo";
+    NSUInteger length = [s length];
+    testassert(length == 3);
+    NSRange range = NSMakeRange(0, length);
+
+    struct {
+        unichar buffer[4];
+        uint32_t cap;
+    } a_struct;
+    
+    memset(a_struct.buffer, 0xff, sizeof(a_struct.buffer));
+    a_struct.cap = 0x0;
+    
+    testassert(sizeof(a_struct.buffer) > length*sizeof(unichar));
+    [s getCharacters:a_struct.buffer range:range];
+    testassert(a_struct.buffer[3] == 0xffff);
+
+    // test bufover...
+    unichar *ptr = a_struct.buffer;
+    unsigned int i=0;
+    for (; *ptr != '\0'; ptr++, i++)
+    {
+        // ...
+    }
+    
+    testassert(i == sizeof(a_struct.buffer)/sizeof(unichar));
+    
+    return YES;
 }
 
 - (BOOL) testStringByTrimmingCharactersInSet
