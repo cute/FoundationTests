@@ -198,6 +198,157 @@
     return YES;
 }
 
+- (BOOL)testScanFloat_Empty
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@""];
+    float value = -1.f;
+    testassert(![scanner scanFloat:&value]);
+    testassert(value == -1.f);
+    testassert([scanner scanLocation] == 0);
+    return YES;
+}
+
+- (BOOL)testScanFloat_Minus
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"-"];
+    float value = -1.f;
+    testassert(![scanner scanFloat:&value]);
+    testassert(value == -1.f);
+    testassert([scanner scanLocation] == 0);
+    return YES;
+}
+
+- (BOOL)testScanFloat_Plus
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"+"];
+    float value = -1.f;
+    testassert(![scanner scanFloat:&value]);
+    testassert(value == -1.f);
+    testassert([scanner scanLocation] == 0);
+    return YES;
+}
+
+- (BOOL)testScanFloat_Negative1
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"-42"];
+    float value = -1.f;
+    testassert([scanner scanFloat:&value]);
+    testassert(value == -42.f);
+    testassert([scanner scanLocation] == 3);
+    return YES;
+}
+
+- (BOOL)testScanFloat_Positive
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"+42.1818"];
+    float value = -1.f;
+    testassert([scanner scanFloat:&value]);
+    testassert(value == 42.1818f);
+    testassert([scanner scanLocation] == 8);
+    return YES;
+}
+
+- (BOOL)testScanFloat_Exponent1
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@".1e7"];
+    float value = -1.f;
+    testassert([scanner scanFloat:&value]);
+    testassert(value == 1000000.f);
+    testassert([scanner scanLocation] == 4);
+    return YES;
+}
+
+- (BOOL)testScanFloat_Exponent2
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"0.1e7"];
+    float value = -1.f;
+    testassert([scanner scanFloat:&value]);
+    testassert(value == 1000000.f);
+    testassert([scanner scanLocation] == 5);
+    return YES;
+}
+
+- (BOOL)testScanFloat_Exponent3
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"1.1e+7"];
+    float value = -1.f;
+    testassert([scanner scanFloat:&value]);
+    testassert(value == 11000000.f);
+    testassert([scanner scanLocation] == 6);
+    return YES;
+}
+
+- (BOOL)testScanFloat_Exponent4
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"10.1E6"];
+    float value = -1.f;
+    testassert([scanner scanFloat:&value]);
+    testassert(value == 10100000.f);
+    testassert([scanner scanLocation] == 6);
+    return YES;
+}
+
+- (BOOL)testScanFloat_Exponent5
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"1.0e-6"];
+    float value = -1.f;
+    testassert([scanner scanFloat:&value]);
+    testassert(value == 0.000001f);
+    testassert([scanner scanLocation] == 6);
+    return YES;
+}
+- (BOOL)testScanFloat_Exponent6
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"0.0e0"];
+    float value = -1.f;
+    testassert([scanner scanFloat:&value]);
+    testassert(value == 0.f);
+    testassert([scanner scanLocation] == 5);
+    return YES;
+}
+
+- (BOOL)testScanFloat_Zero
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"0"];
+    float value = -1.f;
+    testassert([scanner scanFloat:&value]);
+    testassert(value == 0.f);
+    testassert([scanner scanLocation] == 1);
+    return YES;
+}
+
+- (BOOL)testScanFloat_NegativeZero
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"-0"];
+    float value = -1.f;
+    testassert([scanner scanFloat:&value]);
+    testassert(value == 0.f);
+    testassert([scanner scanLocation] == 2);
+    return YES;
+}
+
+- (BOOL)testScanFloat_PositiveZero
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"+0"];
+    float value = -1.f;
+    testassert([scanner scanFloat:&value]);
+    testassert(value == 0.f);
+    testassert([scanner scanLocation] == 2);
+    return YES;
+}
+
+- (BOOL)testScanFloat_ZeroPointZero
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"0.000"];
+    float value = -1.f;
+    testassert([scanner scanFloat:&value]);
+    testassert(value == 0.f);
+    testassert([scanner scanLocation] == 5);
+    return YES;
+}
+
+#warning TODO test NaNs
+
 - (BOOL)testScanDouble
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"123"];
