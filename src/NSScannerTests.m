@@ -622,6 +622,184 @@
     return YES;
 }
 
+- (BOOL)testScanDecimal_Empty
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@""];
+    NSDecimal decimal = { 0 };
+    testassert(![scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._exponent == 0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
 
+- (BOOL)testScanDecimal_Dot
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"."];
+    NSDecimal decimal = { 0 };
+    
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._isNegative == 0);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanDecimal_ZeroDot
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"0."];
+    NSDecimal decimal = { 0 };
+    
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._isNegative == 0);
+    testassert([scanner scanLocation] == 2);
+    
+    return YES;
+}
+
+- (BOOL)testScanDecimal_Zero
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"0"];
+    NSDecimal decimal = { 0 };
+    
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._isNegative == 0);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanDecimal_Zeroes
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"000000000000"];
+    NSDecimal decimal = { 0 };
+    
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._isNegative == 0);
+    testassert([scanner scanLocation] == 12);
+    
+    return YES;
+}
+
+- (BOOL)testScanDecimal_Dots
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"............"];
+    NSDecimal decimal = { 0 };
+    
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._isNegative == 0);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanDecimal_DotsAndStuff
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"1.0.0.0.0.0.0"];
+    NSDecimal decimal = { 0 };
+    
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 1);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._isNegative == 0);
+    testassert([scanner scanLocation] == 3);
+    
+    return YES;
+}
+
+- (BOOL)testScanDecimal_Minus
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"-"];
+    NSDecimal decimal = { 0 };
+    
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._isNegative == 0);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanDecimal_Minuses
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"-------"];
+    NSDecimal decimal = { 0 };
+    
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._isNegative == 0);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanDecimal_Pluses
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"+++++++++"];
+    NSDecimal decimal = { 0 };
+    
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._isNegative == 0);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanDecimal_Plus
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"+"];
+    NSDecimal decimal = { 0 };
+    
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._isNegative == 0);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanDecimal_NegativeZero
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"-0.000"];
+    NSDecimal decimal = { 0 };
+    
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._exponent == -3);
+    testassert(decimal._isNegative == 0);
+    testassert([scanner scanLocation] == 6);
+    
+    return YES;
+}
+
+- (BOOL)testScanDecimal_PlusZero
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"+0.000"];
+    NSDecimal decimal = { 0 };
+    
+    testassert([scanner scanDecimal:&decimal]);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._exponent == -3);
+    testassert(decimal._isNegative == 0);
+    testassert([scanner scanLocation] == 6);
+    
+    return YES;
+}
 
 @end
