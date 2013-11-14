@@ -1624,10 +1624,12 @@
     testassert(![scanner scanDecimal:&decimal]);
     
     uint8_t *ptr = (void*)&decimal;
-    for (unsigned int i=0; i<sizeof(NSDecimal); i++)
+    unsigned int i=0;
+    for (; i<sizeof(NSDecimal); i++, ptr++)
     {
         testassert(*ptr == 0xff);
     }
+    testassert(i == sizeof(NSDecimal));
     
     return YES;
 }
