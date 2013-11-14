@@ -19,6 +19,7 @@
 		47178CA617ADD9D40062E7B0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47178CA517ADD9D40062E7B0 /* Default-568h@2x.png */; };
 		47BAA20018203D8000E7C337 /* NSDecimalNumberTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BAA1FF18203D8000E7C337 /* NSDecimalNumberTests.m */; };
 		47E33E4B180C873A00A7E10F /* NSKVOTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47E33E4A180C873A00A7E10F /* NSKVOTests.m */; };
+		4A1C12F5183471540055723E /* ATestPlist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A1C12F4183471540055723E /* ATestPlist.plist */; };
 		4A54638817F0C18700876D50 /* NSKeyValueCodingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A54638717F0C18700876D50 /* NSKeyValueCodingTests.m */; };
 		58664D0B180E47E700B72D1F /* website.html in Resources */ = {isa = PBXBuildFile; fileRef = 58664D0A180E47E700B72D1F /* website.html */; };
 		58664D0D180F28A100B72D1F /* WebServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C57F36180E17BD008C28D3 /* WebServer.m */; };
@@ -174,6 +175,7 @@
 		47178CBD17ADDA340062E7B0 /* NSURLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLTests.m; sourceTree = "<group>"; };
 		47BAA1FF18203D8000E7C337 /* NSDecimalNumberTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDecimalNumberTests.m; sourceTree = "<group>"; };
 		47E33E4A180C873A00A7E10F /* NSKVOTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSKVOTests.m; sourceTree = "<group>"; };
+		4A1C12F4183471540055723E /* ATestPlist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ATestPlist.plist; sourceTree = "<group>"; };
 		4A54638717F0C18700876D50 /* NSKeyValueCodingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSKeyValueCodingTests.m; sourceTree = "<group>"; };
 		58664D0A180E47E700B72D1F /* website.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = website.html; sourceTree = "<group>"; };
 		58B2D03817EBBC0300A999DA /* NSPortTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSPortTests.m; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 		47178C9617ADD9D40062E7B0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4A1C12F4183471540055723E /* ATestPlist.plist */,
 				1AFCF48017B9AE350085CA15 /* NSBundleTests */,
 				47178C9717ADD9D40062E7B0 /* FoundationTests-Info.plist */,
 				47178C9817ADD9D40062E7B0 /* InfoPlist.strings */,
@@ -495,6 +498,7 @@
 				1AFCF48A17B9AE350085CA15 /* 0.bundle in Resources */,
 				1AFCF48F17B9AE480085CA15 /* folderref0 in Resources */,
 				58664D0B180E47E700B72D1F /* website.html in Resources */,
+				4A1C12F5183471540055723E /* ATestPlist.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

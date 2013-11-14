@@ -392,7 +392,7 @@
 
 - (BOOL)testFileCreation
 {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"FoundationTests-Info" ofType:@"plist"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"ATestPlist" ofType:@"plist"];
     NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:path];
 
     // File initializer should return a dictionary
@@ -406,22 +406,62 @@
 
 - (BOOL)testFileMutableCreation
 {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"FoundationTests-Info" ofType:@"plist"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"ATestPlist" ofType:@"plist"];
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
 
     // File initializer should return a dictionary
     testassert(dict != nil);
     testassert([dict isKindOfClass:[objc_getClass("NSDictionary") class]]);
     testassert([dict isKindOfClass:[objc_getClass("NSMutableDictionary") class]]);
+    
+    BOOL exception = NO;
+    @try {
+        [dict setObject:@"foo" forKey:@"foo"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+    }
+    testassert(exception == NO);
 
     [dict release];
+    
+    return YES;
+}
 
+- (BOOL)testFileMutableCreation_dictionaryWithContentsOfFile
+{
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"ATestPlist" ofType:@"plist"];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:path];
+    
+    // File initializer should return a dictionary
+    testassert(dict != nil);
+    testassert([dict isKindOfClass:[objc_getClass("NSDictionary") class]]);
+    testassert([dict isKindOfClass:[objc_getClass("NSMutableDictionary") class]]);
+    
+    BOOL exception = NO;
+    @try {
+        [dict setObject:@"foo" forKey:@"foo"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+    }
+    testassert(exception == NO);
+    
+    return YES;
+}
+
+- (BOOL)testFileMutableCreation_dictionaryWithContentsOfNilFile
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:nil];
+    
+    testassert(dict == nil);
+    
     return YES;
 }
 
 - (BOOL)testURLCreation
 {
-    NSURL *URL = [[NSBundle mainBundle] URLForResource:@"FoundationTests-Info" withExtension:@"plist"];
+    NSURL *URL = [[NSBundle mainBundle] URLForResource:@"ATestPlist" withExtension:@"plist"];
     NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfURL:URL];
 
     // File initializer should return a dictionary
@@ -444,19 +484,58 @@
 
 - (BOOL)testURLMutableCreation
 {
-    NSURL *URL = [[NSBundle mainBundle] URLForResource:@"FoundationTests-Info" withExtension:@"plist"];
+    NSURL *URL = [[NSBundle mainBundle] URLForResource:@"ATestPlist" withExtension:@"plist"];
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithContentsOfURL:URL];
 
     // File initializer should return a dictionary
     testassert(dict != nil);
     testassert([dict isKindOfClass:[objc_getClass("NSDictionary") class]]);
     testassert([dict isKindOfClass:[objc_getClass("NSMutableDictionary") class]]);
+    
+    BOOL exception = NO;
+    @try {
+        [dict setObject:@"foo" forKey:@"foo"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+    }
+    testassert(exception == NO);
 
     [dict release];
 
     return YES;
 }
 
+- (BOOL)testURLMutableCreation_dictionaryWithContentsOfURL
+{
+    NSURL *URL = [[NSBundle mainBundle] URLForResource:@"ATestPlist" withExtension:@"plist"];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfURL:URL];
+    
+    // File initializer should return a dictionary
+    testassert(dict != nil);
+    testassert([dict isKindOfClass:[objc_getClass("NSDictionary") class]]);
+    testassert([dict isKindOfClass:[objc_getClass("NSMutableDictionary") class]]);
+    
+    BOOL exception = NO;
+    @try {
+        [dict setObject:@"foo" forKey:@"foo"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+    }
+    testassert(exception == NO);
+    
+    return YES;
+}
+
+- (BOOL)testURLMutableCreation_dictionaryWithContentsOfNilURL
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfURL:nil];
+    
+    testassert(dict == nil);
+    
+    return YES;
+}
 
 - (BOOL)testSubclassCreation
 {
@@ -604,23 +683,6 @@ static const char *allData[] = {
     strcpy(localCopy, base);
     const char *value = CFDictionaryGetValue(d, localCopy);
     testassert(strcmp(value, "Mexico/BajaNorte") == 0);
-
-    return YES;
-}
-
-- (BOOL)testDictionaryWithContentsOfFile
-{
-    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:nil];
-    testassert(dict == nil);
-    
-    dict = [NSDictionary dictionaryWithContentsOfFile:@"/An/Invalid/File/Path"];
-    testassert(dict == nil);
-
-    NSLog(@"%@",[[NSBundle mainBundle] resourcePath]);
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"FoundationTests-Info" ofType:@"plist"];
-    dict = [NSDictionary dictionaryWithContentsOfFile:path];
-    testassert(dict != nil);
-    testassert([dict count] > 0);
 
     return YES;
 }
