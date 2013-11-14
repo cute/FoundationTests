@@ -123,6 +123,8 @@ static NSString *makePath(NSFileManager *manager, NSString *name)
     testassert(count > 1);
     testassert(asset0Found);
     testassert(bundle0Found);
+    testassert(bundle0ContentsFound);
+    testassert(enLprojInfoPlistStringsFound);
     return YES;
 }
 
@@ -165,6 +167,8 @@ static NSString *makePath(NSFileManager *manager, NSString *name)
     testassert(count > 1);
     testassert(asset0Found);
     testassert(bundle0Found);
+    testassert(!bundle0ContentsFound);
+    testassert(!enLprojInfoPlistStringsFound);
     testassert(!errorOccurred);
     return YES;
 }
