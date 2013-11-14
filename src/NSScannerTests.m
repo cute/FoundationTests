@@ -126,6 +126,26 @@
     return YES;
 }
 
+- (BOOL)testScanInt_Nil
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"0"];
+    testassert([scanner scanInt:nil]);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanInt_Uninitialized
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"feefiefofum"];
+    int value = 0xDEADC0DE;
+    testassert(![scanner scanInt:&value]);
+    testassert(value == 0xDEADC0DE);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
 - (BOOL)testScanInt_Dot
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"."];
@@ -303,6 +323,26 @@
     return YES;
 }
 
+- (BOOL)testScanLongLong_Nil
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"0"];
+    testassert([scanner scanLongLong:nil]);
+    testassert([scanner scanLocation] == 1);
+    
+    return YES;
+}
+
+- (BOOL)testScanLongLong_Uninitialized
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"feefiefofum"];
+    long long value = 0xDEADCAFEBEEFC0DE;
+    testassert(![scanner scanLongLong:&value]);
+    testassert(value == 0xDEADCAFEBEEFC0DE);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
 - (BOOL)testScanLongLong_Dot
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"."];
@@ -467,6 +507,26 @@
     unsigned value = 0;
     testassert(![scanner scanHexInt:&value]);
     testassert(value == 0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexInt_Nil
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"0x0"];
+    testassert([scanner scanHexInt:nil]);
+    testassert([scanner scanLocation] == 3);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexInt_Uninitialized
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"NOfeefiefofum"];
+    unsigned value = 0xDEADCAFE;
+    testassert(![scanner scanHexInt:&value]);
+    testassert(value == 0xDEADCAFE);
     testassert([scanner scanLocation] == 0);
     
     return YES;
@@ -637,6 +697,26 @@
     unsigned long long value = 0LL;
     testassert(![scanner scanHexLongLong:&value]);
     testassert(value == 0LL);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexLongLong_Nil
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"0x0"];
+    testassert([scanner scanHexLongLong:nil]);
+    testassert([scanner scanLocation] == 3);
+    
+    return YES;
+}
+
+- (BOOL)testScanHexLongLong_Uninitialized
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"NOfeefiefofum"];
+    unsigned long long value = 0xDEADCAFEBEEFC0DE;
+    testassert(![scanner scanHexLongLong:&value]);
+    testassert(value == 0xDEADCAFEBEEFC0DE);
     testassert([scanner scanLocation] == 0);
     
     return YES;
@@ -827,6 +907,25 @@
     return YES;
 }
 
+- (BOOL)testScanFloat_Nil
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"0.0"];
+    testassert([scanner scanFloat:nil]);
+    testassert([scanner scanLocation] == 3);
+    return YES;
+}
+
+- (BOOL)testScanFloat_Uninitialized
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"feefiefofum"];
+    float value = -111.1f;
+    testassert(![scanner scanFloat:&value]);
+    testassert(value == -111.1f);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
 - (BOOL)testScanFloat_Minus
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"-"];
@@ -994,6 +1093,26 @@
     double value = 0.0;
     testassert(![scanner scanDouble:&value]);
     testassert(value == 0.0);
+    testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanDouble_Nil
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"0.0"];
+    testassert([scanner scanDouble:nil]);
+    testassert([scanner scanLocation] == 3);
+    
+    return YES;
+}
+
+- (BOOL)testScanDouble_Uninitialized
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"feefiefofum"];
+    double value = -111.1;
+    testassert(![scanner scanDouble:&value]);
+    testassert(value == -111.1);
     testassert([scanner scanLocation] == 0);
     
     return YES;
@@ -1483,6 +1602,32 @@
     testassert(decimal._mantissa[0] == 0);
     testassert(decimal._exponent == 0);
     testassert([scanner scanLocation] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testScanDecimal_Nil
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"0.0"];
+    testassert([scanner scanDecimal:nil]);
+    testassert([scanner scanLocation] == 3);
+    
+    return YES;
+}
+
+- (BOOL)testScanDecimal_Uninitialized
+{
+    NSScanner* scanner = [[NSScanner alloc] initWithString:@"feefiefofum"];
+    
+    NSDecimal decimal;
+    memset(&decimal, 0xff, sizeof(NSDecimal));
+    testassert(![scanner scanDecimal:&decimal]);
+    
+    uint8_t *ptr = (void*)&decimal;
+    for (unsigned int i=0; i<sizeof(NSDecimal); i++)
+    {
+        testassert(*ptr == 0xff);
+    }
     
     return YES;
 }
