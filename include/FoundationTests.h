@@ -74,6 +74,7 @@ action(NSSet) \
 action(NSSortDescriptor) \
 action(NSString) \
 action(NSPathUtilities) \
+action(NSPointerFunctions) \
 action(NSThread) \
 action(NSTimeZone) \
 action(NSURL) \
