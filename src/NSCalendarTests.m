@@ -22,6 +22,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDate *date = [cal dateFromComponents:comps];
     [comps release];
+    [cal release];
     return date;
 }
 
