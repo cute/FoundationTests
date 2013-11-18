@@ -96,6 +96,43 @@
 }
 @end
 
+// -----------------------------
+
+@interface ObjectWithInternalObserver : NSObject
+@end
+
+@implementation ObjectWithInternalObserver {
+    NSObject *_internal;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        _internal = [[NSObject alloc] init];
+        [self addObserver:_internal
+               forKeyPath:@"fooKeyPath"
+                  options:(NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew)
+                  context:NULL];
+        [self addObserver:_internal
+               forKeyPath:@"barKeyPath"
+                  options:(NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew)
+                  context:NULL];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [self removeObserver:_internal forKeyPath:@"barKeyPath"];
+    [self removeObserver:_internal forKeyPath:@"fooKeyPath"];
+    [_internal release];
+    _internal = nil;
+    [super dealloc];
+}
+
+@end
+
 @testcase(NSKVO)
 
 #define OBSERVER_PROLOGUE(_Observable, _keyPath, _options, _context) \
@@ -192,6 +229,13 @@
     testassert([observer priorObservationMadeForKeyPath:keyPath]);
 
     OBSERVER_EPILOGUE();
+}
+
+- (BOOL)testObjectWithInternalObserver
+{
+    ObjectWithInternalObserver *obj = [[ObjectWithInternalObserver alloc] init];
+    [obj release];
+    return YES;
 }
 
 - (BOOL)testZeroObservancesWithBadObservable
