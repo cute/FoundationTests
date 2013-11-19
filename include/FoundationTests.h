@@ -69,6 +69,7 @@ action(NSMethodSignature) \
 action(NSNumber) \
 action(NSNumberFormatter) \
 action(NSObjCRuntime) \
+action(Concurrency) \
 action(NSScanner) \
 action(NSScannerSubclass) \
 action(NSSet) \
