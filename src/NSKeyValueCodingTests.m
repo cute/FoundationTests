@@ -409,6 +409,46 @@
     return YES;
 }
 
+- (BOOL)testSetNilValueOnNSMutableDictionaryForKey1
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setValue:nil forKey:@"foo"];
+    return YES;
+}
+
+- (BOOL)testSetNilValueOnNSMutableDictionaryForKey2
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setValue:[NSArray array] forKey:@"foo"];
+    NSArray *anArray = [dict valueForKey:@"foo"];
+    testassert(anArray != nil);
+    return YES;
+}
+
+- (BOOL)testSetNilValueOnNSMutableDictionaryForKey3
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setValue:@"hello" forKey:@"foo"];
+    NSString *hello = [dict valueForKey:@"foo"];
+    testassert(hello != nil);
+    [dict setValue:nil forKey:@"foo"];
+    hello = [dict valueForKey:@"foo"];
+    testassert(hello == nil);
+    return YES;
+}
+
+- (BOOL)testSetNilValueOnNSMutableDictionaryForKey4
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setObject:@"hello" forKey:@"foo"];
+    NSString *hello = [dict valueForKey:@"foo"];
+    testassert(hello != nil);
+    [dict setValue:nil forKey:@"foo"];
+    hello = [dict valueForKey:@"foo"];
+    testassert(hello == nil);
+    return YES;
+}
+
 // [NSMutableDictionary setValue:forKeyPath:] silent FAIL cases ...
 
 - (BOOL) test_setValueForKeyPath_onNSMutableDictionary_PathWithAtSymbols
