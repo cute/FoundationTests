@@ -61,6 +61,7 @@ action(NSFileHandle) \
 action(NSFileManager) \
 action(NSIndexSet) \
 action(NSInvocation) \
+action(NSJSONSerialization) \
 action(NSKVO) \
 action(NSLocale) \
 action(NSLock) \

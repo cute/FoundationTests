@@ -10,6 +10,8 @@
 		1AFCF48917B9AE350085CA15 /* 0.asset in Resources */ = {isa = PBXBuildFile; fileRef = 1AFCF48117B9AE350085CA15 /* 0.asset */; };
 		1AFCF48A17B9AE350085CA15 /* 0.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1AFCF48217B9AE350085CA15 /* 0.bundle */; };
 		1AFCF48F17B9AE480085CA15 /* folderref0 in Resources */ = {isa = PBXBuildFile; fileRef = 1AFCF48E17B9AE480085CA15 /* folderref0 */; };
+		21D41F66183AF80D006B122D /* NSJSONSerializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 21D41F65183AF80D006B122D /* NSJSONSerializationTests.m */; };
+		21D41F67183AF81B006B122D /* NSJSONSerializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 21D41F65183AF80D006B122D /* NSJSONSerializationTests.m */; };
 		470A08B5181C647C006BFAB4 /* NSCoderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 470A08B4181C647C006BFAB4 /* NSCoderTests.m */; };
 		47178C9217ADD9D40062E7B0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47178C9117ADD9D40062E7B0 /* Foundation.framework */; };
 		47178C9A17ADD9D40062E7B0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 47178C9817ADD9D40062E7B0 /* InfoPlist.strings */; };
@@ -148,6 +150,7 @@
 		1AFCF48117B9AE350085CA15 /* 0.asset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 0.asset; sourceTree = "<group>"; };
 		1AFCF48217B9AE350085CA15 /* 0.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = 0.bundle; sourceTree = "<group>"; };
 		1AFCF48E17B9AE480085CA15 /* folderref0 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = folderref0; sourceTree = "<group>"; };
+		21D41F65183AF80D006B122D /* NSJSONSerializationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSJSONSerializationTests.m; sourceTree = "<group>"; };
 		470A08B4181C647C006BFAB4 /* NSCoderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSCoderTests.m; sourceTree = "<group>"; };
 		47178C8C17ADD9D40062E7B0 /* FoundationTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoundationTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47178C9117ADD9D40062E7B0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -387,6 +390,7 @@
 				DE212C25180F431000DDB3AA /* NSTimeZoneTests.m */,
 				DE227B441819BEB00004570F /* NSCalendarTests.m */,
 				470A08B4181C647C006BFAB4 /* NSCoderTests.m */,
+				21D41F65183AF80D006B122D /* NSJSONSerializationTests.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -565,6 +569,7 @@
 				58C57F37180E17BD008C28D3 /* WebServer.m in Sources */,
 				4796653A18355B1C00A40F89 /* NSPointerFunctionsTests.m in Sources */,
 				58DD2827180F51F7007C4D8F /* SecureTransportTests.m in Sources */,
+				21D41F66183AF80D006B122D /* NSJSONSerializationTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -576,6 +581,7 @@
 				BCA81FC517B31394004745B2 /* main.m in Sources */,
 				58B2D03A17EBBC0300A999DA /* NSPortTests.m in Sources */,
 				58664D0D180F28A100B72D1F /* WebServer.m in Sources */,
+				21D41F67183AF81B006B122D /* NSJSONSerializationTests.m in Sources */,
 				58664D0E180F28AF00B72D1F /* FoundationTests.m in Sources */,
 				58664D0F180F28BA00B72D1F /* CFGetTypeIDTests.m in Sources */,
 				58664D10180F28BA00B72D1F /* NSUserDefaultsTests.m in Sources */,
