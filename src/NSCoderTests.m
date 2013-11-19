@@ -11,6 +11,7 @@
 @interface SimpleClass : NSObject <NSCoding>
 @property int a;
 @property BOOL didEncode;
+@property BOOL didDecode;
 @end
 @implementation SimpleClass
 - (id) initWithCoder:(NSCoder *)aDecoder
@@ -19,6 +20,7 @@
     if (self)
     {
         _a = [aDecoder decodeIntForKey:@"ABC"];
+        _didDecode = YES;
     }
     return self;
 }
@@ -179,24 +181,6 @@
 
 #pragma mark - Basic stuff
 
-- (BOOL) testInitForWritingWithSimpleClass
-{
-    NSMutableData *data = [NSMutableData data];
-    SimpleClass *obj = [[SimpleClass alloc] init];
-    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
-    [archive encodeObject:obj forKey:@"myKey"];
-    testassert([obj didEncode]);
-    [archive finishEncoding];
-    testassert([data length] == 231);
-    
-    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-    SimpleClass *obj2 = [unarchive decodeObjectForKey:@"myKey"];
-    testassert([obj2 a] == 123);
-    testassert([obj2 didEncode] == NO);
-    [unarchive finishDecoding];
-    
-    return YES;
-}
 
 - (BOOL)testBasicObjectsNScodingIsImplemented
 {
@@ -562,6 +546,60 @@
     return YES;
 }
 
+- (BOOL) testInitForWritingWithString
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    NSString *s = @"myString";
+    [archive encodeObject:s forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 147);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSString *s2 = [unarchive decodeObjectForKey:@"myKey"];
+    testassert([s2 isEqualToString:s]);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithSpecialStringDollarNull
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    NSString *s = @"$null";
+    [archive encodeObject:s forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 235);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSString *s2 = [unarchive decodeObjectForKey:@"myKey"];
+    testassert([s2 isEqualToString:s]);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithSimpleClass
+{
+    NSMutableData *data = [NSMutableData data];
+    SimpleClass *obj = [[SimpleClass alloc] init];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeObject:obj forKey:@"myKey"];
+    testassert([obj didEncode]);
+    [archive finishEncoding];
+    testassert([data length] == 231);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    SimpleClass *obj2 = [unarchive decodeObjectForKey:@"myKey"];
+    testassert([obj2 a] == 123);
+    testassert([obj2 didDecode] == YES);
+    testassert([obj2 didEncode] == NO);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
 - (BOOL) testInitForWritingWithDictionary
 {
     NSMutableData *data = [NSMutableData data];
@@ -574,6 +612,58 @@
     NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     NSDictionary *dict2 = [unarchive decodeObjectForKey:@"myKey"];
     testassert([dict isEqualToDictionary:dict2]);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithSimpleDictionary3
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    NSDictionary *dict = @{@"myDictKey" : @"myValue", @"keyTwo" : @"valueTwo", @"keyThree" : @"valueThree"};
+    [archive encodeObject:dict forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 380);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSDictionary *dict2 = [unarchive decodeObjectForKey:@"myKey"];
+    testassert([dict isEqualToDictionary:dict2]);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+
+- (BOOL) testInitForWritingWithSimpleDictionary
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    NSDictionary *dict = @{@"myDictKey" : @"myValue"};
+    [archive encodeObject:dict forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 282);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSDictionary *dict2 = [unarchive decodeObjectForKey:@"myKey"];
+    testassert([dict isEqualToDictionary:dict2]);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithArray
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    NSArray *a = @[@"one", @"two", @"three"];
+    [archive encodeObject:a forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 261);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSArray *a2 = [unarchive decodeObjectForKey:@"myKey"];
+    testassert([a2 isEqualToArray:a]);
     [unarchive finishDecoding];
     
     return YES;
