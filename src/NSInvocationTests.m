@@ -253,7 +253,7 @@
     [unintedString release];
     return YES;
 }
-/*
+
 - (BOOL)testCharStarBehaviorWithUnretainedArguments
 {
     NSString *unintedString = [NSString alloc];
@@ -318,7 +318,7 @@
     [unintedString release];
     return YES;
 }
-*/
+
 - (BOOL)testInvokeAllUnset
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
