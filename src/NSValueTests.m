@@ -11,6 +11,12 @@
 #include <stdio.h>
 #import <objc/runtime.h>
 
+@interface NSValue (Internal)
+- (CGRect)rectValue;
+- (CGSize)sizeValue;
+- (CGPoint)pointValue;
+@end
+
 @testcase(NSValue)
 
 
@@ -209,6 +215,44 @@ typedef struct {
     [val2 release];
     [val3 release];
     
+    return YES;
+}
+
+- (BOOL)testRangeValue
+{
+    NSRange r = {55, 44};
+    NSValue *val = [NSValue valueWithRange:r];
+    testassert([val rangeValue].location == 55);
+    testassert([val rangeValue].length == 44);
+    return YES;
+}
+
+- (BOOL)testRectValue
+{
+    CGRect r = {{55.0f, 44.0f}, {22.0f, 77.0f}};
+    NSValue *val = [NSValue valueWithCGRect:r];
+    testassert([val rectValue].origin.x == 55.0f);
+    testassert([val rectValue].origin.y == 44.0f);
+    testassert([val rectValue].size.width == 22.0f);
+    testassert([val rectValue].size.height == 77.0f);
+    return YES;
+}
+
+- (BOOL)testSizeValue
+{
+    CGSize sz = {22.0f, 77.0f};
+    NSValue *val = [NSValue valueWithCGSize:sz];
+    testassert([val sizeValue].width == 22.0f);
+    testassert([val sizeValue].height == 77.0f);
+    return YES;
+}
+
+- (BOOL)testPointValue
+{
+    CGPoint pt = {55.0f, 44.0f};
+    NSValue *val = [NSValue valueWithCGPoint:pt];
+    testassert([val pointValue].x == 55.0f);
+    testassert([val pointValue].y == 44.0f);
     return YES;
 }
 
