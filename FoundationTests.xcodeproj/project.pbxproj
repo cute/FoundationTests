@@ -88,6 +88,7 @@
 		58DD282E180F55E7007C4D8F /* NSLocaleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE212C22180EF73300DDB3AA /* NSLocaleTests.m */; };
 		5B83DE1A17D53449000B384A /* NSDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B83DE1917D53449000B384A /* NSDataTests.m */; };
 		5BF45DAD182DB0560010D465 /* NSProxyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B59031182B1D890008F848 /* NSProxyTests.m */; };
+		5BFA539A183DD6FD0037A890 /* NSNullTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFA5399183DD6FD0037A890 /* NSNullTests.m */; };
 		94B59035182B3A9E0008F848 /* ForwardingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B5902E1829E47B0008F848 /* ForwardingTests.m */; };
 		BCA81FAA17B2E125004745B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47178C9117ADD9D40062E7B0 /* Foundation.framework */; };
 		BCA81FB117B2E125004745B2 /* FoundationTestsMac.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = BCA81FB017B2E125004745B2 /* FoundationTestsMac.1 */; };
@@ -202,6 +203,7 @@
 		58DD282C180F5213007C4D8F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		5B83DE1917D53449000B384A /* NSDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataTests.m; sourceTree = "<group>"; };
 		5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSByteCountFormatterTests.m; sourceTree = "<group>"; };
+		5BFA5399183DD6FD0037A890 /* NSNullTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSNullTests.m; sourceTree = "<group>"; };
 		94B5902E1829E47B0008F848 /* ForwardingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForwardingTests.m; sourceTree = "<group>"; };
 		94B59031182B1D890008F848 /* NSProxyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSProxyTests.m; sourceTree = "<group>"; };
 		B02ABB8B17B5ECA000CB5C94 /* NSScannerSubclassTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScannerSubclassTests.m; sourceTree = "<group>"; };
@@ -394,6 +396,7 @@
 				DE212C25180F431000DDB3AA /* NSTimeZoneTests.m */,
 				DE227B441819BEB00004570F /* NSCalendarTests.m */,
 				470A08B4181C647C006BFAB4 /* NSCoderTests.m */,
+				5BFA5399183DD6FD0037A890 /* NSNullTests.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -566,6 +569,7 @@
 				58C57F2E180E16CF008C28D3 /* NSCachedURLResponseTests.m in Sources */,
 				58C57F30180E16DA008C28D3 /* NSURLCacheTests.m in Sources */,
 				470A08B5181C647C006BFAB4 /* NSCoderTests.m in Sources */,
+				5BFA539A183DD6FD0037A890 /* NSNullTests.m in Sources */,
 				58C57F32180E16E5008C28D3 /* NSURLAuthenticationChallengeTests.m in Sources */,
 				DE212C26180F431000DDB3AA /* NSTimeZoneTests.m in Sources */,
 				58C57F34180E16EF008C28D3 /* SecItemTests.m in Sources */,
