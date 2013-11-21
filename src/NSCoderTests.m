@@ -181,40 +181,6 @@
 
 #pragma mark - Basic stuff
 
-- (BOOL) testInitForWritingWithSimpleSet
-{
-    NSMutableData *data = [NSMutableData data];
-    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
-    NSSet *s = [NSSet setWithObjects:@"abc", @"xyz", nil];
-    [archive encodeObject:s forKey:@"myKey"];
-    [archive finishEncoding];
-    testassert([data length] == 245);
-    
-    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-    NSValue *s2 = [unarchive decodeObjectForKey:@"myKey"];
-    testassert([s2 isEqual:s]);
-    [unarchive finishDecoding];
-    
-    return YES;
-}
-
-- (BOOL) testInitForWritingWithSet
-{
-    NSMutableData *data = [NSMutableData data];
-    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
-    NSSet *s = [NSSet setWithObjects:@1, @"abc", @[@3, @4], nil];
-    [archive encodeObject:s forKey:@"myKey"];
-    [archive finishEncoding];
-    testassert([data length] == 314);
-    
-    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-    NSValue *s2 = [unarchive decodeObjectForKey:@"myKey"];
-    testassert([s2 isEqual:s]);
-    [unarchive finishDecoding];
-    
-    return YES;
-}
-
 
 - (BOOL) testInitForWritingWithNil
 {
@@ -705,7 +671,6 @@
 
 - (BOOL) testInitForWritingWithValue
 {
-    // Dependent upon https://code.google.com/p/apportable/issues/detail?id=314
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
     NSValue *v = [NSValue valueWithCGSize:CGSizeMake(1.1f, 2.9f)];
@@ -740,7 +705,6 @@
 
 - (BOOL) testInitForWritingWithNSNull
 {
-    // Dependent upon https://code.google.com/p/apportable/issues/detail?id=315
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
     [archive encodeObject:[NSNull null] forKey:@"myKey"];
@@ -845,6 +809,57 @@
     NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     NSData *d2 = [unarchive decodeObjectForKey:@"myKey"];
     testassert([d isEqualToData:d2]);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithNestedArray
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    NSArray *a = [NSArray arrayWithObjects:@[@170, @187], nil];  // 0xaa 0xbb
+    [archive encodeObject:a forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 261);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSArray *a2 = [unarchive decodeObjectForKey:@"myKey"];
+    testassert([a2 isEqualToArray:a]);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithSet
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    NSSet *s = [NSSet setWithObjects:@1, @"abc", @[@3, @4], nil];
+    [archive encodeObject:s forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 314);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSValue *s2 = [unarchive decodeObjectForKey:@"myKey"];
+    testassert([s2 isEqual:s]);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithSimpleSet
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    NSSet *s = [NSSet setWithObjects:@"abc", @"xyz", nil];
+    [archive encodeObject:s forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 245);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSValue *s2 = [unarchive decodeObjectForKey:@"myKey"];
+    testassert([s2 isEqual:s]);
     [unarchive finishDecoding];
     
     return YES;
