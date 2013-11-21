@@ -215,6 +215,13 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL)testConstantEqualityFromExternal
+{
+    extern NSString *const externalFoo;
+    testassert(externalFoo == @"foo");
+    return YES;
+}
+
 - (BOOL)testInitAndLength
 {
     NSString *s1 = @"abc";
