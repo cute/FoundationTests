@@ -59,6 +59,14 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL)testMutableCreationWithUnicode
+{
+    // Sample with unicode must not throw
+    [NSMutableString stringWithCharacters:AsciiSampleUnicode length:AsciiSampleMaxUnicodeLength];
+    
+    return YES;
+}
+
 - (BOOL)testDepreciatedCStringCreation1
 {
     // Creation with cstring of NULL and zero length must not throw
