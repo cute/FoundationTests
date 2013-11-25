@@ -101,7 +101,6 @@
 {
     NSArray *a = [NSArray arrayWithObject:@91];
     testassert(strcmp(object_getClassName(a), "__NSArrayI") == 0);
-    [a release];
     return YES;
 }
 
