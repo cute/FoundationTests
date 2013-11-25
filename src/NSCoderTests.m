@@ -34,6 +34,73 @@
 
 @end
 
+@interface SimpleClassWithString : SimpleClass
+@property (assign) NSString *myString;
+@end
+
+@implementation SimpleClassWithString
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        _myString = [aDecoder decodeObjectForKey:@"string"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [super encodeWithCoder:aCoder];
+    [aCoder encodeObject:_myString forKey:@"string"];
+}
+@end
+
+@interface SimpleClassWithCString : SimpleClass
+@property char *myString;
+@end
+
+@implementation SimpleClassWithCString
+
+- (id) initWithCString:(char *)str
+{
+    self = [super init];
+    if (self)
+    {
+        if (str)
+        {
+            _myString = malloc(strlen(str) + 1);
+            strcpy(_myString, str);
+        }
+    }
+    return self;
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        NSUInteger len;
+        _myString = (char *)[aDecoder decodeBytesForKey:@"string" returnedLength:&len];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [super encodeWithCoder:aCoder];
+    if (_myString)
+    {
+        [aCoder encodeBytes:(const uint8_t *)_myString length:strlen(_myString) + 1 forKey:@"string"];
+    }
+    else
+    {
+        [aCoder encodeBytes:nil length:0 forKey:@"string"];
+    }
+}
+@end
+
 @interface FoundationTestKeyedCoderTest : NSObject <NSCoding>
 @property (strong, nonatomic) NSString* objectString;
 @property (strong, nonatomic) NSArray* objectArray;
@@ -79,23 +146,23 @@
 
 - (BOOL)isEqual:(FoundationTestKeyedCoderTest*)object
 {
-    if (![self.objectString isEqual:object.objectString])
+    if (self.objectString && ![self.objectString isEqual:object.objectString])
     {
         return NO;
     }
-    if (![self.objectValue isEqual:object.objectValue])
+    if (self.objectValue && ![self.objectValue isEqual:object.objectValue])
     {
         return NO;
     }
-    if (![self.objectArray isEqual:object.objectArray])
+    if (self.objectArray && ![self.objectArray isEqual:object.objectArray])
     {
         return NO;
     }
-    if (memcmp(self.memory, object.memory, self.memorySize) != 0)
+    if (self.memory && memcmp(self.memory, object.memory, self.memorySize) != 0)
     {
         return NO;
     }
-    if (strcmp(self.cString, object.cString) != 0)
+    if (self.cString && strcmp(self.cString, object.cString) != 0)
     {
         return NO;
     }
@@ -143,7 +210,7 @@
     [aCoder encodeInteger:self.integerSigned forKey:@"integerSigned"];
 
     [aCoder encodeBytes:self.memory length:self.memorySize forKey:@"memory"];
-    [aCoder encodeBytes:(void*)self.cString length:strlen(self.cString) + 1 forKey:@"cString"];
+    if (self.cString) [aCoder encodeBytes:(void*)self.cString length:strlen(self.cString) + 1 forKey:@"cString"];
 
     [aCoder encodeCGRect:self.rect forKey:@"rect"];
     [aCoder encodeBool:self.boolean forKey:@"boolean"];
@@ -165,7 +232,19 @@
 
 @end
 
+
 @testcase(NSCoder)
+
+- (NSArray *)NSCodingSupportedClassesWithoutCGPoint
+{
+    return @[
+             [^(){ return [NSDictionary new]; } copy],
+             [^(){ return [NSArray new]; } copy],
+             [^(){ return [NSNull new]; } copy],
+             [^(){ return [[NSNumber numberWithInt:1337] retain]; } copy],
+             [^(){ return [NSString new]; } copy],
+             ];
+}
 
 - (NSArray *)NSCodingSupportedClasses
 {
@@ -180,7 +259,6 @@
 }
 
 #pragma mark - Basic stuff
-
 
 - (BOOL) testInitForWritingWithNil
 {
@@ -596,6 +674,84 @@
     return YES;
 }
 
+- (BOOL) testEncodeValueOfObjType1
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    char *s = "i";
+    [archive encodeValueOfObjCType:"*" at:&s];
+    [archive finishEncoding];
+    testassert([data length] == 137);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    char *s2;
+    [unarchive decodeValueOfObjCType:"*" at:&s2];
+    testassert(strcmp(s, s2) == 0);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testEncodeValueOfObjType2
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    char *s = "i";
+    int a = 0xdd;
+    [archive encodeValueOfObjCType:s at:&a];
+    [archive finishEncoding];
+    testassert([data length] == 133);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    int a2;
+    [unarchive decodeValueOfObjCType:s at:&a2];
+    testassert(a2 == 0xdd);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testEncodeValueOfObjType3
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    char *s = "i";
+    int a = 0xdd;
+    [archive encodeValueOfObjCType:"*" at:&s];
+    [archive encodeValueOfObjCType:s at:&a];
+    [archive finishEncoding];
+    testassert([data length] == 146);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    char *s2;
+    [unarchive decodeValueOfObjCType:"*" at:&s2];
+    int a2;
+    [unarchive decodeValueOfObjCType:s at:&a2];
+    testassert(strcmp(s, s2) == 0);
+    testassert(a2 == 0xdd);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithValue
+{
+    static int foo = 0xee;
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    NSValue *v = [NSValue value:(const void *)&foo withObjCType:@encode(int)];
+    [archive encodeObject:v forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 235);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSValue *v2 = [unarchive decodeObjectForKey:@"myKey"];
+    testassert([v2 isEqualToValue:v]);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
 - (BOOL) testInitForWritingWithSimpleClass
 {
     NSMutableData *data = [NSMutableData data];
@@ -611,6 +767,164 @@
     testassert([obj2 a] == 123);
     testassert([obj2 didDecode] == YES);
     testassert([obj2 didEncode] == NO);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithSimpleClassWithString
+{
+    NSMutableData *data = [NSMutableData data];
+    SimpleClassWithString *obj = [[SimpleClassWithString alloc] init];
+    obj.myString = @"apportable is leeter";
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeObject:obj forKey:@"myKey"];
+    testassert([obj didEncode]);
+    [archive finishEncoding];
+    testassert([data length] == 307);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    SimpleClassWithString *obj2 = [unarchive decodeObjectForKey:@"myKey"];
+    testassert([obj2 a] == 123);
+    testassert([obj2.myString isEqualToString:@"apportable is leeter"]);
+    testassert([obj2 didDecode] == YES);
+    testassert([obj2 didEncode] == NO);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+
+- (BOOL) testInitForWritingWithSimpleClassWithCString
+{
+    NSMutableData *data = [NSMutableData data];
+    SimpleClassWithCString *obj = [[SimpleClassWithCString alloc] initWithCString:"abcdef"];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeObject:obj forKey:@"myKey"];
+    testassert([obj didEncode]);
+    [archive finishEncoding];
+    testassert([data length] == 290);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    SimpleClassWithCString *obj2 = [unarchive decodeObjectForKey:@"myKey"];
+    testassert([obj2 a] == 123);
+    testassert(strcmp(obj2.myString, "abcdef") == 0);
+    testassert([obj2 didDecode] == YES);
+    testassert([obj2 didEncode] == NO);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithSimpleClassWithCStringAutorelease
+{
+    NSMutableData *data = [NSMutableData data];
+    @autoreleasepool {
+        SimpleClassWithCString *obj = [[SimpleClassWithCString alloc] initWithCString:"abcdef"];
+        NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+        [archive encodeObject:obj forKey:@"myKey"];
+        testassert([obj didEncode]);
+        [archive finishEncoding];
+    }
+    testassert([data length] == 290);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    SimpleClassWithCString *obj2 = [unarchive decodeObjectForKey:@"myKey"];
+    testassert([obj2 a] == 123);
+    testassert(strcmp(obj2.myString, "abcdef") == 0);
+    testassert([obj2 didDecode] == YES);
+    testassert([obj2 didEncode] == NO);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithSimpleClassWithCStringAutoreleaseEmpty
+{
+    NSMutableData *data = [NSMutableData data];
+    @autoreleasepool {
+        SimpleClassWithCString *obj = [[SimpleClassWithCString alloc] initWithCString:""];
+        NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+        [archive encodeObject:obj forKey:@"myKey"];
+        testassert([obj didEncode]);
+        [archive finishEncoding];
+    }
+    testassert([data length] == 284);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    SimpleClassWithCString *obj2 = [unarchive decodeObjectForKey:@"myKey"];
+    testassert([obj2 a] == 123);
+    testassert(strcmp(obj2.myString, "") == 0);
+    testassert([obj2 didDecode] == YES);
+    testassert([obj2 didEncode] == NO);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithSimpleClassWithCStringAutoreleaseNULL
+{
+    NSMutableData *data = [NSMutableData data];
+    @autoreleasepool {
+        SimpleClassWithCString *obj = [[SimpleClassWithCString alloc] initWithCString:NULL];
+        NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+        [archive encodeObject:obj forKey:@"myKey"];
+        testassert([obj didEncode]);
+        [archive finishEncoding];
+    }
+    testassert([data length] == 281);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    SimpleClassWithCString *obj2 = [unarchive decodeObjectForKey:@"myKey"];
+    testassert([obj2 a] == 123);
+    testassert(obj2.myString == NULL);
+    testassert([obj2 didDecode] == YES);
+    testassert([obj2 didEncode] == NO);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithSameNSNumber
+{
+    NSMutableData *data = [NSMutableData data];
+    NSNumber *num = [NSNumber numberWithInt:123];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeObject:num forKey:@"myKey"];
+    [archive encodeObject:num forKey:@"myKey2"];
+    [archive finishEncoding];
+    testassert([data length] == 153);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSNumber *num2 = [unarchive decodeObjectForKey:@"myKey"];
+    NSNumber *num3 = [unarchive decodeObjectForKey:@"myKey2"];
+    testassert([num2 intValue] == 123);
+    testassert([num3 intValue] == 123);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithSimpleClassSame
+{
+    NSMutableData *data = [NSMutableData data];
+    SimpleClass *obj = [[SimpleClass alloc] init];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeObject:obj forKey:@"myKey"];
+    [archive encodeObject:obj forKey:@"myKey2"];
+    testassert([obj didEncode]);
+    [archive finishEncoding];
+    testassert([data length] == 244);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    SimpleClass *obj2 = [unarchive decodeObjectForKey:@"myKey"];
+    SimpleClass *obj3 = [unarchive decodeObjectForKey:@"myKey2"];
+    testassert([obj2 a] == 123);
+    testassert([obj2 didDecode] == YES);
+    testassert([obj2 didEncode] == NO);
+    testassert([obj3 a] == 123);
+    testassert([obj3 didDecode] == YES);
+    testassert([obj3 didEncode] == NO);
     [unarchive finishDecoding];
     
     return YES;
@@ -669,7 +983,31 @@
 }
 
 
-- (BOOL) testInitForWritingWithValue
+- (BOOL) testInitForWritingWithSimpleClassWithStringInDictionary
+{
+    NSMutableData *data = [NSMutableData data];
+    SimpleClassWithString *obj = [[SimpleClassWithString alloc] init];
+    obj.myString = @"apportable is leeter";
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    NSDictionary *dict = [NSDictionary dictionaryWithObject:obj forKey:@"myDictKey"];
+    [archive encodeObject:dict forKey:@"myKey"];
+    testassert([obj didEncode]);
+    [archive finishEncoding];
+    testassert([data length] == 455);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSDictionary *dict2 =[unarchive decodeObjectForKey:@"myKey"];
+    SimpleClassWithString *obj2 = [dict2 objectForKey:@"myDictKey"];
+    testassert([obj2 a] == 123);
+    testassert([obj2.myString isEqualToString:@"apportable is leeter"]);
+    testassert([obj2 didDecode] == YES);
+    testassert([obj2 didEncode] == NO);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithValueCGSize
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -831,6 +1169,23 @@
     return YES;
 }
 
+- (BOOL) testInitForWritingWithSimpleSet
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    NSSet *s = [NSSet setWithObjects:@"abc", @"xyz", nil];
+    [archive encodeObject:s forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 245);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSValue *s2 = [unarchive decodeObjectForKey:@"myKey"];
+    testassert([s2 isEqual:s]);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
 - (BOOL) testInitForWritingWithSet
 {
     NSMutableData *data = [NSMutableData data];
@@ -848,14 +1203,14 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleSet
+- (BOOL) testInitForWritingWithSet2
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
-    NSSet *s = [NSSet setWithObjects:@"abc", @"xyz", nil];
+    NSSet *s = [NSSet setWithObjects:@[@7, @9], nil];
     [archive encodeObject:s forKey:@"myKey"];
     [archive finishEncoding];
-    testassert([data length] == 245);
+    testassert([data length] == 296);
     
     NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     NSValue *s2 = [unarchive decodeObjectForKey:@"myKey"];
@@ -901,6 +1256,23 @@
     return YES;
 }
 
+- (BOOL)testBasicObjectsEncodeDecodeWithoutCGPoint
+{
+    for (id (^c)(void) in [self NSCodingSupportedClassesWithoutCGPoint])
+    {
+        id object = c();
+        NSData* objectEncoded = [NSKeyedArchiver archivedDataWithRootObject:object];
+        testassert(objectEncoded != nil);
+        id objectDecoded = [NSKeyedUnarchiver unarchiveObjectWithData:objectEncoded];
+        testassert(objectDecoded != nil);
+        
+        testassert([object isEqual:objectDecoded]);
+        
+        [object release];
+    }
+    return YES;
+}
+
 - (BOOL)testBasicObjectsEncodeDecode
 {
     for (id (^c)(void) in [self NSCodingSupportedClasses])
@@ -918,11 +1290,46 @@
     return YES;
 }
 
-- (BOOL)testEncodeDecodeOfDifferentTypes
+- (BOOL) testInitForWritingWithNullString
+{
+    NSMutableData *data = [NSMutableData data];
+    
+    FoundationTestKeyedCoderTest *obj = [FoundationTestKeyedCoderTest new];
+    obj.cString = "sdfgsdfg";
+    
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    
+    [archive encodeObject:obj forKey:@"myKey"];
+    [archive finishEncoding];
+    testassert([data length] == 558);
+    
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    FoundationTestKeyedCoderTest *decodedObject = [unarchive decodeObjectForKey:@"myKey"];
+    testassert([obj isEqual:decodedObject]);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL)testEncodeDecodeOfDifferentTypes0
 {
     FoundationTestKeyedCoderTest* obj = [FoundationTestKeyedCoderTest new];
     obj.objectString = @"apportable is leet";
-    obj.objectValue = [NSValue valueWithCGSize:(CGSize){100, 500}];
+    
+    NSData* data = [NSKeyedArchiver archivedDataWithRootObject:obj];
+    testassert([data length] == 557);
+    FoundationTestKeyedCoderTest* decodedObject = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    testassert([obj isEqual:decodedObject]);
+    free(obj.memory);
+    [obj release];
+    return YES;
+}
+
+- (BOOL)testEncodeDecodeOfDifferentTypes1
+{
+    FoundationTestKeyedCoderTest* obj = [FoundationTestKeyedCoderTest new];
+    obj.objectString = @"apportable is leet";
     obj.objectDictionary = @{@"hello": @(12345)};
     obj.objectArray = @[@"1", @(2), @{@"hello": @(12345)}];
     obj.memorySize = 1024;
@@ -934,6 +1341,20 @@
     obj.integerSigned = 10000;
     obj.shortNumber = 127;
     obj.boolean = YES;
+    
+    NSData* data = [NSKeyedArchiver archivedDataWithRootObject:obj];
+    FoundationTestKeyedCoderTest* decodedObject = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    testassert([obj isEqual:decodedObject]);
+    free(obj.memory);
+    [obj release];
+    return YES;
+}
+
+- (BOOL)testEncodeDecodeOfDifferentTypes2
+{
+    FoundationTestKeyedCoderTest* obj = [FoundationTestKeyedCoderTest new];
+    obj.objectValue = [NSValue valueWithCGSize:(CGSize){100, 500}];
 
     NSData* data = [NSKeyedArchiver archivedDataWithRootObject:obj];
     FoundationTestKeyedCoderTest* decodedObject = [NSKeyedUnarchiver unarchiveObjectWithData:data];

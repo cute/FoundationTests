@@ -89,6 +89,35 @@
 
 @testcase(NSArray)
 
+- (BOOL)testNSArrayICreate0
+{
+    NSArray *a = [NSArray new];
+    testassert(strcmp(object_getClassName(a), "__NSArrayI") == 0);
+    [a release];
+    return YES;
+}
+
+- (BOOL)testNSArrayICreate1
+{
+    NSArray *a = [NSArray arrayWithObject:@91];
+    testassert(strcmp(object_getClassName(a), "__NSArrayI") == 0);
+    [a release];
+    return YES;
+}
+
+- (BOOL)testNSArrayICreate0Unique
+{
+    NSArray *a = [NSArray new];
+    NSArray *b = [NSArray new];
+    NSArray *c = [b copy];
+    testassert(a == b);
+    testassert(a == c);
+    [a release];
+    [b release];
+    [c release];
+    return YES;
+}
+
 - (BOOL)testAllocate
 {
     NSArray *d1 = [NSArray alloc];
