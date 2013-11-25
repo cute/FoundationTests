@@ -67,6 +67,15 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL)testMutableCreationWithUnicodeSuccess
+{
+    // Sample with unicode must not throw
+    NSMutableString *aString = [NSMutableString stringWithCharacters:AsciiSampleUnicode length:50];
+    testassert(aString != nil);
+    testassert([aString isEqualToString:@"This is a simple ASCII string ranging from  to W."]);
+    return YES;
+}
+
 - (BOOL)testDepreciatedCStringCreation1
 {
     // Creation with cstring of NULL and zero length must not throw
