@@ -66,6 +66,7 @@ action(NSKVO) \
 action(NSLocale) \
 action(NSLock) \
 action(NSMethodSignature) \
+action(NSNull) \
 action(NSNumber) \
 action(NSNumberFormatter) \
 action(NSObjCRuntime) \
