@@ -885,6 +885,25 @@
     return YES;
 }
 
+- (BOOL) testInitForWritingWithSimpleClassToFile
+{
+    SimpleClass *obj = [[SimpleClass alloc] init];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *saveFile = [documentsDirectory stringByAppendingPathComponent:@"testKeyedArchiver.bin"];
+    
+    [NSKeyedArchiver archiveRootObject:obj toFile:saveFile];
+    
+    SimpleClass *obj2 = [NSKeyedUnarchiver unarchiveObjectWithFile:saveFile];
+    
+    testassert([obj2 a] == 123);
+    testassert([obj2 didDecode] == YES);
+    testassert([obj2 didEncode] == NO);
+    
+    return YES;
+}
+
 - (BOOL) testInitForWritingWithSameNSNumber
 {
     NSMutableData *data = [NSMutableData data];
