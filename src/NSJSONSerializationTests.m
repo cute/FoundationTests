@@ -50,7 +50,7 @@
     NSArray *keys = [json allKeys];
     testassert([keys containsObject:@"crazyCharacters"]);
     NSString *theString = [json objectForKey:@"crazyCharacters"];
-    testassert([theString isEqualToString:@"A smart man once said,\n“Eventually, everything connects.”\n"]);
+    testassert([theString isEqualToString:@"Hello,\n“foo bar.”\n"]);
     
     return YES;
 }
