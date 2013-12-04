@@ -117,14 +117,19 @@
 
 - (BOOL)testMutableDataReplaceBytes
 {
-    NSMutableData *data = [NSMutableData dataWithBytes:"abcdef" length:6];
-    testassert([data length] == 6);
+    NSMutableData *data = [NSMutableData dataWithLength:16];
+    testassert([data length] == 16);
 
-    [data replaceBytesInRange:NSMakeRange(1,4) withBytes:"wxyz"];
-    testassert([data length] == 6);
+    [data replaceBytesInRange:NSMakeRange(0, 4) withBytes:"wxyz"];
+    testassert([data length] == 16);
 
     const char *bytes = [data bytes];
-    testassert(!strncmp(bytes, "awxyzf", 6));
+    testassert(!strncmp(bytes, "wxyz", 4));
+
+    for (int i = 4; i < 16; i++)
+    {
+        testassert(bytes[i] == 0);
+    }
 
     return YES;
 }
