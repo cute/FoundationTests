@@ -13,6 +13,7 @@
 		21BB4E9F183C2B3500DEFF63 /* NSJSONSerializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 21BB4E9E183C2B3500DEFF63 /* NSJSONSerializationTests.m */; };
 		21BB4EA0183C2B3500DEFF63 /* NSJSONSerializationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 21BB4E9E183C2B3500DEFF63 /* NSJSONSerializationTests.m */; };
 		21BC284F184408BC00F5967E /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = 21BC284E184408BC00F5967E /* data.json */; };
+		21BC2852184FCE3000F5967E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 21BC2851184FCE3000F5967E /* Localizable.strings */; };
 		21BC2854184FD1CA00F5967E /* SpecialCharactersJSONTest.json in Resources */ = {isa = PBXBuildFile; fileRef = 21BC2853184FD1CA00F5967E /* SpecialCharactersJSONTest.json */; };
 		470A08B5181C647C006BFAB4 /* NSCoderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 470A08B4181C647C006BFAB4 /* NSCoderTests.m */; };
 		47178C9217ADD9D40062E7B0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47178C9117ADD9D40062E7B0 /* Foundation.framework */; };
@@ -157,6 +158,7 @@
 		1AFCF48E17B9AE480085CA15 /* folderref0 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = folderref0; sourceTree = "<group>"; };
 		21BB4E9E183C2B3500DEFF63 /* NSJSONSerializationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSJSONSerializationTests.m; sourceTree = "<group>"; };
 		21BC284E184408BC00F5967E /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
+		21BC2851184FCE3000F5967E /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		21BC2853184FD1CA00F5967E /* SpecialCharactersJSONTest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SpecialCharactersJSONTest.json; sourceTree = "<group>"; };
 		470A08B4181C647C006BFAB4 /* NSCoderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSCoderTests.m; sourceTree = "<group>"; };
 		47178C8C17ADD9D40062E7B0 /* FoundationTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoundationTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -331,6 +333,7 @@
 				47178CA517ADD9D40062E7B0 /* Default-568h@2x.png */,
 				58D2CED717FA50EF00B5585D /* bigfile.txt */,
 				21BC284E184408BC00F5967E /* data.json */,
+				21BC2851184FCE3000F5967E /* Localizable.strings */,
 				21BC2853184FD1CA00F5967E /* SpecialCharactersJSONTest.json */,
 			);
 			name = "Supporting Files";
@@ -512,6 +515,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				21BC284F184408BC00F5967E /* data.json in Resources */,
+				21BC2852184FCE3000F5967E /* Localizable.strings in Resources */,
 				47178C9A17ADD9D40062E7B0 /* InfoPlist.strings in Resources */,
 				47178CA217ADD9D40062E7B0 /* Default.png in Resources */,
 				58D2CED817FA50EF00B5585D /* bigfile.txt in Resources */,
