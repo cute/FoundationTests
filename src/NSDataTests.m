@@ -103,14 +103,11 @@
 
     const char *bytes = [data bytes];
 
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 7; i++)
     {
         testassert(bytes[i] == 0);
     }
-    for (int i = 0; i < 7; i++)
-    {
-        testassert(bytes[i+7] == "abcdef"[i]);
-    }
+    testassert(!strncmp("abcdef", bytes + 7, 6));
 
     return YES;
 }
