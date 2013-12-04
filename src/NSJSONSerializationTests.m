@@ -41,4 +41,18 @@
     return YES;
 }
 
+- (BOOL)testSuccessAtCreatingJSONWithCrazyCharacters
+{
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"SpecialCharactersJSONTest" ofType:@"json"];
+    NSData *someData = [NSData dataWithContentsOfFile:filePath];
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:someData options:0 error:nil];
+    testassert(json != nil);
+    NSArray *keys = [json allKeys];
+    testassert([keys containsObject:@"crazyCharacters"]);
+    NSString *theString = [json objectForKey:@"crazyCharacters"];
+    testassert([theString isEqualToString:@"A smart man once said,\n“Eventually, everything connects.”\n"]);
+    
+    return YES;
+}
+
 @end
