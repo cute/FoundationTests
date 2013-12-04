@@ -70,14 +70,14 @@
     return YES;
 }
 
-- (BOOL) testMutableDataWithLength
+- (BOOL)testMutableDataWithLength
 {
     NSMutableData *data = [NSMutableData dataWithLength:7];
     testassert([data length] == 7);
     return YES;
 }
 
-- (BOOL) testMutableDataWithData
+- (BOOL)testMutableDataWithData
 {
     NSData *data = [NSData dataWithBytes:"abc" length:3];
     NSMutableData *data2 = [NSMutableData dataWithData:data];
@@ -85,11 +85,48 @@
     return YES;
 }
 
-- (BOOL) testMutableDataWithDataMutable
+- (BOOL)testMutableDataWithDataMutable
 {
     NSMutableData *data = [NSMutableData dataWithLength:7];
     NSMutableData *data2 = [NSMutableData dataWithData:data];
     testassert([data2 length] == 7);
     return YES;
 }
+
+- (BOOL)testMutableDataAppendBytes
+{
+    NSMutableData *data = [NSMutableData dataWithLength:7];
+    [data appendBytes:"abc" length:3];
+    [data appendBytes:"def" length:3];
+
+    testassert([data length] == 13);
+
+    const char *bytes = [data bytes];
+
+    for (int i = 0; i < 6; i++)
+    {
+        testassert(bytes[i] == 0);
+    }
+    for (int i = 0; i < 7; i++)
+    {
+        testassert(bytes[i+7] == "abcdef"[i]);
+    }
+
+    return YES;
+}
+
+- (BOOL)testMutableDataReplaceBytes
+{
+    NSMutableData *data = [NSMutableData dataWithBytes:"abcdef" length:6];
+    testassert([data length] == 6);
+
+    [data replaceBytesInRange:NSMakeRange(1,4) withBytes:"wxyz"];
+    testassert([data length] == 6);
+
+    const char *bytes = [data bytes];
+    testassert(!strncmp(bytes, "awxyzf", 6));
+
+    return YES;
+}
+
 @end
