@@ -20,12 +20,6 @@
 #define testassert(b) do { if (!_testassert(b, __FILE__, __LINE__)) return NO; } while (NO)
 BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_noreturn));
 
-#ifdef __Foundation_h_GNUSTEP_BASE_INCLUDE
-#define GNUSTEP_KNOWN_CRASHER() DEBUG_LOG("SKIPPING KNOWN CRASHING TEST!"); testassert(0)
-#else
-#define GNUSTEP_KNOWN_CRASHER()
-#endif
-
 #if defined(APPORTABLE) && !defined(__Foundation_h_GNUSTEP_BASE_INCLUDE)
 #define APPORTABLE_KNOWN_CRASHER() DEBUG_LOG("SKIPPING KNOWN CRASHING TEST!"); testassert(0)
 #else

@@ -103,8 +103,6 @@
 
 - (BOOL)testDoubleDeallocAllocate
 {
-    GNUSTEP_KNOWN_CRASHER();
-
     NSDictionary *d = [NSDictionary alloc];
 
     // Releasing twice should not throw
@@ -585,8 +583,6 @@
 
 - (BOOL)testGetObjectsAndKeys
 {
-    GNUSTEP_KNOWN_CRASHER();
-
     NSDictionary *dict = @{ @"k2" : @1, @"k3" : @2, @"k1" : @3 };
     size_t size = sizeof(id) * [dict count] ;
     id *keys = (id *)malloc(size);
