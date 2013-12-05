@@ -70,15 +70,15 @@ static void runTests(id tests)
             }
             @catch (id e)
             {
-                DEBUG_LOG("%s: %s EXCEPTION THROWN\n", class_name, sel_name);
+                DEBUG_LOG("%s: %s UNCAUGHT EXCEPTION\n", class_name, sel_name);
             }
         }
-        
+
         signal(SIGBUS, sigbus_handler);
         signal(SIGSEGV, sigsegv_handler);
-        
+
         success = success && !signal_hit;
-        
+
         if (success)
         {
             success_count++;

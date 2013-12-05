@@ -127,7 +127,7 @@
     testassert([[NSNumber numberWithChar:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithChar:CHAR_MAX] unsignedIntValue] == (unsigned int)CHAR_MAX);
     testassert([[NSNumber numberWithChar:CHAR_MIN] unsignedIntValue] == (unsigned int)CHAR_MIN);
-    
+
     return YES;
 }
 
@@ -277,7 +277,7 @@
     testassert([[NSNumber numberWithShort:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithShort:SHRT_MAX] unsignedIntValue] == (unsigned int)SHRT_MAX);
     testassert([[NSNumber numberWithShort:SHRT_MIN] unsignedIntValue] == (unsigned int)SHRT_MIN);
-    
+
     return YES;
 }
 
@@ -351,7 +351,7 @@
     testassert([[NSNumber numberWithUnsignedShort:0] unsignedIntValue] == (unsigned int)0);
     testassert([[NSNumber numberWithUnsignedShort:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithUnsignedShort:USHRT_MAX] unsignedIntValue] == (unsigned int)USHRT_MAX);
-    
+
     return YES;
 }
 
@@ -421,7 +421,7 @@
     testassert([[NSNumber numberWithInt:42] intValue] == (int)42);
     testassert([[NSNumber numberWithInt:INT_MAX] intValue] == (int)INT_MAX);
     testassert([[NSNumber numberWithInt:INT_MIN] intValue] == (int)INT_MIN);
-    
+
     return YES;
 }
 
@@ -501,7 +501,7 @@
     testassert([[NSNumber numberWithUnsignedInt:0] unsignedIntValue] == (unsigned int)0);
     testassert([[NSNumber numberWithUnsignedInt:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithUnsignedInt:UINT_MAX] unsignedIntValue] == (unsigned int)UINT_MAX);
-    
+
     return YES;
 }
 
@@ -581,7 +581,7 @@
     testassert([[NSNumber numberWithLong:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithLong:LONG_MAX] unsignedIntValue] == (unsigned int)LONG_MAX);
     testassert([[NSNumber numberWithLong:LONG_MIN] unsignedIntValue] == (unsigned int)LONG_MIN);
-    
+
     return YES;
 }
 
@@ -655,7 +655,7 @@
     testassert([[NSNumber numberWithUnsignedLong:0] unsignedIntValue] == (unsigned int)0);
     testassert([[NSNumber numberWithUnsignedLong:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithUnsignedLong:ULONG_MAX] unsignedIntValue] == (unsigned int)ULONG_MAX);
-    
+
     return YES;
 }
 
@@ -734,9 +734,9 @@
     testassert([[NSNumber numberWithLongLong:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithLongLong:LLONG_MAX] unsignedIntValue] == (unsigned int)LLONG_MAX);
     testassert([[NSNumber numberWithLongLong:LLONG_MIN] unsignedIntValue] == (unsigned int)LLONG_MIN);
-    
+
     testassert([[NSNumber numberWithLongLong:LLONG_MIN] boolValue] == NO); // iOS bug!
-    
+
     return YES;
 }
 
@@ -810,7 +810,7 @@
     testassert([[NSNumber numberWithUnsignedLongLong:0] unsignedIntValue] == (unsigned int)0);
     testassert([[NSNumber numberWithUnsignedLongLong:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithUnsignedLongLong:ULLONG_MAX] unsignedIntValue] == (unsigned int)ULLONG_MAX);
-    
+
     return YES;
 }
 
@@ -890,7 +890,7 @@
     testassert([[NSNumber numberWithInteger:42] unsignedIntValue] == (unsigned int)42);
     testassert([[NSNumber numberWithInteger:NSIntegerMax] unsignedIntValue] == (unsigned int)NSIntegerMax);
     testassert([[NSNumber numberWithInteger:NSIntegerMin] unsignedIntValue] == (unsigned int)NSIntegerMin);
-    
+
     return YES;
 }
 
@@ -960,7 +960,7 @@
     testassert([[NSNumber numberWithUnsignedInteger:0] intValue] == (int)0);
     testassert([[NSNumber numberWithUnsignedInteger:42] intValue] == (int)42);
     testassert([[NSNumber numberWithUnsignedInteger:NSUIntegerMax] intValue] == (int)NSUIntegerMax);
-    
+
     return YES;
 }
 
@@ -1002,9 +1002,9 @@
 {
     NSNumber *n = [NSNumber numberWithBool:YES];
     testassert([n isNSNumber__]);
-    
+
     testassert([@"abc" isNSNumber__] == NO);
-    
+
     return YES;
 }
 
@@ -1032,9 +1032,10 @@
     }
     @catch (NSException *e) {
         exception = YES;
+        testassert([e.name isEqualToString:NSInvalidArgumentException]);
     }
     testassert(exception);
-    
+
 #warning TODO : more comparisons ...
     return YES;
 }

@@ -35,30 +35,30 @@
 - (BOOL)testAllocClass
 {
     MyScanner* scanner = [MyScanner alloc];
-    
+
     testassert(scanner.class == objc_getClass("MyScanner"));
-    
+
     NSString *s = @"abc";
     [[scanner initWithString:s] autorelease];
-    
+
     return YES;
 }
 
 -(BOOL)testScannerWithStringClass
 {
     NSScanner* scanner = [MyScanner scannerWithString:@""];
-    
+
     testassert(scanner.class == objc_getClass("NSConcreteScanner"));
-    
+
     return YES;
 }
 
 - (BOOL)testLocalizedScannerWithStringClass
 {
     NSScanner* scanner = [MyScanner localizedScannerWithString:@""];
-    
+
     testassert(scanner.class == objc_getClass("NSConcreteScanner"));
-    
+
     return YES;
 }
 
@@ -93,7 +93,7 @@ static BOOL InvokeRequiredMethod(NSScanner* scanner, int index)
 -(BOOL)testScannerRequired
 {
     MyScanner* scanner = [[MyScanner alloc] init];
-    
+
     for (int i=0;i<1000;++i) {
         BOOL raised = NO;
         @try {
@@ -171,12 +171,12 @@ static BOOL InvokeOptionalMethod(NSScanner* scanner, int index)
 -(BOOL)testScannerOptional
 {
     SimpleScanner* scanner = [[SimpleScanner alloc] initWithString:@""];
-    
+
     for (int i=0;i<1000;++i) {
         if (!InvokeOptionalMethod(scanner, i))
             break;
     }
-    
+
     [scanner release];
     return YES;
 }
