@@ -171,7 +171,6 @@
 		47178CA317ADD9D40062E7B0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		47178CA517ADD9D40062E7B0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		47178CAD17ADDA340062E7B0 /* FoundationTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoundationTests.h; sourceTree = "<group>"; };
-		47178CAE17ADDA340062E7B0 /* utlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utlist.h; sourceTree = "<group>"; };
 		47178CB017ADDA340062E7B0 /* CFRunLoopTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CFRunLoopTests.m; sourceTree = "<group>"; };
 		47178CB117ADDA340062E7B0 /* FoundationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoundationTests.m; sourceTree = "<group>"; };
 		47178CB217ADDA340062E7B0 /* NSBlockTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSBlockTests.m; sourceTree = "<group>"; };
@@ -343,7 +342,6 @@
 			isa = PBXGroup;
 			children = (
 				47178CAD17ADDA340062E7B0 /* FoundationTests.h */,
-				47178CAE17ADDA340062E7B0 /* utlist.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
