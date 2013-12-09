@@ -8,7 +8,7 @@
     testassert([[[url standardizedURL] absoluteString] isEqualToString:@"base://foo/bar//baz"]);
 
     [url release];
-    
+
     return YES;
 }
 
@@ -34,14 +34,14 @@
 }
 
 - (BOOL) testNSSearchPathForDirectoriesInDomains
-{    
+{
     NSArray *a1 = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSLocalDomainMask, YES);
     NSArray *a2 = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSNetworkDomainMask, YES);
     NSArray *a3 = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSSystemDomainMask, YES);
     testassert([a1 count] == 0);
     testassert([a2 count] == 0);
     testassert([a3 count] == 0);
-    
+
     NSString *s = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *check = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
     testassert([s isEqualToString:check]);
@@ -53,10 +53,10 @@
     void (^block)() = ^{
         [[NSURL alloc] initFileURLWithPath:nil];
     };
-    
+
     // initFileURLWithPath should throw NSInvalidArgumentException
     BOOL raised = NO;
-    
+
     @try {
         block();
     }
@@ -64,9 +64,9 @@
         testassert([[e name] isEqualToString:NSInvalidArgumentException]);
         raised = YES;
     }
-    
+
     testassert(raised);
-    
+
     return YES;
 }
 
@@ -374,7 +374,7 @@
     // Test for presence of methods not included (for unknown reasons) in GNUStep
     // - (NSData*)resourceDataUsingCache:(BOOL)shouldUseCache
     testassert([[NSURL class] instancesRespondToSelector:@selector(resourceDataUsingCache:)]);
-    
+
     // Used in our NSData implementation, but not present in Apple header
     // - (NSData*)resourceDataUsingCache:(BOOL)shouldUseCache error:(NSError **)error
     testassert([NSURL instancesRespondToSelector:@selector(resourceDataUsingCache:error:)]);

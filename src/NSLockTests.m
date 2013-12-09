@@ -26,8 +26,6 @@
 
 - (BOOL)testNoninitedBehavior
 {
-    GNUSTEP_KNOWN_CRASHER();
-
     NSLock* lock = [NSLock alloc];
     // should warn
     [lock unlock];
@@ -175,8 +173,6 @@ static SignalData data;
 
 - (BOOL)testConditionNonInited
 {
-    GNUSTEP_KNOWN_CRASHER();
-
     NSCondition* cond = [NSCondition alloc];
     [cond lock];
     [cond lock];

@@ -425,8 +425,6 @@
 
 - (BOOL)testCopyWithZone
 {
-    GNUSTEP_KNOWN_CRASHER();
-
     NSCountedSet *cs = [[NSCountedSet alloc] initWithObjects:
                            [[[NSObject alloc] init] autorelease],
                            [[[NSObject alloc] init] autorelease],

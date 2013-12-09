@@ -117,4 +117,12 @@ static NSBundle *zeroLevelBundle, *firstLevelBundle, *secondLevelBundle;
     return YES;
 }
 
+- (BOOL)testLocalizedStrings
+{
+    NSString *localizedString = NSLocalizedString(@"Hello,\n“foo bar.”\n", @"a comment");
+    testassert(localizedString != nil);
+    testassert([localizedString isEqualToString:@"Hello,\n“foo bar.”\n"]);
+    return YES;
+}
+
 @end

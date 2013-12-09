@@ -1,7 +1,5 @@
 #include <stdio.h>
 
-#include "utlist.h"
-
 #import <objc/runtime.h>
 #import <signal.h>
 #import <setjmp.h>
@@ -16,13 +14,6 @@ static unsigned int total_success_count;
 static unsigned int total_skip_count;
 static unsigned int total_failure_count;
 
-struct failure {
-    const char *class;
-    const char *sel;
-    struct failure *next;
-    struct failure *prev;
-};
-
 static sigjmp_buf jbuf;
 static BOOL signal_hit = NO;
 
@@ -34,8 +25,6 @@ static void test_signal(int sig)
 
 static void runTests(id tests)
 {
-    struct failure *failures = NULL;
-
     unsigned int count;
     Class c = [tests class];
     const char *class_name = class_getName(c);
@@ -81,15 +70,15 @@ static void runTests(id tests)
             }
             @catch (id e)
             {
-                DEBUG_LOG("%s: %s EXCEPTION THROWN\n", class_name, sel_name);
+                DEBUG_LOG("%s: %s UNCAUGHT EXCEPTION\n", class_name, sel_name);
             }
         }
-        
+
         signal(SIGBUS, sigbus_handler);
         signal(SIGSEGV, sigsegv_handler);
-        
+
         success = success && !signal_hit;
-        
+
         if (success)
         {
             success_count++;
@@ -100,12 +89,6 @@ static void runTests(id tests)
         {
             failure_count++;
             total_failure_count++;
-
-            struct failure *f = calloc(sizeof(*f), 1);
-            f->class = class_name;
-            f->sel = sel_name;
-            DL_APPEND(failures, f);
-
             DEBUG_LOG("%s: %s FAILED\n", class_name, sel_name);
         }
     }
@@ -113,13 +96,6 @@ static void runTests(id tests)
     DEBUG_LOG("%u successes\n", success_count);
     DEBUG_LOG("%u skipped\n", skip_count);
     DEBUG_LOG("%u failures\n\n", failure_count);
-
-    struct failure *elt = NULL;
-    struct failure *tmp = NULL;
-    DL_FOREACH_SAFE(failures, elt, tmp)
-    {
-        DL_DELETE(failures, elt);
-    }
 
     free(methods);
 }

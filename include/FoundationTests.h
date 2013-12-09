@@ -20,12 +20,6 @@
 #define testassert(b) do { if (!_testassert(b, __FILE__, __LINE__)) return NO; } while (NO)
 BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_noreturn));
 
-#ifdef __Foundation_h_GNUSTEP_BASE_INCLUDE
-#define GNUSTEP_KNOWN_CRASHER() DEBUG_LOG("SKIPPING KNOWN CRASHING TEST!"); testassert(0)
-#else
-#define GNUSTEP_KNOWN_CRASHER()
-#endif
-
 #if defined(APPORTABLE) && !defined(__Foundation_h_GNUSTEP_BASE_INCLUDE)
 #define APPORTABLE_KNOWN_CRASHER() DEBUG_LOG("SKIPPING KNOWN CRASHING TEST!"); testassert(0)
 #else
@@ -41,13 +35,15 @@ BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_nor
 void runFoundationTests(void);
 
 #define TEST_CLASSES(action) \
-action(CFRunLoop) \
 action(CFGetTypeID) \
-action(NSAttributedString) \
+action(CFRunLoop) \
+action(Concurrency) \
 action(NSArray) \
+action(NSAttributedString) \
 action(NSBlock) \
 action(NSBundle) \
 action(NSByteCountFormatter) \
+action(NSCachedURLResponse) \
 action(NSCalendar) \
 action(NSCoder) \
 action(NSCountedSet) \
@@ -59,10 +55,12 @@ action(NSDictionary) \
 action(NSException) \
 action(NSFileHandle) \
 action(NSFileManager) \
+action(NSHTTPCookieStorage) \
 action(NSIndexSet) \
 action(NSInvocation) \
 action(NSJSONSerialization) \
 action(NSKVO) \
+action(NSKeyValueCoding) \
 action(NSLocale) \
 action(NSLock) \
 action(NSMethodSignature) \
@@ -70,28 +68,24 @@ action(NSNull) \
 action(NSNumber) \
 action(NSNumberFormatter) \
 action(NSObjCRuntime) \
-action(Concurrency) \
+action(NSPathUtilities) \
+action(NSPointerFunctions) \
+action(NSPort) \
+action(NSProxy) \
 action(NSScanner) \
 action(NSScannerSubclass) \
 action(NSSet) \
 action(NSSortDescriptor) \
 action(NSString) \
-action(NSPathUtilities) \
-action(NSPointerFunctions) \
 action(NSThread) \
 action(NSTimeZone) \
 action(NSURL) \
-action(NSUserDefaults) \
-action(NSValue) \
-action(NSKeyValueCoding) \
-action(NSPort) \
-action(NSProxy) \
+action(NSURLAuthenticationChallenge) \
+action(NSURLCache) \
 action(NSURLConnection) \
 action(NSURLRequest) \
-action(NSHTTPCookieStorage) \
-action(NSCachedURLResponse) \
-action(NSURLCache) \
-action(NSURLAuthenticationChallenge) \
+action(NSUserDefaults) \
+action(NSValue) \
 action(SecItem) \
 action(SecureTransport) \
 
