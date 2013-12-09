@@ -75,7 +75,9 @@ static void runTests(id tests)
         if (sigsetjmp(jbuf, 1) == 0) {
             @try
             {
-                success = (BOOL)imp(tests, sel);
+                @autoreleasepool {
+                    success = (BOOL)imp(tests, sel);
+                }
             }
             @catch (id e)
             {
