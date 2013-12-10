@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import <objc/runtime.h>
 
 #if defined(APPLE_FOUNDATION_TEST)
 #define FoundationTest(c) c##Apple
@@ -67,6 +68,7 @@ action(NSMethodSignature) \
 action(NSNull) \
 action(NSNumber) \
 action(NSNumberFormatter) \
+action(NSObject) \
 action(NSObjCRuntime) \
 action(NSPathUtilities) \
 action(NSPointerFunctions) \
