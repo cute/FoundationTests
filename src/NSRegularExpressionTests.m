@@ -186,7 +186,6 @@
 
 - (BOOL)testRegularExpressionNilString
 {
-    APPORTABLE_KNOWN_CRASHER();
     
     NSString *in = @"^[0-9a-zA-Z_]+[0-9a-zA-Z _-]*$";
     

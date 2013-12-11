@@ -39,7 +39,6 @@
 
 - (BOOL)testNSOperationQueue_ArbitraryQueue
 {
-    APPORTABLE_KNOWN_CRASHER();
     
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     TestOperation *op = [[TestOperation alloc] init];
@@ -66,7 +65,6 @@
 
 - (BOOL)testNSOperationQueue_ArbitraryQueue_AFewMoreTimes
 {
-    APPORTABLE_KNOWN_CRASHER();
     
 #define NOT_DETERMINISTIC_BUT_DO_IT_A_FEW_MORE_TIMES 1000
     for (unsigned int i=0; i<NOT_DETERMINISTIC_BUT_DO_IT_A_FEW_MORE_TIMES; i++)
