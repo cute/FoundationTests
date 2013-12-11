@@ -181,6 +181,14 @@ extern CFTypeID CFTypeGetTypeID();
     return YES;
 }
 
+- (BOOL)testDescription3
+{
+    NSString *str = (NSString *)CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@"), self);
+    testassert([[self description] isEqualToString:str]);
+    [str release];
+    return YES;
+}
+
 - (BOOL)testImplementsSelector1
 {
     testassert([NSObject implementsSelector:@selector(alloc)]);
