@@ -72,6 +72,7 @@ action(NSPathUtilities) \
 action(NSPointerFunctions) \
 action(NSPort) \
 action(NSProxy) \
+action(NSRegularExpression) \
 action(NSScanner) \
 action(NSScannerSubclass) \
 action(NSSet) \
