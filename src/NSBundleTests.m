@@ -31,7 +31,7 @@ static NSBundle *zeroLevelBundle, *firstLevelBundle, *secondLevelBundle;
 
 - (BOOL)testMainBundlePath
 {
-    mainBundlePath = [[NSBundle mainBundle] bundlePath];
+    mainBundlePath = [[[NSBundle mainBundle] bundlePath] copy];
     testassert(nil != mainBundlePath);
     testassert([mainBundlePath rangeOfString:@"FoundationTests"].location != NSNotFound);
     
