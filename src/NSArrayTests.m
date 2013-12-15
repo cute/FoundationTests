@@ -139,6 +139,39 @@
     return YES;
 }
 
+- (BOOL)testBadCapacity
+{
+    __block BOOL raised = NO;
+    void (^block)(void) = ^{
+        [[NSMutableArray alloc] initWithCapacity:1073741824];
+    };
+    @try {
+        block();
+    }
+    @catch (NSException *e) {
+        testassert([[e name] isEqualToString:NSInvalidArgumentException]);
+        raised = YES;
+    }
+    testassert(raised);
+    return YES;
+}
+
+- (BOOL)testLargeCapacity
+{
+    __block BOOL raised = NO;
+    void (^block)(void) = ^{
+        [[NSMutableArray alloc] initWithCapacity:1073741823];
+    };
+    @try {
+        block();
+    }
+    @catch (NSException *e) {
+        raised = YES;
+    }
+    testassert(!raised);
+    return YES;
+}
+
 - (BOOL)testAllocateDifferential
 {
     NSArray *d1 = [NSArray alloc];
