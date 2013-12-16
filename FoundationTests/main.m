@@ -11,12 +11,5 @@
 
 int main(int argc, char *argv[])
 {
-    @autoreleasepool {
-        
-        [WebServer shared];
-        
-        runFoundationTests();
-    }
-
     return 0;
 }
