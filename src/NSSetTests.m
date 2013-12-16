@@ -34,7 +34,7 @@
 
     NSSet *cs = [[NSSet alloc] initWithObjects:members count:2*count];
 
-    // Default initializer with <count> objects should return a  set
+    // Default initializer with <count> objects should return a set
     testassert(cs != nil);
 
     [cs release];
