@@ -3,6 +3,27 @@
 
 @testcase(NSNumber)
 
+- (BOOL)testYESStringValue
+{
+    NSString *result = [[NSNumber numberWithBool:YES] stringValue];
+    testassert([result isEqualToString:@"1"]);
+    return YES;
+}
+
+- (BOOL)testNOStringValue
+{
+    NSString *result = [[NSNumber numberWithBool:NO] stringValue];
+    testassert([result isEqualToString:@"0"]);
+    return YES;
+}
+
+- (BOOL)testBOOLdescription
+{
+    NSString *result = [[NSNumber numberWithBool:YES] description];
+    testassert([result isEqualToString:@"1"]);
+    return YES;
+}
+
 - (BOOL)testSharedBoolInstances
 {
     NSNumber *y1 = [NSNumber numberWithBool:YES];

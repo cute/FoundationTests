@@ -70,6 +70,7 @@ action(NSNumber) \
 action(NSNumberFormatter) \
 action(NSObject) \
 action(NSObjCRuntime) \
+action(NSOrderedSet) \
 action(NSPathUtilities) \
 action(NSPointerFunctions) \
 action(NSPort) \

@@ -22,6 +22,30 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 
 @testcase(NSString)
 
+- (BOOL)teststringByReplacingOccurrencesOfString
+{
+    NSString *s = @"abcdefghij+1234+567";
+    NSString *s2 = [s stringByReplacingOccurrencesOfString:@"+" withString:@" "];
+    testassert([s2 isEqualToString:@"abcdefghij 1234 567"]);
+    return YES;
+}
+
+- (BOOL)teststringByReplacingPercentEscapesUsingEncoding
+{
+    NSString *s = @"abcd7";
+    NSString *s2 = [s stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    testassert([s2 isEqualToString:s]);
+    return YES;
+}
+
+- (BOOL)teststringByReplacingPercentEscapesUsingEncodingNil
+{
+    NSString *s = @"abcdefg%hij+1234+56%7";
+    NSString *s2 = [s stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    testassert(s2 == nil);
+    return YES;
+}
+
 - (BOOL)testCreationWithNil
 {
     void (^block)() = ^{
