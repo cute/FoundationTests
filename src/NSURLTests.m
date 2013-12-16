@@ -366,4 +366,31 @@
     return YES;
 }
 
+- (BOOL)testLongFileURL
+{
+    NSMutableString *str = [NSMutableString stringWithString:@"/foo"];
+    while ([str length] + 4 < PATH_MAX)
+    {
+        [str appendString:@"/foo"];
+    }
+    NSURL *url = [NSURL fileURLWithPath:str];
+    testassert(url != NULL);
+    testassert([[url path] isEqualToString:str]);
+    return YES;
+}
+
+- (BOOL)testLongFileURLfileSystemRepresentation
+{
+    NSMutableString *str = [NSMutableString stringWithString:@"/foo"];
+    while ([str length] + 4 < PATH_MAX)
+    {
+        [str appendString:@"/foo"];
+    }
+    NSURL *url = [NSURL fileURLWithPath:str];
+    int s = strlen([url fileSystemRepresentation]);
+    testassert(s != PATH_MAX);
+    testassert(s == 1020);
+    return YES;
+}
+
 @end
