@@ -142,8 +142,9 @@
 - (BOOL)testBadCapacity
 {
     __block BOOL raised = NO;
+    __block NSMutableArray *array = nil;
     void (^block)(void) = ^{
-        [[NSMutableArray alloc] initWithCapacity:1073741824];
+        array = [[NSMutableArray alloc] initWithCapacity:1073741824];
     };
     @try {
         block();
@@ -153,14 +154,16 @@
         raised = YES;
     }
     testassert(raised);
+    [array release];
     return YES;
 }
 
 - (BOOL)testLargeCapacity
 {
     __block BOOL raised = NO;
+    __block NSMutableArray *array = nil;
     void (^block)(void) = ^{
-        [[NSMutableArray alloc] initWithCapacity:1073741823];
+        array = [[NSMutableArray alloc] initWithCapacity:1073741823];
     };
     @try {
         block();
@@ -169,6 +172,7 @@
         raised = YES;
     }
     testassert(!raised);
+    [array release];
     return YES;
 }
 
