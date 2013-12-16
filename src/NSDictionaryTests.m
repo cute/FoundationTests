@@ -550,6 +550,21 @@
     return YES;
 }
 
+- (BOOL)testKeysOfEntriesPassingTestWithEmptyDict
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    
+    NSSet *set = [dict keysOfEntriesPassingTest:^(NSString* key, id obj, BOOL* stop) {
+        return [key hasPrefix:@"foo"];
+    }];
+  
+    testassert(set != nil);
+    testassert(set.count == 0);
+
+    return YES;
+    
+}
+
 - (BOOL)testDescription
 {
     // If all keys are same type and type is sortable, description should sort
