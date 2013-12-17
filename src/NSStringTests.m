@@ -659,6 +659,22 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL)testExtraEncodings
+{
+    NSString *string = @"√∫˜µƒ©˙∆˚¬®†¥¨ˆøπ";
+    const char *cstring = [string cStringUsingEncoding:NSASCIIStringEncoding];
+    testassert(cstring == NULL);
+    
+    const char *cstringutf8 = [string cStringUsingEncoding:NSUTF8StringEncoding];
+    testassert(cstringutf8 != NULL);
+    
+    NSString *base64 = @"validbase64=";
+    const char *cbase64 = [base64 cStringUsingEncoding:NSASCIIStringEncoding];
+    testassert(cbase64 != NULL);
+    
+    return YES;
+}
+
 @end
 
 #warning TODO: String tests & cleanup
