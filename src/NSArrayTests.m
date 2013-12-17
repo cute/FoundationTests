@@ -3,6 +3,19 @@
 #include <stdio.h>
 #import <objc/runtime.h>
 
+@interface InequalObject : NSObject
+
+@end
+
+@implementation InequalObject
+
+- (BOOL)isEqual:(id)object
+{
+    return NO;
+}
+
+@end
+
 @interface NSArraySubclass : NSArray {
     NSArray *inner;
 }
@@ -897,60 +910,131 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-//- (BOOL) testEnumerateObjectsAtIndexes
-//{
-//    NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(2,2)];
-//    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
-//    __block int sum = 0;
-//    [cs enumerateObjectsAtIndexes:is options:0 usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
-//        sum += [obj intValue];
-//        *stop = idx == 2;
-//    }];
-//    testassert(sum == 3);
-//    return YES;
-//}
-//
-//- (BOOL) testEnumerateObjectsAtIndexesException
-//{
-//    NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(3,2)];
-//    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
-//    BOOL raised = NO;
-//    __block int sum = 0;
-//@try {
-//    [cs enumerateObjectsAtIndexes:is options:0 usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
-//        sum += [obj intValue];
-//        *stop = idx == 2;
-//    }];
-//    }
-//    @catch (NSException *caught) {
-//        raised = YES;
-//        testassert([[caught name] isEqualToString:NSRangeException]);
-//    }
-//    testassert(raised);
-//
-//    raised = NO;
-//    @try {
-//        [cs enumerateObjectsAtIndexes:is options:0 usingBlock:nil];
-//    }
-//    @catch (NSException *caught) {
-//        raised = YES;
-//        testassert([[caught name] isEqualToString:NSRangeException]);
-//    }
-//    testassert(raised);
-//    return YES;
-//}
-//
-//- (BOOL) testEnumerateObjectsAtIndexesReverse
-//{
-//    NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(1,3)];
-//    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
-//    __block int sum = 0;
-//    [cs enumerateObjectsAtIndexes:is options:NSEnumerationReverse usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
-//        sum += [obj intValue];
-//        *stop = idx == 2;
-//    }];
-//    testassert(sum == 7);
-//    return YES;
-//}
+- (BOOL)testInequalObjects1
+{
+    InequalObject *o1 = [InequalObject new];
+    InequalObject *o2 = [InequalObject new];
+
+    NSMutableArray *array = [NSMutableArray array];
+    testassert([array count] == 0);
+    [array addObject:o1];
+    testassert([array count] == 1);
+    testassert([array indexOfObject:o1] == 0);
+    testassert([array indexOfObject:o2] == NSNotFound);
+    testassert([array containsObject:o1]);
+    testassert(![array containsObject:o2]);
+    [array addObject:o2];
+    testassert([array count] == 2);
+    [array removeObject:o1];
+    testassert([array count] == 1);
+    [array removeObject:o2];
+    testassert([array count] == 0);
+
+    return YES;
+}
+
+- (BOOL)testInequalObjects2
+{
+    InequalObject *o1 = [InequalObject new];
+    InequalObject *o2 = [InequalObject new];
+    
+    NSMutableArray *array = [NSMutableArray arrayWithArray:[NSArray array]];
+    testassert([array count] == 0);
+    [array addObject:o1];
+    testassert([array count] == 1);
+    testassert([array indexOfObject:o1] == 0);
+    testassert([array indexOfObject:o2] == NSNotFound);
+    testassert([array containsObject:o1]);
+    testassert(![array containsObject:o2]);
+    [array addObject:o2];
+    testassert([array count] == 2);
+    [array removeObject:o1];
+    testassert([array count] == 1);
+    [array removeObject:o2];
+    testassert([array count] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInequalObjects3
+{
+    InequalObject *o1 = [InequalObject new];
+    InequalObject *o2 = [InequalObject new];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    testassert([array count] == 0);
+    [array addObject:o1];
+    testassert([array count] == 1);
+    array = [NSMutableArray arrayWithArray:array];
+    testassert([array count] == 1);
+    testassert([array indexOfObject:o1] == 0);
+    testassert([array indexOfObject:o2] == NSNotFound);
+    testassert([array containsObject:o1]);
+    testassert(![array containsObject:o2]);
+    [array addObject:o2];
+    testassert([array count] == 2);
+    [array removeObject:o1];
+    testassert([array count] == 1);
+    [array removeObject:o2];
+    testassert([array count] == 0);
+    
+    return YES;
+}
+
+- (BOOL) testEnumerateObjectsAtIndexes
+{
+    NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(2,2)];
+    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
+    __block int sum = 0;
+    [cs enumerateObjectsAtIndexes:is options:0 usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
+        sum += [obj intValue];
+        *stop = idx == 2;
+    }];
+    testassert(sum == 3);
+    return YES;
+}
+
+- (BOOL) testEnumerateObjectsAtIndexesException
+{
+    NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(3,2)];
+    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
+    BOOL raised = NO;
+    __block int sum = 0;
+    @try {
+        [cs enumerateObjectsAtIndexes:is options:0 usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
+            sum += [obj intValue];
+            *stop = idx == 2;
+        }];
+    }
+    @catch (NSException *caught) {
+        raised = YES;
+        testassert([[caught name] isEqualToString:NSRangeException]);
+    }
+    testassert(raised);
+
+    raised = NO;
+    @try {
+        [cs enumerateObjectsAtIndexes:is options:0 usingBlock:nil];
+    }
+    @catch (NSException *caught) {
+        raised = YES;
+        testassert([[caught name] isEqualToString:NSInvalidArgumentException]);
+    }
+    testassert(raised);
+    return YES;
+}
+
+- (BOOL) testEnumerateObjectsAtIndexesReverse
+{
+    NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(1,3)];
+    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
+    __block int sum = 0;
+    [cs enumerateObjectsAtIndexes:is options:NSEnumerationReverse usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
+        sum += [obj intValue];
+        *stop = idx == 2;
+    }];
+    testassert(sum == 7);
+    return YES;
+}
 
 @end
