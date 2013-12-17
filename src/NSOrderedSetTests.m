@@ -5,12 +5,12 @@
 
 - (BOOL)testBlankCreation
 {
-    NSOrderedSet *cs = [[NSOrderedSet alloc] init];
+    NSOrderedSet *os = [[NSOrderedSet alloc] init];
 
     // Blank initialization should return an ordered set
-    testassert(cs != nil);
+    testassert(os != nil);
 
-    [cs release];
+    [os release];
 
     return YES;
 }
@@ -25,12 +25,12 @@
         members[i + count] = members[i];
     }
 
-    NSOrderedSet *cs = [[NSOrderedSet alloc] initWithObjects:members count:2*count];
+    NSOrderedSet *os = [[NSOrderedSet alloc] initWithObjects:members count:2*count];
 
     // Default initializer with <count> objects should return an ordered set
-    testassert(cs != nil);
+    testassert(os != nil);
 
-    [cs release];
+    [os release];
 
     free(members);
 
@@ -39,13 +39,13 @@
 
 - (BOOL)testDefaultCreationWithArray
 {
-    NSOrderedSet *cs = [[NSOrderedSet alloc] initWithArray:@[@1, @2]];
+    NSOrderedSet *os = [[NSOrderedSet alloc] initWithArray:@[@1, @2]];
 
     // Default initializer with <count> should return a countable ordered set
-    testassert(cs != nil);
-    testassert([cs count] == 2);
+    testassert(os != nil);
+    testassert([os count] == 2);
 
-    [cs release];
+    [os release];
 
     return YES;
 }
@@ -57,13 +57,13 @@
                 [[[NSObject alloc] init] autorelease],
                 [[[NSObject alloc] init] autorelease],
                 nil];
-    NSOrderedSet *cs = [[NSOrderedSet alloc] initWithOrderedSet:s];
+    NSOrderedSet *os = [[NSOrderedSet alloc] initWithOrderedSet:s];
 
     // OrderedSet initializer should return a countable ordered set
-    testassert(cs != nil);
+    testassert(os != nil);
 
     [s release];
-    [cs release];
+    [os release];
 
     return YES;
 }
@@ -76,14 +76,14 @@
                 @"",
                 @"",
                 nil];
-    NSOrderedSet *cs = [[NSOrderedSet alloc] initWithOrderedSet:s copyItems:YES];
+    NSOrderedSet *os = [[NSOrderedSet alloc] initWithOrderedSet:s copyItems:YES];
 
     // OrderedSet initializer should return an ordered set
-    testassert([cs count] == 1);
-    testassert(cs != nil);
+    testassert([os count] == 1);
+    testassert(os != nil);
 
     [s release];
-    [cs release];
+    [os release];
 
     return YES;
 }
@@ -95,45 +95,45 @@
                 [[[NSObject alloc] init] autorelease],
                 [[[NSObject alloc] init] autorelease],
                 nil];
-    NSOrderedSet *cs = [[NSOrderedSet alloc] initWithOrderedSet:s copyItems:NO];
+    NSOrderedSet *os = [[NSOrderedSet alloc] initWithOrderedSet:s copyItems:NO];
 
     // OrderedSet initializer should return a countable ordered set
-    testassert(cs != nil);
+    testassert(os != nil);
 
     [s release];
-    [cs release];
+    [os release];
 
     return YES;
 }
 
 - (BOOL)testVarArgsCreation
 {
-    NSOrderedSet *cs = [[NSOrderedSet alloc] initWithObjects:
+    NSOrderedSet *os = [[NSOrderedSet alloc] initWithObjects:
                         [[[NSObject alloc] init] autorelease],
                         [[[NSObject alloc] init] autorelease],
                         [[[NSObject alloc] init] autorelease],
                         nil];
 
     // Var args initializer should return a countable ordered set
-    testassert(cs != nil);
+    testassert(os != nil);
 
-    [cs release];
+    [os release];
 
     return YES;
 }
 
 - (BOOL)testArrayCreation
 {
-    NSOrderedSet *cs = [[NSOrderedSet alloc] initWithArray:@[
+    NSOrderedSet *os = [[NSOrderedSet alloc] initWithArray:@[
                         [[[NSObject alloc] init] autorelease],
                         [[[NSObject alloc] init] autorelease],
                         [[[NSObject alloc] init] autorelease],
                         ]];
 
     // Array initializer should return a countable ordered set
-    testassert(cs != nil);
+    testassert(os != nil);
 
-    [cs release];
+    [os release];
 
     return YES;
 }
@@ -147,10 +147,10 @@
                     [[[NSObject alloc] init] autorelease],
                     nil];
 
-        NSOrderedSet *cs = [[[NSOrderedSet alloc] initWithOrderedSet:s] initWithOrderedSet:s];
+        NSOrderedSet *os = [[[NSOrderedSet alloc] initWithOrderedSet:s] initWithOrderedSet:s];
 
         [s release];
-        [cs release];
+        [os release];
     };
 
     // Double initialization should throw NSInvalidArgumentException
@@ -176,27 +176,27 @@
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
     NSObject *o2 = [[[NSObject alloc] init] autorelease];
 
-    NSOrderedSet *cs = [[NSOrderedSet alloc] initWithObjects: o1, o2, o2, nil];
+    NSOrderedSet *os = [[NSOrderedSet alloc] initWithObjects: o1, o2, o2, nil];
 
     // Count for object
-    testassert(cs != nil);
+    testassert(os != nil);
 
-    testassert(![cs containsObject:o0]);
-    testassert([cs containsObject:o1]);
-    testassert([cs containsObject:o2]);
+    testassert(![os containsObject:o0]);
+    testassert([os containsObject:o1]);
+    testassert([os containsObject:o2]);
 
-    testassert(![cs containsObject:nil]);
+    testassert(![os containsObject:nil]);
 
-    testassert([cs count] == 2);
+    testassert([os count] == 2);
 
-    [cs release];
+    [os release];
 
     return YES;
 }
 
 - (BOOL)testAddObject
 {
-    NSMutableOrderedSet *cs = [[NSMutableOrderedSet alloc] init];
+    NSMutableOrderedSet *os = [[NSMutableOrderedSet alloc] init];
     int count = 10;
     NSObject **members = malloc(sizeof(*members) * count);
 
@@ -205,17 +205,17 @@
         members[i] = [[NSObject alloc] init];
         for (int inserts = 0; inserts < i; inserts++)
         {
-            [cs addObject:members[i]];
+            [os addObject:members[i]];
         }
     }
 
     // Count for object
     for (int i = 1; i < count; i++)
     {
-        testassert([cs containsObject:members[i]]);
+        testassert([os containsObject:members[i]]);
     }
 
-    [cs release];
+    [os release];
 
     free(members);
 
@@ -225,8 +225,8 @@
 - (BOOL)testAddObjectNil
 {
     void (^block)() = ^{
-        NSMutableOrderedSet *cs = [[[NSMutableOrderedSet alloc] init] autorelease];
-        [cs addObject:nil];
+        NSMutableOrderedSet *os = [[[NSMutableOrderedSet alloc] init] autorelease];
+        [os addObject:nil];
     };
 
     // Adding nil should throw NSInvalidArgumentException
@@ -251,18 +251,18 @@
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
     NSObject *o2 = [[[NSObject alloc] init] autorelease];
 
-    NSMutableOrderedSet *cs = [[NSMutableOrderedSet alloc] initWithObjects: o1, o2, o2, nil];
+    NSMutableOrderedSet *os = [[NSMutableOrderedSet alloc] initWithObjects: o1, o2, o2, nil];
 
     // Removing an object not in the countable ordered set should not throw
-    [cs removeObject:o0];
-    [cs removeObject:o1];
-    [cs removeObject:o1];
+    [os removeObject:o0];
+    [os removeObject:o1];
+    [os removeObject:o1];
 
-    testassert(![cs containsObject:o0]);
-    testassert(![cs containsObject:o1]);
-    testassert([cs containsObject:o2]);
+    testassert(![os containsObject:o0]);
+    testassert(![os containsObject:o1]);
+    testassert([os containsObject:o2]);
 
-    [cs release];
+    [os release];
 
     return YES;
 }
@@ -270,8 +270,8 @@
 - (BOOL)testRemoveObjectNil
 {
     // Removing nil should not throw
-    NSMutableOrderedSet *cs = [[[NSMutableOrderedSet alloc] init] autorelease];
-    [cs removeObject:nil];
+    NSMutableOrderedSet *os = [[[NSMutableOrderedSet alloc] init] autorelease];
+    [os removeObject:nil];
 
     return YES;
 }
@@ -281,11 +281,11 @@
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
     NSObject *o2 = [[[NSObject alloc] init] autorelease];
 
-    NSOrderedSet *cs = [[NSOrderedSet alloc] initWithObjects: o1, o2, o2, nil];
+    NSOrderedSet *os = [[NSOrderedSet alloc] initWithObjects: o1, o2, o2, nil];
 
-    testassert(![cs containsObject:nil]);
+    testassert(![os containsObject:nil]);
 
-    [cs release];
+    [os release];
 
     return YES;
 }
@@ -295,18 +295,18 @@
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
     NSObject *o2 = [[[NSObject alloc] init] autorelease];
 
-    NSOrderedSet *cs = [[NSOrderedSet alloc] initWithObjects: o1, o2, o2, nil];
+    NSOrderedSet *os = [[NSOrderedSet alloc] initWithObjects: o1, o2, o2, nil];
 
-    testassert([cs count] == 2);
+    testassert([os count] == 2);
 
-    [cs release];
+    [os release];
 
     return YES;
 }
 
 - (BOOL)testObjectEnumerator
 {
-    NSMutableOrderedSet *cs = [[NSMutableOrderedSet alloc] init];
+    NSMutableOrderedSet *os = [[NSMutableOrderedSet alloc] init];
     int count = 10;
     NSObject **members = malloc(sizeof(*members) * count);
     int *counts = calloc(sizeof(*counts), count);
@@ -316,18 +316,18 @@
         members[i] = [[NSObject alloc] init];
         for (int inserts = 0; inserts < i; inserts++)
         {
-            [cs addObject:members[i]];
+            [os addObject:members[i]];
         }
     }
 
     // Count for object
     for (int i = 1; i < count; i++)
     {
-        testassert([cs containsObject:members[i]]);
+        testassert([os containsObject:members[i]]);
     }
 
     id object;
-    NSEnumerator *enumerator = [cs objectEnumerator];
+    NSEnumerator *enumerator = [os objectEnumerator];
     while ((object = [enumerator nextObject]) != nil)
     {
         BOOL found = NO;
@@ -356,7 +356,7 @@
 
 - (BOOL)testFastEnumeration
 {
-    NSMutableOrderedSet *cs = [[NSMutableOrderedSet alloc] init];
+    NSMutableOrderedSet *os = [[NSMutableOrderedSet alloc] init];
     int count = 10;
     NSObject **members = malloc(sizeof(*members) * count);
     int *counts = calloc(sizeof(*counts), count);
@@ -366,17 +366,17 @@
         members[i] = [[NSObject alloc] init];
         for (int inserts = 0; inserts < i; inserts++)
         {
-            [cs addObject:members[i]];
+            [os addObject:members[i]];
         }
     }
 
     // Count for object
     for (int i = 1; i < count; i++)
     {
-        testassert([cs containsObject:members[i]]);
+        testassert([os containsObject:members[i]]);
     }
 
-    for (id object in cs)
+    for (id object in os)
     {
         BOOL found = NO;
         for (int i = 0; i < count; i++)
@@ -406,36 +406,36 @@
 
 - (BOOL)testCopyWithZone
 {
-    NSOrderedSet *cs = [[NSOrderedSet alloc] initWithObjects:
+    NSOrderedSet *os = [[NSOrderedSet alloc] initWithObjects:
                         [[[NSObject alloc] init] autorelease],
                         [[[NSObject alloc] init] autorelease],
                         [[[NSObject alloc] init] autorelease],
                         nil];
 
-    NSOrderedSet *csCopy = [cs copyWithZone:nil];
+    NSOrderedSet *osCopy = [os copyWithZone:nil];
 
-    testassert(csCopy != nil);
+    testassert(osCopy != nil);
 
-    [csCopy release];
-    [cs release];
+    [osCopy release];
+    [os release];
 
     return YES;
 }
 
 - (BOOL)testMutableCopyWithZone
 {
-    NSOrderedSet *cs = [[NSOrderedSet alloc] initWithObjects:
+    NSOrderedSet *os = [[NSOrderedSet alloc] initWithObjects:
                         [[[NSObject alloc] init] autorelease],
                         [[[NSObject alloc] init] autorelease],
                         [[[NSObject alloc] init] autorelease],
                         nil];
 
-    NSOrderedSet *csCopy = [cs mutableCopyWithZone:nil];
+    NSOrderedSet *osCopy = [os mutableCopyWithZone:nil];
 
-    testassert(csCopy != nil);
+    testassert(osCopy != nil);
 
-    [csCopy release];
-    [cs release];
+    [osCopy release];
+    [os release];
 
     return YES;
 }
@@ -443,10 +443,10 @@
 - (BOOL)testAddObjectsFromArray
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
-    NSMutableOrderedSet *cs = [[NSMutableOrderedSet alloc] initWithObjects: o0, nil];
+    NSMutableOrderedSet *os = [[NSMutableOrderedSet alloc] initWithObjects: o0, nil];
     NSArray *a = @[@1, @2];
-    [cs addObjectsFromArray:a];
-    testassert([cs count] == 3);
+    [os addObjectsFromArray:a];
+    testassert([os count] == 3);
 
     return YES;
 }
@@ -466,14 +466,14 @@
     NSObject *o2 = [[[NSObject alloc] init] autorelease];
     NSObject *o3 = [[[NSObject alloc] init] autorelease];
 
-    NSMutableOrderedSet *cs = [[NSMutableOrderedSet alloc] initWithObjects: o1, o2, o0, nil];
+    NSMutableOrderedSet *os = [[NSMutableOrderedSet alloc] initWithObjects: o1, o2, o0, nil];
     NSOrderedSet *s = [[NSOrderedSet alloc] initWithObjects:o0, o3, o2, nil];
 
-    [cs minusOrderedSet:s];
-    testassert([cs count] == 1);
-    testassert([cs containsObject:o1]);
-    testassert(![cs containsObject:o2]);
-    [cs release];
+    [os minusOrderedSet:s];
+    testassert([os count] == 1);
+    testassert([os containsObject:o1]);
+    testassert(![os containsObject:o2]);
+    [os release];
     [s release];
     return YES;
 }
@@ -485,14 +485,14 @@
     NSObject *o2 = [[[NSObject alloc] init] autorelease];
     NSObject *o3 = [[[NSObject alloc] init] autorelease];
 
-    NSMutableOrderedSet *cs = [[NSMutableOrderedSet alloc] initWithObjects: o1, o2, o0, nil];
+    NSMutableOrderedSet *os = [[NSMutableOrderedSet alloc] initWithObjects: o1, o2, o0, nil];
     NSOrderedSet *s = [[NSOrderedSet alloc] initWithObjects:o0, o2, o3, nil];
 
-    [cs intersectOrderedSet:s];
-    testassert([cs count] == 2);
-    testassert(![cs containsObject:o1]);
-    testassert([cs containsObject:o2]);
-    [cs release];
+    [os intersectOrderedSet:s];
+    testassert([os count] == 2);
+    testassert(![os containsObject:o1]);
+    testassert([os containsObject:o2]);
+    [os release];
     [s release];
     return YES;
 }
@@ -505,14 +505,14 @@
     NSObject *o2 = [[[NSObject alloc] init] autorelease];
     NSObject *o3 = [[[NSObject alloc] init] autorelease];
 
-    NSMutableOrderedSet *cs = [[NSMutableOrderedSet alloc] initWithObjects: o1, o2, o0, nil];
+    NSMutableOrderedSet *os = [[NSMutableOrderedSet alloc] initWithObjects: o1, o2, o0, nil];
     NSOrderedSet *s = [[NSOrderedSet alloc] initWithObjects:o0, o2, o3, nil];
 
-    [cs unionOrderedSet:s];
-    testassert([cs count] == 4);
-    testassert([cs containsObject:o1]);
-    testassert([cs containsObject:o2]);
-    [cs release];
+    [os unionOrderedSet:s];
+    testassert([os count] == 4);
+    testassert([os containsObject:o1]);
+    testassert([os containsObject:o2]);
+    [os release];
     [s release];
     return YES;
 }
