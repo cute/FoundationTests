@@ -468,5 +468,223 @@
     return YES;
 }
 
+- (BOOL)testIndexSetEnumerateIndexesInRange
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:0];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateIndexesInRange:NSMakeRange(1, 2) options:0 usingBlock:^(NSUInteger idx, BOOL *stop){
+        sum += [[a objectAtIndex:idx] intValue];
+    }];
+    testassert(sum == 320);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeEarlyExit
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:0];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateIndexesInRange:NSMakeRange(1, 2) options:0 usingBlock:^(NSUInteger idx, BOOL *stop){
+        sum += [[a objectAtIndex:idx] intValue];
+        *stop = YES;
+    }];
+    testassert(sum == 20);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesReverse
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:3];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateIndexesWithOptions:NSEnumerationReverse usingBlock:^(NSUInteger idx, BOOL *stop){
+        sum += [[a objectAtIndex:idx] intValue];
+        *stop = YES;
+    }];
+    testassert(sum == 4000);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeReverse
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    [indexSet addIndex:3];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateIndexesInRange:NSMakeRange(1, 2) options:NSEnumerationReverse usingBlock:^(NSUInteger idx, BOOL *stop){
+        sum += [[a objectAtIndex:idx] intValue];
+        *stop = YES;
+    }];
+    testassert(sum == 300);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeReverse2
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    [indexSet addIndex:3];
+    [indexSet addIndex:4];
+    NSArray *a = @[@1, @20, @300, @4000, @50000];
+    __block int sum = 0;
+    [indexSet enumerateIndexesInRange:NSMakeRange(1, 2) options:NSEnumerationReverse usingBlock:^(NSUInteger idx, BOOL *stop){
+        sum += [[a objectAtIndex:idx] intValue];
+        *stop = YES;
+    }];
+    testassert(sum == 300);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeConcurrent
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:0];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateIndexesInRange:NSMakeRange(1, 2) options:NSEnumerationConcurrent usingBlock:^(NSUInteger idx, BOOL *stop){
+        sum += [[a objectAtIndex:idx] intValue];
+    }];
+    testassert(sum == 320);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeConcurrent2
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:0];
+    [indexSet addIndex:2];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateIndexesInRange:NSMakeRange(1, 2) options:NSEnumerationConcurrent usingBlock:^(NSUInteger idx, BOOL *stop){
+        sum += [[a objectAtIndex:idx] intValue];
+    }];
+    testassert(sum == 300);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateNilException
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    
+    BOOL foundException = NO;
+    @try
+    {
+        [indexSet enumerateIndexesInRange:NSMakeRange(1, 2) options:NSEnumerationReverse usingBlock:nil];
+    }
+    @catch(NSException *e)
+    {
+        foundException = YES;
+    }
+    testassert(foundException);
+    return YES;
+}
+
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeRange
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:0];
+    [indexSet addIndex:2];
+    [indexSet addIndex:3];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateRangesInRange:NSMakeRange(1, 3) options:0 usingBlock:^(NSRange range, BOOL *stop){
+        sum += [[a objectAtIndex:range.location] intValue];
+    }];
+    testassert(sum == 300);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeEarlyExitRange
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:0];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateRangesInRange:NSMakeRange(1, 2) options:0 usingBlock:^(NSRange range, BOOL *stop){
+        sum += [[a objectAtIndex:range.location + range.length - 1] intValue];
+        *stop = YES;
+    }];
+    testassert(sum == 300);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeReverseRange
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    [indexSet addIndex:3];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateRangesInRange:NSMakeRange(1, 2) options:NSEnumerationReverse usingBlock:^(NSRange range, BOOL *stop){
+        sum += [[a objectAtIndex:range.location] intValue];
+        *stop = YES;
+    }];
+    testassert(sum == 20);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeReverseRange2
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:3];
+    [indexSet addIndex:4];
+    NSArray *a = @[@1, @20, @300, @4000, @5000];
+    __block int sum = 0;
+    [indexSet enumerateRangesInRange:NSMakeRange(1, 2) options:NSEnumerationReverse usingBlock:^(NSRange range, BOOL *stop){
+        sum += [[a objectAtIndex:range.location] intValue];
+        *stop = YES;
+    }];
+    testassert(sum == 20);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeConcurrentRange
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:0];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateRangesInRange:NSMakeRange(1, 2) options:NSEnumerationConcurrent usingBlock:^(NSRange range, BOOL *stop){
+        sum += [[a objectAtIndex:range.location] intValue];
+    }];
+    testassert(sum == 20);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeConcurrentRange2
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:0];
+    [indexSet addIndex:2];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateRangesInRange:NSMakeRange(0, 4) options:NSEnumerationConcurrent usingBlock:^(NSRange range, BOOL *stop){
+        sum += [[a objectAtIndex:range.location] intValue];
+    }];
+    testassert(sum == 301);
+    return YES;
+}
+
 
 @end

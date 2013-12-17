@@ -17,6 +17,23 @@
     return YES;
 }
 
+- (BOOL)testCreatingDataFromJSONObject2
+{
+    NSDictionary* msg = @{
+                          @"type" : @"STATEBROADCAST",
+                          @"currentState" : @"LoadingJson",
+                          @"context" : [NSNull null],
+                          @"fullURI" : @"stack://LoadingJson",
+                          @"source"  : @"pushState",
+                          };
+    NSError *error = nil;
+    NSData* data = [NSJSONSerialization dataWithJSONObject:msg options:0 error:&error];
+    testassert(error == nil);
+    testassert(data != nil);
+    
+    return YES;
+}
+
 - (BOOL)testFailingAtCreatingAJSONObjectAndPassingANilError1
 {
     NSData *someData = [@"data" dataUsingEncoding:NSUTF8StringEncoding];
