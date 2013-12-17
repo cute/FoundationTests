@@ -100,7 +100,8 @@ static void runTests(id tests)
     free(methods);
 }
 
-void runFoundationTests(void)
+static void run(void) __attribute__((constructor));
+static void run(void)
 {
     TEST_CLASSES(@testrun)
 

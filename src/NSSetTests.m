@@ -573,5 +573,41 @@
     return YES;
 }
 
+- (BOOL)testBadCapacity
+{
+    __block BOOL raised = NO;
+    __block NSMutableSet *set = nil;
+    void (^block)(void) = ^{
+        set = [[NSMutableSet alloc] initWithCapacity:1073741824];
+    };
+    @try {
+        block();
+    }
+    @catch (NSException *e) {
+        testassert([[e name] isEqualToString:NSInvalidArgumentException]);
+        raised = YES;
+    }
+    testassert(raised);
+    [set release];
+    return YES;
+}
+
+- (BOOL)testLargeCapacity
+{
+    __block BOOL raised = NO;
+    __block NSMutableSet *set = nil;
+    void (^block)(void) = ^{
+        set = [[NSMutableSet alloc] initWithCapacity:1073741823];
+    };
+    @try {
+        block();
+    }
+    @catch (NSException *e) {
+        raised = YES;
+    }
+    testassert(!raised);
+    [set release];
+    return YES;
+}
 
 @end

@@ -550,6 +550,21 @@
     return YES;
 }
 
+- (BOOL)testKeysOfEntriesPassingTestWithEmptyDict
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    
+    NSSet *set = [dict keysOfEntriesPassingTest:^(NSString* key, id obj, BOOL* stop) {
+        return [key hasPrefix:@"foo"];
+    }];
+  
+    testassert(set != nil);
+    testassert(set.count == 0);
+
+    return YES;
+    
+}
+
 - (BOOL)testDescription
 {
     // If all keys are same type and type is sortable, description should sort
@@ -680,6 +695,43 @@ static const char *allData[] = {
     const char *value = CFDictionaryGetValue(d, localCopy);
     testassert(strcmp(value, "Mexico/BajaNorte") == 0);
 
+    return YES;
+}
+
+- (BOOL)testBadCapacity
+{
+    __block BOOL raised = NO;
+    __block NSMutableDictionary *dict = nil;
+    void (^block)(void) = ^{
+        dict = [[NSMutableDictionary alloc] initWithCapacity:1073741824];
+    };
+    @try {
+        block();
+    }
+    @catch (NSException *e) {
+        testassert([[e name] isEqualToString:NSInvalidArgumentException]);
+        raised = YES;
+    }
+    testassert(raised);
+    [dict release];
+    return YES;
+}
+
+- (BOOL)testLargeCapacity
+{
+    __block BOOL raised = NO;
+    __block NSMutableDictionary *dict = nil;
+    void (^block)(void) = ^{
+        dict = [[NSMutableDictionary alloc] initWithCapacity:1073741823];
+    };
+    @try {
+        block();
+    }
+    @catch (NSException *e) {
+        raised = YES;
+    }
+    testassert(!raised);
+    [dict release];
     return YES;
 }
 

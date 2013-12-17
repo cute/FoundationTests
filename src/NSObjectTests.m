@@ -260,4 +260,17 @@ extern CFTypeID CFTypeGetTypeID();
     return YES;
 }
 
+- (BOOL)testMissingForwarding
+{
+    BOOL raised = NO;
+    @try {
+        [self thisSelectorIsNotImplemented];
+    } @catch(NSException *e) {
+        testassert([[e name] isEqualToString:NSInvalidArgumentException]);
+        raised = YES;
+    }
+    testassert(raised);
+    return YES;
+}
+
 @end
