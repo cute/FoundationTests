@@ -98,6 +98,7 @@
     dict[@"negLong"] = @(negLong);
     
     NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:0 error:nil];
+    testassert(data != nil);
     
     NSDictionary *dict_back = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:data
                                                                               options:NSJSONReadingMutableContainers
