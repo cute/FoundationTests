@@ -95,6 +95,7 @@
 		5B8B202C183ECCA2000C2C36 /* NSStringTests+ExternalSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8B202B183ECCA2000C2C36 /* NSStringTests+ExternalSymbols.m */; };
 		5BF45DAD182DB0560010D465 /* NSProxyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B59031182B1D890008F848 /* NSProxyTests.m */; };
 		5BFA539A183DD6FD0037A890 /* NSNullTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFA5399183DD6FD0037A890 /* NSNullTests.m */; };
+		7D70A7CD186257A30087745C /* ForwardingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B5902E1829E47B0008F848 /* ForwardingTests.m */; };
 		94B59035182B3A9E0008F848 /* ForwardingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B5902E1829E47B0008F848 /* ForwardingTests.m */; };
 		BCA81FAA17B2E125004745B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47178C9117ADD9D40062E7B0 /* Foundation.framework */; };
 		BCA81FB117B2E125004745B2 /* FoundationTestsMac.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = BCA81FB017B2E125004745B2 /* FoundationTestsMac.1 */; };
@@ -544,6 +545,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D70A7CD186257A30087745C /* ForwardingTests.m in Sources */,
 				DE227B451819BEB00004570F /* NSCalendarTests.m in Sources */,
 				47178C9C17ADD9D40062E7B0 /* main.m in Sources */,
 				DE242DAA17BC433C00D668DF /* NSUserDefaultsTests.m in Sources */,

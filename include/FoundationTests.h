@@ -40,6 +40,7 @@ void runFoundationTests(void);
 
 #define TEST_CLASSES(action) \
 action(CFGetTypeID) \
+action(Forwarding) \
 action(CFRunLoop) \
 action(Concurrency) \
 action(NSArray) \
