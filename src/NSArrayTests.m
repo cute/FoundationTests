@@ -3,6 +3,19 @@
 #include <stdio.h>
 #import <objc/runtime.h>
 
+@interface InequalObject : NSObject
+
+@end
+
+@implementation InequalObject
+
+- (BOOL)isEqual:(id)object
+{
+    return NO;
+}
+
+@end
+
 @interface NSArraySubclass : NSArray {
     NSArray *inner;
 }
@@ -89,6 +102,34 @@
 
 @testcase(NSArray)
 
+- (BOOL)testNSArrayICreate0
+{
+    NSArray *a = [NSArray new];
+    testassert(strcmp(object_getClassName(a), "__NSArrayI") == 0);
+    [a release];
+    return YES;
+}
+
+- (BOOL)testNSArrayICreate1
+{
+    NSArray *a = [NSArray arrayWithObject:@91];
+    testassert(strcmp(object_getClassName(a), "__NSArrayI") == 0);
+    return YES;
+}
+
+- (BOOL)testNSArrayICreate0Unique
+{
+    NSArray *a = [NSArray new];
+    NSArray *b = [NSArray new];
+    NSArray *c = [b copy];
+    testassert(a == b);
+    testassert(a == c);
+    [a release];
+    [b release];
+    [c release];
+    return YES;
+}
+
 - (BOOL)testAllocate
 {
     NSArray *d1 = [NSArray alloc];
@@ -108,6 +149,43 @@
     // Mutable array allocators return singletons
     testassert(d1 == d2);
 
+    return YES;
+}
+
+- (BOOL)testBadCapacity
+{
+    __block BOOL raised = NO;
+    __block NSMutableArray *array = nil;
+    void (^block)(void) = ^{
+        array = [[NSMutableArray alloc] initWithCapacity:1073741824];
+    };
+    @try {
+        block();
+    }
+    @catch (NSException *e) {
+        testassert([[e name] isEqualToString:NSInvalidArgumentException]);
+        raised = YES;
+    }
+    testassert(raised);
+    [array release];
+    return YES;
+}
+
+- (BOOL)testLargeCapacity
+{
+    __block BOOL raised = NO;
+    __block NSMutableArray *array = nil;
+    void (^block)(void) = ^{
+        array = [[NSMutableArray alloc] initWithCapacity:1073741823];
+    };
+    @try {
+        block();
+    }
+    @catch (NSException *e) {
+        raised = YES;
+    }
+    testassert(!raised);
+    [array release];
     return YES;
 }
 
@@ -490,16 +568,16 @@
 
 - (BOOL)testDescription
 {
-    // If all keys are same type and type is sortable, description should sort 
-    
+    // If all keys are same type and type is sortable, description should sort
+
     NSArray *arr = @[ @1, @2, @3 ];
     NSString *d = @"(\n    1,\n    2,\n    3\n)";
     testassert([d isEqualToString:[arr description]]);
-    
+
     NSArray *nestedInArray =  @[ @1, @{ @"k1": @111, @"k2" : @{ @"kk1" : @11, @"kk2" : @22, @"kk3" : @33}, @"k3": @333}, @3 ];
     d = @"(\n    1,\n        {\n        k1 = 111;\n        k2 =         {\n            kk1 = 11;\n            kk2 = 22;\n            kk3 = 33;\n        };\n        k3 = 333;\n    },\n    3\n)";
     testassert([d isEqualToString:[nestedInArray description]]);
-    
+
     return YES;
 }
 
@@ -509,12 +587,12 @@
     NSArray *p2 = [ p sortedArrayUsingSelector:@selector(compare:)];
     BOOL isEqual = [p2 isEqualToArray:@[@1, @2, @3]];
     testassert(isEqual);
-    
+
     NSArray *a = @[@"b", @"c", @"a"];
     NSArray *a2 = [ a sortedArrayUsingSelector:@selector(compare:)];
     isEqual = [a2 isEqualToArray:@[@"a", @"b", @"c"]];
     testassert(isEqual);
-    
+
     return YES;
 }
 
@@ -532,7 +610,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     NSArray *p2 = [ p sortedArrayUsingFunction:compare context:p];
     BOOL isEqual = [p2 isEqualToArray:@[@1, @2, @3]];
     testassert(isEqual);
-    
+
     return YES;
 }
 
@@ -544,7 +622,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     }];
     BOOL isEqual = [p2 isEqualToArray:@[@1, @2, @3]];
     testassert(isEqual);
-    
+
     return YES;
 }
 
@@ -552,17 +630,17 @@ static NSComparisonResult compare(id a, id b, void *context)
 {
     NSMutableArray *m = [@[@3, @1, @2] mutableCopy];
     testassert([m count] == 3);
-    
+
     [m removeAllObjects];
     testassert([m count] == 0);
-    
+
     /* Check on empty array */
     [m removeAllObjects];
     testassert([m count] == 0);
-    
+
     [m addObject:@1];
     testassert([m count] == 1);
-    
+
     return YES;
 }
 
@@ -570,17 +648,17 @@ static NSComparisonResult compare(id a, id b, void *context)
 {
     NSMutableArraySubclass *m = [[NSMutableArraySubclass alloc] init];
     testassert([m count] == 2);
-    
+
     [m removeAllObjects];
     testassert([m count] == 0);
-    
+
     /* Check on empty array */
     [m removeAllObjects];
     testassert([m count] == 0);
-    
+
     [m addObject:@1];
     testassert([m count] == 1);
-    
+
     return YES;
 }
 
@@ -588,17 +666,17 @@ static NSComparisonResult compare(id a, id b, void *context)
 {
     NSMutableArray *m = [@[@3, @1, @2] mutableCopy];
     testassert([m count] == 3);
-    
+
     [m removeObject:@2];
     testassert([m count] == 2);
-    
+
     m = [@[@1, @1, @2, @1] mutableCopy];
     [m removeObject:@1];
     testassert([m count] == 1);
-    
+
     [m removeObject:@2];
     testassert([m count] == 0);
-    
+
     return YES;
 }
 
@@ -611,7 +689,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     testassert([m count] == 2);
     testassert([[m objectAtIndex:0] intValue] + [[m objectAtIndex:1] intValue] == 30);
     [m release];
-    
+
     return YES;
 }
 
@@ -624,7 +702,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     testassert([m count] == 3);
     testassert([[m objectAtIndex:0] intValue] + [[m objectAtIndex:1] intValue]  + [[m objectAtIndex:2] intValue] == 32);
     [m release];
-    
+
     return YES;
 }
 
@@ -635,7 +713,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     [m replaceObjectsInRange:NSMakeRange(0,0) withObjects:ids count:0];
     testassert([m count] == 0);
     [m release];
-    
+
     return YES;
 }
 
@@ -646,7 +724,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     [m replaceObjectsInRange:NSMakeRange(0,1) withObjects:ids count:0];
     testassert([m count] == 1);
     [m release];
-    
+
     return YES;
 }
 
@@ -659,7 +737,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     testassert([m count] == 1);
     testassert([[m objectAtIndex:0] intValue] == 10);
     [m release];
-    
+
     return YES;
 }
 
@@ -671,7 +749,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     [cs addObjectsFromArray:a];
     testassert([cs count] == 3);
     [cs release];
-    
+
     return YES;
 }
 
@@ -693,7 +771,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     NSNumber *n;
     NSArray *a = @[ @1, @2, @3];
     NSEnumerator *nse = [a objectEnumerator];
-    
+
     while( (n = [nse nextObject]) )
     {
         sum += [n intValue];
@@ -705,12 +783,12 @@ static NSComparisonResult compare(id a, id b, void *context)
 - (BOOL) testEnumeration3
 {
     NSString *s = @"a Z b Z c";
-    
+
     NSArray *a = [[NSArray alloc] initWithArray:[s componentsSeparatedByString:@"Z"]];
-    
+
     int sum = 0;
     NSEnumerator *nse = [a objectEnumerator];
-    
+
     while([nse nextObject])
     {
         sum ++;
@@ -729,19 +807,21 @@ static NSComparisonResult compare(id a, id b, void *context)
     }
     @catch (NSException *caught) {
         raised = YES;
+        testassert([[caught name] isEqualToString:NSRangeException]);
     }
     testassert(raised);
-    
+
     raised = NO;
     @try {
         [cs removeObjectAtIndex:[cs count]];
     }
     @catch (NSException *caught) {
         raised = YES;
+        testassert([[caught name] isEqualToString:NSRangeException]);
     }
     [cs release];
     testassert(raised);
-    
+
     return YES;
 }
 
@@ -751,7 +831,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     NSValue *bodyPoint = [NSValue valueWithPointer:(int *)0x12345678];
     NSArray *array = [NSArray arrayWithObject:bodyPoint];
     testassert([array containsObject:bodyPoint]);
-    
+
     NSValue *bodyPoint2 = [NSValue valueWithPointer:(int *)0x12345678];
     testassert([array containsObject:bodyPoint2]);
     return YES;
@@ -830,58 +910,131 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-//- (BOOL) testEnumerateObjectsAtIndexes
-//{
-//    NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(2,2)];
-//    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
-//    __block int sum = 0;
-//    [cs enumerateObjectsAtIndexes:is options:0 usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
-//        sum += [obj intValue];
-//        *stop = idx == 2;
-//    }];
-//    testassert(sum == 3);
-//    return YES;
-//}
-//
-//- (BOOL) testEnumerateObjectsAtIndexesException
-//{
-//    NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(3,2)];
-//    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
-//    BOOL raised = NO;
-//    __block int sum = 0;
-//@try {
-//    [cs enumerateObjectsAtIndexes:is options:0 usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
-//        sum += [obj intValue];
-//        *stop = idx == 2;
-//    }];
-//    }
-//    @catch (NSException *caught) {
-//        raised = YES;
-//    }
-//    testassert(raised);
-//    
-//    raised = NO;
-//    @try {
-//        [cs enumerateObjectsAtIndexes:is options:0 usingBlock:nil];
-//    }
-//    @catch (NSException *caught) {
-//        raised = YES;
-//    }
-//    testassert(raised);
-//    return YES;
-//}
-//
-//- (BOOL) testEnumerateObjectsAtIndexesReverse
-//{
-//    NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(1,3)];
-//    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
-//    __block int sum = 0;
-//    [cs enumerateObjectsAtIndexes:is options:NSEnumerationReverse usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
-//        sum += [obj intValue];
-//        *stop = idx == 2;
-//    }];
-//    testassert(sum == 7);
-//    return YES;
-//}
+- (BOOL)testInequalObjects1
+{
+    InequalObject *o1 = [InequalObject new];
+    InequalObject *o2 = [InequalObject new];
+
+    NSMutableArray *array = [NSMutableArray array];
+    testassert([array count] == 0);
+    [array addObject:o1];
+    testassert([array count] == 1);
+    testassert([array indexOfObject:o1] == 0);
+    testassert([array indexOfObject:o2] == NSNotFound);
+    testassert([array containsObject:o1]);
+    testassert(![array containsObject:o2]);
+    [array addObject:o2];
+    testassert([array count] == 2);
+    [array removeObject:o1];
+    testassert([array count] == 1);
+    [array removeObject:o2];
+    testassert([array count] == 0);
+
+    return YES;
+}
+
+- (BOOL)testInequalObjects2
+{
+    InequalObject *o1 = [InequalObject new];
+    InequalObject *o2 = [InequalObject new];
+    
+    NSMutableArray *array = [NSMutableArray arrayWithArray:[NSArray array]];
+    testassert([array count] == 0);
+    [array addObject:o1];
+    testassert([array count] == 1);
+    testassert([array indexOfObject:o1] == 0);
+    testassert([array indexOfObject:o2] == NSNotFound);
+    testassert([array containsObject:o1]);
+    testassert(![array containsObject:o2]);
+    [array addObject:o2];
+    testassert([array count] == 2);
+    [array removeObject:o1];
+    testassert([array count] == 1);
+    [array removeObject:o2];
+    testassert([array count] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInequalObjects3
+{
+    InequalObject *o1 = [InequalObject new];
+    InequalObject *o2 = [InequalObject new];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    testassert([array count] == 0);
+    [array addObject:o1];
+    testassert([array count] == 1);
+    array = [NSMutableArray arrayWithArray:array];
+    testassert([array count] == 1);
+    testassert([array indexOfObject:o1] == 0);
+    testassert([array indexOfObject:o2] == NSNotFound);
+    testassert([array containsObject:o1]);
+    testassert(![array containsObject:o2]);
+    [array addObject:o2];
+    testassert([array count] == 2);
+    [array removeObject:o1];
+    testassert([array count] == 1);
+    [array removeObject:o2];
+    testassert([array count] == 0);
+    
+    return YES;
+}
+
+- (BOOL) testEnumerateObjectsAtIndexes
+{
+    NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(2,2)];
+    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
+    __block int sum = 0;
+    [cs enumerateObjectsAtIndexes:is options:0 usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
+        sum += [obj intValue];
+        *stop = idx == 2;
+    }];
+    testassert(sum == 3);
+    return YES;
+}
+
+- (BOOL) testEnumerateObjectsAtIndexesException
+{
+    NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(3,2)];
+    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
+    BOOL raised = NO;
+    __block int sum = 0;
+    @try {
+        [cs enumerateObjectsAtIndexes:is options:0 usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
+            sum += [obj intValue];
+            *stop = idx == 2;
+        }];
+    }
+    @catch (NSException *caught) {
+        raised = YES;
+        testassert([[caught name] isEqualToString:NSRangeException]);
+    }
+    testassert(raised);
+
+    raised = NO;
+    @try {
+        [cs enumerateObjectsAtIndexes:is options:0 usingBlock:nil];
+    }
+    @catch (NSException *caught) {
+        raised = YES;
+        testassert([[caught name] isEqualToString:NSInvalidArgumentException]);
+    }
+    testassert(raised);
+    return YES;
+}
+
+- (BOOL) testEnumerateObjectsAtIndexesReverse
+{
+    NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(1,3)];
+    NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
+    __block int sum = 0;
+    [cs enumerateObjectsAtIndexes:is options:NSEnumerationReverse usingBlock:^void(id obj, NSUInteger idx, BOOL *stop) {
+        sum += [obj intValue];
+        *stop = idx == 2;
+    }];
+    testassert(sum == 7);
+    return YES;
+}
 
 @end

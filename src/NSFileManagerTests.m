@@ -11,6 +11,10 @@
 #include <stdio.h>
 #import <objc/runtime.h>
 
+@interface NSFileManager (Internal)
+- (BOOL)getFileSystemRepresentation:(char *)buffer maxLength:(NSUInteger)maxLength withPath:(NSString *)path;
+@end
+
 @testcase(NSFileManager)
 
 
@@ -172,5 +176,29 @@ static NSString *makePath(NSFileManager *manager, NSString *name)
     testassert(!errorOccurred);
     return YES;
 }
+
+- (BOOL)testGetFileSystemRepresentationBlank
+{
+    NSUInteger sz = PATH_MAX;
+    char buffer[sz];
+    buffer[0] = -1;
+    BOOL success = [[NSFileManager defaultManager] getFileSystemRepresentation:buffer maxLength:sz withPath:@""];
+    testassert(!success);
+    testassert(buffer[0] == -1);
+    return YES;
+}
+
+- (BOOL)testGetFileSystemRepresentation
+{
+    NSUInteger sz = PATH_MAX;
+    char buffer[sz];
+    buffer[0] = -1;
+    BOOL success = [[NSFileManager defaultManager] getFileSystemRepresentation:buffer maxLength:sz withPath:@"/System"];
+    testassert(success);
+    testassert(buffer[0] != -1);
+    testassert(strcmp(buffer, "/System") == 0);
+    return YES;
+}
+
 
 @end

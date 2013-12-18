@@ -15,7 +15,6 @@ static volatile BOOL gotEndEvent = NO;
 
 - (BOOL)testPortMaker
 {
-    APPORTABLE_KNOWN_CRASHER();
     dispatch_queue_t queue = dispatch_queue_create("testPortMaker", DISPATCH_QUEUE_SERIAL);
     dispatch_sync(queue, ^{
         

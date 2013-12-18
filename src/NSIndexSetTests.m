@@ -108,8 +108,6 @@
 
 - (BOOL)testContainsIndexes
 {
-    GNUSTEP_KNOWN_CRASHER();
-
     NSMutableIndexSet *indexSet0 = [NSMutableIndexSet indexSet];
     testassert([indexSet0 containsIndexes:nil] == YES);
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 5)];
@@ -230,6 +228,313 @@
     return YES;
 }
 
+- (BOOL)testIndexPassingTestReverse
+{
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
+    
+    NSUInteger passedTest = [indexSet indexWithOptions:(NSEnumerationReverse) passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        return idx == 2;
+    }];
+    testassert(passedTest == 2);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTestReverse2
+{
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
+    
+    NSUInteger passedTest = [indexSet indexWithOptions:(NSEnumerationReverse) passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        *stop = YES;
+        return idx == 2;
+    }];
+    testassert(passedTest == NSNotFound);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTestConcurrent
+{
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
+    
+    NSUInteger passedTest = [indexSet indexWithOptions:(NSEnumerationConcurrent) passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        return idx == 2;
+    }];
+    testassert(passedTest == 2);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTestConcurrent2
+{
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
+    
+    NSUInteger passedTest = [indexSet indexWithOptions:(NSEnumerationConcurrent) passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        *stop = YES;
+        return idx == 20;
+    }];
+    testassert(passedTest == NSNotFound);
+    return YES;
+}
+
+
+- (BOOL)testIndexPassingTestMultiple
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:4];
+    
+    NSUInteger passedTest = [indexSet indexPassingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        return idx == 4;
+    }];
+    testassert(passedTest == 4);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTest2Multiple
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:4];
+    
+    NSUInteger passedTest = [indexSet indexPassingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        return idx == 20;
+    }];
+    testassert(passedTest == NSNotFound);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTestReverseMultiple
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    [indexSet addIndex:4];
+    
+    NSUInteger passedTest = [indexSet indexWithOptions:(NSEnumerationReverse) passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        return idx;
+    }];
+    testassert(passedTest == 4);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTestReverse2Multiple
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:4];
+    [indexSet addIndex:5];
+    
+    NSUInteger passedTest = [indexSet indexWithOptions:(NSEnumerationReverse) passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        *stop = YES;
+        return idx == 2;
+    }];
+    testassert(passedTest == NSNotFound);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTestConcurrentMultiple
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    [indexSet addIndex:4];
+    
+    NSUInteger passedTest = [indexSet indexWithOptions:(NSEnumerationConcurrent) passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        return idx == 2;
+    }];
+    testassert(passedTest == 2);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTestConcurrent2Multiple
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:1947328574];
+    
+    NSUInteger passedTest = [indexSet indexWithOptions:(NSEnumerationConcurrent) passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        *stop = YES;
+        return idx == 20;
+    }];
+    testassert(passedTest == NSNotFound);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTestRange
+{
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
+    
+    NSUInteger passedTest = [indexSet indexInRange:NSMakeRange(1, 2) options:0 passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        return idx == 2;
+    }];
+    testassert(passedTest == 2);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTest2Range
+{
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
+    
+    NSUInteger passedTest = [indexSet indexInRange:NSMakeRange(1, 2) options:0 passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        return idx == 20;
+    }];
+    testassert(passedTest == NSNotFound);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTestReverseRange
+{
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
+    
+    NSUInteger passedTest = [indexSet indexInRange:NSMakeRange(1, 2) options:NSEnumerationReverse passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        return idx == 2;
+    }];
+    testassert(passedTest == 2);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTestReverse2Range
+{
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
+    
+    NSUInteger passedTest = [indexSet indexInRange:NSMakeRange(1, 2) options:NSEnumerationReverse passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        *stop = YES;
+        return idx == 2;
+    }];
+    testassert(passedTest == 2);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTestReverse2Range2
+{
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
+    
+    NSUInteger passedTest = [indexSet indexInRange:NSMakeRange(2, 2) options:NSEnumerationReverse passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        *stop = YES;
+        return idx == 2;
+    }];
+    testassert(passedTest == NSNotFound);
+    return YES;
+}
+
+
+- (BOOL)testIndexPassingTestConcurrentRange
+{
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
+    
+    NSUInteger passedTest = [indexSet indexInRange:NSMakeRange(1, 2) options:NSEnumerationConcurrent passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        return idx == 2;
+    }];
+    testassert(passedTest == 2);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTestConcurrent2Range
+{
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
+    
+    NSUInteger passedTest = [indexSet indexInRange:NSMakeRange(1, 2) options:NSEnumerationConcurrent passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        *stop = YES;
+        return idx == 20;
+    }];
+    testassert(passedTest == NSNotFound);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTestMultipleRange
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:4];
+    
+    NSUInteger passedTest = [indexSet indexInRange:NSMakeRange(1, 2) options:0 passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        return idx == 4;
+    }];
+    testassert(passedTest == NSNotFound);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTestMultipleRange2
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:4];
+    
+    NSUInteger passedTest = [indexSet indexInRange:NSMakeRange(1, 2) options:0 passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        return idx == 1;
+    }];
+    testassert(passedTest == 1);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTest2MultipleRange
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:4];
+    
+    NSUInteger passedTest = [indexSet indexInRange:NSMakeRange(1, 2) options:0 passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        return idx == 20;
+    }];
+    testassert(passedTest == NSNotFound);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTestReverseMultipleRange
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    [indexSet addIndex:4];
+    
+    NSUInteger passedTest = [indexSet indexInRange:NSMakeRange(1, 2) options:NSEnumerationReverse passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        return idx;
+    }];
+    testassert(passedTest == 2);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTestReverse2MultipleRange
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:4];
+    [indexSet addIndex:5];
+    
+    NSUInteger passedTest = [indexSet indexInRange:NSMakeRange(1, 2) options:NSEnumerationReverse passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        *stop = YES;
+        return idx == 2;
+    }];
+    testassert(passedTest == NSNotFound);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTestConcurrentMultipleRange
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    [indexSet addIndex:4];
+    
+    NSUInteger passedTest = [indexSet indexInRange:NSMakeRange(1, 2) options:NSEnumerationConcurrent passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        return idx == 2;
+    }];
+    testassert(passedTest == 2);
+    return YES;
+}
+
+- (BOOL)testIndexPassingTestConcurrent2MultipleRange
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:1947328574];
+    
+    NSUInteger passedTest = [indexSet indexInRange:NSMakeRange(1, 44444) options:NSEnumerationConcurrent passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        *stop = YES;
+        return idx == 20;
+    }];
+    testassert(passedTest == NSNotFound);
+    return YES;
+}
+
 - (BOOL)testIndexesPassingTest
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
@@ -244,6 +549,217 @@
         sum += [[a objectAtIndex:idx] intValue];
     }];
     testassert(sum == 4020);
+    return YES;
+}
+
+- (BOOL)testIndexesPassingTestReverse
+{
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
+    NSArray *a = @[@1, @20, @300, @4000];
+    
+    NSIndexSet *passedTest = [indexSet indexesWithOptions:NSEnumerationReverse passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        *stop = YES;
+        return idx & 1;
+    }];
+    
+    __block int sum = 0;
+    [passedTest enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        sum += [[a objectAtIndex:idx] intValue];
+    }];
+    testassert(sum == 4000);
+    return YES;
+}
+
+- (BOOL)testIndexesPassingTestConcurrent
+{
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
+    NSArray *a = @[@1, @20, @300, @4000];
+    
+    NSIndexSet *passedTest = [indexSet indexesWithOptions:NSEnumerationConcurrent passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        *stop = YES;
+        return idx & 1;
+    }];
+    
+    __block int sum = 0;
+    [passedTest enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        sum += [[a objectAtIndex:idx] intValue];
+    }];
+    testassert(sum == 20);
+    return YES;
+}
+
+
+- (BOOL)testIndexesPassingTestMultiple
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:3];
+    [indexSet addIndex:4];
+    NSArray *a = @[@1, @20, @300, @4000, @50000];
+    
+    NSIndexSet *passedTest = [indexSet indexesPassingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        return idx & 1;
+    }];
+    
+    __block int sum = 0;
+    [passedTest enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        sum += [[a objectAtIndex:idx] intValue];
+    }];
+    testassert(sum == 4020);
+    return YES;
+}
+
+- (BOOL)testIndexesPassingTestReverseMultiple
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:4];
+    NSArray *a = @[@1, @20, @300, @4000];
+    
+    NSIndexSet *passedTest = [indexSet indexesWithOptions:NSEnumerationReverse passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        *stop = YES;
+        return idx & 1;
+    }];
+    
+    __block int sum = 0;
+    [passedTest enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        sum += [[a objectAtIndex:idx] intValue];
+    }];
+    testassert(sum == 0);
+    return YES;
+}
+
+- (BOOL)testIndexesPassingTestConcurrentMultiple
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:4];
+    NSArray *a = @[@1, @20, @300, @4000, @50000];
+    
+    NSIndexSet *passedTest = [indexSet indexesWithOptions:NSEnumerationConcurrent passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        *stop = YES;
+        return idx & 1;
+    }];
+    
+    __block int sum = 0;
+    [passedTest enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        sum += [[a objectAtIndex:idx] intValue];
+    }];
+    testassert(sum == 20);
+    return YES;
+}
+
+- (BOOL)testIndexesPassingTestRange
+{
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
+    NSArray *a = @[@1, @20, @300, @4000];
+    
+    NSIndexSet *passedTest = [indexSet indexesInRange:NSMakeRange(1,3) options:0 passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        return idx & 1;
+    }];
+    
+    __block int sum = 0;
+    [passedTest enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        sum += [[a objectAtIndex:idx] intValue];
+    }];
+    testassert(sum == 4020);
+    return YES;
+}
+
+- (BOOL)testIndexesPassingTestReverseRange
+{
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
+    NSArray *a = @[@1, @20, @300, @4000];
+    
+    NSIndexSet *passedTest = [indexSet indexesInRange:NSMakeRange(1,3) options:NSEnumerationReverse passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        *stop = YES;
+        return idx & 1;
+    }];
+    
+    __block int sum = 0;
+    [passedTest enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        sum += [[a objectAtIndex:idx] intValue];
+    }];
+    testassert(sum == 4000);
+    return YES;
+}
+
+- (BOOL)testIndexesPassingTestConcurrentRange
+{
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 4)];
+    NSArray *a = @[@1, @20, @300, @4000, @50000];
+
+    NSIndexSet *passedTest = [indexSet indexesInRange:NSMakeRange(3,3) options:NSEnumerationConcurrent passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        *stop = YES;
+        return idx & 1;
+    }];
+    
+    __block int sum = 0;
+    [passedTest enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        sum += [[a objectAtIndex:idx] intValue];
+    }];
+    testassert(sum == 4000);
+    return YES;
+}
+
+
+- (BOOL)testIndexesPassingTestMultipleRange
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:4];
+    [indexSet addIndex:5];
+    NSArray *a = @[@1, @20, @300, @4000, @50000];
+    
+    NSIndexSet *passedTest = [indexSet indexesInRange:NSMakeRange(3,3) options:0 passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        return (idx & 1) == 0;
+    }];
+    
+    __block int sum = 0;
+    [passedTest enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        sum += [[a objectAtIndex:idx] intValue];
+    }];
+    testassert(sum == 50000);
+    return YES;
+}
+
+- (BOOL)testIndexesPassingTestReverseMultipleRange
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:4];
+    NSArray *a = @[@1, @20, @300, @4000];
+    
+    NSIndexSet *passedTest = [indexSet indexesInRange:NSMakeRange(1,3) options:NSEnumerationReverse passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        *stop = YES;
+        return idx & 1;
+    }];
+    
+    __block int sum = 0;
+    [passedTest enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        sum += [[a objectAtIndex:idx] intValue];
+    }];
+    testassert(sum == 20);
+    return YES;
+}
+
+- (BOOL)testIndexesPassingTestConcurrentMultipleRange
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:4];
+    NSArray *a = @[@1, @20, @300, @4000, @50000];
+    
+    NSIndexSet *passedTest = [indexSet indexesInRange:NSMakeRange(1,3) options:NSEnumerationConcurrent passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
+        *stop = YES;
+        return idx & 1;
+    }];
+    
+    __block int sum = 0;
+    [passedTest enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        sum += [[a objectAtIndex:idx] intValue];
+    }];
+    testassert(sum == 20);
     return YES;
 }
 
@@ -467,6 +983,224 @@
     NSMutableIndexSet *indexSet2 = [[[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)] mutableCopy] autorelease];
     [indexSet removeIndexes:indexSet2];
     testassert([indexSet count] == 1);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRange
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:0];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateIndexesInRange:NSMakeRange(1, 2) options:0 usingBlock:^(NSUInteger idx, BOOL *stop){
+        sum += [[a objectAtIndex:idx] intValue];
+    }];
+    testassert(sum == 320);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeEarlyExit
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:0];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateIndexesInRange:NSMakeRange(1, 2) options:0 usingBlock:^(NSUInteger idx, BOOL *stop){
+        sum += [[a objectAtIndex:idx] intValue];
+        *stop = YES;
+    }];
+    testassert(sum == 20);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesReverse
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:3];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateIndexesWithOptions:NSEnumerationReverse usingBlock:^(NSUInteger idx, BOOL *stop){
+        sum += [[a objectAtIndex:idx] intValue];
+        *stop = YES;
+    }];
+    testassert(sum == 4000);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeReverse
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    [indexSet addIndex:3];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateIndexesInRange:NSMakeRange(1, 2) options:NSEnumerationReverse usingBlock:^(NSUInteger idx, BOOL *stop){
+        sum += [[a objectAtIndex:idx] intValue];
+        *stop = YES;
+    }];
+    testassert(sum == 300);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeReverse2
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    [indexSet addIndex:3];
+    [indexSet addIndex:4];
+    NSArray *a = @[@1, @20, @300, @4000, @50000];
+    __block int sum = 0;
+    [indexSet enumerateIndexesInRange:NSMakeRange(1, 2) options:NSEnumerationReverse usingBlock:^(NSUInteger idx, BOOL *stop){
+        sum += [[a objectAtIndex:idx] intValue];
+        *stop = YES;
+    }];
+    testassert(sum == 300);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeConcurrent
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:0];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateIndexesInRange:NSMakeRange(1, 2) options:NSEnumerationConcurrent usingBlock:^(NSUInteger idx, BOOL *stop){
+        sum += [[a objectAtIndex:idx] intValue];
+    }];
+    testassert(sum == 320);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeConcurrent2
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:0];
+    [indexSet addIndex:2];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateIndexesInRange:NSMakeRange(1, 2) options:NSEnumerationConcurrent usingBlock:^(NSUInteger idx, BOOL *stop){
+        sum += [[a objectAtIndex:idx] intValue];
+    }];
+    testassert(sum == 300);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateNilException
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    
+    BOOL foundException = NO;
+    @try
+    {
+        [indexSet enumerateIndexesInRange:NSMakeRange(1, 2) options:NSEnumerationReverse usingBlock:nil];
+    }
+    @catch(NSException *e)
+    {
+        foundException = YES;
+    }
+    testassert(foundException);
+    return YES;
+}
+
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeRange
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:0];
+    [indexSet addIndex:2];
+    [indexSet addIndex:3];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateRangesInRange:NSMakeRange(1, 3) options:0 usingBlock:^(NSRange range, BOOL *stop){
+        sum += [[a objectAtIndex:range.location] intValue];
+    }];
+    testassert(sum == 300);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeEarlyExitRange
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:0];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateRangesInRange:NSMakeRange(1, 2) options:0 usingBlock:^(NSRange range, BOOL *stop){
+        sum += [[a objectAtIndex:range.location + range.length - 1] intValue];
+        *stop = YES;
+    }];
+    testassert(sum == 300);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeReverseRange
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    [indexSet addIndex:3];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateRangesInRange:NSMakeRange(1, 2) options:NSEnumerationReverse usingBlock:^(NSRange range, BOOL *stop){
+        sum += [[a objectAtIndex:range.location] intValue];
+        *stop = YES;
+    }];
+    testassert(sum == 20);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeReverseRange2
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:1];
+    [indexSet addIndex:3];
+    [indexSet addIndex:4];
+    NSArray *a = @[@1, @20, @300, @4000, @5000];
+    __block int sum = 0;
+    [indexSet enumerateRangesInRange:NSMakeRange(1, 2) options:NSEnumerationReverse usingBlock:^(NSRange range, BOOL *stop){
+        sum += [[a objectAtIndex:range.location] intValue];
+        *stop = YES;
+    }];
+    testassert(sum == 20);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeConcurrentRange
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:0];
+    [indexSet addIndex:1];
+    [indexSet addIndex:2];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateRangesInRange:NSMakeRange(1, 2) options:NSEnumerationConcurrent usingBlock:^(NSRange range, BOOL *stop){
+        sum += [[a objectAtIndex:range.location] intValue];
+    }];
+    testassert(sum == 20);
+    return YES;
+}
+
+- (BOOL)testIndexSetEnumerateIndexesInRangeConcurrentRange2
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:0];
+    [indexSet addIndex:2];
+    NSArray *a = @[@1, @20, @300, @4000];
+    __block int sum = 0;
+    [indexSet enumerateRangesInRange:NSMakeRange(0, 4) options:NSEnumerationConcurrent usingBlock:^(NSRange range, BOOL *stop){
+        sum += [[a objectAtIndex:range.location] intValue];
+    }];
+    testassert(sum == 301);
     return YES;
 }
 

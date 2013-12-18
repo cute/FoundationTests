@@ -31,7 +31,7 @@ static NSBundle *zeroLevelBundle, *firstLevelBundle, *secondLevelBundle;
 
 - (BOOL)testMainBundlePath
 {
-    mainBundlePath = [[NSBundle mainBundle] bundlePath];
+    mainBundlePath = [[[NSBundle mainBundle] bundlePath] copy];
     testassert(nil != mainBundlePath);
     testassert([mainBundlePath rangeOfString:@"FoundationTests"].location != NSNotFound);
     
@@ -114,6 +114,14 @@ static NSBundle *zeroLevelBundle, *firstLevelBundle, *secondLevelBundle;
     NSBundle *badSecondLevelBundle = [NSBundle bundleWithPath:@"0-0-0.bundle"];
     testassert(nil == badSecondLevelBundle);
     
+    return YES;
+}
+
+- (BOOL)testLocalizedStrings
+{
+    NSString *localizedString = NSLocalizedString(@"Hello,\n“foo bar.”\n", @"a comment");
+    testassert(localizedString != nil);
+    testassert([localizedString isEqualToString:@"Hello,\n“foo bar.”\n"]);
     return YES;
 }
 
