@@ -15,11 +15,11 @@ static unsigned int total_skip_count;
 static unsigned int total_failure_count;
 
 static sigjmp_buf jbuf;
-static BOOL signal_hit = NO;
+static int signal_hit = 0;
 
 static void test_signal(int sig)
 {
-    signal_hit = YES;
+    signal_hit = sig;
     siglongjmp(jbuf, 1);
 }
 
@@ -60,7 +60,7 @@ static void runTests(id tests)
 
         void (*sigsegv_handler)(int) = signal(SIGSEGV, &test_signal);
         void (*sigbus_handler)(int) = signal(SIGBUS, &test_signal);
-        signal_hit = NO;
+        signal_hit = 0;
         if (sigsetjmp(jbuf, 1) == 0) {
             @try
             {
@@ -91,6 +91,12 @@ static void runTests(id tests)
             failure_count++;
             total_failure_count++;
             DEBUG_LOG("%s: %s FAILED\n", class_name, sel_name);
+            if (signal_hit)
+            {
+                // TODO make this into a switch when we catch more signals
+                DEBUG_LOG("Got signal %s\n", signal_hit == SIGBUS ? "SIGBUS" : "SIGSEGV");
+            }
+
         }
     }
 
