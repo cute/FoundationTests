@@ -131,6 +131,26 @@
     return YES;
 }
 
+- (BOOL)testMutableDataResetBytes
+{
+    NSMutableData *data = [NSMutableData dataWithLength:16];
+    testassert([data length] == 16);
+    
+    [data replaceBytesInRange:NSMakeRange(0, 6) withBytes:"wxyzab"];
+    [data resetBytesInRange:NSMakeRange(4, 16)];
+    testassert([data length] == 20);
+    
+    const char *bytes = [data bytes];
+    testassert(!strncmp(bytes, "wxyz", 4));
+    
+    for (int i = 4; i < 20; i++)
+    {
+        testassert(bytes[i] == 0);
+    }
+    
+    return YES;
+}
+
 - (BOOL)testRangeOfData
 {
     const char *bytes = "abcdabcdbcd";
@@ -171,6 +191,10 @@
     range = [data rangeOfData:searchData3 options:0 range:NSMakeRange(1, [data length] - 1)];
     testassert(range.location == 1);
     testassert(range.length == 3);
+    
+    range = [data rangeOfData:searchData3 options:0 range:NSMakeRange(1, 2)];
+    testassert(range.location == NSNotFound);
+    testassert(range.length == 0);
 
     range = [data rangeOfData:searchData3 options:NSDataSearchAnchored range:NSMakeRange(1, [data length] - 1)];
     testassert(range.location == 1);
