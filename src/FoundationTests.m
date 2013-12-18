@@ -68,9 +68,10 @@ static void runTests(id tests)
                     success = (BOOL)imp(tests, sel);
                 }
             }
-            @catch (id e)
+            @catch (NSException *e)
             {
                 DEBUG_LOG("%s: %s UNCAUGHT EXCEPTION\n", class_name, sel_name);
+                DEBUG_LOG("%s\n", [[e reason] UTF8String]);
             }
         }
 
