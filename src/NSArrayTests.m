@@ -3,10 +3,6 @@
 #include <stdio.h>
 #import <objc/runtime.h>
 
-@interface InequalObject : NSObject
-
-@end
-
 @implementation InequalObject
 
 - (BOOL)isEqual:(id)object
