@@ -1802,4 +1802,14 @@
     return YES;
 }
 
+- (BOOL)testSetNilSkipSet
+{
+    NSScanner *scanner = [[NSScanner alloc] initWithString:@"adfsasdf"];
+    [scanner setCharactersToBeSkipped:nil];
+    NSCharacterSet *blankSet = [NSCharacterSet characterSetWithCharactersInString:@""];
+    testassert(![[scanner charactersToBeSkipped] isEqual:blankSet]);
+    testassert([scanner charactersToBeSkipped] == nil);
+    return YES;
+}
+
 @end
