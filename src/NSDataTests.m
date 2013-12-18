@@ -191,6 +191,10 @@
     range = [data rangeOfData:searchData3 options:0 range:NSMakeRange(1, [data length] - 1)];
     testassert(range.location == 1);
     testassert(range.length == 3);
+    
+    range = [data rangeOfData:searchData3 options:0 range:NSMakeRange(1, 2)];
+    testassert(range.location == NSNotFound);
+    testassert(range.length == 0);
 
     range = [data rangeOfData:searchData3 options:NSDataSearchAnchored range:NSMakeRange(1, [data length] - 1)];
     testassert(range.location == 1);
