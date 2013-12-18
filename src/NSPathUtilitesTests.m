@@ -80,6 +80,14 @@
     return YES;
 }
 
+- (BOOL)testStringByDeletingLastPathComponentReturnValueType
+{
+    id path = [@"/foo/bar/baz" stringByDeletingLastPathComponent];
+    testassert([path class] == objc_getClass("NSPathStore2"));
+    return YES;
+}
+
+
 - (BOOL)testPathWithComponentsEmpty
 {
     NSString* path = [NSString pathWithComponents:@[@""]];
