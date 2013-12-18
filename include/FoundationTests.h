@@ -35,6 +35,9 @@ BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_nor
 
 void runFoundationTests(void);
 
+@interface InequalObject : NSObject
+@end
+
 #define TEST_CLASSES(action) \
 action(CFGetTypeID) \
 action(CFRunLoop) \
