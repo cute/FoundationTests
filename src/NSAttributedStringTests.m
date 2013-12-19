@@ -726,6 +726,22 @@
     return YES;
 }
 
+- (BOOL)testNSAttributedStringEmpty
+{
+    BOOL gotException = NO;
+
+    @try
+    {
+        [[NSAttributedString alloc] initWithString:@""];
+    }
+    @catch (NSException *caught) {
+        gotException = YES;
+    }
+    
+    testassert(gotException);
+    return YES;
+}
+
 #endif
 
 @end
