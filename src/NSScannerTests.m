@@ -1804,11 +1804,20 @@
 
 - (BOOL)testSetNilSkipSet
 {
-    NSScanner *scanner = [[NSScanner alloc] initWithString:@"adfsasdf"];
+    NSScanner *scanner = [[NSScanner alloc] initWithString:@" 123"];
     [scanner setCharactersToBeSkipped:nil];
     NSCharacterSet *blankSet = [NSCharacterSet characterSetWithCharactersInString:@""];
     testassert(![[scanner charactersToBeSkipped] isEqual:blankSet]);
     testassert([scanner charactersToBeSkipped] == nil);
+
+    // Actually scan something
+    NSInteger integer = 0;
+    testassert(![scanner scanInteger:&integer]);
+    testassert(scanner.scanLocation == 0);
+    scanner.scanLocation = 1;
+    testassert([scanner scanInteger:&integer]);
+    testassert(integer == 123);
+    testassert(scanner.scanLocation == 4);
     return YES;
 }
 
