@@ -109,9 +109,9 @@
     //"STORE_ASSESTS_IN_APPROJ": false,
 
     // ICU_CONFIGS specifies the ICU (International Components for Unicode) database for the project
-    // The default is $NORMAL which meets the needs of most apps using NS Format classes and/or localization
-    // $FULL will specify a complete database
-    // $NONE will specify no database. Be careful - It's not always intutitive when Foundation depends upon ICU
+    // The default is "normal" which meets the needs of most apps using NS Format classes and/or localization
+    // "full" will specify a complete database
+    // "none" will specify no database. Be careful - It's not always intutitive when Foundation depends upon ICU
 
     // The normal table is 2762244 bytes compressed and 8622768 uncompressed
     // The full table is 8396438 bytes compressed and 20775168 uncompressed
@@ -120,7 +120,7 @@
     // Add it to the "add_params" "assets" section and specify the path to ICU_CONFIG
     // For example TBD
 
-    "ICU_CONFIG" : "$NORMAL"
+    "ICU_CONFIG" : "normal"
 
     //Manifest extras
     //A list of .xml files that contain snippets to be included in AndroidManifest.xml
