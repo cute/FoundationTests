@@ -107,16 +107,34 @@
     // Defaults to true.  
     //"STORE_ASSESTS_IN_APPROJ": false,
 
+    // ICU_CONFIGS specifies the ICU (International Components for Unicode) database for the project
+    // The default is "normal" which meets the needs of most apps using NS Format classes and/or localization
+    // "full" will specify a complete database
+    // "none" will specify no database. Be careful - It's not always intutitive when Foundation depends upon ICU
+
+    // The normal table is 2762244 bytes compressed and 8622768 uncompressed
+    // The full table is 8396438 bytes compressed and 20775168 uncompressed
+
+    // You can also configure and build your own ICU table at http://apps.icu-project.org/datacustom/ICUData50.html
+    // Add it to the "add_params" "assets" section and specify the path to ICU_CONFIG
+    // For example TBD
+
+    "ICU_CONFIG" : "normal"
+
+    //Manifest extras
+    //A list of .xml files that contain snippets to be included in AndroidManifest.xml
+    //inside the <manifest>, <activity> and <application> tags respectively.
+    //"MANIFEST_EXTRAS": [],
+    //"ACTIVITY_MANIFEST_EXTRAS": [],
+    //"APPLICATION_MANIFEST_EXTRAS": [],
+
     // Advanced Options
     //"NOTIFICATION_ICON":"",
-    //"MANIFEST_EXTRAS":"",
-    //"ACTIVITY_MANIFEST_EXTRAS":"",
-    //"APPLICATION_MANIFEST_EXTRAS":"",
     //"TEMPLATE_VALUES":{},
     //"OGGENC_OPTIONS":"",
     //"AFCONVERT_OPTIONS":"",
     //"PNGCRUSH_OPTIONS":"",
-    //"MIN_SDK": 8,
+    //"MIN_SDK": 9,
     //"C2DM_SENDER": "",
     //"HARDWARE_ACCELERATED": "",
     //"NFC_SCHEME": "",
