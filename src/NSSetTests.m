@@ -274,6 +274,20 @@
     return YES;
 }
 
+- (BOOL)testRemoveUnretainedObject
+{
+    NSObject *o0 = [[[NSObject alloc] init] autorelease];
+    NSObject *o1 = [[[NSObject alloc] init] autorelease];
+    
+    NSMutableSet *cs = [[NSMutableSet alloc] initWithObjects: o0, o1, nil];
+
+    /* Removing an unretained object should not throw */
+    id obj = [self unretainedObjectInMutableSet:cs];
+    [cs removeObject:obj];
+
+    return YES;
+}
+
 - (BOOL)testRemoveObjectNil
 {
     void (^block)() = ^{
@@ -608,6 +622,25 @@
     testassert(!raised);
     [set release];
     return YES;
+}
+
+#pragma mark Helpers
+
+- (id)unretainedObjectInMutableSet:(NSMutableSet*)m
+{
+    /* Set must have previous contents for the test to work */
+    testassert([m count] > 0);
+
+    id obj = nil;
+    @autoreleasepool {
+        obj = @{@"foo": @"bar"};
+        [m addObject:obj];
+
+        testassert([obj retainCount] == 2);
+    }
+
+    testassert([obj retainCount] == 1);
+    return obj;
 }
 
 @end

@@ -386,6 +386,17 @@
     return YES;
 }
 
+- (BOOL)testRemoveUnretainedObject
+{
+    NSMutableDictionary* m = [@{@"foo": @"bar"} mutableCopy];
+    [self unretainedObjectInMutableDictionary:m forKey:@"baz"];
+
+    /* Test that the removal of an unretained object doesn't crash */
+    [m removeObjectForKey:@"baz"];
+    [m release];
+
+    return YES;
+}
 #warning TODO
 
 - (BOOL)testFileCreation
@@ -733,6 +744,25 @@ static const char *allData[] = {
     testassert(!raised);
     [dict release];
     return YES;
+}
+
+#pragma mark Helpers
+
+- (id)unretainedObjectInMutableDictionary:(NSMutableDictionary*)m forKey:(id)aKey
+{
+    /* Array must have previous contents for the test to work */
+    testassert([m count] > 0);
+
+    @autoreleasepool {
+        id obj = @{@"foo": @"bar"};
+        [m setObject:obj forKey:aKey];
+
+        testassert([obj retainCount] == 2);
+    }
+
+    id obj = [m objectForKey:aKey];
+    testassert([obj retainCount] == 1);
+    return obj;
 }
 
 @end
