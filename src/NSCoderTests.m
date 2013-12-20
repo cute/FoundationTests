@@ -239,7 +239,7 @@
 
 - (BOOL)testInternalClassForCoder
 {
-    // These are the classes that will actually return some internal
+    // These are the classes that will actually create some internal
     // subclass, and thus different class and classForCoder.
     NSArray *classes = @[
         [NSArray self],
@@ -253,6 +253,7 @@
         [NSMutableDictionary self],
         [NSMutableOrderedSet self],
         [NSMutableSet self],
+        [NSMutableString self],
         [NSOrderedSet self],
         [NSSet self],
         [NSString self],
