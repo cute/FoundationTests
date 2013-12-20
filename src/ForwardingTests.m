@@ -209,6 +209,33 @@ struct PAIR
 
 //////////////////////////////////////////////////////////////////////////////
 
+@interface ForwardingTestsCustomForwardInvocation : NSObject
+@end
+
+@implementation ForwardingTestsCustomForwardInvocation
+
+- (id)objectForKey:(NSString*)key
+{
+    return [key uppercaseString];
+}
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)sel
+{
+    return [super methodSignatureForSelector:@selector(objectForKey:)];
+}
+
+- (void)forwardInvocation:(NSInvocation *)invocation
+{
+    NSString *propertyName = NSStringFromSelector([invocation selector]);
+    [invocation setArgument:&propertyName atIndex:2];
+    invocation.selector = @selector(objectForKey:);
+    [invocation invokeWithTarget:self];
+}
+
+@end
+
+//////////////////////////////////////////////////////////////////////////////
+
 @interface NSObject (ForwardingTestsMultiply)
 - (unsigned long long)multiply:(unsigned long long)x and:(unsigned long long)y;
 - (struct PAIR)multiplyPair:(struct PAIR)x and:(struct PAIR)y;
@@ -316,6 +343,18 @@ static id forwardObject(int i, id base)
         yPair.first += 0x100000001LL;
         yPair.second += 0x100000001LL;
     }
+
+    return YES;
+}
+
+- (BOOL)testCustomForwardInvocation
+{
+    ForwardingTestsCustomForwardInvocation* obj = [[ForwardingTestsCustomForwardInvocation new] autorelease];
+
+    SEL selector = sel_registerName("custom_selector");
+    id forwardResult = [obj performSelector:selector];
+    id expectedResult = [obj objectForKey:NSStringFromSelector(selector)];
+    testassert([forwardResult isEqual:expectedResult]);
 
     return YES;
 }

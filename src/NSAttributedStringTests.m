@@ -726,6 +726,14 @@
     return YES;
 }
 
+- (BOOL)testNSAttributedStringEmpty
+{
+    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@""];
+    int length = [str length];
+    testassert(length == 0);
+    return YES;
+}
+
 #endif
 
 @end

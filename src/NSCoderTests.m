@@ -235,6 +235,165 @@
 
 @testcase(NSCoder)
 
+#pragma mark - Class for coder
+
+- (BOOL)testInternalClassForCoder
+{
+    // These are the classes that will actually create some internal
+    // subclass, and thus different class and classForCoder.
+    NSArray *classes = @[
+        [NSArray self],
+        [NSAttributedString self],
+        [NSCharacterSet self],
+        [NSData self],
+        [NSDate self],
+        [NSDictionary self],
+        [NSMutableArray self],
+        [NSMutableData self],
+        [NSMutableDictionary self],
+        [NSMutableOrderedSet self],
+        [NSMutableSet self],
+        [NSMutableString self],
+        [NSOrderedSet self],
+        [NSSet self],
+        [NSString self],
+        [NSUUID self],
+    ];
+
+    for (Class class in classes)
+    {
+        id obj = [[[class alloc] init] autorelease];
+        Class actualClass = [obj class];
+        Class classForCoder = [obj classForCoder];
+
+        testassert(classForCoder == class);
+        testassert(classForCoder != actualClass);
+    }
+
+    return YES;
+}
+
+- (BOOL)testActualClassForCoder
+{
+    // These are the classes that have the same class and classForCoder.
+    NSArray *classes = @[
+        [NSCountedSet self],
+        [NSError self],
+        [NSIndexSet self],
+        [NSMutableIndexSet self],
+        [NSObject self],
+    ];
+
+    for (Class class in classes)
+    {
+        id obj = [[[class alloc] init] autorelease];
+        Class actualClass = [obj class];
+        Class classForCoder = [obj classForCoder];
+
+        testassert(classForCoder == class);
+        testassert(classForCoder == actualClass);
+    }
+
+    return YES;
+}
+
+- (BOOL)testOtherClassForCoder
+{
+    // These classes cannot be directly inited, and so are tested separately.
+
+    {
+        NSDecimalNumber *decimalNumber = [NSDecimalNumber one];
+
+        Class class = [NSDecimalNumber self];
+        Class actualClass = [decimalNumber class];
+        Class classForCoder = [decimalNumber classForCoder];
+
+        testassert(classForCoder != class);
+        testassert(classForCoder != actualClass);
+    }
+
+    {
+        NSLocale *locale = [NSLocale systemLocale];
+
+        Class class = [NSLocale self];
+        Class actualClass = [locale class];
+        Class classForCoder = [locale classForCoder];
+
+        testassert(classForCoder == class);
+        testassert(classForCoder != actualClass);
+    }
+
+    {
+        NSNotification *notification = [NSNotification notificationWithName:@"foo" object:@"bar"];
+
+        Class class = [NSNotification self];
+        Class actualClass = [notification class];
+        Class classForCoder = [notification classForCoder];
+
+        testassert(classForCoder == class);
+        testassert(classForCoder != actualClass);
+    }
+
+    {
+        NSNumber *number = [NSNumber numberWithInt:42];
+
+        Class class = [NSNumber self];
+        Class actualClass = [number class];
+        Class classForCoder = [number classForCoder];
+
+        testassert(classForCoder == class);
+        testassert(classForCoder != actualClass);
+    }
+
+    {
+        NSPort *port = [NSPort port];
+
+        Class class = [NSPort self];
+        Class actualClass = [port class];
+
+        BOOL raised = NO;
+
+        @try {
+            [port classForCoder];
+        }
+        @catch (NSException *e) {
+            raised = YES;
+            testassert([[e name] isEqualToString:NSInvalidArgumentException]);
+        }
+
+        testassert(raised);
+
+        testassert(actualClass != class);
+    }
+
+    {
+        NSTimeZone *timeZone = [NSTimeZone defaultTimeZone];
+
+        Class class = [NSTimeZone self];
+        Class actualClass = [timeZone class];
+        Class classForCoder = [timeZone classForCoder];
+
+        testassert(classForCoder == class);
+        testassert(classForCoder != actualClass);
+    }
+
+    {
+        NSValue *value = [NSValue valueWithRange:NSMakeRange(23, 42)];
+
+        Class class = [NSValue self];
+        Class actualClass = [value class];
+        Class classForCoder = [value classForCoder];
+
+        testassert(classForCoder == class);
+        testassert(classForCoder != actualClass);
+    }
+
+    return YES;
+}
+
+
+#pragma mark - Supported classes
+
 - (NSArray *)NSCodingSupportedClassesWithoutCGPoint
 {
     return @[

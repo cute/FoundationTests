@@ -640,6 +640,20 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
+- (BOOL)testRemoveAllWithUnretainedObject
+{
+    NSMutableArray* m = [@[@3, @2, @1] mutableCopy];
+    [self unretainedObjectInMutableArray:m];
+
+    /* Check that we don't crash after remove (due to releasing the last
+     * remaining ref)
+     */
+    [m removeAllObjects];
+    [m release];
+
+    return YES;
+}
+
 - (BOOL)testSubclassRemoveAllObjects
 {
     NSMutableArraySubclass *m = [[NSMutableArraySubclass alloc] init];
@@ -675,6 +689,35 @@ static NSComparisonResult compare(id a, id b, void *context)
 
     return YES;
 }
+
+- (BOOL)testRemoveUnretainedObject
+{
+    NSMutableArray* m = [@[@3, @2, @1] mutableCopy];
+    id obj = [self unretainedObjectInMutableArray:m];
+
+    /* Check that we don't crash after remove (due to releasing the last
+     * remaining ref)
+     */
+    [m removeObject:obj];
+    [m release];
+
+    return YES;
+}
+
+- (BOOL)testRemoveIdenticalUnretainedObject
+{
+    NSMutableArray* m = [@[@3, @2, @1] mutableCopy];
+    id obj = [self unretainedObjectInMutableArray:m];
+
+    /* Check that we don't crash after remove (due to releasing the last
+     * remaining ref)
+     */
+    [m removeObjectIdenticalTo:obj];
+    [m release];
+
+    return YES;
+}
+
 
 - (BOOL) testReplaceObjectsInRange1
 {
@@ -737,6 +780,19 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
+- (BOOL)testReplaceUnretainedObject
+{
+    NSMutableArray* m = [@[@3, @2, @1] mutableCopy];
+    [self unretainedObjectInMutableArray:m];
+
+    /* Check that we don't crash after replace (due to releasing the last
+     * remaining ref)
+     */
+    [m replaceObjectAtIndex:([m count] - 1) withObject:@4];
+    [m release];
+
+    return YES;
+}
 
 - (BOOL)testAddObjectsFromArray
 {
@@ -1031,6 +1087,25 @@ static NSComparisonResult compare(id a, id b, void *context)
     }];
     testassert(sum == 7);
     return YES;
+}
+
+#pragma mark Helpers
+
+- (id)unretainedObjectInMutableArray:(NSMutableArray*)m
+{
+    /* Array must have previous contents for the test to work */
+    testassert([m count] > 0);
+
+    @autoreleasepool {
+        id obj = @{@"foo": @"bar"};
+        [m addObject:obj];
+
+        testassert([obj retainCount] == 2);
+    }
+
+    id obj = [m objectAtIndex:[m count] - 1];
+    testassert([obj retainCount] == 1);
+    return obj;
 }
 
 @end
