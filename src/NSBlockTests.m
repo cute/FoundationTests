@@ -43,4 +43,22 @@
     return YES;
 }
 
+- (BOOL)testBlockNSInvocation
+{
+    __block BOOL invoked = NO;
+    void (^block)(char ch) = ^(char c){
+        invoked = c == 'B';
+    };
+    extern const char *_Block_signature(void *);
+    printf("%s\n", _Block_signature(block));
+    char t = 'B';
+    NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[(id)block methodSignatureForSelector:@selector(invoke)]];
+    [inv setTarget:block];
+    [inv setSelector:@selector(invoke)];
+    [inv setArgument:&t atIndex:1];
+    [inv invoke];
+    testassert(invoked);
+    return YES;
+}
+
 @end
