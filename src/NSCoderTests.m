@@ -367,7 +367,7 @@
     }
 
     {
-        NSTimeZone *timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
+        NSTimeZone *timeZone = [NSTimeZone defaultTimeZone];
 
         Class class = [NSTimeZone self];
         Class actualClass = [timeZone class];
