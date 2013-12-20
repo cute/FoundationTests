@@ -99,8 +99,7 @@ static void runTests(id tests)
             DEBUG_LOG("%s: %s FAILED\n", class_name, sel_name);
             if (signal_hit)
             {
-                // TODO make this into a switch when we catch more signals
-                DEBUG_LOG("Got signal %s\n", signal_hit == SIGBUS ? "SIGBUS" : "SIGSEGV");
+                DEBUG_LOG("Got signal %s\n", strsignal(signal_hit));
             }
 
         }
