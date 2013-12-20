@@ -10,6 +10,16 @@
 #define DEBUG_LOG printf
 #endif
 
+static void failure_log(const char *error, ...)
+{
+    char msg[4096] = {0};
+    va_list args;
+    va_start(args, error);
+    snprintf(msg, 4096, error, args);
+    DEBUG_LOG("%s", msg);
+    va_end(args);
+}
+
 static unsigned int total_success_count;
 static unsigned int total_skip_count;
 static unsigned int total_failure_count;
@@ -70,8 +80,7 @@ static void runTests(id tests)
             }
             @catch (NSException *e)
             {
-                DEBUG_LOG("%s: %s UNCAUGHT EXCEPTION\n", class_name, sel_name);
-                DEBUG_LOG("%s\n", [[e reason] UTF8String]);
+                failure_log("%s: %s UNCAUGHT EXCEPTION\n%s\n", class_name, sel_name, [[e reason] UTF8String]);
             }
         }
 
@@ -119,7 +128,7 @@ void runFoundationTests(void)
 
 static void test_failure(const char *file, int line)
 {
-    DEBUG_LOG("Test failure at %s:%d\n", file, line);
+    failure_log("Test failure at %s:%d\n", file, line);
 }
 
 BOOL _testassert(BOOL b, const char *file, int line)
