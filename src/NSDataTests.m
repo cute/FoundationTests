@@ -70,6 +70,22 @@
     return YES;
 }
 
+- (BOOL)testInitWithContentsOfURLGood
+{
+    NSData *data = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:@"http://www.apportable.com/about"]];
+    testassert(data != nil);
+    [data release];
+    return YES;
+}
+
+- (BOOL)testInitWithContentsOfURLBad
+{
+    NSData *data = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:@"http://www.apportablexxxx.com/about"]];
+    testassert(data == nil);
+    [data release];
+    return YES;
+}
+
 - (BOOL)testMutableDataWithLength
 {
     NSMutableData *data = [NSMutableData dataWithLength:7];
