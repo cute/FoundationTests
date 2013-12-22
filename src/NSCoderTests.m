@@ -1934,10 +1934,10 @@
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
-    NSValue *v = [NSValue valueWithCGSize:CGSizeMake(1.1f, 2.9f)];
+    NSValue *v = [NSValue valueWithCGSize:CGSizeMake(1.1f, 2.2f)];
     [archive encodeObject:v forKey:@"myKey"];
     [archive finishEncoding];
-    testassert([data length] == 268);
+    testassert([data length] == 260);
     
     NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     NSValue *v2 = [unarchive decodeObjectForKey:@"myKey"];
@@ -1952,10 +1952,10 @@
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
     [archive setOutputFormat:NSPropertyListXMLFormat_v1_0];
-    NSValue *v = [NSValue valueWithCGSize:CGSizeMake(1.1f, 2.9f)];
+    NSValue *v = [NSValue valueWithCGSize:CGSizeMake(1.1f, 2.2f)];
     [archive encodeObject:v forKey:@"myKey"];
     [archive finishEncoding];
-    testassert([data length] == 937);
+    testassert([data length] == 931);
     
     NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     NSValue *v2 = [unarchive decodeObjectForKey:@"myKey"];
