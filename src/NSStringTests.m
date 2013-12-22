@@ -675,6 +675,42 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL)testFloatFormat1
+{
+    NSString *string = [NSString stringWithFormat:@"%g", 2.9f];
+    testassert([string isEqualToString:@"2.9"]);
+    return YES;
+}
+
+- (BOOL)testFloatFormat2
+{
+    NSString *string = [NSString stringWithFormat:@"%f", 2.9f];
+    testassert([string isEqualToString:@"2.900000"]);
+    return YES;
+}
+
+- (BOOL)testFloatFormat3
+{
+    CGSize sz = CGSizeMake(1.1f, 2.9f);
+    NSString *string = [NSString stringWithFormat:@"%.*g", 8, sz.height];
+    testassert([string isEqualToString:@"2.9000001"]);
+    return YES;
+}
+
+- (BOOL)testFloatFormat4
+{
+    NSString *string = [NSString stringWithFormat:@"%.*g", 8, 2.9f];
+    testassert([string isEqualToString:@"2.9000001"]);
+    return YES;
+}
+
+- (BOOL)testFloatFormat5
+{
+    NSString *string = [NSString stringWithFormat:@"%.8g", 2.9f];
+    testassert([string isEqualToString:@"2.9000001"]);
+    return YES;
+}
+
 @end
 
 #warning TODO: String tests & cleanup
