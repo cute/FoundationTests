@@ -690,8 +690,8 @@
     NSArray *a = @[@1, @20, @300, @4000, @50000];
 
     NSIndexSet *passedTest = [indexSet indexesInRange:NSMakeRange(3,3) options:NSEnumerationConcurrent passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
-        *stop = YES;
-        return idx & 1;
+        *stop = idx & 1;
+        return *stop;
     }];
     
     __block int sum = 0;
@@ -751,8 +751,8 @@
     NSArray *a = @[@1, @20, @300, @4000, @50000];
     
     NSIndexSet *passedTest = [indexSet indexesInRange:NSMakeRange(1,3) options:NSEnumerationConcurrent passingTest:^BOOL(NSUInteger idx, BOOL *stop) {
-        *stop = YES;
-        return idx & 1;
+        *stop = idx & 1;
+        return *stop;
     }];
     
     __block int sum = 0;

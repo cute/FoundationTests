@@ -10,8 +10,14 @@
 #define DEBUG_LOG printf
 #endif
 
+static void failure_log(const char *error)
+{
+    DEBUG_LOG("%s", error);
+}
+
 static unsigned int total_success_count;
 static unsigned int total_skip_count;
+static unsigned int total_uncaught_exception_count;
 static unsigned int total_failure_count;
 
 static sigjmp_buf jbuf;
@@ -32,6 +38,7 @@ static void runTests(id tests)
 
     unsigned int success_count = 0;
     unsigned int skip_count = 0;
+    unsigned int uncaught_exception_count = 0;
     unsigned int failure_count = 0;
 
     for (unsigned int i = 0; i < count; i++)
@@ -57,6 +64,7 @@ static void runTests(id tests)
         }
 
         BOOL success = NO;
+        BOOL exception = NO;
 
         void (*sigsegv_handler)(int) = signal(SIGSEGV, &test_signal);
         void (*sigbus_handler)(int) = signal(SIGBUS, &test_signal);
@@ -70,8 +78,10 @@ static void runTests(id tests)
             }
             @catch (NSException *e)
             {
-                DEBUG_LOG("%s: %s UNCAUGHT EXCEPTION\n", class_name, sel_name);
-                DEBUG_LOG("%s\n", [[e reason] UTF8String]);
+                exception = YES;
+                char error[4096] = {0};
+                snprintf(error, 4096, "%s: %s UNCAUGHT EXCEPTION\n%s\n", class_name, sel_name, [[e reason] UTF8String]);
+                failure_log(error);
             }
         }
 
@@ -88,13 +98,20 @@ static void runTests(id tests)
         }
         else
         {
-            failure_count++;
-            total_failure_count++;
+            if (exception)
+            {
+                uncaught_exception_count++;
+                total_uncaught_exception_count++;
+            }
+            else
+            {
+                failure_count++;
+                total_failure_count++;
+            }
             DEBUG_LOG("%s: %s FAILED\n", class_name, sel_name);
             if (signal_hit)
             {
-                // TODO make this into a switch when we catch more signals
-                DEBUG_LOG("Got signal %s\n", signal_hit == SIGBUS ? "SIGBUS" : "SIGSEGV");
+                DEBUG_LOG("Got signal %s\n", strsignal(signal_hit));
             }
 
         }
@@ -102,6 +119,7 @@ static void runTests(id tests)
 
     DEBUG_LOG("%u successes\n", success_count);
     DEBUG_LOG("%u skipped\n", skip_count);
+    DEBUG_LOG("%u uncaught exceptions\n", uncaught_exception_count);
     DEBUG_LOG("%u failures\n\n", failure_count);
 
     free(methods);
@@ -114,12 +132,15 @@ void runFoundationTests(void)
     DEBUG_LOG("Foundation test totals\n");
     DEBUG_LOG("%u successes\n", total_success_count);
     DEBUG_LOG("%u skipped\n", total_skip_count);
+    DEBUG_LOG("%u uncaught exceptions\n", total_uncaught_exception_count);
     DEBUG_LOG("%u failures\n\n", total_failure_count);
 }
 
 static void test_failure(const char *file, int line)
 {
-    DEBUG_LOG("Test failure at %s:%d\n", file, line);
+    char msg[4096] = {0};
+    snprintf(msg, 4096, "Test failure at %s:%d\n", file, line);
+    failure_log(msg);
 }
 
 BOOL _testassert(BOOL b, const char *file, int line)

@@ -728,17 +728,9 @@
 
 - (BOOL)testNSAttributedStringEmpty
 {
-    BOOL gotException = NO;
-
-    @try
-    {
-        [[NSAttributedString alloc] initWithString:@""];
-    }
-    @catch (NSException *caught) {
-        gotException = YES;
-    }
-    
-    testassert(gotException);
+    NSAttributedString *str = [[NSAttributedString alloc] initWithString:@""];
+    int length = [str length];
+    testassert(length == 0);
     return YES;
 }
 

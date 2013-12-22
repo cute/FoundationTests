@@ -153,7 +153,8 @@
     @{
         @"Shoes" : shoes,
         shoes: @"ShoesValue",
-        mayhem: @"MayhemValue"
+        mayhem: @"MayhemValue",
+        @"Mayhem": mayhem
     };
 
     testassert([req.allHTTPHeaderFields isEqual:dict]);
@@ -199,6 +200,28 @@
         testassert([e.name isEqualToString:@"NSInternalInconsistencyException"]);
     }
     testassert(thrown);
+    return YES;
+}
+
+- (BOOL)testCopyURLRequest
+{
+    NSURL *url = [NSURL URLWithString:@"http://www.google.com"];
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
+    NSDictionary *dict = @{@"foo": @"bar"};
+    [req setAllHTTPHeaderFields:dict];
+    [req setHTTPMethod:@"POST"];
+    NSData *bodyData = [@"My life for aiur" dataUsingEncoding:NSUTF8StringEncoding];
+    [req setHTTPBody:bodyData];
+    NSMutableURLRequest *copiedReq = [req copy];
+    testassert(req != copiedReq);
+    testassert([req.URL isEqual:copiedReq.URL]);
+    testassert(req.URL == copiedReq.URL);
+    testassert([req.HTTPMethod isEqualToString:copiedReq.HTTPMethod]);
+    testassert(req.HTTPMethod == copiedReq.HTTPMethod);
+    testassert([req.allHTTPHeaderFields isEqual:copiedReq.allHTTPHeaderFields]);
+    testassert(req.allHTTPHeaderFields != copiedReq.allHTTPHeaderFields);
+    testassert(req.HTTPBody == copiedReq.HTTPBody);
+    testassert([req.HTTPBody isEqual:copiedReq.HTTPBody]);
     return YES;
 }
 
