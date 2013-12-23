@@ -711,6 +711,32 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL)testBoolValue
+{
+    testassert([@"1" boolValue] == YES);
+    testassert([@"-1" boolValue] == YES);
+    testassert([@"1000000" boolValue] == YES);
+    testassert([@"10000000000" boolValue] == YES); // long overflow
+
+    testassert([@"0" boolValue] == NO);
+    testassert([@"0000000000000" boolValue] == NO);
+
+    testassert([@"YES" boolValue] == YES);
+    testassert([@"YEs" boolValue] == YES);
+    testassert([@"true" boolValue] == YES);
+    testassert([@"True" boolValue] == YES);
+
+    testassert([@"NO" boolValue] == NO);
+    testassert([@"no" boolValue] == NO);
+    testassert([@"FALSE" boolValue] == NO);
+    testassert([@"faLse" boolValue] == NO);
+
+    testassert([@"" boolValue] == NO);
+    testassert([@"apple" boolValue] == NO);
+
+    return YES;
+}
+
 @end
 
 #warning TODO: String tests & cleanup
