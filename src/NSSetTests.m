@@ -624,6 +624,14 @@
     return YES;
 }
 
+- (BOOL)testSetArrayNumbers
+{
+    NSSet *s1 = [NSSet setWithObjects:@[@7, @9], nil];
+    NSSet *s2 = [NSSet setWithObjects:@[@7, @9], nil];
+    testassert([s1 isEqual:s2]);
+    return YES;
+}
+
 #pragma mark Helpers
 
 - (id)unretainedObjectInMutableSet:(NSMutableSet*)m
