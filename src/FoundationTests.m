@@ -94,7 +94,6 @@ static void runTests(id tests)
         {
             success_count++;
             total_success_count++;
-            DEBUG_LOG("%s: %s passed\n", class_name, sel_name);
         }
         else
         {
