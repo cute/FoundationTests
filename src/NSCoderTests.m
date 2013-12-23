@@ -2318,7 +2318,7 @@
     testassert([data length] == 296);
     
     NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-    NSValue *s2 = [unarchive decodeObjectForKey:@"myKey"];
+    NSSet *s2 = [unarchive decodeObjectForKey:@"myKey"];
     testassert([s2 isEqual:s]);
     [unarchive finishDecoding];
     
@@ -2336,7 +2336,7 @@
     //testassert([data length] == 296);
     
     NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-    NSValue *s2 = [unarchive decodeObjectForKey:@"myKey"];
+    NSSet *s2 = [unarchive decodeObjectForKey:@"myKey"];
     testassert([s2 isEqual:s]);
     [unarchive finishDecoding];
     
