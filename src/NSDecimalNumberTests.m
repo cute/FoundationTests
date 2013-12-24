@@ -75,4 +75,102 @@
     return YES;
 }
 
+- (BOOL)testDecimalNumber_notANumber
+{
+    NSDecimalNumber *aNaN = [NSDecimalNumber notANumber];
+    testassert(isnan([aNaN doubleValue]) != 0);
+    return YES;
+}
+
+- (BOOL)testDecimalNumber_notANumber2
+{
+    NSDecimalNumber *aNAN = [[NSDecimalNumber alloc] initWithDouble:NAN];
+    NSDecimalNumber *notANumber = [NSDecimalNumber notANumber];
+    
+    testassert([aNAN isEqual:notANumber]);
+
+    [aNAN release];
+    return YES;
+}
+
+- (BOOL)testDecimalNumber_notANumber3a
+{
+    NSDecimalNumber *notANumber = [NSDecimalNumber notANumber];
+    
+    NSDecimal dcm = [notANumber decimalValue];
+    testassert(dcm._exponent == 0);
+    testassert(dcm._length == 0);
+    testassert(dcm._isNegative == 1);
+    testassert(dcm._isCompact == 0);
+    testassert(dcm._reserved == 0);
+    for (unsigned int i=0; i<NSDecimalMaxSize; i++)
+    {
+        testassert(dcm._mantissa[i] == 0);
+    }
+    
+    return YES;
+}
+
+- (BOOL)testDecimalNumber_notANumber3b
+{
+    NSDecimalNumber *notANumber = [NSDecimalNumber notANumber];
+    
+    NSDecimal dcm = [notANumber decimalValue];
+    testassert(dcm._exponent == 0);
+    testassert(dcm._length == 0);
+    testassert(dcm._isNegative == 1);
+    testassert(dcm._isCompact == 0);
+    testassert(dcm._reserved == 0);
+    uint8_t *ptr = (uint8_t *)&dcm._mantissa;
+    for (unsigned int i=0; i<NSDecimalMaxSize; i++)
+    {
+        testassert(ptr[i] == 0);
+    }
+    
+    return YES;
+}
+
+- (BOOL)testDecimalNumber_notANumber4
+{
+    NSDecimal dcm = { 0 };
+    dcm._isNegative = 1;
+    
+    NSDecimalNumber *constructedNaN = [[NSDecimalNumber alloc] initWithDecimal:dcm];
+    testassert([[NSDecimalNumber notANumber] isEqual:constructedNaN]);
+    [constructedNaN release];
+    
+    return YES;
+}
+
+- (BOOL)testDecimalNumber_constructedNaN
+{
+    NSDecimal dcm = { 0 };
+    dcm._isNegative = 1;
+    
+    NSDecimalNumber *constructedNaN = [[NSDecimalNumber alloc] initWithDecimal:dcm];
+    testassert(isnan([constructedNaN doubleValue]));
+    [constructedNaN release];
+    
+    return YES;
+}
+
+- (BOOL)testDecimalNumber_notANumber_doubleBits
+{
+    double d = [[NSDecimalNumber notANumber] doubleValue];
+    uint8_t *buf = (uint8_t *)&d;
+    
+    testassert(sizeof(double) == 8);
+    
+    testassert(buf[0] == 0x0);
+    testassert(buf[1] == 0x0);
+    testassert(buf[2] == 0x0);
+    testassert(buf[3] == 0x0);
+    testassert(buf[4] == 0x0);
+    testassert(buf[5] == 0x0);
+    testassert(buf[6] == 0xf8);
+    testassert(buf[7] == 0x7f);
+    
+    return YES;
+}
+
 @end
