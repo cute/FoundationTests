@@ -237,6 +237,22 @@
 
 #pragma mark - Class for coder
 
+- (BOOL)testCoderVersion
+{
+    NSCoder *coder = [[NSCoder alloc] init];
+    testassert([coder systemVersion] == 1000);
+    [coder release];
+    return YES;
+}
+
+- (BOOL)testKeyedArchiverVersion
+{
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:[NSMutableData data]];
+    testassert([archiver systemVersion] == 2000);
+    [archiver release];
+    return YES;
+}
+
 - (BOOL)testInternalClassForCoder
 {
     // These are the classes that will actually create some internal
