@@ -40,7 +40,7 @@ static void runTests(id tests)
     unsigned int skip_count = 0;
     unsigned int uncaught_exception_count = 0;
     unsigned int failure_count = 0;
-
+    DEBUG_LOG("Running tests for %.*s:\n", (int)strlen(class_name) - (int)strlen("TestsApportable"), class_name);
     for (unsigned int i = 0; i < count; i++)
     {
         SEL sel = method_getName(methods[i]);
