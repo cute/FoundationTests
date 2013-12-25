@@ -29,4 +29,16 @@
     
     return YES;
 }
+
+- (BOOL)testTimeIntervalSince1970
+{
+    NSDate *d1 = [NSDate dateWithTimeIntervalSince1970:12345678.0];
+    
+    NSTimeInterval timeInterval = [d1 timeIntervalSince1970];
+    
+    testassert(timeInterval == 12345678.0);
+    
+    return YES;
+}
+
 @end
