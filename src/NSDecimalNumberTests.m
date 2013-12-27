@@ -115,7 +115,7 @@
         0x00, 0x00, 0x24, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x5b
     };
     
-    NSData *bytesToCompare = [NSData dataWithBytes:expectedArchiveBytes length:451];
+    NSData *bytesToCompare = [NSData dataWithBytes:expectedArchiveBytes length:sizeof(expectedArchiveBytes)];
     
     testassert([archive isEqualToData:bytesToCompare]);
     testassert([number1 isEqual:number2]);
