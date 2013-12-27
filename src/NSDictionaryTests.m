@@ -359,7 +359,7 @@
     return YES;
 }
 
-- (BOOL)testArrayCreation
+- (BOOL)testDictionaryCreation
 {
     NSDictionary *dict = [[NSDictionary alloc] initWithObjects:(NSArray *)@[@"foo", @"bar", @"baz"] forKeys:(NSArray *)@[@"foo", @"bar", @"baz"]];
 
@@ -372,7 +372,7 @@
     return YES;
 }
 
-- (BOOL)testArrayMutableCreation
+- (BOOL)testMutableDictionaryCreation
 {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithObjects:(NSArray *)@[@"foo", @"bar", @"baz"] forKeys:(NSArray *)@[@"foo", @"bar", @"baz"]];
 
@@ -383,6 +383,86 @@
 
     [dict release];
 
+    return YES;
+}
+
+- (BOOL)testMutable_setObject_forKey
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    
+    [dict setObject:@"foo" forKey:@"fooKey"];
+    
+    testassert([dict count] == 1);
+    testassert([[dict objectForKey:@"fooKey"] isEqualToString:@"foo"]);
+    
+    return YES;
+}
+
+- (BOOL)testMutable_setObject_forNilKey
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    
+    BOOL exception = NO;
+    @try {
+        [dict setObject:@"foo" forKey:nil];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:NSInvalidArgumentException]);
+    }
+    
+    testassert([dict count] == 0);
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)testMutable_setNilObject_forKey
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    
+    BOOL exception = NO;
+    @try {
+        [dict setObject:nil forKey:@"fooKey"];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:NSInvalidArgumentException]);
+    }
+    
+    testassert([dict count] == 0);
+    testassert(exception);
+    
+    return YES;
+}
+
+- (BOOL)testMutableDictionary_removeObjectForKey
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"foo", @"fooKey", nil];
+    
+    [dict removeObjectForKey:@"fooKey"];
+    
+    testassert([dict count] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testMutableDictionary_removeObjectForNilKey
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"foo", @"fooKey", nil];
+    
+    BOOL exception = NO;
+    @try {
+        [dict removeObjectForKey:nil];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:NSInvalidArgumentException]);
+    }
+    
+    testassert([dict count] == 1);
+    testassert(exception);
+    
     return YES;
 }
 
@@ -465,6 +545,90 @@
 
     testassert(dict == nil);
 
+    return YES;
+}
+
+- (BOOL)testNSDictionary_writeToFileAtomicallyYes
+{
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"fooObj", @"fooKey", nil];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"DictionaryTest0"];
+    
+    BOOL result = [dict writeToFile:filePath atomically:YES];
+    testassert(result);
+
+    NSDictionary *dict2 = [NSDictionary dictionaryWithContentsOfFile:filePath];
+    testassert([dict isEqualToDictionary:dict2]);
+    
+    return YES;
+}
+
+- (BOOL)testNSDictionary_writeToFileAtomically_withNilValue
+{
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"fooObj", @"fooKey", nil];
+    BOOL result = [dict writeToFile:nil atomically:YES];
+    testassert(!result);
+    return YES;
+}
+
+- (BOOL)testNSDictionary_writeToFileAtomically_withEmptyValue
+{
+    NSDictionary *dict = [NSDictionary dictionary];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"DictionaryTest1"];
+    
+    BOOL result = [dict writeToFile:filePath atomically:YES];
+    testassert(result);
+
+    NSDictionary *dict2 = [NSDictionary dictionaryWithContentsOfFile:filePath];
+    testassert([dict isEqualToDictionary:dict2]);
+    
+    return YES;
+}
+
+- (BOOL)testNSDictionary_writeToURLAtomicallyYes
+{
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"fooObj", @"fooKey", nil];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"DictionaryTest2"];
+    
+    BOOL result = [dict writeToURL:[NSURL fileURLWithPath:filePath] atomically:YES];
+    testassert(result);
+    
+    NSDictionary *dict2 = [NSDictionary dictionaryWithContentsOfFile:filePath];
+    testassert([dict isEqualToDictionary:dict2]);
+    
+    return YES;
+}
+
+- (BOOL)testNSDictionary_writeToRULAtomically_withNilValue
+{
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"fooObj", @"fooKey", nil];
+    BOOL result = [dict writeToURL:nil atomically:YES];
+    testassert(!result);
+    return YES;
+}
+
+- (BOOL)testNSDictionary_writeToRULAtomically_withEmptyValue
+{
+    NSDictionary *dict = [NSDictionary dictionary];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"DictionaryTest3"];
+    
+    BOOL result = [dict writeToURL:[NSURL fileURLWithPath:filePath] atomically:YES];
+    testassert(result);
+
+    NSDictionary *dict2 = [NSDictionary dictionaryWithContentsOfFile:filePath];
+    testassert([dict isEqualToDictionary:dict2]);
+    
     return YES;
 }
 
