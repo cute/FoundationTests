@@ -413,6 +413,23 @@
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setValue:nil forKey:@"foo"];
+    testassert([dict count] == 0);
+    return YES;
+}
+
+- (BOOL)testSetValueOnNSMutableDictionaryForNilKey
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    BOOL exception = NO;
+    @try {
+        [dict setValue:@"foo" forKey:nil];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:NSInvalidArgumentException]);
+    }
+    testassert([dict count] == 0);
+    testassert(exception);
     return YES;
 }
 
