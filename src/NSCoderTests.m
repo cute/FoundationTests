@@ -418,6 +418,7 @@
              [^(){ return [NSNull new]; } copy],
              [^(){ return [[NSNumber numberWithInt:1337] retain]; } copy],
              [^(){ return [NSString new]; } copy],
+             [^(){ return [[NSDate date] retain]; } copy],
              ];
 }
 
@@ -430,6 +431,7 @@
         [^(){ return [NSNull new]; } copy],
         [^(){ return [[NSNumber numberWithInt:1337] retain]; } copy],
         [^(){ return [NSString new]; } copy],
+        [^(){ return [[NSDate date] retain]; } copy],
     ];
 }
 
@@ -2113,6 +2115,19 @@
     return YES;
 }
 
+- (BOOL)testSimpleArchiveNSDate
+{
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:1387931403.0];
+    NSData *objectEncoded = [NSKeyedArchiver archivedDataWithRootObject:date];
+    testassert([objectEncoded length] == 231);
+    const char *bytes = [objectEncoded bytes];
+    testassert(strncmp(bytes, "bplist00\xd4\x01\x02\x03\x04\x05", 14) == 0);
+    testassert(strncmp(&bytes[14], "\x08\x16\x17T$topX$objectsX$versionY$archiver", 36) == 0);
+    testassert(strncmp(&bytes[50], "\xd1\x06\x07Troot\x80\x01\xa3\x09\x0a\x0fU$null", 20) == 0);
+    testassert(strncmp(&bytes[70], "\xd2\x0b\x0c\x0d\x0eV$classWNS.time", 20) == 0);
+    return YES;
+}
+
 - (BOOL) testInitForWritingWithStringNonAscii
 {
     NSMutableData *data = [NSMutableData data];
@@ -2160,6 +2175,23 @@
     NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     NSNumber *num2 = [unarchive decodeObjectForKey:@"myKey"];
     testassert([num2 intValue] == 123);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithNSDate
+{
+    NSMutableData *data = [NSMutableData data];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:131180400.0];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeObject:date forKey:@"myDate"];
+    [archive finishEncoding];
+    testassert([data length] == 233);
+
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSDate *date2 = [unarchive decodeObjectForKey:@"myDate"];
+    testassert([date2 timeIntervalSince1970] == 131180400.0);
     [unarchive finishDecoding];
     
     return YES;
