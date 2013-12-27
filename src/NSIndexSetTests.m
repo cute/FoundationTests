@@ -1204,5 +1204,18 @@
     return YES;
 }
 
+- (BOOL)testIndexSetMultipleRanges
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:0];
+    [indexSet addIndex:2];
+    [indexSet addIndex:3];
+    [indexSet addIndex:4];
+    testassert(indexSet.count == 4);
+    testassert([indexSet countOfIndexesInRange:NSMakeRange(0,1)] == 1);
+    testassert([indexSet countOfIndexesInRange:NSMakeRange(2,3)] == 3);
+    return YES;
+}
+
 
 @end
