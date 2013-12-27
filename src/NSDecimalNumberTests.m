@@ -47,8 +47,7 @@
     NSDecimal nanDec = [[NSDecimalNumber notANumber] decimalValue];
     NSDecimal zeroDec = [[NSDecimalNumber zero] decimalValue];
     NSComparisonResult result = NSDecimalCompare(&nanDec, &zeroDec);
-    testassert(result == 0xFFFFFFFF);
-    
+    testassert(result == NSOrderedAscending);
     return YES;
 }
 
@@ -66,7 +65,7 @@
     NSDecimal nanDec = [[NSDecimalNumber notANumber] decimalValue];
     NSDecimal oneDec = [[NSDecimalNumber one] decimalValue];
     NSComparisonResult result = NSDecimalCompare(&nanDec, &oneDec);
-    testassert(result == 0xFFFFFFFF);
+    testassert(result == NSOrderedAscending);
     return YES;
 }
 
