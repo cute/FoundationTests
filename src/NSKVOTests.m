@@ -426,7 +426,6 @@
 
 - (BOOL)testMidCycleReregisterPartialWithContext
 {
-    IOS_SIMULATOR_BUG_FAILURE();
     @autoreleasepool
     {
         ReallyBadObservable *badObservable = [ReallyBadObservable observable];
