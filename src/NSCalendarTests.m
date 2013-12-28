@@ -111,4 +111,13 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
+- (BOOL)testRangeOfUnitStartDateIntervalForDate
+{
+    NSDate *date = nil;
+    NSTimeInterval interval;
+    BOOL result = [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitDay startDate:&date interval:&interval forDate:[NSDate date]];
+    testassert(result == NO);
+    return YES;
+}
+
 @end
