@@ -9,7 +9,7 @@
 #import "FoundationTests.h"
 
 @testcase(NSDecimalNumber)
-
+#if 0
 - (BOOL)testObjCType
 {
     NSDecimalNumber *n = [NSDecimalNumber decimalNumberWithString:@"1.99"];
@@ -273,5 +273,5 @@
     
     return YES;
 }
-
+#endif
 @end
