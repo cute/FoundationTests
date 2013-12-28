@@ -13,7 +13,7 @@
 
 #define testrun(name) try { \
     id suite = [[FoundationTest(name##Tests) alloc] init]; \
-    runTests(suite, f); \
+    runTests(suite); \
     [suite release]; \
 } @catch(...) { \
 }

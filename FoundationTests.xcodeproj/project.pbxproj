@@ -215,7 +215,6 @@
 		5B5547FD1857B9DB002AE461 /* NSObjectTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSObjectTests.m; sourceTree = "<group>"; };
 		5B83DE1917D53449000B384A /* NSDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataTests.m; sourceTree = "<group>"; };
 		5B8B202B183ECCA2000C2C36 /* NSStringTests+ExternalSymbols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSStringTests+ExternalSymbols.m"; sourceTree = "<group>"; };
-		5BE9B8AC186D0706006CC28C /* uthash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = uthash.h; sourceTree = "<group>"; };
 		5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSByteCountFormatterTests.m; sourceTree = "<group>"; };
 		5BFA5399183DD6FD0037A890 /* NSNullTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSNullTests.m; sourceTree = "<group>"; };
 		94B5902E1829E47B0008F848 /* ForwardingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForwardingTests.m; sourceTree = "<group>"; };
@@ -362,7 +361,6 @@
 				DE69B48817FB4E2A00EB5F59 /* CFGetTypeIDTests.m */,
 				47178CB017ADDA340062E7B0 /* CFRunLoopTests.m */,
 				47178CB117ADDA340062E7B0 /* FoundationTests.m */,
-				5BE9B8AC186D0706006CC28C /* uthash.h */,
 				94B5902E1829E47B0008F848 /* ForwardingTests.m */,
 				DE06A9F117B9B7AA0069C996 /* NSArrayTests.m */,
 				DE6BDA8D17EA5BE8006B5392 /* NSAttributedStringTests.m */,
