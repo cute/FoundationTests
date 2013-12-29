@@ -10,6 +10,16 @@
 
 @testcase(NSCalendar)
 
+- (BOOL)testAllocate
+{
+    NSCalendar *c1 = [NSCalendar alloc];
+    NSCalendar *c2 = [NSCalendar alloc];
+    
+    testassert(c1 == c2);
+    
+    return YES;
+}
+
 static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
 {
     NSDateComponents *comps = [[NSDateComponents alloc] init];

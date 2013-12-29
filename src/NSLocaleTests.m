@@ -10,7 +10,15 @@
 
 @testcase(NSLocale)
 
-
+- (BOOL)testAllocate
+{
+    NSLocale *l1 = [NSLocale alloc];
+    NSLocale *l2 = [NSLocale alloc];
+    
+    testassert(l1 == l2);
+    
+    return YES;
+}
 
 - (BOOL)testPreferredLanguages
 {

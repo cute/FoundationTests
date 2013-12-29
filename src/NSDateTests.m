@@ -13,6 +13,16 @@
 
 @testcase(NSDate)
 
+- (BOOL)testAllocate
+{
+    NSDate *d1 = [NSDate alloc];
+    NSDate *d2 = [NSDate alloc];
+    
+    testassert(d1 == d2);
+    
+    return YES;
+}
+
 - (BOOL)testReasonableDate
 {
     NSDate *d1 = [NSDate date];

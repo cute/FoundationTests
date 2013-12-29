@@ -22,6 +22,16 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 
 @testcase(NSString)
 
+- (BOOL)testAllocate
+{
+    NSString *s1 = [NSString alloc];
+    NSString *s2 = [NSString alloc];
+    
+    testassert(s1 == s2);
+    
+    return YES;
+}
+
 - (BOOL)teststringByReplacingOccurrencesOfString
 {
     NSString *s = @"abcdefghij+1234+567";

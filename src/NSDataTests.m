@@ -10,6 +10,16 @@
 
 @testcase(NSData)
 
+- (BOOL)testAllocate
+{
+    NSData *d1 = [NSData alloc];
+    NSData *d2 = [NSData alloc];
+    
+    testassert(d1 == d2);
+    
+    return YES;
+}
+
 - (BOOL)testInitWithContentsOfFileNil
 {
     NSData *data = [[NSData alloc] initWithContentsOfFile:nil];
