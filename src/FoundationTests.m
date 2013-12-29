@@ -15,10 +15,13 @@ static void failure_log(const char *error)
     DEBUG_LOG("%s", error);
 }
 
-static unsigned int total_success_count;
-static unsigned int total_skip_count;
-static unsigned int total_uncaught_exception_count;
-static unsigned int total_failure_count;
+static unsigned int total_success_count = 0;
+static unsigned int total_assertion_count = 0;
+static unsigned int total_skip_count = 0;
+static unsigned int total_uncaught_exception_count = 0;
+static unsigned int total_failure_count = 0;
+static unsigned int total_signal_count = 0;
+static unsigned int total_test_count = 0;
 
 static sigjmp_buf jbuf;
 static int signal_hit = 0;
@@ -37,9 +40,13 @@ static void runTests(id tests)
     Method *methods = class_copyMethodList(c, &count);
 
     unsigned int success_count = 0;
+    unsigned int assertion_count = 0;
     unsigned int skip_count = 0;
     unsigned int uncaught_exception_count = 0;
     unsigned int failure_count = 0;
+    unsigned int signal_count = 0;
+    unsigned int test_count = 0;
+    
     DEBUG_LOG("Running tests for %.*s:\n", (int)strlen(class_name) - (int)strlen("TestsApportable"), class_name);
     for (unsigned int i = 0; i < count; i++)
     {
@@ -73,7 +80,14 @@ static void runTests(id tests)
             @try
             {
                 @autoreleasepool {
+                    total_test_count++;
+                    test_count++;
                     success = (BOOL)imp(tests, sel);
+                    if (!success)
+                    {
+                        assertion_count++;
+                        total_assertion_count++;
+                    }
                 }
             }
             @catch (NSException *e)
@@ -102,24 +116,26 @@ static void runTests(id tests)
                 uncaught_exception_count++;
                 total_uncaught_exception_count++;
             }
-            else
-            {
-                failure_count++;
-                total_failure_count++;
-            }
-            DEBUG_LOG("%s: %s FAILED\n", class_name, sel_name);
+            
             if (signal_hit)
             {
+                signal_count++;
                 DEBUG_LOG("Got signal %s\n", strsignal(signal_hit));
+                total_signal_count++;
             }
-
+            
+            DEBUG_LOG("%s: %s FAILED\n", class_name, sel_name);
+            failure_count++;
+            total_failure_count++;
         }
     }
 
-    DEBUG_LOG("%u successes\n", success_count);
+    DEBUG_LOG("%u/%u successes\n", success_count, test_count);
+    DEBUG_LOG("%u assertions\n", assertion_count);
     DEBUG_LOG("%u skipped\n", skip_count);
     DEBUG_LOG("%u uncaught exceptions\n", uncaught_exception_count);
-    DEBUG_LOG("%u failures\n\n", failure_count);
+    DEBUG_LOG("%u signals raised\n", signal_count);
+    DEBUG_LOG("%u failures (assertions, signals, and uncaught exceptions)\n\n", failure_count);
 
     free(methods);
 }
@@ -128,11 +144,13 @@ void runFoundationTests(void)
 {
     TEST_CLASSES(@testrun)
 
-    DEBUG_LOG("Foundation test totals\n");
-    DEBUG_LOG("%u successes\n", total_success_count);
+    DEBUG_LOG("Foundation test totals %.02f%%\n", 100.0 * ((double)total_success_count / (double)total_test_count));
+    DEBUG_LOG("%u/%u successes\n", total_success_count, total_test_count);
+    DEBUG_LOG("%u assertions\n", total_assertion_count);
     DEBUG_LOG("%u skipped\n", total_skip_count);
     DEBUG_LOG("%u uncaught exceptions\n", total_uncaught_exception_count);
-    DEBUG_LOG("%u failures\n\n", total_failure_count);
+    DEBUG_LOG("%u signals raised\n", total_signal_count);
+    DEBUG_LOG("%u failures (assertions, signals, and uncaught exceptions)\n\n", total_failure_count);
 }
 
 static void test_failure(const char *file, int line)
