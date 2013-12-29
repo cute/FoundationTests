@@ -525,10 +525,24 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testStringByStandardizingPath
+- (BOOL) testStringByStandardizingPath1
 {
     NSString *abc = [@"/abc/" stringByStandardizingPath];
     testassert([abc isEqualToString:@"/abc"]);
+    return YES;
+}
+
+- (BOOL)testStringByStandardizingPath2
+{
+    NSString *baz = [@"/abc/../bar/../baz" stringByStandardizingPath];
+    testassert([baz isEqualToString:@"/baz"]);
+    return YES;
+}
+
+- (BOOL)testStringByStandardizingPath3
+{
+    NSString *abc = [@"~/abc/" stringByStandardizingPath];
+    testassert([abc isEqualToString:[NSHomeDirectory() stringByAppendingPathComponent:@"abc"]]);
     return YES;
 }
 

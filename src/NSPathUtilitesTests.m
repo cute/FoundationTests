@@ -284,4 +284,66 @@
     return YES;
 }
 
+- (BOOL)testStringByAppendingPathExtension1
+{
+    NSString *str = [@"foo" stringByAppendingPathExtension:@"bar"];
+    testassert([str isEqualToString:@"foo.bar"]);
+    return YES;
+}
+
+- (BOOL)testStringByAppendingPathExtension2
+{
+    NSString *str = [@"foo." stringByAppendingPathExtension:@"bar"];
+    testassert([str isEqualToString:@"foo..bar"]);
+    return YES;
+}
+
+- (BOOL)testStringByAppendingPathExtension3
+{
+    NSString *str = [@"foo" stringByAppendingPathExtension:@".bar"];
+    testassert([str isEqualToString:@"foo..bar"]);
+    return YES;
+}
+
+- (BOOL)testStringByAppendingPathExtension4
+{
+    NSString *str = [@"foo.bar" stringByAppendingPathExtension:@"baz"];
+    testassert([str isEqualToString:@"foo.bar.baz"]);
+    return YES;
+}
+
+- (BOOL)testStringByAppendingPathExtension5
+{
+    NSString *str = [@"foo.bar" stringByAppendingPathExtension:@"bar"];
+    testassert([str isEqualToString:@"foo.bar.bar"]);
+    return YES;
+}
+
+- (BOOL)testStringByAppendingPathExtensionNil
+{
+    BOOL thrown = NO;
+    @try {
+        NSString *str = [@"foo" stringByAppendingPathExtension:nil];
+    } @catch (NSException *e) {
+        testassert([[e name] isEqualToString:NSInvalidArgumentException]);
+        thrown = YES;
+    }
+    testassert(thrown);
+    return YES;
+}
+
+- (BOOL)testStringByExpandingTildeInPath1
+{
+    NSString *str = [@"~/test" stringByExpandingTildeInPath];
+    testassert([str isEqualToString:[NSHomeDirectory() stringByAppendingPathComponent:@"test"]]);
+    return YES;
+}
+
+- (BOOL)testStringByExpandingTildeInPath2
+{
+    NSString *str = [@"/foo/../~/test" stringByExpandingTildeInPath];
+    testassert([str isEqualToString:@"/foo/../~/test"]);
+    return YES;
+}
+
 @end
