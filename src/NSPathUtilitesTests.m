@@ -346,4 +346,16 @@
     return YES;
 }
 
+
+- (BOOL)testURLFromPathStore
+{
+    NSString *str = [NSString pathWithComponents:@[@"/", @"foo", @"bar", @"baz"]];
+    testassert([str class] == NSClassFromString(@"NSPathStore2"));
+    testassert([str isEqualToString:@"/foo/bar/baz"]);
+    NSURL *url = [NSURL fileURLWithPath:str];
+    testassert(url != nil);
+    testassert([url isEqual:[NSURL URLWithString:@"file:///foo/bar/baz"]]);
+    return YES;
+}
+
 @end
