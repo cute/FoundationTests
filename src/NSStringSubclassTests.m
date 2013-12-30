@@ -56,18 +56,59 @@
     return track([super rangeOfString:str options:mask range:searchRange locale:locale]);
 }
 
+- (id)copy
+{
+    return track([super copy]);
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return track([super copyWithZone:zone]);
+}
+
 @end
 
 @testcase(NSStringSubclass)
 
 - (BOOL)testRangeOfStringCallPattern
 {
-    NSStringSubclass *subclass = [[NSStringSubclass alloc] init];
-    testassert(subclass != nil);
-    [subclass rangeOfString:@"fasd"];
-    BOOL verified = [SubclassTracker verify:subclass commands:@selector(init), @selector(rangeOfString:), @selector(length), @selector(rangeOfString:options:range:locale:), @selector(length), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), nil];
+    NSStringSubclass *target = [[NSStringSubclass alloc] init];
+    testassert(target != nil);
+    [target rangeOfString:@"fasd"];
+//    [SubclassTracker dumpVerification:target]
+    BOOL verified = [SubclassTracker verify:target commands:@selector(init), @selector(rangeOfString:), @selector(length), @selector(rangeOfString:options:range:locale:), @selector(length), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), nil];
     testassert(verified);
-    [subclass release];
+    [target release];
+    return YES;
+}
+
+- (BOOL)testCopy
+{
+    NSStringSubclass *target = [[NSStringSubclass alloc] init];
+    testassert(target != nil);
+    NSString *str = [target copy];
+    testassert(str != nil);
+    testassert(target != str);
+//    [SubclassTracker dumpVerification:target]
+    BOOL verified = [SubclassTracker verify:target commands:@selector(init), @selector(copy), @selector(copyWithZone:), @selector(length), @selector(length), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), nil];
+    testassert(verified);
+    [str release];
+    [target release];
+    return YES;
+}
+
+- (BOOL)testCFStringCopy
+{
+    NSStringSubclass *target = [[NSStringSubclass alloc] init];
+    testassert(target != nil);
+    NSString *str = (NSString *)CFStringCreateCopy(kCFAllocatorDefault, (CFStringRef)target);
+    testassert(str != nil);
+    testassert(target != str);
+//    [SubclassTracker dumpVerification:target]
+    BOOL verified = [SubclassTracker verify:target commands:@selector(init), @selector(copy), @selector(copyWithZone:), @selector(length), @selector(length), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), @selector(characterAtIndex:), nil];
+    testassert(verified);
+    [str release];
+    [target release];
     return YES;
 }
 
