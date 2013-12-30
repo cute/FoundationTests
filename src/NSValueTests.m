@@ -25,7 +25,6 @@
     char *myCString = "This is a string.";
     char *out;
     NSValue *theValue = [NSValue valueWithBytes:(const void *)&myCString objCType:@encode(char *)];
-    NSLog(@"%@", theValue);
     [theValue getValue:&out];
     testassert(out == myCString);
     return YES;
