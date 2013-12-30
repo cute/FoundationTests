@@ -20,6 +20,10 @@ static unichar AsciiSampleUnicode[] = {ASCII_SAMPLE};
 static const NSUInteger AsciiSampleMaxUnicodeLength = 100;
 static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 
+@interface NSString (TestInternal)
+- (BOOL)_getCString:(char *)buffer maxLength:(NSUInteger)maxBufferCount encoding:(CFStringEncoding)encoding;
+@end
+
 @testcase(NSString)
 
 - (BOOL)testAllocate
@@ -769,6 +773,33 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     [str release];
     return YES;
 }
+
+- (BOOL)testGetCStringMaxBufferCount
+{
+   NSString *string = @"this is a string with 35 characters";
+
+   char buffer[36];
+   testassert([string getCString:buffer maxLength:36 encoding:NSUTF8StringEncoding]);
+   testassert(!strcmp(buffer, "this is a string with 35 characters"));
+
+   testassert(![string getCString:buffer maxLength:35 encoding:NSUTF8StringEncoding]);
+
+   return YES;
+}
+
+- (BOOL)testInternalGetCStringMaxBufferCount
+{
+    NSString *string = @"this is a string with 35 characters";
+    
+    char buffer[36];
+    testassert([string _getCString:buffer maxLength:35 encoding:kCFStringEncodingUTF8]);
+    testassert(!strcmp(buffer, "this is a string with 35 characters"));
+    
+    testassert(![string _getCString:buffer maxLength:34 encoding:kCFStringEncodingUTF8]);
+    
+    return YES;
+}
+
 
 @end
 
