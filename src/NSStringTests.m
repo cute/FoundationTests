@@ -784,6 +784,12 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 
    testassert(![string getCString:buffer maxLength:35 encoding:NSUTF8StringEncoding]);
 
+   // What happens when the initial buffer has more?
+   char longer_buff[46];
+   strcpy(longer_buff, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+   testassert([string getCString:longer_buff maxLength:36 encoding:NSUTF8StringEncoding]);
+   testassert(!strcmp(longer_buff, "this is a string with 35 characters"));
+
    return YES;
 }
 
@@ -797,6 +803,12 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     
     testassert(![string _getCString:buffer maxLength:34 encoding:kCFStringEncodingUTF8]);
     
+    // What happens when the initial buffer has more?
+    char longer_buff[46];
+    strcpy(longer_buff, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    testassert([string _getCString:longer_buff maxLength:35 encoding:kCFStringEncodingUTF8]);
+    testassert(!strcmp(longer_buff, "this is a string with 35 characters"));
+
     return YES;
 }
 
