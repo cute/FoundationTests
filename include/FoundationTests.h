@@ -21,6 +21,18 @@
 #define testassert(b) do { if (!_testassert(b, __FILE__, __LINE__)) return NO; } while (NO)
 BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_noreturn));
 
+#define track(sup) ({ \
+Class __cls = [self class]; \
+SubclassTracker *__tracker = (SubclassTracker *)objc_getAssociatedObject(self, __cls); \
+if (__tracker == nil) { \
+__tracker = [[SubclassTracker alloc] initWithClass:__cls]; \
+objc_setAssociatedObject(self, __cls, __tracker, OBJC_ASSOCIATION_RETAIN); \
+[__tracker release]; \
+} \
+[__tracker track:_cmd]; \
+YES; \
+}) ? sup : sup
+
 #if defined(APPORTABLE) && !defined(__Foundation_h_GNUSTEP_BASE_INCLUDE)
 #define APPORTABLE_KNOWN_CRASHER() DEBUG_LOG("SKIPPING KNOWN CRASHING TEST!"); testassert(0)
 #else
@@ -37,6 +49,15 @@ void runFoundationTests(void);
 
 @interface InequalObject : NSObject
 @end
+
+@interface SubclassTracker : NSObject
+
+- (id)initWithClass:(Class)cls;
+- (void)track:(SEL)cmd;
++ (BOOL)verify:(id)target commands:(SEL)cmd, ... NS_REQUIRES_NIL_TERMINATION;
+
+@end
+
 
 #define TEST_CLASSES(action) \
 action(CFGetTypeID) \

@@ -10,6 +10,107 @@
 #define DEBUG_LOG printf
 #endif
 
+
+@implementation SubclassTracker {
+    CFMutableArrayRef calls;
+    Class class;
+}
+
+static CFStringRef sel_copyDescription(const void *value)
+{
+    if (value == NULL)
+    {
+        return CFSTR("<NULL>");
+    }
+    return CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("@selector(%s)"), sel_getName((SEL)value));
+}
+
+- (id)initWithClass:(Class)cls
+{
+    self = [super init];
+    if (self)
+    {
+        class = cls;
+        CFArrayCallBacks callbacks = {
+            .version = 0,
+            .copyDescription = &sel_copyDescription
+        };
+        calls = CFArrayCreateMutable(kCFAllocatorDefault, 0, &callbacks);
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [super dealloc];
+}
+
+- (void)track:(SEL)cmd
+{
+    CFArrayAppendValue(calls, cmd);
+}
+
+- (CFArrayRef)calls
+{
+    return calls;
+}
+
++ (BOOL)verify:(id)target commands:(SEL)cmd, ...
+{
+    SubclassTracker *tracker = objc_getAssociatedObject(target, [target class]);
+    if (tracker == nil)
+    {
+        return NO;
+    }
+    CFArrayCallBacks callbacks = {
+        .version = 0,
+        .copyDescription = &sel_copyDescription
+    };
+    CFMutableArrayRef expected = CFArrayCreateMutable(kCFAllocatorDefault, 0, &callbacks);
+    CFArrayRef calls = [tracker calls];
+    va_list args;
+    va_start(args, cmd);
+    SEL command = cmd;
+    do {
+        CFArrayAppendValue(expected, command);
+        command = va_arg(args, SEL);
+    } while (command != NULL);
+    if (CFEqual(calls, expected))
+    {
+        return YES;
+    }
+    else
+    {
+        
+        DEBUG_LOG("Expected call pattern: %s", [(NSString *)CFCopyDescription(expected) UTF8String]);
+        DEBUG_LOG("Recieved call pattern: %s", [(NSString *)CFCopyDescription(calls) UTF8String]);
+        return NO;
+    }
+}
+
++ (BOOL)dumpVerification:(id)target
+{
+    SubclassTracker *tracker = objc_getAssociatedObject(target, [target class]);
+    if (tracker == nil)
+    {
+        return NO;
+    }
+    CFArrayRef calls = [tracker calls];
+    CFIndex count = CFArrayGetCount(calls);
+    NSMutableString *verification = [NSMutableString stringWithFormat:@"BOOL verified = [%s verify:target commands:", object_getClassName(self)];
+    for (CFIndex index = 0; index < count; index++)
+    {
+        SEL command = (SEL)CFArrayGetValueAtIndex(calls, index);
+        [verification appendFormat:@"@selector(%s), ", sel_getName(command)];
+    }
+    [verification appendString:@"nil];\n testassert(verified);"];
+    printf("%s", [verification UTF8String]);
+    return YES;
+}
+
+@end
+
+
 static void failure_log(const char *error)
 {
     DEBUG_LOG("%s", error);
