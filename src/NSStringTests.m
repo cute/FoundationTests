@@ -761,6 +761,15 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL)testSimpleConstruction
+{
+    NSSimpleCString *str = [[NSSimpleCString alloc] initWithCStringNoCopy:strdup("foo") length:3];
+    testassert(str != nil);
+    testassert([str length] == 3);
+    [str release];
+    return YES;
+}
+
 @end
 
 #warning TODO: String tests & cleanup
