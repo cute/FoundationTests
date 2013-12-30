@@ -106,6 +106,7 @@ action(NSScannerSubclass) \
 action(NSSet) \
 action(NSSortDescriptor) \
 action(NSString) \
+action(NSStringSubclass) \
 action(NSThread) \
 action(NSTimeZone) \
 action(NSURL) \
