@@ -103,7 +103,7 @@ static CFStringRef sel_copyDescription(const void *value)
         SEL command = (SEL)CFArrayGetValueAtIndex(calls, index);
         [verification appendFormat:@"@selector(%s), ", sel_getName(command)];
     }
-    [verification appendString:@"nil];\n testassert(verified);"];
+    [verification appendString:@"nil];\n testassert(verified);\n"];
     printf("%s", [verification UTF8String]);
     return YES;
 }
