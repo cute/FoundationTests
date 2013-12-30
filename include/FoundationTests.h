@@ -55,6 +55,7 @@ void runFoundationTests(void);
 - (id)initWithClass:(Class)cls;
 - (void)track:(SEL)cmd;
 + (BOOL)verify:(id)target commands:(SEL)cmd, ... NS_REQUIRES_NIL_TERMINATION;
++ (BOOL)dumpVerification:(id)target; // used to build testasserts
 
 @end
 
