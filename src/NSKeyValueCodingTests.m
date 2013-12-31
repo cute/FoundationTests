@@ -176,9 +176,116 @@
 
 @end
 
+@interface ArrayCodingTest : NSObject
+@end
+
+@implementation ArrayCodingTest
+{
+    NSMutableArray *_foo;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self != nil)
+    {
+        _foo = [[NSMutableArray alloc] initWithObjects:@(42), nil];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [_foo release];
+    [super dealloc];
+}
+
+- (void)insertObject:(id)object inFooAtIndex:(NSUInteger)index
+{
+    [_foo insertObject:object atIndex:index];
+}
+
+- (void)removeObjectFromFooAtIndex:(NSUInteger)index
+{
+    [_foo removeObjectAtIndex:index];
+}
+
+@end
+
+@interface OrderedSetCodingTest : NSObject
+@end
+
+@implementation OrderedSetCodingTest
+{
+    NSMutableOrderedSet *_foo;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self != nil)
+    {
+        _foo = [[NSMutableOrderedSet alloc] initWithObjects:@(42), nil];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [_foo release];
+    [super dealloc];
+}
+
+- (void)insertObject:(id)object inFooAtIndex:(NSUInteger)index
+{
+    [_foo insertObject:object atIndex:index];
+}
+
+- (void)removeObjectFromFooAtIndex:(NSUInteger)index
+{
+    [_foo removeObjectAtIndex:index];
+}
+
+@end
+
+@interface SetCodingTest : NSObject
+@end
+
+@implementation SetCodingTest
+{
+    NSMutableSet *_foo;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self != nil)
+    {
+        _foo = [[NSMutableSet alloc] initWithObjects:@(42), nil];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [_foo release];
+    [super dealloc];
+}
+
+- (void)addFooObject:(id)object
+{
+    [_foo addObject:object];
+}
+
+- (void)removeFooObject:(id)object
+{
+    [_foo removeObject:object];
+}
+
+@end
+
+
 @testcase(NSKeyValueCoding)
-
-
 
 - (BOOL)testDefaultAccessor
 {
@@ -3811,6 +3918,79 @@
     testassert([aValue isKindOfClass:[NSSet class]]);
     testassert([aValue isEqual:set]);
     testassert([aValue count] == 0);
+    return YES;
+}
+
+- (BOOL)test_mutableArrayValueForKey_basicMethodAccess
+{
+    ArrayCodingTest *arrayCoding = [[[ArrayCodingTest alloc] init] autorelease];
+
+    [arrayCoding insertObject:@(23) inFooAtIndex:1];
+    NSMutableArray *mutableArrayValues = [arrayCoding mutableArrayValueForKey:@"foo"];
+    testassert([mutableArrayValues isEqualToArray:@[@(42), @(23)]]);
+
+    [arrayCoding insertObject:@(23) inFooAtIndex:2];
+    mutableArrayValues = [arrayCoding mutableArrayValueForKey:@"foo"];
+    testassert([mutableArrayValues isEqualToArray:@[@(42), @(23), @(23)]]);
+
+    [arrayCoding removeObjectFromFooAtIndex:0];
+    mutableArrayValues = [arrayCoding mutableArrayValueForKey:@"foo"];
+    testassert([mutableArrayValues isEqualToArray:@[@(23), @(23)]]);
+
+    [arrayCoding removeObjectFromFooAtIndex:0];
+    mutableArrayValues = [arrayCoding mutableArrayValueForKey:@"foo"];
+    testassert([mutableArrayValues isEqualToArray:@[@(23)]]);
+
+    [arrayCoding removeObjectFromFooAtIndex:0];
+    mutableArrayValues = [arrayCoding mutableArrayValueForKey:@"foo"];
+    testassert([mutableArrayValues isEqualToArray:@[]]);
+
+    return YES;
+}
+
+- (BOOL)test_mutableOrderedSetValueForKey_basicMethodAccess
+{
+    OrderedSetCodingTest *orderedSetCoding = [[[OrderedSetCodingTest alloc] init] autorelease];
+
+    [orderedSetCoding insertObject:@(23) inFooAtIndex:1];
+    NSMutableOrderedSet *mutableOrderedSetValues = [orderedSetCoding mutableOrderedSetValueForKey:@"foo"];
+    testassert([mutableOrderedSetValues isEqualToOrderedSet:[NSOrderedSet orderedSetWithArray:@[@(42), @(23)]]]);
+
+    [orderedSetCoding insertObject:@(23) inFooAtIndex:2];
+    mutableOrderedSetValues = [orderedSetCoding mutableOrderedSetValueForKey:@"foo"];
+    testassert([mutableOrderedSetValues isEqualToOrderedSet:[NSOrderedSet orderedSetWithArray:@[@(42), @(23)]]]);
+
+    [orderedSetCoding removeObjectFromFooAtIndex:0];
+    mutableOrderedSetValues = [orderedSetCoding mutableOrderedSetValueForKey:@"foo"];
+    testassert([mutableOrderedSetValues isEqualToOrderedSet:[NSOrderedSet orderedSetWithArray:@[@(23)]]]);
+
+    [orderedSetCoding removeObjectFromFooAtIndex:0];
+    mutableOrderedSetValues = [orderedSetCoding mutableOrderedSetValueForKey:@"foo"];
+    testassert([mutableOrderedSetValues isEqualToOrderedSet:[NSOrderedSet orderedSetWithArray:@[]]]);
+
+    return YES;
+}
+
+- (BOOL)test_mutableSetValueForKey_basicMethodAccess
+{
+    SetCodingTest *setCoding = [[[SetCodingTest alloc] init] autorelease];
+
+    [setCoding addFooObject:@(23)];
+    NSMutableSet *mutableSetValues = [setCoding mutableSetValueForKey:@"foo"];
+    testassert([mutableSetValues isEqualToSet:[NSSet setWithArray:@[@(42), @(23)]]]);
+
+    [setCoding addFooObject:@(23)];
+    mutableSetValues = [setCoding mutableSetValueForKey:@"foo"];
+    testassert([mutableSetValues isEqualToSet:[NSSet setWithArray:@[@(42), @(23)]]]);
+
+    [setCoding removeFooObject:@(42)];
+    mutableSetValues = [setCoding mutableSetValueForKey:@"foo"];
+    testassert([mutableSetValues isEqualToSet:[NSSet setWithArray:@[@(23)]]]);
+
+    [setCoding removeFooObject:@(23)];
+    mutableSetValues = [setCoding mutableSetValueForKey:@"foo"];
+    testassert([mutableSetValues isEqualToSet:[NSSet setWithArray:@[]]]);
+
     return YES;
 }
 
