@@ -867,21 +867,6 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testInitWithFormat_custom_va_list
-{
-    NSArray *arguments = [NSArray arrayWithObjects:@"foo", @"bar", nil];
-    void *argList = (void *)malloc(sizeof(NSString *) * [arguments count]);
-    testassert(argList != NULL);
-    [arguments getObjects:(id *)argList];
-    
-    NSString *str = [[NSString alloc] initWithFormat:@"a string '%@' and another string '%@'" arguments:argList];
-    
-    testassert([str isEqualToString:@"a string 'foo' and another string 'bar'"]);
-    
-    free(argList);
-    return YES;
-}
-
 - (BOOL)testInitWithFormat_fromNSPathStore2
 {
     NSString *defaultPngPath = [[NSBundle mainBundle] pathForResource:@"ATestPlist" ofType:@"plist"];
