@@ -14,7 +14,7 @@
 } @catch(...) { \
 }
 
-#define testassert(b) do { if (!_testassert(b, __FILE__, __LINE__)) return NO; } while (NO)
+#define testassert(b, ...) do { if (!_testassert(b , ##__VA_ARGS__, __FILE__, __LINE__)) return NO; } while (NO)
 BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_noreturn));
 
 #define track(sup) ({ \
