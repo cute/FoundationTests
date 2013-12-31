@@ -13,6 +13,16 @@
 
 @testcase(NSDate)
 
+- (BOOL)testAllocate
+{
+    NSDate *d1 = [NSDate alloc];
+    NSDate *d2 = [NSDate alloc];
+    
+    testassert(d1 == d2);
+    
+    return YES;
+}
+
 - (BOOL)testReasonableDate
 {
     NSDate *d1 = [NSDate date];
@@ -29,4 +39,38 @@
     
     return YES;
 }
+
+- (BOOL)testTimeIntervalSince1970
+{
+    NSDate *d1 = [NSDate dateWithTimeIntervalSince1970:12345678.0];
+    
+    NSTimeInterval timeInterval = [d1 timeIntervalSince1970];
+    
+    testassert(timeInterval == 12345678.0);
+    
+    return YES;
+}
+
+- (BOOL)testDistantFuture
+{
+    NSTimeInterval t = 0;
+    NSDate *date = [NSDate distantFuture];
+    t = [date timeIntervalSinceReferenceDate];
+    testassert(t == 63113904000);
+    t = [date timeIntervalSince1970];
+    testassert(t == 64092211200);
+    return YES;
+}
+
+- (BOOL)testDistantPast
+{
+    NSTimeInterval t = 0;
+    NSDate *date = [NSDate distantPast];
+    t = [date timeIntervalSinceReferenceDate];
+    testassert(t == -63114076800);
+    t = [date timeIntervalSince1970];
+    testassert(t == -62135769600);
+    return YES;
+}
+
 @end

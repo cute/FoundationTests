@@ -3,6 +3,16 @@
 
 @testcase(NSNumber)
 
+- (BOOL)testAllocate
+{
+    NSNumber *n1 = [NSNumber alloc];
+    NSNumber *n2 = [NSNumber alloc];
+    
+    testassert(n1 == n2);
+    
+    return YES;
+}
+
 - (BOOL)testYESStringValue
 {
     NSString *result = [[NSNumber numberWithBool:YES] stringValue];

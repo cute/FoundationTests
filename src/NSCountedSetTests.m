@@ -2,6 +2,19 @@
 
 @testcase(NSCountedSet)
 
+- (BOOL)testAllocate
+{
+    NSCountedSet *s1 = [NSCountedSet alloc];
+    NSCountedSet *s2 = [NSCountedSet alloc];
+    
+    testassert(s1 != s2);
+    
+    [s1 release];
+    [s2 release];
+    
+    return YES;
+}
+
 - (BOOL)testBlankCreation
 {
     NSCountedSet *cs = [[NSCountedSet alloc] init];

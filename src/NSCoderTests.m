@@ -237,6 +237,22 @@
 
 #pragma mark - Class for coder
 
+- (BOOL)testCoderVersion
+{
+    NSCoder *coder = [[NSCoder alloc] init];
+    testassert([coder systemVersion] == 1000);
+    [coder release];
+    return YES;
+}
+
+- (BOOL)testKeyedArchiverVersion
+{
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:[NSMutableData data]];
+    testassert([archiver systemVersion] == 2000);
+    [archiver release];
+    return YES;
+}
+
 - (BOOL)testInternalClassForCoder
 {
     // These are the classes that will actually create some internal
@@ -402,6 +418,7 @@
              [^(){ return [NSNull new]; } copy],
              [^(){ return [[NSNumber numberWithInt:1337] retain]; } copy],
              [^(){ return [NSString new]; } copy],
+             [^(){ return [[NSDate date] retain]; } copy],
              ];
 }
 
@@ -414,6 +431,7 @@
         [^(){ return [NSNull new]; } copy],
         [^(){ return [[NSNumber numberWithInt:1337] retain]; } copy],
         [^(){ return [NSString new]; } copy],
+        [^(){ return [[NSDate date] retain]; } copy],
     ];
 }
 
@@ -1320,8 +1338,42 @@
     return YES;
 }
 
+
 - (BOOL) testInitForWritingWithValue
 {
+    static uint8_t bytes[] = {
+        0x62, 0x70, 0x6c, 0x69, 0x73, 0x74, 0x30, 0x30,
+        0xd4, 0x01, 0x02, 0x03, 0x04, 0x05, 0x08, 0x19,
+        0x1a, 0x54, 0x24, 0x74, 0x6f, 0x70, 0x58, 0x24,
+        0x6f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x73, 0x58,
+        0x24, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e,
+        0x59, 0x24, 0x61, 0x72, 0x63, 0x68, 0x69, 0x76,
+        0x65, 0x72, 0xd1, 0x06, 0x07, 0x55, 0x6d, 0x79,
+        0x4b, 0x65, 0x79, 0x80, 0x01, 0xa4, 0x09, 0x0a,
+        0x11, 0x12, 0x55, 0x24, 0x6e, 0x75, 0x6c, 0x6c,
+        0xd3, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f, 0x10, 0x52,
+        0x24, 0x31, 0x52, 0x24, 0x30, 0x56, 0x24, 0x63,
+        0x6c, 0x61, 0x73, 0x73, 0x10, 0xee, 0x80, 0x02,
+        0x80, 0x03, 0x51, 0x69, 0xd2, 0x13, 0x14, 0x15,
+        0x18, 0x58, 0x24, 0x63, 0x6c, 0x61, 0x73, 0x73,
+        0x65, 0x73, 0x5a, 0x24, 0x63, 0x6c, 0x61, 0x73,
+        0x73, 0x6e, 0x61, 0x6d, 0x65, 0xa2, 0x16, 0x17,
+        0x57, 0x4e, 0x53, 0x56, 0x61, 0x6c, 0x75, 0x65,
+        0x58, 0x4e, 0x53, 0x4f, 0x62, 0x6a, 0x65, 0x63,
+        0x74, 0x57, 0x4e, 0x53, 0x56, 0x61, 0x6c, 0x75,
+        0x65, 0x12, 0x00, 0x01, 0x86, 0xa0, 0x5f, 0x10,
+        0x0f, 0x4e, 0x53, 0x4b, 0x65, 0x79, 0x65, 0x64,
+        0x41, 0x72, 0x63, 0x68, 0x69, 0x76, 0x65, 0x72,
+        0x08, 0x11, 0x16, 0x1f, 0x28, 0x32, 0x35, 0x3b,
+        0x3d, 0x42, 0x48, 0x4f, 0x52, 0x55, 0x5c, 0x5e,
+        0x60, 0x62, 0x64, 0x69, 0x72, 0x7d, 0x80, 0x88,
+        0x91, 0x99, 0x9e, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x1b, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0xb0
+    };
+
     static int foo = 0xee;
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1329,7 +1381,8 @@
     [archive encodeObject:v forKey:@"myKey"];
     [archive finishEncoding];
     testassert([data length] == 235);
-    
+    NSData *expectedData = [NSData dataWithBytes:bytes length:235];
+    testassert([data isEqualToData:expectedData]);
     NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     NSValue *v2 = [unarchive decodeObjectForKey:@"myKey"];
     testassert([v2 isEqualToValue:v]);
@@ -1934,10 +1987,10 @@
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
-    NSValue *v = [NSValue valueWithCGSize:CGSizeMake(1.1f, 2.9f)];
+    NSValue *v = [NSValue valueWithCGSize:CGSizeMake(1.1f, 2.2f)];
     [archive encodeObject:v forKey:@"myKey"];
     [archive finishEncoding];
-    testassert([data length] == 268);
+    testassert([data length] == 260);
     
     NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     NSValue *v2 = [unarchive decodeObjectForKey:@"myKey"];
@@ -1952,10 +2005,10 @@
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
     [archive setOutputFormat:NSPropertyListXMLFormat_v1_0];
-    NSValue *v = [NSValue valueWithCGSize:CGSizeMake(1.1f, 2.9f)];
+    NSValue *v = [NSValue valueWithCGSize:CGSizeMake(1.1f, 2.2f)];
     [archive encodeObject:v forKey:@"myKey"];
     [archive finishEncoding];
-    testassert([data length] == 937);
+    testassert([data length] == 931);
     
     NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     NSValue *v2 = [unarchive decodeObjectForKey:@"myKey"];
@@ -2062,6 +2115,19 @@
     return YES;
 }
 
+- (BOOL)testSimpleArchiveNSDate
+{
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:1387931403.0];
+    NSData *objectEncoded = [NSKeyedArchiver archivedDataWithRootObject:date];
+    testassert([objectEncoded length] == 231);
+    const char *bytes = [objectEncoded bytes];
+    testassert(strncmp(bytes, "bplist00\xd4\x01\x02\x03\x04\x05", 14) == 0);
+    testassert(strncmp(&bytes[14], "\x08\x16\x17T$topX$objectsX$versionY$archiver", 36) == 0);
+    testassert(strncmp(&bytes[50], "\xd1\x06\x07Troot\x80\x01\xa3\x09\x0a\x0fU$null", 20) == 0);
+    testassert(strncmp(&bytes[70], "\xd2\x0b\x0c\x0d\x0eV$classWNS.time", 20) == 0);
+    return YES;
+}
+
 - (BOOL) testInitForWritingWithStringNonAscii
 {
     NSMutableData *data = [NSMutableData data];
@@ -2109,6 +2175,23 @@
     NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     NSNumber *num2 = [unarchive decodeObjectForKey:@"myKey"];
     testassert([num2 intValue] == 123);
+    [unarchive finishDecoding];
+    
+    return YES;
+}
+
+- (BOOL) testInitForWritingWithNSDate
+{
+    NSMutableData *data = [NSMutableData data];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:131180400.0];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    [archive encodeObject:date forKey:@"myDate"];
+    [archive finishEncoding];
+    testassert([data length] == 233);
+
+    NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSDate *date2 = [unarchive decodeObjectForKey:@"myDate"];
+    testassert([date2 timeIntervalSince1970] == 131180400.0);
     [unarchive finishDecoding];
     
     return YES;
@@ -2318,7 +2401,7 @@
     testassert([data length] == 296);
     
     NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-    NSValue *s2 = [unarchive decodeObjectForKey:@"myKey"];
+    NSSet *s2 = [unarchive decodeObjectForKey:@"myKey"];
     testassert([s2 isEqual:s]);
     [unarchive finishDecoding];
     
@@ -2336,7 +2419,7 @@
     //testassert([data length] == 296);
     
     NSKeyedUnarchiver *unarchive = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-    NSValue *s2 = [unarchive decodeObjectForKey:@"myKey"];
+    NSSet *s2 = [unarchive decodeObjectForKey:@"myKey"];
     testassert([s2 isEqual:s]);
     [unarchive finishDecoding];
     
@@ -2485,6 +2568,186 @@
     testassert([obj isEqual:decodedObject]);
     free(obj.memory);
     [obj release];
+    return YES;
+}
+
+- (BOOL)testRoundTripChar
+{
+    char val = 'A';
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [coder encodeValueOfObjCType:@encode(char) at:&val];
+    [coder finishEncoding];
+    [coder release];
+    NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    [data release];
+    char dval = '\0';
+    [decoder decodeValueOfObjCType:@encode(char) at:&dval];
+    [decoder finishDecoding];
+    [decoder release];
+    testassert(val == dval);
+    return YES;
+}
+
+- (BOOL)testRoundTripUnsignedChar
+{
+    unsigned char val = 5;
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [coder encodeValueOfObjCType:@encode(unsigned char) at:&val];
+    [coder finishEncoding];
+    [coder release];
+    NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    [data release];
+    unsigned char dval = 0;
+    [decoder decodeValueOfObjCType:@encode(unsigned char) at:&dval];
+    [decoder finishDecoding];
+    [decoder release];
+    testassert(val == dval);
+    return YES;
+}
+
+- (BOOL)testRoundTripShort
+{
+    short val = 888;
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [coder encodeValueOfObjCType:@encode(short) at:&val];
+    [coder finishEncoding];
+    [coder release];
+    NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    [data release];
+    short dval = 0;
+    [decoder decodeValueOfObjCType:@encode(short) at:&dval];
+    [decoder finishDecoding];
+    [decoder release];
+    testassert(val == dval);
+    return YES;
+}
+
+- (BOOL)testRoundTripUnsignedShort
+{
+    unsigned short val = -888;
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [coder encodeValueOfObjCType:@encode(unsigned short) at:&val];
+    [coder finishEncoding];
+    [coder release];
+    NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    [data release];
+    unsigned short dval = 0;
+    [decoder decodeValueOfObjCType:@encode(unsigned short) at:&dval];
+    [decoder finishDecoding];
+    [decoder release];
+    testassert(val == dval);
+    return YES;
+}
+
+- (BOOL)testRoundTripInt
+{
+    int val = -383838383;
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [coder encodeValueOfObjCType:@encode(int) at:&val];
+    [coder finishEncoding];
+    [coder release];
+    NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    [data release];
+    int dval = 0;
+    [decoder decodeValueOfObjCType:@encode(int) at:&dval];
+    [decoder finishDecoding];
+    [decoder release];
+    testassert(val == dval);
+    return YES;
+}
+
+- (BOOL)testRoundTripUnsignedInt
+{
+    unsigned int val = 383838383;
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [coder encodeValueOfObjCType:@encode(unsigned int) at:&val];
+    [coder finishEncoding];
+    [coder release];
+    NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    [data release];
+    unsigned int dval = 0;
+    [decoder decodeValueOfObjCType:@encode(unsigned int) at:&dval];
+    [decoder finishDecoding];
+    [decoder release];
+    testassert(val == dval);
+    return YES;
+}
+
+- (BOOL)testRoundTripLong
+{
+    long val = -383838383;
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [coder encodeValueOfObjCType:@encode(long) at:&val];
+    [coder finishEncoding];
+    [coder release];
+    NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    [data release];
+    long dval = 0;
+    [decoder decodeValueOfObjCType:@encode(long) at:&dval];
+    [decoder finishDecoding];
+    [decoder release];
+    testassert(val == dval);
+    return YES;
+}
+
+- (BOOL)testRoundTripUnsignedLong
+{
+    unsigned long val = 383838383;
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [coder encodeValueOfObjCType:@encode(unsigned long) at:&val];
+    [coder finishEncoding];
+    [coder release];
+    NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    [data release];
+    unsigned long dval = 0;
+    [decoder decodeValueOfObjCType:@encode(unsigned long) at:&dval];
+    [decoder finishDecoding];
+    [decoder release];
+    testassert(val == dval);
+    return YES;
+}
+
+- (BOOL)testRoundTripLongLong
+{
+    long long val = -3838383383383838383LL;
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [coder encodeValueOfObjCType:@encode(long long) at:&val];
+    [coder finishEncoding];
+    [coder release];
+    NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    [data release];
+    long long dval = 0;
+    [decoder decodeValueOfObjCType:@encode(long long) at:&dval];
+    [decoder finishDecoding];
+    [decoder release];
+    testassert(val == dval);
+    return YES;
+}
+
+- (BOOL)testRoundTripUnsignedLongLong
+{
+    unsigned long long val = 3838388383383838383ULL;
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSKeyedArchiver *coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [coder encodeValueOfObjCType:@encode(unsigned long long) at:&val];
+    [coder finishEncoding];
+    [coder release];
+    NSKeyedUnarchiver *decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    [data release];
+    unsigned long long dval = 0;
+    [decoder decodeValueOfObjCType:@encode(unsigned long long) at:&dval];
+    [decoder finishDecoding];
+    [decoder release];
+    testassert(val == dval);
     return YES;
 }
 

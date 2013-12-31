@@ -10,11 +10,27 @@
 
 @testcase(NSData)
 
+- (BOOL)testAllocate
+{
+    NSData *d1 = [NSData alloc];
+    NSData *d2 = [NSData alloc];
+    
+    testassert(d1 == d2);
+    
+    return YES;
+}
+
 - (BOOL)testInitWithContentsOfFileNil
 {
     NSData *data = [[NSData alloc] initWithContentsOfFile:nil];
     testassert(data == nil);
-    [data release];
+    return YES;
+}
+
+- (BOOL)testDataWithContentsOfFileNil
+{
+    NSData *data = [NSData dataWithContentsOfFile:nil];
+    testassert(data == nil);
     return YES;
 }
 
@@ -22,7 +38,13 @@
 {
     NSData *data = [[NSData alloc] initWithContentsOfURL:nil];
     testassert(data == nil);
-    [data release];
+    return YES;
+}
+
+- (BOOL)testDataWithContentsOfURLNil
+{
+    NSData *data = [NSData dataWithContentsOfURL:nil];
+    testassert(data == nil);
     return YES;
 }
 
@@ -67,6 +89,22 @@
 
     testassert(raised);
 
+    return YES;
+}
+
+- (BOOL)testInitWithContentsOfURLGood
+{
+    NSData *data = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:@"http://www.apportable.com/about"]];
+    testassert(data != nil);
+    [data release];
+    return YES;
+}
+
+- (BOOL)testInitWithContentsOfURLBad
+{
+    NSData *data = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:@"http://www.apportablexxxx.com/about"]];
+    testassert(data == nil);
+    [data release];
     return YES;
 }
 
@@ -208,6 +246,176 @@
     testassert(range.location == 8);
     testassert(range.length == 3);
 
+    return YES;
+}
+
+- (BOOL)testNSData_writeToFileAtomicallyYes
+{
+    const char bytes[] = {"foo"};
+    NSData *data = [NSData dataWithBytes:bytes length:4];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"NSDataOutput0"];
+    
+    BOOL result = [data writeToFile:filePath atomically:YES];
+    testassert(result);
+
+    NSData *data2 = [NSData dataWithContentsOfFile:filePath];
+    testassert([data2 isEqualToData:data]);
+    
+    return YES;
+}
+
+- (BOOL)testNSData_writeToFileAtomically_withNilValue
+{
+    const char bytes[] = {"foo"};
+    NSData *data = [NSData dataWithBytes:bytes length:4];
+    BOOL result = [data writeToFile:nil atomically:YES];
+    testassert(!result);
+    return YES;
+}
+
+- (BOOL)testNSData_writeToFileAtomically_withEmptyValue
+{
+    NSData *data = [NSData data];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"DictionaryTest1"];
+    
+    BOOL result = [data writeToFile:filePath atomically:YES];
+    testassert(result);
+
+    NSData *data2 = [NSData dataWithContentsOfFile:filePath];
+    testassert([data2 isEqualToData:data]);
+    
+    return YES;
+}
+
+- (BOOL)testNSData_writeToURLAtomicallyYes
+{
+    const char bytes[] = {"foo"};
+    NSData *data = [NSData dataWithBytes:bytes length:4];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"NSDataOutput0"];
+    
+    BOOL result = [data writeToURL:[NSURL fileURLWithPath:filePath] atomically:YES];
+    testassert(result);
+
+    NSData *data2 = [NSData dataWithContentsOfFile:filePath];
+    testassert([data2 isEqualToData:data]);
+    
+    return YES;
+}
+
+- (BOOL)testNSData_writeToURLAtomically_withNilValue
+{
+    const char bytes[] = {"foo"};
+    NSData *data = [NSData dataWithBytes:bytes length:4];
+    BOOL result = [data writeToURL:nil atomically:YES];
+    testassert(!result);
+    return YES;
+}
+
+- (BOOL)testNSData_writeToURLAtomically_withEmptyValue
+{
+    NSData *data = [NSData data];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"DictionaryTest1"];
+    
+    BOOL result = [data writeToURL:[NSURL fileURLWithPath:filePath] atomically:YES];
+    testassert(result);
+
+    NSData *data2 = [NSData dataWithContentsOfFile:filePath];
+    testassert([data2 isEqualToData:data]);
+
+    return YES;
+}
+
+- (BOOL)testNSData_writeToFile_options_error
+{
+    const char bytes[] = {"foo"};
+    NSData *data = [NSData dataWithBytes:bytes length:4];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"NSDataOutput100"];
+    
+    NSError *error = nil;
+    BOOL result = [data writeToFile:filePath options:0 error:&error];
+    testassert(result);
+
+    NSData *data2 = [NSData dataWithContentsOfFile:filePath];
+    testassert([data2 isEqualToData:data]);
+    
+    return YES;
+}
+
+- (BOOL)testNSData_writeToNilFile_options_error
+{
+    const char bytes[] = {"foo"};
+    NSData *data = [NSData dataWithBytes:bytes length:4];
+    
+    NSError *error = nil;
+    
+    BOOL exception = NO;
+    @try {
+        [data writeToFile:nil options:0 error:&error];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:NSInvalidArgumentException]);
+    }
+    
+    testassert(exception);
+    testassert(error == nil);
+
+    return YES;
+}
+
+- (BOOL)testNSData_writeToURL_options_error
+{
+    const char bytes[] = {"foo"};
+    NSData *data = [NSData dataWithBytes:bytes length:4];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:@"NSDataOutput100"];
+    
+    NSError *error = nil;
+    BOOL result = [data writeToURL:[NSURL fileURLWithPath:filePath] options:0 error:&error];
+    testassert(result);
+
+    NSData *data2 = [NSData dataWithContentsOfFile:filePath];
+    testassert([data2 isEqualToData:data]);
+    
+    return YES;
+}
+
+- (BOOL)testNSData_writeToNilURL_options_error
+{
+    const char bytes[] = {"foo"};
+    NSData *data = [NSData dataWithBytes:bytes length:4];
+    
+    NSError *error = nil;
+    
+    BOOL exception = NO;
+    @try {
+        [data writeToURL:nil options:0 error:&error];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:NSInvalidArgumentException]);
+    }
+    
+    testassert(exception);
+    testassert(error == nil);
+    
     return YES;
 }
 

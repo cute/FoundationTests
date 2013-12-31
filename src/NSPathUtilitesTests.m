@@ -284,4 +284,114 @@
     return YES;
 }
 
+- (BOOL)testStringByAppendingPathExtension1
+{
+    NSString *str = [@"foo" stringByAppendingPathExtension:@"bar"];
+    testassert([str isEqualToString:@"foo.bar"]);
+    return YES;
+}
+
+- (BOOL)testStringByAppendingPathExtension2
+{
+    NSString *str = [@"foo." stringByAppendingPathExtension:@"bar"];
+    testassert([str isEqualToString:@"foo..bar"]);
+    return YES;
+}
+
+- (BOOL)testStringByAppendingPathExtension3
+{
+    NSString *str = [@"foo" stringByAppendingPathExtension:@".bar"];
+    testassert([str isEqualToString:@"foo..bar"]);
+    return YES;
+}
+
+- (BOOL)testStringByAppendingPathExtension4
+{
+    NSString *str = [@"foo.bar" stringByAppendingPathExtension:@"baz"];
+    testassert([str isEqualToString:@"foo.bar.baz"]);
+    return YES;
+}
+
+- (BOOL)testStringByAppendingPathExtension5
+{
+    NSString *str = [@"foo.bar" stringByAppendingPathExtension:@"bar"];
+    testassert([str isEqualToString:@"foo.bar.bar"]);
+    return YES;
+}
+
+- (BOOL)testStringByAppendingPathExtensionNil
+{
+    BOOL thrown = NO;
+    @try {
+        NSString *str = [@"foo" stringByAppendingPathExtension:nil];
+    } @catch (NSException *e) {
+        testassert([[e name] isEqualToString:NSInvalidArgumentException]);
+        thrown = YES;
+    }
+    testassert(thrown);
+    return YES;
+}
+
+- (BOOL)testStringByExpandingTildeInPath1
+{
+    NSString *str = [@"~/test" stringByExpandingTildeInPath];
+    testassert([str isEqualToString:[NSHomeDirectory() stringByAppendingPathComponent:@"test"]]);
+    return YES;
+}
+
+- (BOOL)testStringByExpandingTildeInPath2
+{
+    NSString *str = [@"/foo/../~/test" stringByExpandingTildeInPath];
+    testassert([str isEqualToString:@"/foo/../~/test"]);
+    return YES;
+}
+
+
+- (BOOL)testURLFromPathStore
+{
+    NSString *str = [NSString pathWithComponents:@[@"/", @"foo", @"bar", @"baz"]];
+    testassert([str class] == NSClassFromString(@"NSPathStore2"));
+    testassert([str isEqualToString:@"/foo/bar/baz"]);
+    NSURL *url = [NSURL fileURLWithPath:str];
+    testassert(url != nil);
+    testassert([url isEqual:[NSURL URLWithString:@"file:///foo/bar/baz"]]);
+    return YES;
+}
+
+- (BOOL)testStringByDeletingPathExtension1
+{
+    NSString *str = [@"foo/bar/baz.bar" stringByDeletingPathExtension];
+    testassert([str isEqualToString:@"foo/bar/baz"]);
+    testassert([str class] == NSClassFromString(@"NSPathStore2"));
+    return YES;
+}
+
+- (BOOL)testStringByDeletingPathExtension2
+{
+    NSString *str = [@"foo/bar/baz" stringByDeletingPathExtension];
+    testassert([str isEqualToString:@"foo/bar/baz"]);
+    return YES;
+}
+
+- (BOOL)testStringByDeletingPathExtension3
+{
+    NSString *str = [@"foo/bar/.baz" stringByDeletingPathExtension];
+    testassert([str isEqualToString:@"foo/bar/.baz"]);
+    return YES;
+}
+
+- (BOOL)testStringByDeletingPathExtension4
+{
+    NSString *str = [@"foo/bar/." stringByDeletingPathExtension];
+    testassert([str isEqualToString:@"foo/bar/."]);
+    return YES;
+}
+
+- (BOOL)testSubstringWithRange
+{
+    NSString *str = [[NSString pathWithComponents:@[@"foo", @"bar", @"baz"]] substringWithRange:NSMakeRange(4, 3)];
+    testassert([str isEqualToString:@"bar"]);
+    return YES;
+}
+
 @end

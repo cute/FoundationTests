@@ -10,6 +10,16 @@
 
 @testcase(NSSet)
 
+- (BOOL)testAllocate
+{
+    NSSet *s1 = [NSSet alloc];
+    NSSet *s2 = [NSSet alloc];
+    
+    testassert(s1 == s2);
+    
+    return YES;
+}
+
 - (BOOL)testBlankCreation
 {
     NSSet *cs = [[NSSet alloc] init];
@@ -621,6 +631,14 @@
     }
     testassert(!raised);
     [set release];
+    return YES;
+}
+
+- (BOOL)testSetArrayNumbers
+{
+    NSSet *s1 = [NSSet setWithObjects:@[@7, @9], nil];
+    NSSet *s2 = [NSSet setWithObjects:@[@7, @9], nil];
+    testassert([s1 isEqual:s2]);
     return YES;
 }
 

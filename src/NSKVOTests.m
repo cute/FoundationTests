@@ -96,6 +96,83 @@
 }
 @end
 
+@interface DependentObservable : Observable
+{
+    float _aFloat;
+}
+@property float aFloat;
+@end
+
+@implementation DependentObservable
++ (NSSet *)keyPathsForValuesAffectingAFloat
+{
+    return [NSSet setWithObject:@"anInt"];
+}
+@end
+
+@interface NestedObservable : Observable
+@property (nonatomic, strong) NestedObservable *nested;
+@end
+@implementation NestedObservable
+@end
+
+@interface NameClass : NSObject
+@property (nonatomic, copy) NSString *firstName;
+@property (nonatomic, copy) NSString *lastName;
+@end
+
+@implementation NameClass
+@end
+
+@interface NestedDependentObservable : Observable
+@property (nonatomic, copy) NSString *fullName;
+@property (nonatomic, strong) NameClass *nameObject;
+@end
+
+@implementation NestedDependentObservable
++ (NSSet *)keyPathsForValuesAffectingFullName
+{
+    return [NSSet setWithObjects:@"nameObject.firstName", @"nameObject.lastName", nil];
+}
+@end
+
+// -----------------------------
+
+@interface ObjectWithInternalObserver : NSObject
+@end
+
+@implementation ObjectWithInternalObserver {
+    NSObject *_internal;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        _internal = [[NSObject alloc] init];
+        [self addObserver:_internal
+               forKeyPath:@"fooKeyPath"
+                  options:(NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew)
+                  context:NULL];
+        [self addObserver:_internal
+               forKeyPath:@"barKeyPath"
+                  options:(NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew)
+                  context:NULL];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [self removeObserver:_internal forKeyPath:@"barKeyPath"];
+    [self removeObserver:_internal forKeyPath:@"fooKeyPath"];
+    [_internal release];
+    _internal = nil;
+    [super dealloc];
+}
+
+@end
+
 @testcase(NSKVO)
 
 #define OBSERVER_PROLOGUE(_Observable, _keyPath, _options, _context) \
@@ -325,6 +402,133 @@
         [badObservable didChangeValueForKey:@"anInt"];
         testassert([observer observationCountForKeyPath:@"anInt"] == 1); // really?
         [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        return YES;
+    }
+}
+
+- (BOOL)testMidCycleReregisterWithContext
+{
+    @autoreleasepool
+    {
+        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
+        Observer *observer = [Observer observer];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable willChangeValueForKey:@"anInt"];
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        [badObservable setAnInt:50];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:badObservable];
+        [badObservable didChangeValueForKey:@"anInt"];
+        testassert([observer observationCountForKeyPath:@"anInt"] == 0);
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        return YES;
+    }
+}
+
+- (BOOL)testMidCycleReregisterPartialWithContext
+{
+    @autoreleasepool
+    {
+        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
+        Observer *observer = [Observer observer];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable willChangeValueForKey:@"anInt"];
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        [badObservable setAnInt:50];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:badObservable];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable didChangeValueForKey:@"anInt"];
+        testassert([observer observationCountForKeyPath:@"anInt"] == 1);
+        [badObservable removeObserver:observer forKeyPath:@"anInt" context:badObservable];
+        return YES;
+        //WTF, NSKVODeallocateBreak doesn't fire here.
+    }
+}
+
+
+- (BOOL)testDependantKeyChange
+{
+    @autoreleasepool
+    {
+        DependentObservable *observable = [DependentObservable observable];
+        Observer *observer = [Observer observer];
+        [observable addObserver:observer forKeyPath:@"aFloat" options:0 context:NULL];
+        [observable setAnInt:5];
+        testassert([observer observationCountForKeyPath:@"aFloat"] == 1);
+        [observable removeObserver:observer forKeyPath:@"aFloat"];
+        return YES;
+    }
+}
+- (BOOL)testDependantKeyIndependentChange
+{
+    @autoreleasepool
+    {
+        DependentObservable *observable = [DependentObservable observable];
+        Observer *observer = [Observer observer];
+        [observable addObserver:observer forKeyPath:@"aFloat" options:0 context:NULL];
+        [observable setAFloat:5.0f];
+        testassert([observer observationCountForKeyPath:@"aFloat"] == 1);
+        [observable removeObserver:observer forKeyPath:@"aFloat"];
+        return YES;
+    }
+}
+- (BOOL)testNestedDependantKeyChange
+{
+    @autoreleasepool
+    {
+        NestedDependentObservable *observable = [NestedDependentObservable observable];
+        Observer *observer = [Observer observer];
+        observable.nameObject = [NameClass new];
+        [observable addObserver:observer forKeyPath:@"fullName" options:0 context:NULL];
+        [observable.nameObject setFirstName:@"Bob"];
+        testassert([observer observationCountForKeyPath:@"fullName"] == 1);
+        [observable removeObserver:observer forKeyPath:@"fullName"];
+        return YES;
+    }
+}
+- (BOOL)testNestedDependantKeyUnnestedChange
+{
+    @autoreleasepool
+    {
+        NestedDependentObservable *observable = [NestedDependentObservable observable];
+        Observer *observer = [Observer observer];
+        observable.nameObject = [NameClass new];
+        [observable addObserver:observer forKeyPath:@"fullName" options:0 context:NULL];
+        observable.nameObject = [NameClass new];
+        testassert([observer observationCountForKeyPath:@"fullName"] == 1);
+        [observable removeObserver:observer forKeyPath:@"fullName"];
+        return YES;
+    }
+}
+
+
+- (BOOL)testNestedObservableLeaf
+{
+    @autoreleasepool
+    {
+        NestedObservable *topLevelObservable = [NestedObservable observable];
+        NestedObservable *leafObservable = [NestedObservable observable];
+        topLevelObservable.nested = leafObservable;
+        Observer *observer = [Observer observer];
+        [topLevelObservable addObserver:observer forKeyPath:@"nested.anInt" options:0 context:NULL];
+        [leafObservable setAnInt:5];
+        testassert([observer observationCountForKeyPath:@"nested.anInt"] == 1);
+        [topLevelObservable removeObserver:observer forKeyPath:@"nested.anInt"];
+        return YES;
+    }
+}
+
+- (BOOL)testNestedObservableBranch
+{
+    @autoreleasepool
+    {
+        NestedObservable *topLevelObservable = [NestedObservable observable];
+        NestedObservable *leafObservable = [NestedObservable observable];
+        leafObservable.anInt = 5;
+        Observer *observer = [Observer observer];
+        [topLevelObservable addObserver:observer forKeyPath:@"nested.anInt" options:0 context:NULL];
+        [topLevelObservable setNested:leafObservable];
+        testassert([observer observationCountForKeyPath:@"nested.anInt"] == 1);
+        [topLevelObservable removeObserver:observer forKeyPath:@"nested.anInt"];
         return YES;
     }
 }

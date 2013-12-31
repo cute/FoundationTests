@@ -413,6 +413,23 @@
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setValue:nil forKey:@"foo"];
+    testassert([dict count] == 0);
+    return YES;
+}
+
+- (BOOL)testSetValueOnNSMutableDictionaryForNilKey
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    BOOL exception = NO;
+    @try {
+        [dict setValue:@"foo" forKey:nil];
+    }
+    @catch (NSException *e) {
+        exception = YES;
+        testassert([[e name] isEqualToString:NSInvalidArgumentException]);
+    }
+    testassert([dict count] == 0);
+    testassert(exception);
     return YES;
 }
 
@@ -3435,11 +3452,9 @@
 
 - (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfObjects1
 {
-    BOOL exception = NO;
     id anObj;
     NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
 
-    exception = NO;
     anObj = [aSet valueForKeyPath:@"@distinctUnionOfObjects.intValue"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSSet class]]);
@@ -3450,11 +3465,9 @@
 
 - (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfObjects2
 {
-    BOOL exception = NO;
     id anObj;
     NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
 
-    exception = NO;
     anObj = [aSet valueForKeyPath:@"@distinctUnionOfObjects.description"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSSet class]]);
@@ -3619,7 +3632,6 @@
 
 - (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfArrays1
 {
-    BOOL exception = NO;
     id anObj;
     NSMutableSet *anotherSet = [NSMutableSet set];
     [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
@@ -3628,7 +3640,6 @@
     NSArray *subAry = [NSArray arrayWithObjects:@[ @"helloset", @"helloset" ], @"helloset", @"helloset", @"arrayobj", nil];
     [anotherSet addObject:subAry];
 
-    exception = NO;
     anObj = [anotherSet valueForKeyPath:@"@distinctUnionOfArrays.intValue"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSSet class]]);

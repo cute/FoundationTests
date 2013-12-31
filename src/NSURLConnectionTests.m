@@ -9,7 +9,7 @@
 
 - (BOOL)testSynchronous
 {
-    NSString *urlStr = [NSString stringWithFormat:@"http://%@/website.html", [WebServer.shared hostnameString]];
+    NSString *urlStr = [NSString stringWithFormat:@"http://www.apportable.com"];
     
     NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
     
@@ -18,9 +18,8 @@
     
     NSData *data = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&error];
     
-    NSData *otherData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"website" ofType:@"html"]];
-    
-    return [data isEqualToData:otherData];
+    testassert([data length] > 0);
+    return YES;
 }
 
 - (BOOL)testGZip
