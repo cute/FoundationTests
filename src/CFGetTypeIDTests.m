@@ -31,12 +31,15 @@ typedef struct __CFRuntimeBase {
 #endif
 } CFRuntimeBase;
 
+extern CFTypeID __CFGenericTypeID(void *cf);
+const CFRuntimeClass * _CFRuntimeGetClassWithTypeID(CFTypeID typeID);
+
 extern CFTypeID _CFRuntimeRegisterClass(const CFRuntimeClass* const cls);
 
 extern CFTypeRef _CFRuntimeCreateInstance(CFAllocatorRef allocator,
                                           CFTypeID typeID, CFIndex extraBytes,
                                           unsigned char* category);
-
+extern CFStringRef __CFCopyFormattingDescription(CFTypeRef cf, CFDictionaryRef formatOptions);
 // =============================================== _cfTypeID swizzling
 
 static BOOL CFTypeIDCalled = NO;
@@ -153,6 +156,21 @@ static CFRuntimeClass MyObjectClass = {
     NSMutableData *data = [NSMutableData dataWithLength:7];
     testassert((int)[data _cfTypeID] == CFDataGetTypeID());
     testassert(CFGetTypeID(data) == CFDataGetTypeID());
+    return YES;
+}
+
+- (BOOL)testErrorCFTypeID
+{
+    NSError *error = [[NSError alloc] initWithDomain:@"foo" code:-1 userInfo:nil];
+    CFTypeID genericType = __CFGenericTypeID(error);
+    testassert(genericType == 0);
+    testassert(CFErrorGetTypeID() != 0);
+    testassert(![error isKindOfClass:NSClassFromString(@"__NSCFError")]);
+    testassert(CFGetTypeID(error) == CFErrorGetTypeID());
+    // this should not seg fault/halt
+    CFStringRef desc = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@"), error);
+    CFRelease(desc);
+    [error release];
     return YES;
 }
 
