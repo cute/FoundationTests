@@ -812,6 +812,20 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL)testHasPrefix
+{
+    NSString *str1 = @"the quick brown fox jumped over the lazy dog";
+    NSString *str2 = @"the quick";
+    NSString *str3 = @"the dead";
+    
+    testassert([str1 hasPrefix:str2]);
+    testassert(![str1 hasPrefix:str3]);
+    testassert(![str2 hasPrefix:str1]);
+    testassert(![str3 hasPrefix:str1]);
+    
+    return YES;
+}
+
 #pragma mark -
 #pragma mark test [NSString initWithFormat:arguments:]
 
