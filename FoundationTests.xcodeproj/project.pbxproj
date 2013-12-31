@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		148B7C0D1872398000CB69E8 /* ConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 148B7C0C1872398000CB69E8 /* ConnectionDelegate.m */; };
 		1AFCF48917B9AE350085CA15 /* 0.asset in Resources */ = {isa = PBXBuildFile; fileRef = 1AFCF48117B9AE350085CA15 /* 0.asset */; };
 		1AFCF48A17B9AE350085CA15 /* 0.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1AFCF48217B9AE350085CA15 /* 0.bundle */; };
 		1AFCF48F17B9AE480085CA15 /* folderref0 in Resources */ = {isa = PBXBuildFile; fileRef = 1AFCF48E17B9AE480085CA15 /* folderref0 */; };
@@ -158,6 +159,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		148B7C0B1872398000CB69E8 /* ConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionDelegate.h; sourceTree = "<group>"; };
+		148B7C0C1872398000CB69E8 /* ConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionDelegate.m; sourceTree = "<group>"; };
 		1AFCF46317B9842D0085CA15 /* NSBundleTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSBundleTests.m; sourceTree = "<group>"; };
 		1AFCF48117B9AE350085CA15 /* 0.asset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 0.asset; sourceTree = "<group>"; };
 		1AFCF48217B9AE350085CA15 /* 0.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = 0.bundle; sourceTree = "<group>"; };
@@ -271,6 +274,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		148B7C0A187237EF00CB69E8 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				148B7C0B1872398000CB69E8 /* ConnectionDelegate.h */,
+				148B7C0C1872398000CB69E8 /* ConnectionDelegate.m */,
+			);
+			name = Networking;
+			sourceTree = "<group>";
+		};
 		1AFCF48017B9AE350085CA15 /* NSBundleTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -360,6 +372,7 @@
 		47178CAF17ADDA340062E7B0 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				148B7C0A187237EF00CB69E8 /* Networking */,
 				21BB4E9E183C2B3500DEFF63 /* NSJSONSerializationTests.m */,
 				4A27AE81183C02D9003D36F6 /* ConcurrencyTests.m */,
 				DE69B48817FB4E2A00EB5F59 /* CFGetTypeIDTests.m */,
@@ -614,6 +627,7 @@
 				58DD2827180F51F7007C4D8F /* SecureTransportTests.m in Sources */,
 				4A27AE82183C02D9003D36F6 /* ConcurrencyTests.m in Sources */,
 				21BB4E9F183C2B3500DEFF63 /* NSJSONSerializationTests.m in Sources */,
+				148B7C0D1872398000CB69E8 /* ConnectionDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
