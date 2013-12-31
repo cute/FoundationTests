@@ -16,7 +16,8 @@
     self = [super init];
     if (self) {
         _resultData = [[NSMutableData alloc] init];
-        _semaphore = dispatch_semaphore_create(0);
+        _done = NO;
+        _error = nil;
     }
     return self;
 }
@@ -27,11 +28,11 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     _error = error;
-    dispatch_semaphore_signal(_semaphore);
+    _done = YES;
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    dispatch_semaphore_signal(_semaphore);
+    _done = YES;
 }
 
 @end

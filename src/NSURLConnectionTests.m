@@ -3,6 +3,7 @@
 #import "ConnectionDelegate.h"
 
 #define HOST @"http://apportableplayground.herokuapp.com"
+#define TIMEOUT 5
 
 @testcase(NSURLConnection)
 
@@ -29,12 +30,32 @@
     NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
     NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:delegate];
     [connection start];
-    while (dispatch_semaphore_wait(delegate.semaphore, DISPATCH_TIME_NOW))
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-                                 beforeDate:[NSDate dateWithTimeIntervalSinceNow:5]];
-    dispatch_release(delegate.semaphore);
+    NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:TIMEOUT];
+    do {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:timeoutDate];
+    } while (!delegate.done);
+
+    testassert(delegate.done == YES);
     testassert(delegate.error == nil);
     testassert(delegate.resultData.length > 0);
+    return YES;
+}
+
+- (BOOL)testGZipDecodeFail
+{
+    ConnectionDelegate *delegate = [[ConnectionDelegate alloc] init];
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/gzipHeaderUnCompressed", HOST]];
+    NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
+    NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:delegate];
+    [connection start];
+    NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:TIMEOUT];
+    do {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:timeoutDate];
+    } while (!delegate.done);
+
+    testassert(delegate.done == YES);
+    testassert(delegate.error != nil);
+    testassert(delegate.resultData.length == 0);
     return YES;
 }
 

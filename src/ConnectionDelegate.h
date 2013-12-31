@@ -14,6 +14,6 @@
 
 @property (nonatomic, retain) NSError *error;
 
-@property (nonatomic, assign) dispatch_semaphore_t semaphore;
+@property (nonatomic, assign) BOOL done;
 
 @end
