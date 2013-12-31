@@ -51,4 +51,26 @@
     return YES;
 }
 
+- (BOOL)testDistantFuture
+{
+    NSTimeInterval t = 0;
+    NSDate *date = [NSDate distantFuture];
+    t = [date timeIntervalSinceReferenceDate];
+    testassert(t == 63113904000);
+    t = [date timeIntervalSince1970];
+    testassert(t == 64092211200);
+    return YES;
+}
+
+- (BOOL)testDistantPast
+{
+    NSTimeInterval t = 0;
+    NSDate *date = [NSDate distantPast];
+    t = [date timeIntervalSinceReferenceDate];
+    testassert(t == -63114076800);
+    t = [date timeIntervalSince1970];
+    testassert(t == -62135769600);
+    return YES;
+}
+
 @end

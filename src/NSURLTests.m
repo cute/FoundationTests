@@ -393,4 +393,20 @@
     return YES;
 }
 
+- (BOOL)testFilePathEquality
+{
+    NSURL *url1 = [NSURL fileURLWithPath:@"/foo/bar/baz"];
+    NSURL *url2 = [NSURL URLWithString:@"file://localhost/foo/bar/baz"];
+    testassert(![url1 isEqual:url2]);
+    return YES;
+}
+
+- (BOOL)testConstructedFilePathEquality
+{
+    NSURL *url1 = [NSURL fileURLWithPath:@"/foo/bar/baz"];
+    NSURL *url2 = [NSURL URLWithString:@"file:///foo/bar/baz"];
+    testassert([url1 isEqual:url2]);
+    return YES;
+}
+
 @end

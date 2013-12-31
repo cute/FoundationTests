@@ -812,6 +812,83 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL)testHasPrefix
+{
+    NSString *str1 = @"the quick brown fox jumped over the lazy dog";
+    NSString *str2 = @"the quick";
+    NSString *str3 = @"the dead";
+    
+    testassert([str1 hasPrefix:str2]);
+    testassert(![str1 hasPrefix:str3]);
+    testassert(![str2 hasPrefix:str1]);
+    testassert(![str3 hasPrefix:str1]);
+    
+    return YES;
+}
+
+#pragma mark -
+#pragma mark test [NSString initWithFormat:arguments:]
+
++ (NSString *)aStringWithFormat:(NSString *)fmt andParameters:(va_list)ap
+{
+    NSString *str=[[NSString alloc] initWithFormat:fmt arguments:ap];
+    return [str autorelease];
+}
+
++ (NSString *)aStringWithFormat:(NSString *)fmt, ...
+{
+    va_list ap;
+    va_start(ap, fmt);
+    NSString *str = [[NSString alloc] initWithFormat:fmt arguments:ap];
+    va_end(ap);
+    return [str autorelease];
+}
+
++ (NSString *)aStringWithFormat2:(NSString *)fmt, ...
+{
+    va_list ap;
+    va_start(ap, fmt);
+    NSString *str = [[self class] aStringWithFormat:fmt andParameters:ap];
+    va_end(ap);
+    return str;
+}
+
+- (BOOL)testInitWithFormat1
+{
+    NSString *str = [[self class] aStringWithFormat:@"a string '%@' and another string '%@'", @"foo", @"bar"];
+    testassert([str isEqualToString:@"a string 'foo' and another string 'bar'"]);
+    return YES;
+}
+
+- (BOOL)testInitWithFormat2
+{
+    NSString *str = [[self class] aStringWithFormat2:@"a string '%@' and another string '%@'", @"foo", @"bar"];
+    testassert([str isEqualToString:@"a string 'foo' and another string 'bar'"]);
+    return YES;
+}
+
+- (BOOL)testInitWithFormat_fromNSPathStore2
+{
+    NSString *defaultPngPath = [[NSBundle mainBundle] pathForResource:@"ATestPlist" ofType:@"plist"];
+    testassert([defaultPngPath isKindOfClass:NSClassFromString(@"__NSCFString")]);
+    defaultPngPath = [defaultPngPath stringByDeletingPathExtension];
+    testassert([defaultPngPath isKindOfClass:NSClassFromString(@"NSPathStore2")]);
+    
+    NSString *str = [[self class] aStringWithFormat2:@"Path file : %@", defaultPngPath];
+    
+    testassert([[str substringToIndex:12] isEqualToString:@"Path file : "]);
+    
+    return YES;
+}
+
+- (BOOL)testSubstringWithRange
+{
+    NSString *str = [@"foo-bar-baz" substringWithRange:NSMakeRange(4, 3)];
+    testassert([str isEqualToString:@"bar"]);
+    return YES;
+}
+
+#pragma mark -
 
 @end
 
