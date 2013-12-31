@@ -27,7 +27,7 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    _error = error;
+    _error = [error copy];
     _done = YES;
 }
 

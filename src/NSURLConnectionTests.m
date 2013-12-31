@@ -35,9 +35,10 @@
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:timeoutDate];
     } while (!delegate.done);
 
+    NSData *expectedData = [@"Hello World" dataUsingEncoding:NSUTF8StringEncoding];
     testassert(delegate.done == YES);
     testassert(delegate.error == nil);
-    testassert(delegate.resultData.length > 0);
+    testassert([delegate.resultData isEqualToData:expectedData]);
     return YES;
 }
 
@@ -55,6 +56,7 @@
 
     testassert(delegate.done == YES);
     testassert(delegate.error != nil);
+    testassert(delegate.error.code == -1015);
     testassert(delegate.resultData.length == 0);
     return YES;
 }
