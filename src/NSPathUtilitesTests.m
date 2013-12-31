@@ -358,4 +358,33 @@
     return YES;
 }
 
+- (BOOL)testStringByDeletingPathExtension1
+{
+    NSString *str = [@"foo/bar/baz.bar" stringByDeletingPathExtension];
+    testassert([str isEqualToString:@"foo/bar/baz"]);
+    testassert([str class] == NSClassFromString(@"NSPathStore2"));
+    return YES;
+}
+
+- (BOOL)testStringByDeletingPathExtension2
+{
+    NSString *str = [@"foo/bar/baz" stringByDeletingPathExtension];
+    testassert([str isEqualToString:@"foo/bar/baz"]);
+    return YES;
+}
+
+- (BOOL)testStringByDeletingPathExtension3
+{
+    NSString *str = [@"foo/bar/.baz" stringByDeletingPathExtension];
+    testassert([str isEqualToString:@"foo/bar/.baz"]);
+    return YES;
+}
+
+- (BOOL)testStringByDeletingPathExtension4
+{
+    NSString *str = [@"foo/bar/." stringByDeletingPathExtension];
+    testassert([str isEqualToString:@"foo/bar/."]);
+    return YES;
+}
+
 @end
