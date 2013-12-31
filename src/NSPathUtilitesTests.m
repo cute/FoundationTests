@@ -387,4 +387,11 @@
     return YES;
 }
 
+- (BOOL)testSubstringWithRange
+{
+    NSString *str = [[NSString pathWithComponents:@[@"foo", @"bar", @"baz"]] substringWithRange:NSMakeRange(4, 3)];
+    testassert([str isEqualToString:@"bar"]);
+    return YES;
+}
+
 @end

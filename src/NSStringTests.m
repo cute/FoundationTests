@@ -896,6 +896,13 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL)testSubstringWithRange
+{
+    NSString *str = [@"foo-bar-baz" substringWithRange:NSMakeRange(4, 3)];
+    testassert([str isEqualToString:@"bar"]);
+    return YES;
+}
+
 #pragma mark -
 
 @end
