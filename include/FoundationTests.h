@@ -1,18 +1,14 @@
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 
-#if defined(APPLE_FOUNDATION_TEST)
-#define FoundationTest(c) c##Apple
-#else
-#define FoundationTest(c) c##Apportable
-#endif
+#define FoundationTest(c) c##TestsApportable
 
-#define testdecl(name) interface FoundationTest(name##Tests) : NSObject @end
+#define testdecl(name) interface FoundationTest(name) : NSObject @end
 
-#define testcase(name) implementation FoundationTest(name##Tests) : NSObject
+#define testcase(name) implementation FoundationTest(name) : NSObject
 
 #define testrun(name) try { \
-    id suite = [[FoundationTest(name##Tests) alloc] init]; \
+    id suite = [[FoundationTest(name) alloc] init]; \
     runTests(suite); \
     [suite release]; \
 } @catch(...) { \
@@ -62,9 +58,9 @@ void runFoundationTests(void);
 
 #define TEST_CLASSES(action) \
 action(CFGetTypeID) \
-action(Forwarding) \
 action(CFRunLoop) \
 action(Concurrency) \
+action(Forwarding) \
 action(NSArray) \
 action(NSAttributedString) \
 action(NSBlock) \
@@ -94,8 +90,8 @@ action(NSMethodSignature) \
 action(NSNull) \
 action(NSNumber) \
 action(NSNumberFormatter) \
-action(NSObject) \
 action(NSObjCRuntime) \
+action(NSObject) \
 action(NSOrderedSet) \
 action(NSPathUtilities) \
 action(NSPointerFunctions) \
