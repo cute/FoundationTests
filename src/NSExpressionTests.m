@@ -69,6 +69,7 @@
         thrown = YES;
         testassert([[e name] isEqualToString:NSInvalidArgumentException]);
     }
+    testassert(thrown);
     return YES;
 }
 
@@ -91,6 +92,7 @@
         thrown = YES;
         testassert([[e name] isEqualToString:NSInvalidArgumentException]);
     }
+    testassert(thrown);
     return YES;
 }
 
@@ -105,6 +107,7 @@
         thrown = YES;
         testassert([[e name] isEqualToString:NSInvalidArgumentException]);
     }
+    testassert(thrown);
     return YES;
 }
 
@@ -119,6 +122,7 @@
         thrown = YES;
         testassert([[e name] isEqualToString:NSInvalidArgumentException]);
     }
+    testassert(thrown);
     return YES;
 }
 
@@ -185,6 +189,81 @@
     return YES;
 }
 
+- (BOOL)testStatistics8
+{
+    NSArray *numbers = @[@1, @2, @3];
+    double avg = (1.0 + 2.0 + 3.0) / 3.0;
+    double stddev = sqrt(((1 - avg) * (1 - avg) + (2 - avg) * (2 - avg) + (3 - avg) * (3 - avg)) / 3.0);
+    NSExpression *expression = [NSExpression expressionForFunction:@"stddev:" arguments:@[[NSExpression expressionForConstantValue:numbers]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@(stddev)]);
+    return YES;
+}
+
+- (BOOL)testBounding1
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"ceiling:" arguments:@[[NSExpression expressionForConstantValue:@3.3]]];
+    id value = [expression expressionValueWithObject:@[@1, @2, @3] context:nil];
+    testassert([value isEqual:@(4)]);
+    return YES;
+}
+
+- (BOOL)testBounding2
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"trunc:" arguments:@[[NSExpression expressionForConstantValue:@3.3]]];
+    id value = [expression expressionValueWithObject:@[@1, @2, @3] context:nil];
+    testassert([value isEqual:@(3)]);
+    return YES;
+}
+
+- (BOOL)testBasicArithmetics1
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"add:to:" arguments:@[[NSExpression expressionForConstantValue:@1], [NSExpression expressionForConstantValue:@1]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@(1 + 1)]);
+    return YES;
+}
+
+- (BOOL)testBasicArithmetics2
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"from:subtract:" arguments:@[[NSExpression expressionForConstantValue:@3], [NSExpression expressionForConstantValue:@1]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@(3 - 1)]);
+    return YES;
+}
+
+- (BOOL)testBasicArithmetics3
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"multiply:by:" arguments:@[[NSExpression expressionForConstantValue:@2], [NSExpression expressionForConstantValue:@6]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@(2 * 6)]);
+    return YES;
+}
+
+- (BOOL)testBasicArithmetics4
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"divide:by:" arguments:@[[NSExpression expressionForConstantValue:@8], [NSExpression expressionForConstantValue:@2]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@(8 / 2)]);
+    return YES;
+}
+
+- (BOOL)testBasicArithmetics5
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"modulus:by:" arguments:@[[NSExpression expressionForConstantValue:@7], [NSExpression expressionForConstantValue:@2]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@(7 % 2)]);
+    return YES;
+}
+
+- (BOOL)testBasicArithmetics6
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"abs:" arguments:@[[NSExpression expressionForConstantValue:@(-7)]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@(abs(-7))]);
+    return YES;
+}
+
 - (BOOL)testAdvancedArithmetics1
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"sqrt:" arguments:@[[NSExpression expressionForConstantValue:@9]]];
@@ -206,6 +285,133 @@
     NSExpression *expression = [NSExpression expressionForFunction:@"ln:" arguments:@[[NSExpression expressionForConstantValue:@9]]];
     id value = [expression expressionValueWithObject:nil context:nil];
     testassert([value isEqual:@(log(9))]);
+    return YES;
+}
+
+- (BOOL)testAdvancedArithmetics4
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"floor:" arguments:@[[NSExpression expressionForConstantValue:@3.3]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@(3)]);
+    return YES;
+}
+
+- (BOOL)testAdvancedArithmetics5
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"raise:toPower:" arguments:@[[NSExpression expressionForConstantValue:@4], [NSExpression expressionForConstantValue:@3]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@(pow(4, 3))]);
+    return YES;
+}
+
+- (BOOL)testAdvancedArithmetics6
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"exp:" arguments:@[[NSExpression expressionForConstantValue:@4]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@(exp(4))]);
+    return YES;
+}
+
+- (BOOL)testDate
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"now" arguments:@[]];
+    NSDate *now = [NSDate date];
+    usleep(100);
+    NSDate *then = [expression expressionValueWithObject:nil context:nil];
+    usleep(100);
+    NSDate *later = [NSDate date];
+    testassert([then isKindOfClass:[NSDate class]]);
+    testassert([now compare:then] == NSOrderedAscending);
+    testassert([then compare:later] == NSOrderedAscending);
+    return YES;
+    
+}
+
+- (BOOL)testRandom
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"random" arguments:@[]];
+    [expression expressionValueWithObject:nil context:nil]; // lolz sploitz
+    srandom(6);
+    expression = [NSExpression expressionForFunction:@"random" arguments:@[]];
+    NSNumber *n = [expression expressionValueWithObject:nil context:nil];
+    testassert([n isEqual:@(0.135438768658787)]);
+    return YES;
+}
+
+- (BOOL)testRandom2
+{
+    BOOL thrown = NO;
+    @try {
+        [NSExpression expressionForFunction:@"random:" arguments:@[[NSExpression expressionForConstantValue:@9]]];
+    } @catch (NSException *e) {
+        thrown = YES;
+        testassert([[e name] isEqualToString:NSInternalInconsistencyException]);
+    }
+    testassert(thrown);
+    return YES;
+}
+
+- (BOOL)testBitwiseArithmetics1
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"bitwiseAnd:with:" arguments:@[[NSExpression expressionForConstantValue:@4], [NSExpression expressionForConstantValue:@12]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@(4 & 12)]);
+    return YES;
+}
+
+- (BOOL)testBitwiseArithmetics2
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"bitwiseOr:with:" arguments:@[[NSExpression expressionForConstantValue:@4], [NSExpression expressionForConstantValue:@3]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@(4 | 3)]);
+    return YES;
+}
+
+- (BOOL)testBitwiseArithmetics3
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"bitwiseXor:with:" arguments:@[[NSExpression expressionForConstantValue:@4], [NSExpression expressionForConstantValue:@3]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@(4 ^ 3)]);
+    return YES;
+}
+
+- (BOOL)testBitwiseArithmetics4
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"leftshift:by:" arguments:@[[NSExpression expressionForConstantValue:@2], [NSExpression expressionForConstantValue:@3]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@(2 << 3)]);
+    return YES;
+}
+
+- (BOOL)testBitwiseArithmetics5
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"rightshift:by:" arguments:@[[NSExpression expressionForConstantValue:@4096], [NSExpression expressionForConstantValue:@1]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@(4096 >> 1)]);
+    return YES;
+}
+
+- (BOOL)testBitwiseArithmetics6
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"onesComplement:" arguments:@[[NSExpression expressionForConstantValue:@8]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@(~8)]);
+    return YES;
+}
+
+- (BOOL)testStrings1
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"lowercase:" arguments:@[[NSExpression expressionForConstantValue:@"FOO"]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@"foo"]);
+    return YES;
+}
+
+- (BOOL)testStrings2
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"uppercase:" arguments:@[[NSExpression expressionForConstantValue:@"foo"]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@"FOO"]);
     return YES;
 }
 
