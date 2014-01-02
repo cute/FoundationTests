@@ -413,6 +413,24 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL) testStringWithNullUTF8String
+{
+    void (^block)() = ^{
+        [NSString stringWithUTF8String:NULL];
+    };
+    BOOL raised = NO;
+    
+    @try {
+        block();
+    }
+    @catch (NSException *e) {
+        raised = [[e name] isEqualToString:NSInvalidArgumentException];
+    }
+    
+    testassert(raised);
+    return YES;
+}
+
 - (BOOL) testGetCharacters
 {
     NSString *s = @"I'm constant";
