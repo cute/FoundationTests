@@ -7,6 +7,7 @@
 //
 
 #import "FoundationTests.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface NSExpression (NSFunctionExpressionInternal)
 - (SEL)selector;
@@ -203,7 +204,7 @@
 - (BOOL)testBounding1
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"ceiling:" arguments:@[[NSExpression expressionForConstantValue:@3.3]]];
-    id value = [expression expressionValueWithObject:@[@1, @2, @3] context:nil];
+    id value = [expression expressionValueWithObject:nil context:nil];
     testassert([value isEqual:@(4)]);
     return YES;
 }
@@ -211,7 +212,7 @@
 - (BOOL)testBounding2
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"trunc:" arguments:@[[NSExpression expressionForConstantValue:@3.3]]];
-    id value = [expression expressionValueWithObject:@[@1, @2, @3] context:nil];
+    id value = [expression expressionValueWithObject:nil context:nil];
     testassert([value isEqual:@(3)]);
     return YES;
 }
@@ -338,6 +339,18 @@
     return YES;
 }
 
+- (BOOL)testRandomn
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"randomn:" arguments:@[[NSExpression expressionForConstantValue:@200]]];
+    [expression expressionValueWithObject:nil context:nil]; // same exploit as random
+    srandom(99885);
+    expression = [NSExpression expressionForFunction:@"randomn:" arguments:@[[NSExpression expressionForConstantValue:@200]]];
+    NSNumber *n = [expression expressionValueWithObject:nil context:nil];
+    testassert([n isEqual:@(15)]);
+    return YES;
+}
+
+
 - (BOOL)testRandom2
 {
     BOOL thrown = NO;
@@ -412,6 +425,34 @@
     NSExpression *expression = [NSExpression expressionForFunction:@"uppercase:" arguments:@[[NSExpression expressionForConstantValue:@"foo"]]];
     id value = [expression expressionValueWithObject:nil context:nil];
     testassert([value isEqual:@"FOO"]);
+    return YES;
+}
+
+- (BOOL)testStrings3
+{
+    NSExpression *expression = [NSExpression expressionForFunction:@"_convertStringToNumber:" arguments:@[[NSExpression expressionForConstantValue:@"112233"]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@112233]);
+    return YES;
+}
+
+- (BOOL)testDistance
+{
+    CLLocation *l1 = [[CLLocation alloc] initWithLatitude:5.5 longitude:3.3];
+    CLLocation *l2 = [[CLLocation alloc] initWithLatitude:7.7 longitude:2.2];
+    NSExpression *expression = [NSExpression expressionForFunction:@"distanceToLocation:fromLocation:" arguments:@[[NSExpression expressionForConstantValue:l1], [NSExpression expressionForConstantValue:l2]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    double distance = [l1 distanceFromLocation:l2];
+    testassert([value isEqual:@(distance)]);
+    return YES;
+}
+
+- (BOOL)testContainerIndex
+{
+    NSDictionary *container = @{@"foo": @"bar", @"baz" : @"Foo"};
+    NSExpression *expression = [NSExpression expressionForFunction:@"objectFrom:withIndex:" arguments:@[[NSExpression expressionForConstantValue:container], [NSExpression expressionForSymbolicString:@"SIZE"]]];
+    id value = [expression expressionValueWithObject:nil context:nil];
+    testassert([value isEqual:@(4096 >> 1)]);
     return YES;
 }
 
