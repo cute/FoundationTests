@@ -41,6 +41,30 @@
     return YES;
 }
 
+- (BOOL)testGZipLargeAmountOfData
+{
+    ConnectionDelegate *delegate = [[ConnectionDelegate alloc] init];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/gzipHeaderCompressedHamlet", HOST]];
+    NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
+    NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:delegate];
+    [connection start];
+    NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:TIMEOUT];
+    do {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:timeoutDate];
+    } while (!delegate.done);
+    
+    testassert(delegate.done == YES);
+    testassert(delegate.error == nil);
+
+    NSString *hamlet = [[[NSString alloc] initWithData:[delegate resultData] encoding:NSUTF8StringEncoding] autorelease];
+    
+    testassert([hamlet length] == 193080);
+    NSString *thouArtSlain = [hamlet substringWithRange:NSMakeRange(188534, 14)];
+    
+    testassert([thouArtSlain isEqualToString:@"thou art slain"]);
+    return YES;
+}
+
 - (BOOL)testGZipDecodeFail
 {
     ConnectionDelegate *delegate = [[ConnectionDelegate alloc] init];
