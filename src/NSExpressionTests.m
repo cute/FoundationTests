@@ -452,7 +452,7 @@
     NSDictionary *container = @{@"foo": @"bar", @"baz" : @"Foo"};
     NSExpression *expression = [NSExpression expressionForFunction:@"objectFrom:withIndex:" arguments:@[[NSExpression expressionForConstantValue:container], [NSExpression expressionForSymbolicString:@"SIZE"]]];
     id value = [expression expressionValueWithObject:nil context:nil];
-    testassert([value isEqual:@(4096 >> 1)]);
+    testassert([value isEqual:@(2)]);
     return YES;
 }
 
