@@ -34,6 +34,15 @@
     return YES;
 }
 
+- (BOOL)testEscapedCharacters
+{
+    NSString *str = @"{\"jsonData\": \"{\\\"stuff\\\": [{\\\"id\\\": 1234}],}\"}";
+    NSData* data = [str dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    testassert(json != nil);
+    return YES;
+}
+
 - (BOOL)testFailingAtCreatingAJSONObjectAndPassingANilError1
 {
     NSData *someData = [@"data" dataUsingEncoding:NSUTF8StringEncoding];
