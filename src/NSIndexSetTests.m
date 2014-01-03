@@ -1218,4 +1218,57 @@
 }
 
 
+- (BOOL)testIndexSetShiftIndexesStartingAtIndexByRollunder
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndexesInRange: NSMakeRange(0, 2)];
+    [indexSet shiftIndexesStartingAtIndex: 0 by: -1];
+    testassert([indexSet containsIndex: 0]);
+    testassert([indexSet containsIndex: 2] == NO);
+    return YES;
+}
+
+- (BOOL)testIndexSetShiftIndexesStartingAtIndexBy
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:2];
+    [indexSet addIndexesInRange: NSMakeRange(5, 2)];
+    [indexSet shiftIndexesStartingAtIndex: 2 by: 2];
+    testassert([indexSet containsIndex: 4]);
+    testassert([indexSet containsIndex: 5] == NO);
+    testassert([indexSet containsIndex: 8]);
+    return YES;
+}
+
+
+- (BOOL)testIndexSetShiftIndexesStartingAtIndexBy2
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndex:2];
+    [indexSet addIndexesInRange: NSMakeRange(5, 2)];
+    [indexSet shiftIndexesStartingAtIndex: 6 by: 2];
+    testassert([indexSet containsIndex: 2]);
+    testassert([indexSet containsIndex: 5]);
+    testassert([indexSet containsIndex: 6] == NO);
+    testassert([indexSet containsIndex: 8]);
+    return YES;
+}
+
+- (BOOL)testIndexSetShiftIndexesStartingAtIndexByRollover
+{
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndexesInRange: NSMakeRange(NSNotFound - 2, 1)];
+    BOOL foundException = NO;
+    @try
+    {
+        [indexSet shiftIndexesStartingAtIndex: NSNotFound - 2 by: 2];
+    }
+    @catch(NSException *e)
+    {
+        foundException = YES;
+    }
+    testassert(foundException);
+    return YES;
+}
+
 @end
