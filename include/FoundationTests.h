@@ -1,25 +1,33 @@
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
 
-#if defined(APPLE_FOUNDATION_TEST)
-#define FoundationTest(c) c##Apple
-#else
-#define FoundationTest(c) c##Apportable
-#endif
+#define FoundationTest(c) c##TestsApportable
 
-#define testdecl(name) interface FoundationTest(name##Tests) : NSObject @end
+#define testdecl(name) interface FoundationTest(name) : NSObject @end
 
-#define testcase(name) implementation FoundationTest(name##Tests) : NSObject
+#define testcase(name) implementation FoundationTest(name) : NSObject
 
 #define testrun(name) try { \
-    id suite = [[FoundationTest(name##Tests) alloc] init]; \
-    runTests(suite, f); \
+    id suite = [[FoundationTest(name) alloc] init]; \
+    runTests(suite); \
     [suite release]; \
 } @catch(...) { \
 }
 
-#define testassert(b) do { if (!_testassert(b, __FILE__, __LINE__)) return NO; } while (NO)
+#define testassert(b, ...) do { if (!_testassert(b , ##__VA_ARGS__, __FILE__, __LINE__)) return NO; } while (NO)
 BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_noreturn));
+
+#define track(sup) ({ \
+    Class __cls = [self class]; \
+    SubclassTracker *__tracker = (SubclassTracker *)objc_getAssociatedObject(self, __cls); \
+    if (__tracker == nil) { \
+        __tracker = [[SubclassTracker alloc] initWithClass:__cls]; \
+        objc_setAssociatedObject(self, __cls, __tracker, OBJC_ASSOCIATION_RETAIN); \
+        [__tracker release]; \
+    } \
+    [__tracker track:_cmd]; \
+    YES; \
+}) ? sup : sup
 
 #if defined(APPORTABLE) && !defined(__Foundation_h_GNUSTEP_BASE_INCLUDE)
 #define APPORTABLE_KNOWN_CRASHER() DEBUG_LOG("SKIPPING KNOWN CRASHING TEST!"); testassert(0)
@@ -38,11 +46,21 @@ void runFoundationTests(void);
 @interface InequalObject : NSObject
 @end
 
+@interface SubclassTracker : NSObject
+
+- (id)initWithClass:(Class)cls;
+- (void)track:(SEL)cmd;
++ (BOOL)verify:(id)target commands:(SEL)cmd, ... NS_REQUIRES_NIL_TERMINATION;
++ (BOOL)dumpVerification:(id)target; // used to build testasserts
+
+@end
+
+
 #define TEST_CLASSES(action) \
 action(CFGetTypeID) \
-action(Forwarding) \
 action(CFRunLoop) \
 action(Concurrency) \
+action(Forwarding) \
 action(NSArray) \
 action(NSAttributedString) \
 action(NSBlock) \
@@ -58,6 +76,7 @@ action(NSDateFormatter) \
 action(NSDecimalNumber) \
 action(NSDictionary) \
 action(NSException) \
+action(NSExpression) \
 action(NSFileHandle) \
 action(NSFileManager) \
 action(NSHTTPCookieStorage) \
@@ -72,8 +91,8 @@ action(NSMethodSignature) \
 action(NSNull) \
 action(NSNumber) \
 action(NSNumberFormatter) \
-action(NSObject) \
 action(NSObjCRuntime) \
+action(NSObject) \
 action(NSOrderedSet) \
 action(NSPathUtilities) \
 action(NSPointerFunctions) \
@@ -85,6 +104,7 @@ action(NSScannerSubclass) \
 action(NSSet) \
 action(NSSortDescriptor) \
 action(NSString) \
+action(NSStringSubclass) \
 action(NSThread) \
 action(NSTimeZone) \
 action(NSURL) \

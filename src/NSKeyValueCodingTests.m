@@ -176,9 +176,259 @@
 
 @end
 
+@interface Indirect : NSObject
+@property BOOL interfaceIvar;
+@property BOOL _underscorePrefix;
+@property BOOL __doubleUnderscorePrefix;
+@property BOOL underscorePostfix_;
+@property BOOL isPrefixed;
+@property BOOL _isUnderscoredPrefix;
+@property BOOL property;
+@property (retain) id object;
+@property (assign) id weakObject;
+@property (retain) id strongObject;
+@property BOOL isFoo1;
+@property BOOL foo1;
+@property BOOL _isFoo1;
+@property BOOL _foo1;
+@property BOOL foo2;
+@property BOOL isFoo2;
+@property BOOL _isFoo2;
+@property BOOL foo3;
+@property BOOL isFoo3;
+@end
+
+@implementation Indirect
+{
+    BOOL implementationIvar;
+}
+
++ (BOOL)accessInstanceVariablesDirectly
+{
+    return NO;
+}
+
+- (BOOL)implementationIvar
+{
+    return implementationIvar;
+}
+
+- (void)setImplementationIvar:(BOOL)b
+{
+    implementationIvar = b;
+}
+
+- (BOOL)interfaceIsSet
+{
+    return self.interfaceIvar;
+}
+
+- (BOOL)implementationIsSet
+{
+    return implementationIvar;
+}
+
+- (BOOL)underscorePrefixIsSet
+{
+    return self._underscorePrefix;
+}
+
+- (void)setUnderscorePrefix:(BOOL)b
+{
+    self._underscorePrefix = b;
+}
+
+- (BOOL)doubleUnderscorePrefixIsSet
+{
+    return self.__doubleUnderscorePrefix;
+}
+
+- (void)setDoubleUnderscorePrefix:(BOOL)b
+{
+    self.__doubleUnderscorePrefix = b;
+}
+
+- (BOOL)underscorePostfixIsSet
+{
+    return self.underscorePostfix_;
+}
+
+- (BOOL)isPrefixedIsSet
+{
+    return self.isPrefixed;
+}
+
+- (BOOL)isUnderscoredPrefixedIsSet
+{
+    return self._isUnderscoredPrefix;
+}
+
+- (NSArray *)foo1IvarsSet
+{
+    NSMutableArray *ivars = [[NSMutableArray alloc] init];
+    if (_foo1)
+    {
+        [ivars addObject:@"_foo1"];
+    }
+    if (_isFoo1)
+    {
+        [ivars addObject:@"_isFoo1"];
+    }
+    if (self.foo1)
+    {
+        [ivars addObject:@"foo1"];
+    }
+    if (self.isFoo1)
+    {
+        [ivars addObject:@"isFoo1"];
+    }
+    return [ivars autorelease];
+}
+
+- (NSArray *)foo2IvarsSet
+{
+    NSMutableArray *ivars = [[NSMutableArray alloc] init];
+    if (_isFoo2)
+    {
+        [ivars addObject:@"_isFoo2"];
+    }
+    if (self.foo2)
+    {
+        [ivars addObject:@"foo2"];
+    }
+    if (self.isFoo2)
+    {
+        [ivars addObject:@"isFoo2"];
+    }
+    return [ivars autorelease];
+}
+
+- (NSArray *)foo3IvarsSet
+{
+    NSMutableArray *ivars = [[NSMutableArray alloc] init];
+    if (self.foo3)
+    {
+        [ivars addObject:@"foo3"];
+    }
+    if (self.isFoo3)
+    {
+        [ivars addObject:@"isFoo3"];
+    }
+    return [ivars autorelease];
+}
+
+@end
+
+@interface ArrayCodingTest : NSObject
+@end
+
+@implementation ArrayCodingTest
+{
+    NSMutableArray *_foo;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self != nil)
+    {
+        _foo = [[NSMutableArray alloc] initWithObjects:@(42), nil];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [_foo release];
+    [super dealloc];
+}
+
+- (void)insertObject:(id)object inFooAtIndex:(NSUInteger)index
+{
+    [_foo insertObject:object atIndex:index];
+}
+
+- (void)removeObjectFromFooAtIndex:(NSUInteger)index
+{
+    [_foo removeObjectAtIndex:index];
+}
+
+@end
+
+@interface OrderedSetCodingTest : NSObject
+@end
+
+@implementation OrderedSetCodingTest
+{
+    NSMutableOrderedSet *_foo;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self != nil)
+    {
+        _foo = [[NSMutableOrderedSet alloc] initWithObjects:@(42), nil];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [_foo release];
+    [super dealloc];
+}
+
+- (void)insertObject:(id)object inFooAtIndex:(NSUInteger)index
+{
+    [_foo insertObject:object atIndex:index];
+}
+
+- (void)removeObjectFromFooAtIndex:(NSUInteger)index
+{
+    [_foo removeObjectAtIndex:index];
+}
+
+@end
+
+@interface SetCodingTest : NSObject
+@end
+
+@implementation SetCodingTest
+{
+    NSMutableSet *_foo;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self != nil)
+    {
+        _foo = [[NSMutableSet alloc] initWithObjects:@(42), nil];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [_foo release];
+    [super dealloc];
+}
+
+- (void)addFooObject:(id)object
+{
+    [_foo addObject:object];
+}
+
+- (void)removeFooObject:(id)object
+{
+    [_foo removeObject:object];
+}
+
+@end
+
+
 @testcase(NSKeyValueCoding)
-
-
 
 - (BOOL)testDefaultAccessor
 {
@@ -187,7 +437,7 @@
     return YES;
 }
 
-- (BOOL)testInterfaceIvar
+- (BOOL)testDirectInterfaceIvar
 {
     Direct *d = [[Direct alloc] init];
     [d setValue:@YES forKey:@"interfaceIvar"];
@@ -196,7 +446,7 @@
     return YES;
 }
 
-- (BOOL)testImplementationIvar
+- (BOOL)testDirectImplementationIvar
 {
     Direct *d = [[Direct alloc] init];
     [d setValue:@YES forKey:@"implementationIvar"];
@@ -215,7 +465,7 @@
         thrown = [[e name] isEqualToString:NSUndefinedKeyException];
     }
 
-    testassert(thrown == YES);
+    testassert(thrown);
     [d release];
     return YES;
 }
@@ -256,7 +506,7 @@
     } @catch(NSException *e) {
         thrown = [[e name] isEqualToString:NSUndefinedKeyException];
     }
-    testassert(thrown = YES);
+    testassert(thrown);
     testassert(![d doubleUnderscorePrefixIsSet]);
     [d release];
     return YES;
@@ -280,7 +530,7 @@
     } @catch(NSException *e) {
         thrown = [[e name] isEqualToString:NSUndefinedKeyException];
     }
-    testassert(thrown = YES);
+    testassert(thrown);
     testassert(![d underscorePostfixIsSet]);
     [d release];
     return YES;
@@ -313,7 +563,7 @@
     } @catch(NSException *e) {
         thrown = [[e name] isEqualToString:NSUndefinedKeyException];
     }
-    testassert(thrown = YES);
+    testassert(thrown);
     testassert(![d interfaceIsSet]);
     [d release];
     return YES;
@@ -328,7 +578,7 @@
     } @catch(NSException *e) {
         thrown = [[e name] isEqualToString:NSUndefinedKeyException];
     }
-    testassert(thrown = YES);
+    testassert(thrown);
     testassert(![d interfaceIsSet]);
     [d release];
     return YES;
@@ -403,6 +653,238 @@
 - (BOOL)testDirectOrder3
 {
     Direct *d = [[Direct alloc] init];
+    [d setValue:@YES forKey:@"foo3"];
+    NSArray *ivars = [d foo3IvarsSet];
+    testassert([ivars isEqualToArray:@[@"foo3"]]);
+    return YES;
+}
+
+- (BOOL)testIndirectInterfaceIvar
+{
+    Indirect *d = [[Indirect alloc] init];
+    [d setValue:@YES forKey:@"interfaceIvar"];
+    testassert([d interfaceIsSet]);
+    [d release];
+    return YES;
+}
+
+- (BOOL)testIndirectImplementationIvar
+{
+    Indirect *d = [[Indirect alloc] init];
+    [d setValue:@YES forKey:@"implementationIvar"];
+    testassert([d implementationIsSet]);
+    [d release];
+    return YES;
+}
+
+- (BOOL)testIndirectUnknown
+{
+    Indirect *d = [[Indirect alloc] init];
+    BOOL thrown = NO;
+    @try {
+        [d setValue:@YES forKey:@"unknownIvar"];
+    } @catch(NSException *e) {
+        thrown = [[e name] isEqualToString:NSUndefinedKeyException];
+    }
+
+    testassert(thrown);
+    [d release];
+    return YES;
+}
+
+- (BOOL)testIndirectProperty
+{
+    Indirect *d = [[Indirect alloc] init];
+    [d setValue:@YES forKey:@"property"];
+    testassert(d.property == YES);
+    [d release];
+    return YES;
+}
+
+- (BOOL)testIndirectUnderscorePrefix
+{
+    Indirect *d = [[Indirect alloc] init];
+    [d setValue:@YES forKey:@"underscorePrefix"];
+    testassert([d underscorePrefixIsSet]);
+    [d release];
+    return YES;
+}
+
+- (BOOL)testIndirectUnderscorePrefix2
+{
+    Indirect *d = [[Indirect alloc] init];
+    [d setValue:@YES forKey:@"_underscorePrefix"];
+    testassert([d underscorePrefixIsSet]);
+    [d release];
+    return YES;
+}
+
+- (BOOL)testIndirectDoubleUnderscorePrefix
+{
+    Indirect *d = [[Indirect alloc] init];
+    [d setValue:@YES forKey:@"doubleUnderscorePrefix"];
+    testassert([d doubleUnderscorePrefixIsSet]);
+    [d release];
+    return YES;
+}
+
+- (BOOL)testIndirectDoubleUnderscorePrefix2
+{
+    Indirect *d = [[Indirect alloc] init];
+    BOOL thrown = NO;
+    @try {
+        [d setValue:@YES forKey:@"_doubleUnderscorePrefix"];
+    }
+    @catch (NSException *e) {
+        thrown = [[e name] isEqualToString:NSUndefinedKeyException];
+    }
+    testassert(thrown);
+    testassert(![d doubleUnderscorePrefixIsSet]);
+    [d release];
+    return YES;
+}
+
+- (BOOL)testIndirectUnderscorePostfix
+{
+    Indirect *d = [[Indirect alloc] init];
+    BOOL thrown = NO;
+    @try {
+        [d setValue:@YES forKey:@"underscorePostfix"];
+    } @catch(NSException *e) {
+        thrown = [[e name] isEqualToString:NSUndefinedKeyException];
+    }
+    testassert(thrown);
+    testassert(![d underscorePostfixIsSet]);
+    [d release];
+    return YES;
+}
+
+- (BOOL)testIndirectIsPrefix
+{
+    Indirect *d = [[Indirect alloc] init];
+    BOOL thrown = NO;
+    @try {
+        [d setValue:@YES forKey:@"prefixed"];
+    }
+    @catch (NSException *e)
+    {
+        thrown = [[e name] isEqualToString:NSUndefinedKeyException];
+    }
+    testassert(thrown);
+    testassert(![d isPrefixedIsSet]);
+    [d release];
+    return YES;
+}
+
+- (BOOL)testIndirectIsUnderscorePrefix
+{
+    Indirect *d = [[Indirect alloc] init];
+    BOOL thrown = NO;
+    @try {
+        [d setValue:@YES forKey:@"underscoredPrefix"];
+    }
+    @catch (NSException *e) {
+        thrown = [[e name] isEqualToString:NSUndefinedKeyException];
+    }
+    testassert(thrown);
+    testassert(![d isUnderscoredPrefixedIsSet]);
+    [d release];
+    return YES;
+}
+
+- (BOOL)testIndirectIncorrectFirstLetterCaseSetter
+{
+    Indirect *d = [[Indirect alloc] init];
+    [d setValue:@YES forKey:@"InterfaceIvar"];
+    testassert([d interfaceIsSet]);
+    [d release];
+    return YES;
+}
+
+- (BOOL)testIndirectIncorrectCaseSetter
+{
+    Indirect *d = [[Indirect alloc] init];
+    BOOL thrown = NO;
+    @try {
+        [d setValue:@YES forKey:@"interfaceivar"];
+    } @catch(NSException *e) {
+        thrown = [[e name] isEqualToString:NSUndefinedKeyException];
+    }
+    testassert(thrown);
+    testassert(![d interfaceIsSet]);
+    [d release];
+    return YES;
+}
+
+- (BOOL)testIndirectObjectSetter
+{
+    Indirect *d = [[Indirect alloc] init];
+    RetainTestObject *retainTest = [[RetainTestObject alloc] init];
+    [d setValue:retainTest forKey:@"object"];
+    testassert([retainTest wasRetained]);
+    [retainTest release];
+    [d release];
+    return YES;
+}
+
+- (BOOL)testIndirectWeakObjectSetter
+{
+    Indirect *d = [[Indirect alloc] init];
+    RetainTestObject *retainTest = [[RetainTestObject alloc] init];
+    [d setValue:retainTest forKey:@"weakObject"];
+    testassert(![retainTest wasRetained]);
+    [retainTest release];
+    [d release];
+    return YES;
+}
+
+- (BOOL)testIndirectStrongObjectSetter
+{
+    Indirect *d = [[Indirect alloc] init];
+    RetainTestObject *retainTest = [[RetainTestObject alloc] init];
+    [d setValue:retainTest forKey:@"strongObject"];
+    testassert([retainTest wasRetained]);
+    [retainTest release];
+    [d release];
+    return YES;
+}
+
+- (BOOL)testIndirectReassignObjectSetter
+{
+    Indirect *d = [[Indirect alloc] init];
+    RetainTestObject *retainTest1 = [[RetainTestObject alloc] init];
+    RetainTestObject *retainTest2 = [[RetainTestObject alloc] init];
+    [d setValue:retainTest1 forKey:@"object"];
+    [d setValue:retainTest2 forKey:@"object"];
+    testassert([retainTest1 wasReleased]);
+    testassert(![retainTest1 wasAutoreleased]);
+    [retainTest1 release];
+    [retainTest2 release];
+    [d release];
+    return YES;
+}
+
+- (BOOL)testIndirectOrder1
+{
+    Indirect *d = [[Indirect alloc] init];
+    [d setValue:@YES forKey:@"foo1"];
+    NSArray *ivars = [d foo1IvarsSet];
+    testassert([ivars isEqualToArray:@[@"_foo1", @"foo1"]]);
+    return YES;
+}
+
+- (BOOL)testIndirectOrder2
+{
+    Indirect *d = [[Indirect alloc] init];
+    [d setValue:@YES forKey:@"foo2"];
+    NSArray *ivars = [d foo2IvarsSet];
+    testassert([ivars isEqualToArray:@[@"foo2"]]);
+    return YES;
+}
+
+- (BOOL)testIndirectOrder3
+{
+    Indirect *d = [[Indirect alloc] init];
     [d setValue:@YES forKey:@"foo3"];
     NSArray *ivars = [d foo3IvarsSet];
     testassert([ivars isEqualToArray:@[@"foo3"]]);
@@ -3452,11 +3934,9 @@
 
 - (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfObjects1
 {
-    BOOL exception = NO;
     id anObj;
     NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
 
-    exception = NO;
     anObj = [aSet valueForKeyPath:@"@distinctUnionOfObjects.intValue"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSSet class]]);
@@ -3467,11 +3947,9 @@
 
 - (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfObjects2
 {
-    BOOL exception = NO;
     id anObj;
     NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
 
-    exception = NO;
     anObj = [aSet valueForKeyPath:@"@distinctUnionOfObjects.description"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSSet class]]);
@@ -3636,7 +4114,6 @@
 
 - (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfArrays1
 {
-    BOOL exception = NO;
     id anObj;
     NSMutableSet *anotherSet = [NSMutableSet set];
     [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
@@ -3645,7 +4122,6 @@
     NSArray *subAry = [NSArray arrayWithObjects:@[ @"helloset", @"helloset" ], @"helloset", @"helloset", @"arrayobj", nil];
     [anotherSet addObject:subAry];
 
-    exception = NO;
     anObj = [anotherSet valueForKeyPath:@"@distinctUnionOfArrays.intValue"];
     testassert(anObj != nil);
     testassert([anObj isKindOfClass:[NSSet class]]);
@@ -3817,6 +4293,79 @@
     testassert([aValue isKindOfClass:[NSSet class]]);
     testassert([aValue isEqual:set]);
     testassert([aValue count] == 0);
+    return YES;
+}
+
+- (BOOL)test_mutableArrayValueForKey_basicMethodAccess
+{
+    ArrayCodingTest *arrayCoding = [[[ArrayCodingTest alloc] init] autorelease];
+
+    [arrayCoding insertObject:@(23) inFooAtIndex:1];
+    NSMutableArray *mutableArrayValues = [arrayCoding mutableArrayValueForKey:@"foo"];
+    testassert([mutableArrayValues isEqualToArray:@[@(42), @(23)]]);
+
+    [arrayCoding insertObject:@(23) inFooAtIndex:2];
+    mutableArrayValues = [arrayCoding mutableArrayValueForKey:@"foo"];
+    testassert([mutableArrayValues isEqualToArray:@[@(42), @(23), @(23)]]);
+
+    [arrayCoding removeObjectFromFooAtIndex:0];
+    mutableArrayValues = [arrayCoding mutableArrayValueForKey:@"foo"];
+    testassert([mutableArrayValues isEqualToArray:@[@(23), @(23)]]);
+
+    [arrayCoding removeObjectFromFooAtIndex:0];
+    mutableArrayValues = [arrayCoding mutableArrayValueForKey:@"foo"];
+    testassert([mutableArrayValues isEqualToArray:@[@(23)]]);
+
+    [arrayCoding removeObjectFromFooAtIndex:0];
+    mutableArrayValues = [arrayCoding mutableArrayValueForKey:@"foo"];
+    testassert([mutableArrayValues isEqualToArray:@[]]);
+
+    return YES;
+}
+
+- (BOOL)test_mutableOrderedSetValueForKey_basicMethodAccess
+{
+    OrderedSetCodingTest *orderedSetCoding = [[[OrderedSetCodingTest alloc] init] autorelease];
+
+    [orderedSetCoding insertObject:@(23) inFooAtIndex:1];
+    NSMutableOrderedSet *mutableOrderedSetValues = [orderedSetCoding mutableOrderedSetValueForKey:@"foo"];
+    testassert([mutableOrderedSetValues isEqualToOrderedSet:[NSOrderedSet orderedSetWithArray:@[@(42), @(23)]]]);
+
+    [orderedSetCoding insertObject:@(23) inFooAtIndex:2];
+    mutableOrderedSetValues = [orderedSetCoding mutableOrderedSetValueForKey:@"foo"];
+    testassert([mutableOrderedSetValues isEqualToOrderedSet:[NSOrderedSet orderedSetWithArray:@[@(42), @(23)]]]);
+
+    [orderedSetCoding removeObjectFromFooAtIndex:0];
+    mutableOrderedSetValues = [orderedSetCoding mutableOrderedSetValueForKey:@"foo"];
+    testassert([mutableOrderedSetValues isEqualToOrderedSet:[NSOrderedSet orderedSetWithArray:@[@(23)]]]);
+
+    [orderedSetCoding removeObjectFromFooAtIndex:0];
+    mutableOrderedSetValues = [orderedSetCoding mutableOrderedSetValueForKey:@"foo"];
+    testassert([mutableOrderedSetValues isEqualToOrderedSet:[NSOrderedSet orderedSetWithArray:@[]]]);
+
+    return YES;
+}
+
+- (BOOL)test_mutableSetValueForKey_basicMethodAccess
+{
+    SetCodingTest *setCoding = [[[SetCodingTest alloc] init] autorelease];
+
+    [setCoding addFooObject:@(23)];
+    NSMutableSet *mutableSetValues = [setCoding mutableSetValueForKey:@"foo"];
+    testassert([mutableSetValues isEqualToSet:[NSSet setWithArray:@[@(42), @(23)]]]);
+
+    [setCoding addFooObject:@(23)];
+    mutableSetValues = [setCoding mutableSetValueForKey:@"foo"];
+    testassert([mutableSetValues isEqualToSet:[NSSet setWithArray:@[@(42), @(23)]]]);
+
+    [setCoding removeFooObject:@(42)];
+    mutableSetValues = [setCoding mutableSetValueForKey:@"foo"];
+    testassert([mutableSetValues isEqualToSet:[NSSet setWithArray:@[@(23)]]]);
+
+    [setCoding removeFooObject:@(23)];
+    mutableSetValues = [setCoding mutableSetValueForKey:@"foo"];
+    testassert([mutableSetValues isEqualToSet:[NSSet setWithArray:@[]]]);
+
     return YES;
 }
 

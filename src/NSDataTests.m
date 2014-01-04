@@ -10,11 +10,27 @@
 
 @testcase(NSData)
 
+- (BOOL)testAllocate
+{
+    NSData *d1 = [NSData alloc];
+    NSData *d2 = [NSData alloc];
+    
+    testassert(d1 == d2);
+    
+    return YES;
+}
+
 - (BOOL)testInitWithContentsOfFileNil
 {
     NSData *data = [[NSData alloc] initWithContentsOfFile:nil];
     testassert(data == nil);
-    [data release];
+    return YES;
+}
+
+- (BOOL)testDataWithContentsOfFileNil
+{
+    NSData *data = [NSData dataWithContentsOfFile:nil];
+    testassert(data == nil);
     return YES;
 }
 
@@ -22,7 +38,13 @@
 {
     NSData *data = [[NSData alloc] initWithContentsOfURL:nil];
     testassert(data == nil);
-    [data release];
+    return YES;
+}
+
+- (BOOL)testDataWithContentsOfURLNil
+{
+    NSData *data = [NSData dataWithContentsOfURL:nil];
+    testassert(data == nil);
     return YES;
 }
 

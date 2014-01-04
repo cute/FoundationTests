@@ -182,4 +182,19 @@ static SignalData data;
     return YES;
 }
 
+- (BOOL)testConditionLockInitialValue
+{
+    NSConditionLock *condLock = [[NSConditionLock alloc] init];
+    testassert([condLock condition] == 0);
+    return YES;
+}
+
+- (BOOL)testConditionLockWhenConditionNotEqual
+{
+    NSConditionLock *condLock = [[NSConditionLock alloc] initWithCondition:2];
+    BOOL locked = [condLock lockWhenCondition:1 beforeDate:[NSDate date]];
+    testassert(!locked);
+    return YES;
+}
+
 @end

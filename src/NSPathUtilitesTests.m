@@ -55,6 +55,110 @@
     return YES;
 }
 
+- (BOOL)testPathExtension_forNSPathStore2_1
+{
+    NSString *path = @"abc";
+    
+    NSString *subpath = [path stringByDeletingPathExtension];
+    testassert([subpath class] == objc_getClass("NSPathStore2"));
+    testassert([subpath isEqualToString:@"abc"]);
+    
+    testassert([[subpath pathExtension] isEqualToString:@""]);
+    
+    return YES;
+}
+
+- (BOOL)testPathExtension_forNSPathStore2_1b
+{
+    NSString *path = @"a/bc";
+    
+    NSString *subpath = [path stringByDeletingPathExtension];
+    testassert([subpath class] == objc_getClass("NSPathStore2"));
+    testassert([subpath isEqualToString:@"a/bc"]);
+    
+    testassert([[subpath pathExtension] isEqualToString:@""]);
+    
+    return YES;
+}
+
+- (BOOL)testPathExtension_forNSPathStore2_1c
+{
+    NSString *path = @".abc.xyz";
+    
+    NSString *subpath = [path stringByDeletingPathExtension];
+    testassert([subpath class] == objc_getClass("NSPathStore2"));
+    testassert([subpath isEqualToString:@".abc"]);
+    
+    testassert([[subpath pathExtension] isEqualToString:@""]);
+    
+    return YES;
+}
+
+- (BOOL)testPathExtension_forNSPathStore2_1d
+{
+    NSString *path = @"1.abc.xyz";
+    
+    NSString *subpath = [path stringByDeletingPathExtension];
+    testassert([subpath class] == objc_getClass("NSPathStore2"));
+    testassert([subpath isEqualToString:@"1.abc"]);
+    
+    testassert([[subpath pathExtension] isEqualToString:@"abc"]);
+    
+    return YES;
+}
+
+- (BOOL)testPathExtension_forNSPathStore2_2
+{
+    NSString *path = @"abc.xyz.";
+    
+    NSString *subpath = [path stringByDeletingPathExtension];
+    testassert([subpath class] == objc_getClass("NSPathStore2"));
+    testassert([subpath isEqualToString:@"abc.xyz"]);
+    
+    testassert([[subpath stringByDeletingPathExtension] isEqualToString:@"abc"]);
+    
+    return YES;
+}
+
+- (BOOL)testPathExtension_forNSPathStore2_2b
+{
+    NSString *path = @".abc.xyz";
+    
+    NSString *subpath = [path stringByDeletingPathExtension];
+    testassert([subpath class] == objc_getClass("NSPathStore2"));
+    testassert([subpath isEqualToString:@".abc"]);
+    
+    testassert([[subpath stringByDeletingPathExtension] isEqualToString:@".abc"]);
+    
+    return YES;
+}
+
+- (BOOL)testPathExtension_forNSPathStore2_2c
+{
+    NSString *path = @"abc.xyz.uvw";
+    
+    NSString *subpath = [path stringByDeletingPathExtension];
+    testassert([subpath class] == objc_getClass("NSPathStore2"));
+    testassert([subpath isEqualToString:@"abc.xyz"]);
+    
+    testassert([[subpath stringByDeletingPathExtension] isEqualToString:@"abc"]);
+    
+    return YES;
+}
+
+- (BOOL)testPathExtension_forNSPathStore2_3
+{
+    NSString *path = @"abc.xyz.uvw";
+    
+    NSString *subpath = [path stringByDeletingPathExtension];
+    testassert([subpath class] == objc_getClass("NSPathStore2"));
+    testassert([subpath isEqualToString:@"abc.xyz"]);
+    
+    testassert([[subpath pathExtension] isEqualToString:@"xyz"]);
+    
+    return YES;
+}
+
 - (BOOL)testPathWithComponentsNil
 {
     BOOL raised = NO;
@@ -281,6 +385,116 @@
 
     testassert(match);
 
+    return YES;
+}
+
+- (BOOL)testStringByAppendingPathExtension1
+{
+    NSString *str = [@"foo" stringByAppendingPathExtension:@"bar"];
+    testassert([str isEqualToString:@"foo.bar"]);
+    return YES;
+}
+
+- (BOOL)testStringByAppendingPathExtension2
+{
+    NSString *str = [@"foo." stringByAppendingPathExtension:@"bar"];
+    testassert([str isEqualToString:@"foo..bar"]);
+    return YES;
+}
+
+- (BOOL)testStringByAppendingPathExtension3
+{
+    NSString *str = [@"foo" stringByAppendingPathExtension:@".bar"];
+    testassert([str isEqualToString:@"foo..bar"]);
+    return YES;
+}
+
+- (BOOL)testStringByAppendingPathExtension4
+{
+    NSString *str = [@"foo.bar" stringByAppendingPathExtension:@"baz"];
+    testassert([str isEqualToString:@"foo.bar.baz"]);
+    return YES;
+}
+
+- (BOOL)testStringByAppendingPathExtension5
+{
+    NSString *str = [@"foo.bar" stringByAppendingPathExtension:@"bar"];
+    testassert([str isEqualToString:@"foo.bar.bar"]);
+    return YES;
+}
+
+- (BOOL)testStringByAppendingPathExtensionNil
+{
+    BOOL thrown = NO;
+    @try {
+        NSString *str = [@"foo" stringByAppendingPathExtension:nil];
+    } @catch (NSException *e) {
+        testassert([[e name] isEqualToString:NSInvalidArgumentException]);
+        thrown = YES;
+    }
+    testassert(thrown);
+    return YES;
+}
+
+- (BOOL)testStringByExpandingTildeInPath1
+{
+    NSString *str = [@"~/test" stringByExpandingTildeInPath];
+    testassert([str isEqualToString:[NSHomeDirectory() stringByAppendingPathComponent:@"test"]]);
+    return YES;
+}
+
+- (BOOL)testStringByExpandingTildeInPath2
+{
+    NSString *str = [@"/foo/../~/test" stringByExpandingTildeInPath];
+    testassert([str isEqualToString:@"/foo/../~/test"]);
+    return YES;
+}
+
+
+- (BOOL)testURLFromPathStore
+{
+    NSString *str = [NSString pathWithComponents:@[@"/", @"foo", @"bar", @"baz"]];
+    testassert([str class] == NSClassFromString(@"NSPathStore2"));
+    testassert([str isEqualToString:@"/foo/bar/baz"]);
+    NSURL *url = [NSURL fileURLWithPath:str];
+    testassert(url != nil);
+    testassert([url isEqual:[NSURL URLWithString:@"file:///foo/bar/baz"]]);
+    return YES;
+}
+
+- (BOOL)testStringByDeletingPathExtension1
+{
+    NSString *str = [@"foo/bar/baz.bar" stringByDeletingPathExtension];
+    testassert([str isEqualToString:@"foo/bar/baz"]);
+    testassert([str class] == NSClassFromString(@"NSPathStore2"));
+    return YES;
+}
+
+- (BOOL)testStringByDeletingPathExtension2
+{
+    NSString *str = [@"foo/bar/baz" stringByDeletingPathExtension];
+    testassert([str isEqualToString:@"foo/bar/baz"]);
+    return YES;
+}
+
+- (BOOL)testStringByDeletingPathExtension3
+{
+    NSString *str = [@"foo/bar/.baz" stringByDeletingPathExtension];
+    testassert([str isEqualToString:@"foo/bar/.baz"]);
+    return YES;
+}
+
+- (BOOL)testStringByDeletingPathExtension4
+{
+    NSString *str = [@"foo/bar/." stringByDeletingPathExtension];
+    testassert([str isEqualToString:@"foo/bar/."]);
+    return YES;
+}
+
+- (BOOL)testSubstringWithRange
+{
+    NSString *str = [[NSString pathWithComponents:@[@"foo", @"bar", @"baz"]] substringWithRange:NSMakeRange(4, 3)];
+    testassert([str isEqualToString:@"bar"]);
     return YES;
 }
 

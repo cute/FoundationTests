@@ -20,7 +20,21 @@ static unichar AsciiSampleUnicode[] = {ASCII_SAMPLE};
 static const NSUInteger AsciiSampleMaxUnicodeLength = 100;
 static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 
+@interface NSString (TestInternal)
+- (BOOL)_getCString:(char *)buffer maxLength:(NSUInteger)maxBufferCount encoding:(CFStringEncoding)encoding;
+@end
+
 @testcase(NSString)
+
+- (BOOL)testAllocate
+{
+    NSString *s1 = [NSString alloc];
+    NSString *s2 = [NSString alloc];
+    
+    testassert(s1 == s2);
+    
+    return YES;
+}
 
 - (BOOL)teststringByReplacingOccurrencesOfString
 {
@@ -525,10 +539,24 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testStringByStandardizingPath
+- (BOOL) testStringByStandardizingPath1
 {
     NSString *abc = [@"/abc/" stringByStandardizingPath];
     testassert([abc isEqualToString:@"/abc"]);
+    return YES;
+}
+
+- (BOOL)testStringByStandardizingPath2
+{
+    NSString *baz = [@"/abc/../bar/../baz" stringByStandardizingPath];
+    testassert([baz isEqualToString:@"/baz"]);
+    return YES;
+}
+
+- (BOOL)testStringByStandardizingPath3
+{
+    NSString *abc = [@"~/abc/" stringByStandardizingPath];
+    testassert([abc isEqualToString:[NSHomeDirectory() stringByAppendingPathComponent:@"abc"]]);
     return YES;
 }
 
@@ -736,6 +764,131 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 
     return YES;
 }
+
+- (BOOL)testSimpleConstruction
+{
+    NSSimpleCString *str = [[NSSimpleCString alloc] initWithCStringNoCopy:strdup("foo") length:3];
+    testassert(str != nil);
+    testassert([str length] == 3);
+    [str release];
+    return YES;
+}
+
+- (BOOL)testGetCStringMaxBufferCount
+{
+   NSString *string = @"this is a string with 35 characters";
+
+   char buffer[36];
+   testassert([string getCString:buffer maxLength:36 encoding:NSUTF8StringEncoding]);
+   testassert(!strcmp(buffer, "this is a string with 35 characters"));
+
+   testassert(![string getCString:buffer maxLength:35 encoding:NSUTF8StringEncoding]);
+
+   // What happens when the initial buffer has more?
+   char longer_buff[46];
+   strcpy(longer_buff, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+   testassert([string getCString:longer_buff maxLength:36 encoding:NSUTF8StringEncoding]);
+   testassert(!strcmp(longer_buff, "this is a string with 35 characters"));
+
+   return YES;
+}
+
+- (BOOL)testInternalGetCStringMaxBufferCount
+{
+    NSString *string = @"this is a string with 35 characters";
+    
+    char buffer[36];
+    testassert([string _getCString:buffer maxLength:35 encoding:kCFStringEncodingUTF8]);
+    testassert(!strcmp(buffer, "this is a string with 35 characters"));
+    
+    testassert(![string _getCString:buffer maxLength:34 encoding:kCFStringEncodingUTF8]);
+    
+    // What happens when the initial buffer has more?
+    char longer_buff[46];
+    strcpy(longer_buff, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    testassert([string _getCString:longer_buff maxLength:35 encoding:kCFStringEncodingUTF8]);
+    testassert(!strcmp(longer_buff, "this is a string with 35 characters"));
+
+    return YES;
+}
+
+- (BOOL)testHasPrefix
+{
+    NSString *str1 = @"the quick brown fox jumped over the lazy dog";
+    NSString *str2 = @"the quick";
+    NSString *str3 = @"the dead";
+    
+    testassert([str1 hasPrefix:str2]);
+    testassert(![str1 hasPrefix:str3]);
+    testassert(![str2 hasPrefix:str1]);
+    testassert(![str3 hasPrefix:str1]);
+    
+    return YES;
+}
+
+#pragma mark -
+#pragma mark test [NSString initWithFormat:arguments:]
+
++ (NSString *)aStringWithFormat:(NSString *)fmt andParameters:(va_list)ap
+{
+    NSString *str=[[NSString alloc] initWithFormat:fmt arguments:ap];
+    return [str autorelease];
+}
+
++ (NSString *)aStringWithFormat:(NSString *)fmt, ...
+{
+    va_list ap;
+    va_start(ap, fmt);
+    NSString *str = [[NSString alloc] initWithFormat:fmt arguments:ap];
+    va_end(ap);
+    return [str autorelease];
+}
+
++ (NSString *)aStringWithFormat2:(NSString *)fmt, ...
+{
+    va_list ap;
+    va_start(ap, fmt);
+    NSString *str = [[self class] aStringWithFormat:fmt andParameters:ap];
+    va_end(ap);
+    return str;
+}
+
+- (BOOL)testInitWithFormat1
+{
+    NSString *str = [[self class] aStringWithFormat:@"a string '%@' and another string '%@'", @"foo", @"bar"];
+    testassert([str isEqualToString:@"a string 'foo' and another string 'bar'"]);
+    return YES;
+}
+
+- (BOOL)testInitWithFormat2
+{
+    NSString *str = [[self class] aStringWithFormat2:@"a string '%@' and another string '%@'", @"foo", @"bar"];
+    testassert([str isEqualToString:@"a string 'foo' and another string 'bar'"]);
+    return YES;
+}
+
+- (BOOL)testInitWithFormat_fromNSPathStore2
+{
+    NSString *defaultPngPath = [[NSBundle mainBundle] pathForResource:@"ATestPlist" ofType:@"plist"];
+    testassert([defaultPngPath isKindOfClass:NSClassFromString(@"__NSCFString")]);
+    defaultPngPath = [defaultPngPath stringByDeletingPathExtension];
+    testassert([defaultPngPath isKindOfClass:NSClassFromString(@"NSPathStore2")]);
+    
+    NSString *str = [[self class] aStringWithFormat2:@"Path file : %@", defaultPngPath];
+    
+    testassert([[str substringToIndex:12] isEqualToString:@"Path file : "]);
+    
+    return YES;
+}
+
+- (BOOL)testSubstringWithRange
+{
+    NSString *str = [@"foo-bar-baz" substringWithRange:NSMakeRange(4, 3)];
+    testassert([str isEqualToString:@"bar"]);
+    return YES;
+}
+
+#pragma mark -
 
 @end
 

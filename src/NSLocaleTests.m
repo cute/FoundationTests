@@ -10,7 +10,15 @@
 
 @testcase(NSLocale)
 
-
+- (BOOL)testAllocate
+{
+    NSLocale *l1 = [NSLocale alloc];
+    NSLocale *l2 = [NSLocale alloc];
+    
+    testassert(l1 == l2);
+    
+    return YES;
+}
 
 - (BOOL)testPreferredLanguages
 {
@@ -18,9 +26,17 @@
     testassert([langs count] >= 1);
     NSString *myLanguage = [langs objectAtIndex:0];
     testassert([myLanguage isEqualToString:@"en"]);  // Will fail on non English speaking devices
-    
     return YES;
 }
 
+- (BOOL)testAutoupdatingCurrentLocale
+{
+    NSLocale *autoCurrentLocale = [NSLocale autoupdatingCurrentLocale];
+    NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+    testassert([autoCurrentLocale isKindOfClass:[NSLocale class]]);
+    testassert([currentLocale isKindOfClass:[NSLocale class]]);
+    testassert([[autoCurrentLocale localeIdentifier] isEqualToString:[currentLocale localeIdentifier]]);
+    return YES;
+}
 
 @end

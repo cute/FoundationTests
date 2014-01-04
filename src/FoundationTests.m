@@ -3,33 +3,126 @@
 #import <objc/runtime.h>
 #import <signal.h>
 #import <setjmp.h>
-#import <sys/stat.h>
 
 #import "FoundationTests.h"
-#import "uthash.h"
-
-typedef struct {
-    char test[256];
-    char status;
-    UT_hash_handle hh;
-} TestResults;
-
-TestResults *oldResults = NULL;
-TestResults *newResults = NULL;
 
 #ifndef DEBUG_LOG
 #define DEBUG_LOG printf
 #endif
+
+
+@implementation SubclassTracker {
+    CFMutableArrayRef calls;
+    Class class;
+}
+
+static CFStringRef sel_copyDescription(const void *value)
+{
+    if (value == NULL)
+    {
+        return CFSTR("<NULL>");
+    }
+    return CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("@selector(%s)"), sel_getName((SEL)value));
+}
+
+- (id)initWithClass:(Class)cls
+{
+    self = [super init];
+    if (self)
+    {
+        class = cls;
+        CFArrayCallBacks callbacks = {
+            .version = 0,
+            .copyDescription = &sel_copyDescription
+        };
+        calls = CFArrayCreateMutable(kCFAllocatorDefault, 0, &callbacks);
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [super dealloc];
+}
+
+- (void)track:(SEL)cmd
+{
+    CFArrayAppendValue(calls, cmd);
+}
+
+- (CFArrayRef)calls
+{
+    return calls;
+}
+
++ (BOOL)verify:(id)target commands:(SEL)cmd, ...
+{
+    SubclassTracker *tracker = objc_getAssociatedObject(target, [target class]);
+    if (tracker == nil)
+    {
+        return NO;
+    }
+    CFArrayCallBacks callbacks = {
+        .version = 0,
+        .copyDescription = &sel_copyDescription
+    };
+    CFMutableArrayRef expected = CFArrayCreateMutable(kCFAllocatorDefault, 0, &callbacks);
+    CFArrayRef calls = [tracker calls];
+    va_list args;
+    va_start(args, cmd);
+    SEL command = cmd;
+    do {
+        CFArrayAppendValue(expected, command);
+        command = va_arg(args, SEL);
+    } while (command != NULL);
+    if (CFEqual(calls, expected))
+    {
+        return YES;
+    }
+    else
+    {
+        
+        DEBUG_LOG("Expected call pattern: %s", [(NSString *)CFCopyDescription(expected) UTF8String]);
+        DEBUG_LOG("Recieved call pattern: %s", [(NSString *)CFCopyDescription(calls) UTF8String]);
+        return NO;
+    }
+}
+
++ (BOOL)dumpVerification:(id)target
+{
+    SubclassTracker *tracker = objc_getAssociatedObject(target, [target class]);
+    if (tracker == nil)
+    {
+        return NO;
+    }
+    CFArrayRef calls = [tracker calls];
+    CFIndex count = CFArrayGetCount(calls);
+    NSMutableString *verification = [NSMutableString stringWithFormat:@"BOOL verified = [%s verify:target commands:", object_getClassName(self)];
+    for (CFIndex index = 0; index < count; index++)
+    {
+        SEL command = (SEL)CFArrayGetValueAtIndex(calls, index);
+        [verification appendFormat:@"@selector(%s), ", sel_getName(command)];
+    }
+    [verification appendString:@"nil];\n testassert(verified);\n"];
+    printf("%s", [verification UTF8String]);
+    return YES;
+}
+
+@end
+
 
 static void failure_log(const char *error)
 {
     DEBUG_LOG("%s", error);
 }
 
-static unsigned int total_success_count;
-static unsigned int total_skip_count;
-static unsigned int total_uncaught_exception_count;
-static unsigned int total_failure_count;
+static unsigned int total_success_count = 0;
+static unsigned int total_assertion_count = 0;
+static unsigned int total_skip_count = 0;
+static unsigned int total_uncaught_exception_count = 0;
+static unsigned int total_failure_count = 0;
+static unsigned int total_signal_count = 0;
+static unsigned int total_test_count = 0;
 
 static sigjmp_buf jbuf;
 static int signal_hit = 0;
@@ -40,17 +133,21 @@ static void test_signal(int sig)
     siglongjmp(jbuf, 1);
 }
 
-static void runTests(id tests, FILE *f)
+static void runTests(id tests)
 {
     unsigned int count;
     Class c = [tests class];
     const char *class_name = class_getName(c);
     Method *methods = class_copyMethodList(c, &count);
-    
+
     unsigned int success_count = 0;
+    unsigned int assertion_count = 0;
     unsigned int skip_count = 0;
     unsigned int uncaught_exception_count = 0;
     unsigned int failure_count = 0;
+    unsigned int signal_count = 0;
+    unsigned int test_count = 0;
+    
     DEBUG_LOG("Running tests for %.*s:\n", (int)strlen(class_name) - (int)strlen("TestsApportable"), class_name);
     for (unsigned int i = 0; i < count; i++)
     {
@@ -84,7 +181,14 @@ static void runTests(id tests, FILE *f)
             @try
             {
                 @autoreleasepool {
+                    total_test_count++;
+                    test_count++;
                     success = (BOOL)imp(tests, sel);
+                    if (!success)
+                    {
+                        assertion_count++;
+                        total_assertion_count++;
+                    }
                 }
             }
             @catch (NSException *e)
@@ -100,11 +204,9 @@ static void runTests(id tests, FILE *f)
         signal(SIGSEGV, sigsegv_handler);
 
         success = success && !signal_hit;
-        TestResults *entry = malloc(sizeof(TestResults));
-        snprintf(entry->test, 256, "%s_%s", class_name, sel_name);
+
         if (success)
         {
-            entry->status = 'P';
             success_count++;
             total_success_count++;
         }
@@ -112,119 +214,44 @@ static void runTests(id tests, FILE *f)
         {
             if (exception)
             {
-                entry->status = 'X';
                 uncaught_exception_count++;
                 total_uncaught_exception_count++;
             }
-            else
-            {
-                entry->status = 'F';
-                failure_count++;
-                total_failure_count++;
-            }
-            DEBUG_LOG("%s: %s FAILED\n", class_name, sel_name);
+            
             if (signal_hit)
             {
-                entry->status = 'S';
+                signal_count++;
                 DEBUG_LOG("Got signal %s\n", strsignal(signal_hit));
+                total_signal_count++;
             }
+            
+            DEBUG_LOG("%s: %s FAILED\n", class_name, sel_name);
+            failure_count++;
+            total_failure_count++;
         }
-        fprintf(f, "%c %s\n", entry->status, entry->test);
-        HASH_ADD_STR(newResults, test, entry);
     }
 
-    DEBUG_LOG("%u successes\n", success_count);
+    DEBUG_LOG("%u/%u successes\n", success_count, test_count);
+    DEBUG_LOG("%u assertions\n", assertion_count);
     DEBUG_LOG("%u skipped\n", skip_count);
     DEBUG_LOG("%u uncaught exceptions\n", uncaught_exception_count);
-    DEBUG_LOG("%u failures\n\n", failure_count);
+    DEBUG_LOG("%u signals raised\n", signal_count);
+    DEBUG_LOG("%u failures (assertions, signals, and uncaught exceptions)\n\n", failure_count);
+
     free(methods);
 }
 
 void runFoundationTests(void)
 {
-    char *env_home = getenv("HOME");
-    char *lib = "/Documents";
-    char *testdoc = "/tests";
-    char *home = malloc(strlen(env_home) + strlen(lib) + strlen(testdoc) + 1);
-    strcpy(home, env_home);
-    char *documents = strcat(home, lib);
-    struct stat info;
-    if (stat(documents, &info) != 0) {
-        mkdir(documents, 777);
-    }
-    char *path = strcat(documents, testdoc);
-    FILE *f = fopen(path, "r");
-    if (f != NULL)
-    {
-        while (!feof(f))
-        {
-            TestResults *entry = malloc(sizeof(TestResults));
-            fscanf(f, "%c %256s\n", &entry->status, entry->test);
-            HASH_ADD_STR(oldResults, test, entry);
-        }
-        fclose(f);
-    }
-    f = fopen(path, "w+");
-    free(path);
-    
     TEST_CLASSES(@testrun)
 
-    TestResults *element = NULL;
-    TestResults *tmp = NULL;
-    int delta = 0;
-    HASH_ITER(hh, newResults, element, tmp)
-    {
-        TestResults *found = NULL;
-        HASH_FIND_STR(oldResults, element->test, found);
-        if (found != NULL)
-        {
-            if (found->status == 'P' && found->status != element->status)
-            {
-                switch (element->status)
-                {
-                    case 'S':
-                        DEBUG_LOG("Test for %s previously passed but now is throwing a signal\n", element->test);
-                    case 'X':
-                        DEBUG_LOG("Test for %s previously passed but now is raising an exception\n", element->test);
-                    case 'F':
-                        DEBUG_LOG("Test for %s previously passed but now is failing\n", element->test);
-                        break;
-                }
-                delta++;
-            }
-        }
-    }
-    fclose(f);
-    
-    DEBUG_LOG("Foundation test totals\n");
-    DEBUG_LOG("%u successes\n", total_success_count);
+    DEBUG_LOG("Foundation test totals %.02f%%\n", 100.0 * ((double)total_success_count / (double)total_test_count));
+    DEBUG_LOG("%u/%u successes\n", total_success_count, total_test_count);
+    DEBUG_LOG("%u assertions\n", total_assertion_count);
     DEBUG_LOG("%u skipped\n", total_skip_count);
     DEBUG_LOG("%u uncaught exceptions\n", total_uncaught_exception_count);
-    DEBUG_LOG("%u failures\n\n", total_failure_count);
-    if (delta == 0)
-    {
-        DEBUG_LOG("Test status unchanged from last run");
-    }
-    else
-    {
-        DEBUG_LOG("%d tests changed from last run", delta);
-    }
-    
-    element = NULL;
-    tmp = NULL;
-    HASH_ITER(hh, oldResults, element, tmp)
-    {
-        HASH_DEL(oldResults, element);
-        free(element);
-    }
-    
-    element = NULL;
-    tmp = NULL;
-    HASH_ITER(hh, newResults, element, tmp)
-    {
-        HASH_DEL(newResults, element);
-        free(element);
-    }
+    DEBUG_LOG("%u signals raised\n", total_signal_count);
+    DEBUG_LOG("%u failures (assertions, signals, and uncaught exceptions)\n\n", total_failure_count);
 }
 
 static void test_failure(const char *file, int line)

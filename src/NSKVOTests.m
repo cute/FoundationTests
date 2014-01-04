@@ -345,10 +345,10 @@
         [badObservable addObserver:observer2 forKeyPath:@"anInt" options:0 context:NULL];
         [badObservable setAnInt:50];
         [badObservable didChangeValueForKey:@"anInt"];
-        testassert([observer observationCountForKeyPath:@"anInt"] == 1); //TODO: is this a bug in iOS?
-        testassert([observer2 observationCountForKeyPath:@"anInt"] == 0);
         [badObservable removeObserver:observer forKeyPath:@"anInt"];
         [badObservable removeObserver:observer2 forKeyPath:@"anInt"];
+        testassert([observer observationCountForKeyPath:@"anInt"] == 1); //TODO: is this a bug in iOS?
+        testassert([observer2 observationCountForKeyPath:@"anInt"] == 0);
         return YES;
     }
 }
@@ -363,9 +363,9 @@
         [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
         [badObservable setAnInt:50];
         [badObservable didChangeValueForKey:@"anInt"];
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
         testassert([observer observationCountForKeyPath:@"anInt"] == 1); //TODO: is this a bug in iOS?
-        [badObservable removeObserver:observer forKeyPath:@"anInt"];
-        [badObservable removeObserver:observer forKeyPath:@"anInt"];
         return YES;
     }
 }
@@ -382,8 +382,8 @@
         [badObservable setAnInt:50];
         [badObservable removeObserver:observer forKeyPath:@"anInt"];
         [badObservable didChangeValueForKey:@"anInt"];
-        testassert([observer observationCountForKeyPath:@"anInt"] == 2); //This seems wrong. 
         [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        testassert([observer observationCountForKeyPath:@"anInt"] == 2); //This seems wrong. 
         return YES;
     }
 }
@@ -400,8 +400,8 @@
         [badObservable setAnInt:50];
         [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
         [badObservable didChangeValueForKey:@"anInt"];
-        testassert([observer observationCountForKeyPath:@"anInt"] == 1); // really?
         [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        testassert([observer observationCountForKeyPath:@"anInt"] == 1); // really?
         return YES;
     }
 }
@@ -418,15 +418,14 @@
         [badObservable setAnInt:50];
         [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:badObservable];
         [badObservable didChangeValueForKey:@"anInt"];
-        testassert([observer observationCountForKeyPath:@"anInt"] == 0);
         [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        testassert([observer observationCountForKeyPath:@"anInt"] == 0);
         return YES;
     }
 }
 
 - (BOOL)testMidCycleReregisterPartialWithContext
 {
-    IOS_SIMULATOR_BUG_FAILURE();
     @autoreleasepool
     {
         ReallyBadObservable *badObservable = [ReallyBadObservable observable];
@@ -438,8 +437,8 @@
         [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:badObservable];
         [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
         [badObservable didChangeValueForKey:@"anInt"];
-        testassert([observer observationCountForKeyPath:@"anInt"] == 1);
         [badObservable removeObserver:observer forKeyPath:@"anInt" context:badObservable];
+        testassert([observer observationCountForKeyPath:@"anInt"] == 1);
         return YES;
         //WTF, NSKVODeallocateBreak doesn't fire here.
     }
@@ -454,8 +453,8 @@
         Observer *observer = [Observer observer];
         [observable addObserver:observer forKeyPath:@"aFloat" options:0 context:NULL];
         [observable setAnInt:5];
-        testassert([observer observationCountForKeyPath:@"aFloat"] == 1);
         [observable removeObserver:observer forKeyPath:@"aFloat"];
+        testassert([observer observationCountForKeyPath:@"aFloat"] == 1);
         return YES;
     }
 }
@@ -467,8 +466,8 @@
         Observer *observer = [Observer observer];
         [observable addObserver:observer forKeyPath:@"aFloat" options:0 context:NULL];
         [observable setAFloat:5.0f];
-        testassert([observer observationCountForKeyPath:@"aFloat"] == 1);
         [observable removeObserver:observer forKeyPath:@"aFloat"];
+        testassert([observer observationCountForKeyPath:@"aFloat"] == 1);
         return YES;
     }
 }
@@ -481,8 +480,8 @@
         observable.nameObject = [NameClass new];
         [observable addObserver:observer forKeyPath:@"fullName" options:0 context:NULL];
         [observable.nameObject setFirstName:@"Bob"];
-        testassert([observer observationCountForKeyPath:@"fullName"] == 1);
         [observable removeObserver:observer forKeyPath:@"fullName"];
+        testassert([observer observationCountForKeyPath:@"fullName"] == 1);
         return YES;
     }
 }
@@ -495,8 +494,8 @@
         observable.nameObject = [NameClass new];
         [observable addObserver:observer forKeyPath:@"fullName" options:0 context:NULL];
         observable.nameObject = [NameClass new];
-        testassert([observer observationCountForKeyPath:@"fullName"] == 1);
         [observable removeObserver:observer forKeyPath:@"fullName"];
+        testassert([observer observationCountForKeyPath:@"fullName"] == 1);
         return YES;
     }
 }
@@ -512,8 +511,8 @@
         Observer *observer = [Observer observer];
         [topLevelObservable addObserver:observer forKeyPath:@"nested.anInt" options:0 context:NULL];
         [leafObservable setAnInt:5];
-        testassert([observer observationCountForKeyPath:@"nested.anInt"] == 1);
         [topLevelObservable removeObserver:observer forKeyPath:@"nested.anInt"];
+        testassert([observer observationCountForKeyPath:@"nested.anInt"] == 1);
         return YES;
     }
 }
@@ -528,8 +527,8 @@
         Observer *observer = [Observer observer];
         [topLevelObservable addObserver:observer forKeyPath:@"nested.anInt" options:0 context:NULL];
         [topLevelObservable setNested:leafObservable];
-        testassert([observer observationCountForKeyPath:@"nested.anInt"] == 1);
         [topLevelObservable removeObserver:observer forKeyPath:@"nested.anInt"];
+        testassert([observer observationCountForKeyPath:@"nested.anInt"] == 1);
         return YES;
     }
 }

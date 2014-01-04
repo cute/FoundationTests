@@ -9,6 +9,7 @@
 #import "FoundationTests.h"
 
 @testcase(NSDecimalNumber)
+#if 0
 
 - (BOOL)testDoubleValue
 {
@@ -321,5 +322,5 @@
     
     return YES;
 }
-
+#endif
 @end

@@ -49,8 +49,6 @@
     void (^block)(char ch) = ^(char c){
         invoked = c == 'B';
     };
-    extern const char *_Block_signature(void *);
-    printf("%s\n", _Block_signature(block));
     char t = 'B';
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[(id)block methodSignatureForSelector:@selector(invoke)]];
     [inv setTarget:block];

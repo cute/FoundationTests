@@ -10,6 +10,16 @@
 
 @testcase(NSSet)
 
+- (BOOL)testAllocate
+{
+    NSSet *s1 = [NSSet alloc];
+    NSSet *s2 = [NSSet alloc];
+    
+    testassert(s1 == s2);
+    
+    return YES;
+}
+
 - (BOOL)testBlankCreation
 {
     NSSet *cs = [[NSSet alloc] init];
