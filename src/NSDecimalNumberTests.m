@@ -10,6 +10,55 @@
 
 @testcase(NSDecimalNumber)
 
+- (BOOL)testDoubleValue
+{
+    NSDecimalNumber *n = nil;
+    n = [NSDecimalNumber decimalNumberWithString:@"0"];
+    testassert([n doubleValue] == 0.0);
+    
+    n = [NSDecimalNumber decimalNumberWithString:@"0.0"];
+    testassert([n doubleValue] == 0.0);
+    
+    n = [NSDecimalNumber decimalNumberWithString:@"-0"];
+    testassert([n doubleValue] == +0.0);
+    testassert([n doubleValue] == -0.0);
+    
+    n = [NSDecimalNumber decimalNumberWithString:@"-0.0"];
+    testassert([n doubleValue] == +0.0);
+    testassert([n doubleValue] == -0.0);
+    
+    n = [NSDecimalNumber decimalNumberWithString:@"0.33"];
+    testassert([n doubleValue] != 0.33);
+    testassert([n doubleValue] - 0.33 < DBL_MIN);
+    
+    n = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%d", USHRT_MAX]];
+    testassert([n doubleValue] == (double)USHRT_MAX);
+
+    n = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%f",(double)USHRT_MAX + 1.0]];
+    testassert([n doubleValue] == 1.0 + (double)USHRT_MAX);
+    
+    n = [NSDecimalNumber decimalNumberWithString:@"65536"];
+    testassert([n doubleValue] == 65536.0);
+    
+    n = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%llu", ULLONG_MAX]];
+    testassert([n doubleValue] == (double)ULLONG_MAX);
+
+    n = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%f", 1 + (double)ULLONG_MAX]];
+    testassert([n doubleValue] == (double)ULLONG_MAX);
+    
+    n = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%f", 2.0 * (double)ULLONG_MAX]];
+    testassert([n doubleValue] == 2.0 * (double)ULLONG_MAX);
+    
+    n = [NSDecimalNumber decimalNumberWithString:@"123234623564.12351251345134"];
+    testassert([n doubleValue] != 123234623564.1235);
+    testassert([n doubleValue] - 123234623564.1235 == 0.000030517578125);
+    
+    n = [NSDecimalNumber decimalNumberWithString:@"12345678901234567890123456789012345678"];
+    testassert([n doubleValue] == 12345678901234567890123456789012345678.0);
+    
+    return YES;
+}
+
 - (BOOL)testObjCType
 {
     NSDecimalNumber *n = [NSDecimalNumber decimalNumberWithString:@"1.99"];
