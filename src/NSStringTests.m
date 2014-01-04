@@ -924,6 +924,15 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL)testIsEqualToStringWithNSPathStore2
+{
+    NSString *str1 = @"name";
+    NSString *str2 = @"name.ttf";
+    NSString *str3 = [str2 stringByDeletingPathExtension];
+    testassert([str1 isEqualToString:str3]);
+    return YES;
+}
+
 #pragma mark -
 
 @end
