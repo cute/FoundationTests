@@ -75,8 +75,8 @@ action(NSDate) \
 action(NSDateFormatter) \
 action(NSDecimalNumber) \
 action(NSDictionary) \
-action(NSExpression) \
 action(NSException) \
+action(NSExpression) \
 action(NSFileHandle) \
 action(NSFileManager) \
 action(NSHTTPCookieStorage) \

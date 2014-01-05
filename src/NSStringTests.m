@@ -413,6 +413,42 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL) testStringWithNullUTF8String
+{
+    void (^block)() = ^{
+        [NSString stringWithUTF8String:NULL];
+    };
+    BOOL raised = NO;
+    
+    @try {
+        block();
+    }
+    @catch (NSException *e) {
+        raised = [[e name] isEqualToString:NSInvalidArgumentException];
+    }
+    
+    testassert(raised);
+    return YES;
+}
+
+- (BOOL) testStringWithNullUTF8String2
+{
+    void (^block)() = ^{
+        [[NSString alloc] initWithUTF8String:NULL];
+    };
+    BOOL raised = NO;
+    
+    @try {
+        block();
+    }
+    @catch (NSException *e) {
+        raised = [[e name] isEqualToString:NSInvalidArgumentException];
+    }
+    
+    testassert(raised);
+    return YES;
+}
+
 - (BOOL) testGetCharacters
 {
     NSString *s = @"I'm constant";
@@ -885,6 +921,15 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 {
     NSString *str = [@"foo-bar-baz" substringWithRange:NSMakeRange(4, 3)];
     testassert([str isEqualToString:@"bar"]);
+    return YES;
+}
+
+- (BOOL)testIsEqualToStringWithNSPathStore2
+{
+    NSString *str1 = @"name";
+    NSString *str2 = @"name.ttf";
+    NSString *str3 = [str2 stringByDeletingPathExtension];
+    testassert([str1 isEqualToString:str3]);
     return YES;
 }
 

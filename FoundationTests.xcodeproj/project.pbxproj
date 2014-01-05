@@ -91,6 +91,7 @@
 		58DD282B180F520E007C4D8F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58DD282A180F520E007C4D8F /* Security.framework */; };
 		58DD282D180F5213007C4D8F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58DD282C180F5213007C4D8F /* Security.framework */; };
 		58DD282E180F55E7007C4D8F /* NSLocaleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE212C22180EF73300DDB3AA /* NSLocaleTests.m */; };
+		5B0DF58D1873A9F4008A7E6A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B0DF58C1873A9F4008A7E6A /* CoreLocation.framework */; };
 		5B5547FE1857B9DB002AE461 /* NSObjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5547FD1857B9DB002AE461 /* NSObjectTests.m */; };
 		5B83DE1A17D53449000B384A /* NSDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B83DE1917D53449000B384A /* NSDataTests.m */; };
 		5B8B202C183ECCA2000C2C36 /* NSStringTests+ExternalSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8B202B183ECCA2000C2C36 /* NSStringTests+ExternalSymbols.m */; };
@@ -217,6 +218,7 @@
 		58DD2826180F51F7007C4D8F /* SecureTransportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecureTransportTests.m; sourceTree = "<group>"; };
 		58DD282A180F520E007C4D8F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		58DD282C180F5213007C4D8F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
+		5B0DF58C1873A9F4008A7E6A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		5B5547FD1857B9DB002AE461 /* NSObjectTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSObjectTests.m; sourceTree = "<group>"; };
 		5B83DE1917D53449000B384A /* NSDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataTests.m; sourceTree = "<group>"; };
 		5B8B202B183ECCA2000C2C36 /* NSStringTests+ExternalSymbols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSStringTests+ExternalSymbols.m"; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B0DF58D1873A9F4008A7E6A /* CoreLocation.framework in Frameworks */,
 				58DD282B180F520E007C4D8F /* Security.framework in Frameworks */,
 				DE6BDA9017EA6ABD006B5392 /* UIKit.framework in Frameworks */,
 				47178C9217ADD9D40062E7B0 /* Foundation.framework in Frameworks */,
@@ -325,6 +328,7 @@
 		47178C8E17ADD9D40062E7B0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5B0DF58C1873A9F4008A7E6A /* CoreLocation.framework */,
 				58DD282C180F5213007C4D8F /* Security.framework */,
 				58DD282A180F520E007C4D8F /* Security.framework */,
 				DE6BDA8F17EA6ABD006B5392 /* UIKit.framework */,

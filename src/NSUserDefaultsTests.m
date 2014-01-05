@@ -32,9 +32,6 @@
     return YES;
 }
 
-// TODO - needs stringByExpandingTildeInPath implementation
-
-#if 0
 - (BOOL)testSetAndGetURL  
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -44,7 +41,6 @@
     
     return YES;
 }
-#endif
 
 - (BOOL) testRegisterDefaults
 {
@@ -68,6 +64,30 @@
     testassert([[defaults stringForKey:@"abc"] isEqualToString:@"xyz"]);
     testassert([[defaults stringForKey:@"firstName"] isEqualToString:@"apportable"]);
     
+    return YES;
+}
+
+- (BOOL)testStoreDate
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDate *date = [NSDate date];
+    NSDate *orig = date;
+    [defaults setObject:date forKey:@"now"];
+    date = [defaults objectForKey:@"now"];
+    testassert(date != nil);
+    testassert(date != orig);
+    return YES;
+}
+
+- (BOOL)testStoreData
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *data = [NSData dataWithBytes:"foo" length:3];
+    NSData *orig = data;
+    [defaults setObject:data forKey:@"dat"];
+    data = [defaults objectForKey:@"dat"];
+    testassert(data != nil);
+    testassert(data != orig);
     return YES;
 }
 
