@@ -241,9 +241,54 @@ static void runTests(id tests)
     free(methods);
 }
 
+static Class *testClasses = NULL;
+static int testClassCount = 0;
+static int testClassCapacity = 0;
+
+void registerTestClass(Class cls)
+{
+    if (testClasses == NULL)
+    {
+        testClassCapacity = 128;
+        testClasses = malloc(testClassCapacity * sizeof(Class));
+        if (testClasses == NULL)
+        {
+            abort();
+            return;
+        }
+    }
+    else if (testClassCount + 1 > testClassCapacity)
+    {
+        testClassCapacity *= 2;
+        Class *buffer = realloc(testClasses, testClassCapacity * sizeof(Class));
+        if (buffer == NULL)
+        {
+            abort();
+            return;
+        }
+        testClasses = buffer;
+    }
+    testClasses[testClassCount++] = cls;
+}
+
 void runFoundationTests(void)
 {
-    TEST_CLASSES(@testrun)
+    if (testClassCount == 0)
+    {
+        DEBUG_LOG("No tests are registered\n");
+        return;
+    }
+    
+    qsort_b(testClasses, testClassCount, sizeof(Class), ^(const void *c1, const void *c2) {
+        return strcmp(class_getName(*(Class *)c1), class_getName(*(Class *)c2));
+    });
+
+    for (unsigned idx = 0; idx < testClassCount; idx++)
+    {
+        id testObj = [[testClasses[idx] alloc] init];
+        runTests(testObj);
+        [testObj release];
+    }
 
     DEBUG_LOG("Foundation test totals %.02f%%\n", 100.0 * ((double)total_success_count / (double)total_test_count));
     DEBUG_LOG("%u/%u successes\n", total_success_count, total_test_count);

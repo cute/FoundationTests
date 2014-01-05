@@ -3,9 +3,10 @@
 
 #define FoundationTest(c) c##TestsApportable
 
-#define testdecl(name) interface FoundationTest(name) : NSObject @end
-
-#define testcase(name) implementation FoundationTest(name) : NSObject
+#define testcase(name) interface FoundationTest(name) : NSObject @end \
+static void name##Register() __attribute((constructor)); \
+static void name##Register() { registerTestClass([FoundationTest(name) class]); } \
+@implementation FoundationTest(name)
 
 #define testrun(name) try { \
     id suite = [[FoundationTest(name) alloc] init]; \
@@ -55,66 +56,4 @@ void runFoundationTests(void);
 
 @end
 
-
-#define TEST_CLASSES(action) \
-action(CFGetTypeID) \
-action(CFRunLoop) \
-action(Concurrency) \
-action(Forwarding) \
-action(NSArray) \
-action(NSAttributedString) \
-action(NSBlock) \
-action(NSBundle) \
-action(NSByteCountFormatter) \
-action(NSCachedURLResponse) \
-action(NSCalendar) \
-action(NSCoder) \
-action(NSCountedSet) \
-action(NSData) \
-action(NSDate) \
-action(NSDateFormatter) \
-action(NSDecimalNumber) \
-action(NSDictionary) \
-action(NSException) \
-action(NSExpression) \
-action(NSFileHandle) \
-action(NSFileManager) \
-action(NSHTTPCookieStorage) \
-action(NSIndexSet) \
-action(NSInvocation) \
-action(NSJSONSerialization) \
-action(NSKVO) \
-action(NSKeyValueCoding) \
-action(NSLocale) \
-action(NSLock) \
-action(NSMethodSignature) \
-action(NSNull) \
-action(NSNumber) \
-action(NSNumberFormatter) \
-action(NSObjCRuntime) \
-action(NSObject) \
-action(NSOrderedSet) \
-action(NSPathUtilities) \
-action(NSPointerFunctions) \
-action(NSPort) \
-action(NSProxy) \
-action(NSRegularExpression) \
-action(NSScanner) \
-action(NSScannerSubclass) \
-action(NSSet) \
-action(NSSortDescriptor) \
-action(NSString) \
-action(NSStringSubclass) \
-action(NSThread) \
-action(NSTimeZone) \
-action(NSURL) \
-action(NSURLAuthenticationChallenge) \
-action(NSURLCache) \
-action(NSURLConnection) \
-action(NSURLRequest) \
-action(NSUserDefaults) \
-action(NSValue) \
-action(SecItem) \
-action(SecureTransport) \
-
-TEST_CLASSES(@testdecl)
+extern void registerTestClass(Class cls);
