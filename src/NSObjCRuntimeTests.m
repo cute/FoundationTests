@@ -715,4 +715,17 @@ extern const char *__NSGetSizeAndAlignment(const char *, NSUInteger *, NSUIntege
     return YES;
 }
 
+- (BOOL)testNSExtraRefCount
+{
+    NSObject *o = [[NSObject alloc] init];
+    testassert([o retainCount] == NSExtraRefCount(o) + 1);
+    [o retain];
+    testassert([o retainCount] == NSExtraRefCount(o) + 1);
+    [o release];
+    testassert([o retainCount] == NSExtraRefCount(o) + 1);
+    [o release];
+
+    return YES;
+}
+
 @end
