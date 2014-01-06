@@ -127,4 +127,22 @@
     return YES;
 }
 
+- (BOOL)testEmptyArray
+{
+    NSString *str = @"{\"test\":[]}";
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:0 error:NULL];
+    testassert([dict objectForKey:@"test"] != nil);
+    testassert([[dict objectForKey:@"test"] count] == 0);
+    return YES;
+}
+
+- (BOOL)testEmptyDict
+{
+    NSString *str = @"{\"test\":{}}";
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:0 error:NULL];
+    testassert([dict objectForKey:@"test"] != nil);
+    testassert([[dict objectForKey:@"test"] count] == 0);
+    return YES;
+}
+
 @end
