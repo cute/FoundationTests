@@ -232,11 +232,15 @@ static void runTests(id tests)
     }
 
     DEBUG_LOG("%u/%u successes\n", success_count, test_count);
-    DEBUG_LOG("%u assertions\n", assertion_count);
-    DEBUG_LOG("%u skipped\n", skip_count);
-    DEBUG_LOG("%u uncaught exceptions\n", uncaught_exception_count);
-    DEBUG_LOG("%u signals raised\n", signal_count);
-    DEBUG_LOG("%u failures (assertions, signals, and uncaught exceptions)\n\n", failure_count);
+    if (success_count < test_count)
+    {
+        DEBUG_LOG("%u assertions\n", assertion_count);
+        DEBUG_LOG("%u skipped\n", skip_count);
+        DEBUG_LOG("%u uncaught exceptions\n", uncaught_exception_count);
+        DEBUG_LOG("%u signals raised\n", signal_count);
+        DEBUG_LOG("%u failures (assertions, signals, and uncaught exceptions)\n", failure_count);
+    }
+    DEBUG_LOG("\n");
 
     free(methods);
 }
