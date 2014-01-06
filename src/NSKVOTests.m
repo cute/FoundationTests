@@ -424,27 +424,6 @@
     }
 }
 
-- (BOOL)testMidCycleReregisterPartialWithContext
-{
-    @autoreleasepool
-    {
-        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
-        Observer *observer = [Observer observer];
-        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
-        [badObservable willChangeValueForKey:@"anInt"];
-        [badObservable removeObserver:observer forKeyPath:@"anInt"];
-        [badObservable setAnInt:50];
-        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:badObservable];
-        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
-        [badObservable didChangeValueForKey:@"anInt"];
-        [badObservable removeObserver:observer forKeyPath:@"anInt" context:badObservable];
-        testassert([observer observationCountForKeyPath:@"anInt"] == 1);
-        return YES;
-        //WTF, NSKVODeallocateBreak doesn't fire here.
-    }
-}
-
-
 - (BOOL)testDependantKeyChange
 {
     @autoreleasepool
