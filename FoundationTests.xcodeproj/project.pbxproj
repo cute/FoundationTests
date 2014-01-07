@@ -93,6 +93,7 @@
 		58DD282E180F55E7007C4D8F /* NSLocaleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE212C22180EF73300DDB3AA /* NSLocaleTests.m */; };
 		5B0DF58D1873A9F4008A7E6A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B0DF58C1873A9F4008A7E6A /* CoreLocation.framework */; };
 		5B5547FE1857B9DB002AE461 /* NSObjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5547FD1857B9DB002AE461 /* NSObjectTests.m */; };
+		5B5E26F0187BBAB800760D8D /* NSPredicateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5E26EF187BBAB800760D8D /* NSPredicateTests.m */; };
 		5B83DE1A17D53449000B384A /* NSDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B83DE1917D53449000B384A /* NSDataTests.m */; };
 		5B8B202C183ECCA2000C2C36 /* NSStringTests+ExternalSymbols.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8B202B183ECCA2000C2C36 /* NSStringTests+ExternalSymbols.m */; };
 		5BA8C69E1873517D007F6E2E /* NSExpressionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8C69D1873517D007F6E2E /* NSExpressionTests.m */; };
@@ -220,6 +221,7 @@
 		58DD282C180F5213007C4D8F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		5B0DF58C1873A9F4008A7E6A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		5B5547FD1857B9DB002AE461 /* NSObjectTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSObjectTests.m; sourceTree = "<group>"; };
+		5B5E26EF187BBAB800760D8D /* NSPredicateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSPredicateTests.m; sourceTree = "<group>"; };
 		5B83DE1917D53449000B384A /* NSDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataTests.m; sourceTree = "<group>"; };
 		5B8B202B183ECCA2000C2C36 /* NSStringTests+ExternalSymbols.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSStringTests+ExternalSymbols.m"; sourceTree = "<group>"; };
 		5BA8C69D1873517D007F6E2E /* NSExpressionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSExpressionTests.m; sourceTree = "<group>"; };
@@ -376,6 +378,7 @@
 		47178CAF17ADDA340062E7B0 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				5B5E26EF187BBAB800760D8D /* NSPredicateTests.m */,
 				148B7C0A187237EF00CB69E8 /* Networking */,
 				21BB4E9E183C2B3500DEFF63 /* NSJSONSerializationTests.m */,
 				4A27AE81183C02D9003D36F6 /* ConcurrencyTests.m */,
@@ -625,6 +628,7 @@
 				58C57F32180E16E5008C28D3 /* NSURLAuthenticationChallengeTests.m in Sources */,
 				5B8B202C183ECCA2000C2C36 /* NSStringTests+ExternalSymbols.m in Sources */,
 				DE212C26180F431000DDB3AA /* NSTimeZoneTests.m in Sources */,
+				5B5E26F0187BBAB800760D8D /* NSPredicateTests.m in Sources */,
 				58C57F34180E16EF008C28D3 /* SecItemTests.m in Sources */,
 				58C57F37180E17BD008C28D3 /* WebServer.m in Sources */,
 				4796653A18355B1C00A40F89 /* NSPointerFunctionsTests.m in Sources */,
