@@ -862,6 +862,25 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL)testPlaceholderMutableInit
+{
+    NSMutableString* ms = [[NSMutableString alloc] initWithString:@"foo"];
+    assert([ms isEqualToString:@"foo"]);
+    
+    return YES;
+}
+
+- (BOOL)testPlaceholderMutableInitWithPathStore
+{
+    NSString* pathString = [NSString pathWithComponents:@[@"foo", @"bar", @"baz"]];
+    assert([pathString isKindOfClass:objc_getClass("NSPathStore2")]);
+    
+    NSMutableString* mutablePathString = [[NSMutableString alloc] initWithString:pathString];
+    assert([pathString isEqualToString:mutablePathString]);
+    
+    return YES;
+}
+
 #pragma mark -
 #pragma mark test [NSString initWithFormat:arguments:]
 
