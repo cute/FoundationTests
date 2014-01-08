@@ -865,7 +865,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 - (BOOL)testPlaceholderMutableInit
 {
     NSMutableString* ms = [[NSMutableString alloc] initWithString:@"foo"];
-    assert([ms isEqualToString:@"foo"]);
+    testassert([ms isEqualToString:@"foo"]);
     
     return YES;
 }
@@ -873,10 +873,10 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 - (BOOL)testPlaceholderMutableInitWithPathStore
 {
     NSString* pathString = [NSString pathWithComponents:@[@"foo", @"bar", @"baz"]];
-    assert([pathString isKindOfClass:objc_getClass("NSPathStore2")]);
+    testassert([pathString isKindOfClass:objc_getClass("NSPathStore2")]);
     
     NSMutableString* mutablePathString = [[NSMutableString alloc] initWithString:pathString];
-    assert([pathString isEqualToString:mutablePathString]);
+    testassert([pathString isEqualToString:mutablePathString]);
     
     return YES;
 }
@@ -932,6 +932,17 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     NSString *str = [[self class] aStringWithFormat2:@"Path file : %@", defaultPngPath];
     
     testassert([[str substringToIndex:12] isEqualToString:@"Path file : "]);
+    
+    return YES;
+}
+
+- (BOOL)testStringByDeletingPathExtension_fromNSPathStore2
+{
+    NSString *path = [NSString pathWithComponents:@[@"foo", @"bar", @"baz_file.txt"]];
+    testassert([path isKindOfClass:NSClassFromString(@"NSPathStore2")]);
+    path = [path stringByDeletingPathExtension];
+    testassert([path isEqualToString:@"foo/bar/baz_file"]);
+    testassert(!strcmp([path UTF8String], "foo/bar/baz_file"));
     
     return YES;
 }
