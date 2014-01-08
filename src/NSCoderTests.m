@@ -1214,6 +1214,27 @@
     return YES;
 }
 
+- (BOOL) testEncodeValueOfCFBooleanType
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    
+    [archive encodeObject:(id)kCFBooleanTrue forKey:@"boolTrue"];
+    [archive encodeObject:(id)kCFBooleanFalse forKey:@"boolFalse"];
+    [archive finishEncoding];
+    
+    NSKeyedUnarchiver *unarchive = [[[NSKeyedUnarchiver alloc] initForReadingWithData:data] autorelease];
+    id boolTrue = [unarchive decodeObjectForKey:@"boolTrue"];
+    id boolFalse = [unarchive decodeObjectForKey:@"boolFalse"];
+    testassert([boolTrue isKindOfClass:objc_getClass("__NSCFBoolean")]);
+    testassert([boolFalse isKindOfClass:objc_getClass("__NSCFBoolean")]);
+    
+    testassert(CFBooleanGetValue((CFBooleanRef)boolTrue));
+    testassert(!CFBooleanGetValue((CFBooleanRef)boolFalse));
+    return YES;
+    
+}
+
 - (BOOL) testEncodeValueOfObjType1
 {
     NSMutableData *data = [NSMutableData data];

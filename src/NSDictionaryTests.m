@@ -710,6 +710,23 @@
     return YES;
 }
 
+- (BOOL)testEncodeDictionaryWithKeyedArchiver
+{
+    NSDictionary *dict = @{@"boolValue" : (id)kCFBooleanFalse, @"intValue" : @(42), @"stringValue" : @"foo bar", @"doubleValue" : @(3.14)};
+    
+    NSMutableData* data = [NSMutableData data];
+    NSKeyedArchiver* coder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    [coder encodeObject:dict forKey:@"root"];
+    [coder finishEncoding];
+    
+    NSKeyedUnarchiver* decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    NSDictionary* d2 = [decoder decodeObjectForKey:@"root"];
+    
+    testassert([dict isEqualToDictionary:d2]);
+    
+    return YES;
+}
+
 - (BOOL)testSubclassCreation
 {
     NSDictionarySubclass *dict = [[NSDictionarySubclass alloc] initWithObjectsAndKeys:@"foo", @"bar", @"baz", @"foo", nil];
