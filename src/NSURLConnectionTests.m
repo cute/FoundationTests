@@ -24,7 +24,7 @@
 
 - (BOOL)testGZip
 {
-    ConnectionDelegate *delegate = [[ConnectionDelegate alloc] init];
+    ConnectionDelegate *delegate = [[[ConnectionDelegate alloc] init] autorelease];
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/gzipHeaderCompressed", HOST]];
     NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
     NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:delegate];
@@ -41,9 +41,57 @@
     return YES;
 }
 
-- (BOOL)testGZipLargeAmountOfData
+- (BOOL)testHamletRaw
 {
-    ConnectionDelegate *delegate = [[ConnectionDelegate alloc] init];
+    ConnectionDelegate *delegate = [[[ConnectionDelegate alloc] init] autorelease];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/hamletInTheRaw", HOST]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:TIMEOUT];
+    NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:delegate];
+    [connection start];
+    NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:TIMEOUT];
+    do {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:timeoutDate];
+    } while (!delegate.done);
+    
+    testassert(delegate.done == YES);
+    testassert(delegate.error == nil);
+    
+    NSString *hamlet = [[[NSString alloc] initWithData:[delegate resultData] encoding:NSUTF8StringEncoding] autorelease];
+    
+    testassert([hamlet length] == 193080);
+    NSString *thouArtSlain = [hamlet substringWithRange:NSMakeRange(188534, 14)];
+    
+    testassert([thouArtSlain isEqualToString:@"thou art slain"]);
+    return YES;
+}
+
+- (BOOL)testHamletRawWithDelay
+{
+    ConnectionDelegate *delegate = [[[ConnectionDelegate alloc] init] autorelease];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/hamletInTheRawWithKeepAliveAndDelay", HOST]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:TIMEOUT];
+    NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:delegate];
+    [connection start];
+    NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:TIMEOUT];
+    do {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:timeoutDate];
+    } while (!delegate.done);
+    
+    testassert(delegate.done == YES);
+    testassert(delegate.error == nil);
+    
+    NSString *hamlet = [[[NSString alloc] initWithData:[delegate resultData] encoding:NSUTF8StringEncoding] autorelease];
+    
+    testassert([hamlet length] == 193080);
+    NSString *thouArtSlain = [hamlet substringWithRange:NSMakeRange(188534, 14)];
+    
+    testassert([thouArtSlain isEqualToString:@"thou art slain"]);
+    return YES;
+}
+
+- (BOOL)testHamletGzipped
+{
+    ConnectionDelegate *delegate = [[[ConnectionDelegate alloc] init] autorelease];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/gzipHeaderCompressedHamlet", HOST]];
     NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
     NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:delegate];
@@ -55,7 +103,31 @@
     
     testassert(delegate.done == YES);
     testassert(delegate.error == nil);
+    
+    NSString *hamlet = [[[NSString alloc] initWithData:[delegate resultData] encoding:NSUTF8StringEncoding] autorelease];
+    
+    testassert([hamlet length] == 193080);
+    NSString *thouArtSlain = [hamlet substringWithRange:NSMakeRange(188534, 14)];
+    
+    testassert([thouArtSlain isEqualToString:@"thou art slain"]);
+    return YES;
+}
 
+- (BOOL)testHamletGzipped2
+{
+    ConnectionDelegate *delegate = [[[ConnectionDelegate alloc] init] autorelease];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/gzipHeaderCompressedHamletWithKeepAliveAndDelay", HOST]];
+    NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
+    NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:delegate];
+    [connection start];
+    NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:TIMEOUT];
+    do {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:timeoutDate];
+    } while (!delegate.done);
+    
+    testassert(delegate.done == YES);
+    testassert(delegate.error == nil);
+    
     NSString *hamlet = [[[NSString alloc] initWithData:[delegate resultData] encoding:NSUTF8StringEncoding] autorelease];
     
     testassert([hamlet length] == 193080);
@@ -67,7 +139,7 @@
 
 - (BOOL)testGZipDecodeFail
 {
-    ConnectionDelegate *delegate = [[ConnectionDelegate alloc] init];
+    ConnectionDelegate *delegate = [[[ConnectionDelegate alloc] init] autorelease];
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/gzipHeaderUnCompressed", HOST]];
     NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
     NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:delegate];

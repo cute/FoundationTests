@@ -419,4 +419,12 @@
     return YES;
 }
 
+- (BOOL)testNoCopySmallAllocation
+{
+    char *buffer = malloc(10);
+    NSData *data = [NSData dataWithBytesNoCopy:buffer length:10 freeWhenDone:YES];
+    testassert([data bytes] == buffer);
+    return YES;
+}
+
 @end

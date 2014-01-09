@@ -22,6 +22,11 @@
     return self;
 }
 
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    [_resultData setLength:0];
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
     [_resultData appendData:data];
 }
