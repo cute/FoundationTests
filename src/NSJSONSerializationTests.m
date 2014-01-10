@@ -145,4 +145,20 @@
     return YES;
 }
 
+- (BOOL)testNumberParsing
+{
+#ifdef APPORTABLE
+#warning Remove this when NSDecimalNumber doubleValue is more accurate
+#endif
+#define EPSILON 0.000000001
+    NSString *str = @"{ \"values\" : [42, 3.14, 1.23456 ]}";
+    NSError *error = nil;
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
+    NSArray *numbers = dict[@"values"];
+    testassert(abs([numbers[0] doubleValue] - 42.0) < EPSILON);
+    testassert(abs([numbers[1] doubleValue] - 3.14) < EPSILON);
+    testassert(abs([numbers[2] doubleValue] - 1.23456) < EPSILON);
+    return YES;
+}
+
 @end
