@@ -34,6 +34,13 @@
     return YES;
 }
 
+- (BOOL)testDataWithContentsOfMappedFileNil
+{
+    NSData *data = [NSData dataWithContentsOfMappedFile:nil];
+    testassert(data == nil);
+    return YES;
+}
+
 - (BOOL)testInitWithContentsOfURLNil
 {
     NSData *data = [[NSData alloc] initWithContentsOfURL:nil];
