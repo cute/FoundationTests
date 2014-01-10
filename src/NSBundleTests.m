@@ -125,4 +125,51 @@ static NSBundle *zeroLevelBundle, *firstLevelBundle, *secondLevelBundle;
     return YES;
 }
 
+- (BOOL)testLocalizedInfoDictionary
+{
+	NSDictionary *localizedInfoDictionary = [[NSBundle mainBundle] localizedInfoDictionary];
+	testassert(localizedInfoDictionary != nil);
+	return YES;
+}
+
+- (BOOL)testBuiltInPlugInsPath
+{
+	NSString *builtInPlugInsPath = [[NSBundle mainBundle] builtInPlugInsPath];
+	testassert(builtInPlugInsPath != nil);
+    testassert([builtInPlugInsPath isEqualToString:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"PlugIns"]]);
+	return YES;
+}
+
+- (BOOL)testSharedSupportPath
+{
+	NSString *sharedSupportPath = [[NSBundle mainBundle] sharedSupportPath];
+	testassert(sharedSupportPath != nil);
+    testassert([sharedSupportPath isEqualToString:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"SharedSupport"]]);
+	return YES;
+}
+
+- (BOOL)testSharedFrameworksPath
+{
+	NSString *sharedFrameworksPath = [[NSBundle mainBundle] sharedFrameworksPath];
+	testassert(sharedFrameworksPath != nil);
+    testassert([sharedFrameworksPath isEqualToString:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"SharedFrameworks"]]);
+	return YES;
+}
+
+- (BOOL)testPrivateFrameworksPath
+{
+	NSString *privateFrameworksPath = [[NSBundle mainBundle] privateFrameworksPath];
+	testassert(privateFrameworksPath != nil);
+    testassert([privateFrameworksPath isEqualToString:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Frameworks"]]);
+	return YES;
+}
+
+- (BOOL)testAppStoreReceiptURL
+{
+	NSURL *appStoreReceiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
+    testassert(appStoreReceiptURL != nil);
+    testassert([appStoreReceiptURL isEqual:[[[[[NSBundle mainBundle] bundleURL] URLByDeletingLastPathComponent] URLByAppendingPathComponent:@"StoreKit"] URLByAppendingPathComponent:@"receipt"]]);
+	return YES;
+}
+
 @end
