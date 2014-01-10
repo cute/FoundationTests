@@ -56,4 +56,10 @@ void runFoundationTests(void);
 
 @end
 
+@interface DeallocWatcher : NSObject
+
+- (id)initWithBlock:(dispatch_block_t)block;
+
+@end
+
 extern void registerTestClass(Class cls);

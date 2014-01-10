@@ -225,4 +225,16 @@
     return YES;
 }
 
+- (BOOL)testPercent2BInURLRequest
+{
+    // TODO: It would be nice to be able to repro this issue without relying on requesting igunpro assests.
+    NSURL *url = [NSURL URLWithString:@"https://s3.amazonaws.com/igunpro/10-22%2bb78ddb3e%2bPackage.zip"];
+    testassert([[url description] isEqualToString:@"https://s3.amazonaws.com/igunpro/10-22%2bb78ddb3e%2bPackage.zip"]);
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSURLResponse *response = nil;
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:NULL];
+    testassert(responseData.length > 10000);
+    return YES;
+}
+
 @end

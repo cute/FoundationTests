@@ -110,6 +110,29 @@ static CFStringRef sel_copyDescription(const void *value)
 
 @end
 
+@implementation DeallocWatcher {
+    dispatch_block_t _block;
+}
+
+- (id)initWithBlock:(dispatch_block_t)block
+{
+    self = [super init];
+    if (self)
+    {
+        _block = Block_copy(block);
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    _block();
+    Block_release(_block);
+    [super dealloc];
+}
+
+@end
+
 
 static void failure_log(const char *error)
 {
