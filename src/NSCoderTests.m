@@ -2794,6 +2794,27 @@
     return YES;
 }
 
+- (BOOL)testNilData
+{
+    id obj = [NSKeyedUnarchiver unarchiveObjectWithData:nil];
+    testassert(obj == nil);
+    return YES;
+}
+
+- (BOOL)testNilData2
+{
+    NSKeyedUnarchiver *archiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:nil];
+    testassert(archiver == nil);
+    return YES;
+}
+
+- (BOOL)testNilPath
+{
+    id obj = [NSKeyedUnarchiver unarchiveObjectWithFile:nil];
+    testassert(obj == nil);
+    return YES;
+}
+
 #pragma mark - Nested structures
 
 #pragma mark - Corner cases
