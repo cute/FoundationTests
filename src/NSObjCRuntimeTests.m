@@ -751,19 +751,19 @@ extern const char *__NSGetSizeAndAlignment(const char *, NSUInteger *, NSUIntege
     NSUInteger align;
     NSGetSizeAndAlignment(range, &sz, &align);
     testassert(sz == sizeof(NSRange));
-    testassert(align == 4);
+    testassert(align == __alignof(NSRange));
     NSGetSizeAndAlignment(point, &sz, &align);
     testassert(sz == sizeof(CGPoint));
-    testassert(align == 4);
+    testassert(align == __alignof(CGPoint));
     NSGetSizeAndAlignment(size, &sz, &align);
     testassert(sz == sizeof(CGSize));
-    testassert(align == 4);
+    testassert(align == __alignof(CGSize));
     NSGetSizeAndAlignment(transform, &sz, &align);
     testassert(sz == sizeof(CGAffineTransform));
-    testassert(align == 4);
+    testassert(align == __alignof(CGAffineTransform));
     NSGetSizeAndAlignment(rect, &sz, &align);
     testassert(sz == sizeof(CGRect));
-    testassert(align == 4);
+    testassert(align == __alignof(CGRect));
     return YES;
 }
 
