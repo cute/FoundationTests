@@ -3,6 +3,18 @@
 #import <objc/message.h>
 #import <objc/runtime.h>
 
+@interface TestEncodingSource : NSObject {
+    NSRange range;
+    CGPoint point;
+    CGSize size;
+    CGAffineTransform transform;
+    CGRect rect;
+}
+@end
+
+@implementation TestEncodingSource
+@end
+
 @testcase(NSObjCRuntime)
 
 - (BOOL)testChar
@@ -725,6 +737,33 @@ extern const char *__NSGetSizeAndAlignment(const char *, NSUInteger *, NSUIntege
     testassert([o retainCount] == NSExtraRefCount(o) + 1);
     [o release];
 
+    return YES;
+}
+
+- (BOOL)testIvarEncodings
+{
+    const char *range = ivar_getTypeEncoding(class_getInstanceVariable([TestEncodingSource class], "range"));
+    const char *point = ivar_getTypeEncoding(class_getInstanceVariable([TestEncodingSource class], "point"));
+    const char *size = ivar_getTypeEncoding(class_getInstanceVariable([TestEncodingSource class], "size"));
+    const char *transform = ivar_getTypeEncoding(class_getInstanceVariable([TestEncodingSource class], "transform"));
+    const char *rect = ivar_getTypeEncoding(class_getInstanceVariable([TestEncodingSource class], "rect"));
+    NSUInteger sz;
+    NSUInteger align;
+    NSGetSizeAndAlignment(range, &sz, &align);
+    testassert(sz == sizeof(NSRange));
+    testassert(align == 4);
+    NSGetSizeAndAlignment(point, &sz, &align);
+    testassert(sz == sizeof(CGPoint));
+    testassert(align == 4);
+    NSGetSizeAndAlignment(size, &sz, &align);
+    testassert(sz == sizeof(CGSize));
+    testassert(align == 4);
+    NSGetSizeAndAlignment(transform, &sz, &align);
+    testassert(sz == sizeof(CGAffineTransform));
+    testassert(align == 4);
+    NSGetSizeAndAlignment(rect, &sz, &align);
+    testassert(sz == sizeof(CGRect));
+    testassert(align == 4);
     return YES;
 }
 
