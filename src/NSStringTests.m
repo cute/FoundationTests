@@ -963,6 +963,41 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL)testHashValue
+{
+    NSString *str = @"Hello world";
+    testassert([str hash] == 4081981767u);
+    return YES;
+}
+
+- (BOOL)testHashValueEmptyStr
+{
+    NSString *str = @"";
+    testassert([str hash] == 0u);
+    return YES;
+}
+
+- (BOOL)testHashValueNil
+{
+    NSString *str = nil;
+    testassert([str hash] == 0u);
+    return YES;
+}
+
+- (BOOL)testHashValueUnicode
+{
+    NSString *str = @"你好世界";
+    testassert([str hash] == 1409314931u);
+    return YES;
+}
+
+- (BOOL)testHashValueSpaces
+{
+    NSString *str = @"    ";
+    testassert([str hash] == 975558852u);
+    return YES;
+}
+
 #pragma mark -
 
 @end
