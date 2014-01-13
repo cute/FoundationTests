@@ -80,6 +80,7 @@
     NSString *hamlet = [[[NSString alloc] initWithData:[delegate resultData] encoding:NSUTF8StringEncoding] autorelease];
     
     testassert([hamlet length] == 193080);
+    testassert([hamlet hash] == 2475820992u);
     NSString *thouArtSlain = [hamlet substringWithRange:NSMakeRange(188534, 14)];
     
     testassert([thouArtSlain isEqualToString:@"thou art slain"]);
@@ -104,6 +105,7 @@
     NSString *hamlet = [[[NSString alloc] initWithData:[delegate resultData] encoding:NSUTF8StringEncoding] autorelease];
     
     testassert([hamlet length] == 193080);
+    testassert([hamlet hash] == 2475820992u);
     NSString *thouArtSlain = [hamlet substringWithRange:NSMakeRange(188534, 14)];
     
     testassert([thouArtSlain isEqualToString:@"thou art slain"]);
@@ -128,6 +130,7 @@
     NSString *hamlet = [[[NSString alloc] initWithData:[delegate resultData] encoding:NSUTF8StringEncoding] autorelease];
     
     testassert([hamlet length] == 193080);
+    testassert([hamlet hash] == 2475820992u);
     NSString *thouArtSlain = [hamlet substringWithRange:NSMakeRange(188534, 14)];
     
     testassert([thouArtSlain isEqualToString:@"thou art slain"]);
@@ -152,6 +155,7 @@
     NSString *hamlet = [[[NSString alloc] initWithData:[delegate resultData] encoding:NSUTF8StringEncoding] autorelease];
     
     testassert([hamlet length] == 193080);
+    testassert([hamlet hash] == 2475820992u);
     NSString *thouArtSlain = [hamlet substringWithRange:NSMakeRange(188534, 14)];
     
     testassert([thouArtSlain isEqualToString:@"thou art slain"]);
