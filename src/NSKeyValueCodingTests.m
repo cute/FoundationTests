@@ -441,6 +441,62 @@
 }
 @end
 
+@interface SomeObjectWithCGSize : NSObject {
+    CGSize size;
+}
+- (BOOL)verifySize:(CGSize)pt;
+@end
+
+@implementation SomeObjectWithCGSize
+- (BOOL)verifySize:(CGSize)aSize
+{
+    return size.height == aSize.height && size.width == aSize.width;
+}
+@end
+
+@interface SomeObjectWithCGRect : NSObject {
+    CGRect rect;
+}
+- (BOOL)verifyRect:(CGRect)aRect;
+@end
+
+@implementation SomeObjectWithCGRect
+- (BOOL)verifyRect:(CGRect)aRect
+{
+    return rect.origin.x == aRect.origin.x && rect.origin.y == aRect.origin.y && rect.size.width == aRect.size.width && rect.size.height == aRect.size.height;
+}
+@end
+
+@interface SomeObjectWithNSRange : NSObject {
+    NSRange range;
+}
+- (BOOL)verifyRange:(NSRange)aRange;
+@end
+
+@implementation SomeObjectWithNSRange
+- (BOOL)verifyRange:(NSRange)aRange
+{
+    return range.length == aRange.length && range.location == aRange.location;
+}
+@end
+
+typedef struct SomeSmallishStruct {
+    uint32_t aUint;
+} SomeSmallishStruct;
+
+@interface SomeObjectWithSmallishInnerStruct : NSObject {
+    SomeSmallishStruct aSmallishStruct;
+}
+- (BOOL)verifyInnerStruct:(SomeSmallishStruct)s;
+@end
+
+@implementation SomeObjectWithSmallishInnerStruct
+- (BOOL)verifyInnerStruct:(SomeSmallishStruct)s
+{
+    return s.aUint == aSmallishStruct.aUint;
+}
+@end
+
 #define SOME_LARGE_STRUCT_DATASZ 256
 typedef struct SomeLargeStruct {
     uint8_t data[SOME_LARGE_STRUCT_DATASZ];
@@ -449,15 +505,15 @@ typedef struct SomeLargeStruct {
 @interface SomeObjectWithLargeInnerStruct : NSObject {
     SomeLargeStruct aLargeStruct;
 }
-- (BOOL)verifyInnerStruct:(SomeLargeStruct)largeStruct;
+- (BOOL)verifyInnerStruct:(SomeLargeStruct)l;
 @end
 
 @implementation SomeObjectWithLargeInnerStruct
-- (BOOL)verifyInnerStruct:(SomeLargeStruct)largeStruct
+- (BOOL)verifyInnerStruct:(SomeLargeStruct)l
 {
     for (unsigned int i=0; i<SOME_LARGE_STRUCT_DATASZ; i++)
     {
-        if (largeStruct.data[i] != aLargeStruct.data[i])
+        if (l.data[i] != aLargeStruct.data[i])
         {
             return NO;
         }
@@ -4414,7 +4470,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testSetValueForKeyOnInnerStruct
+- (BOOL)testSetValueForKeyOnInnerCGPoint
 {
     SomeObjectWithCGPoint *obj = [[SomeObjectWithCGPoint alloc] init];
     NSValue *val = [NSValue valueWithCGPoint:CGPointFromString(@"{-42,-101}")];
@@ -4423,6 +4479,65 @@ typedef struct SomeLargeStruct {
     
     [obj setValue:val forKey:@"point"];
     testassert([obj verifyPoint:[val pointValue]]);
+    
+    [obj release];
+    return YES;
+}
+
+- (BOOL)testSetValueForKeyOnInnerCGSize
+{
+    SomeObjectWithCGSize *obj = [[SomeObjectWithCGSize alloc] init];
+    NSValue *val = [NSValue valueWithCGSize:CGSizeMake(42,84)];
+    testassert([val sizeValue].width == 42);
+    testassert([val sizeValue].height == 84);
+    
+    [obj setValue:val forKey:@"size"];
+    testassert([obj verifySize:[val sizeValue]]);
+    
+    [obj release];
+    return YES;
+}
+
+- (BOOL)testSetValueForKeyOnInnerCGRect
+{
+    SomeObjectWithCGRect *obj = [[SomeObjectWithCGRect alloc] init];
+    NSValue *val = [NSValue valueWithCGRect:CGRectMake(-123.5f, 456, 42, 84.25f)];
+    testassert([val rectValue].origin.x == -123.5f);
+    testassert([val rectValue].origin.y == 456);
+    testassert([val rectValue].size.width == 42);
+    testassert([val rectValue].size.height == 84.25f);
+    
+    [obj setValue:val forKey:@"rect"];
+    testassert([obj verifyRect:[val rectValue]]);
+    
+    [obj release];
+    return YES;
+}
+
+- (BOOL)testSetValueForKeyOnInnerNSRange
+{
+    SomeObjectWithNSRange *obj = [[SomeObjectWithNSRange alloc] init];
+    NSRange range = NSMakeRange(33, 66);
+    NSValue *val = [NSValue valueWithRange:range];
+    
+    [obj setValue:val forKey:@"range"];
+    testassert([obj verifyRange:range]);
+    
+    [obj release];
+    return YES;
+}
+
+
+- (BOOL)testSetValueForKeyOnInnerStruct
+{
+    SomeObjectWithSmallishInnerStruct *obj = [[SomeObjectWithSmallishInnerStruct alloc] init];
+    SomeSmallishStruct aStruct;
+    aStruct.aUint = 0xabadf00;
+    
+    NSValue *val = [NSValue value:&aStruct withObjCType:@encode(SomeSmallishStruct)];
+    
+    [obj setValue:val forKey:@"aSmallishStruct"];
+    testassert([obj verifyInnerStruct:aStruct]);
     
     [obj release];
     return YES;
