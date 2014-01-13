@@ -428,6 +428,26 @@
 @end
 
 
+@interface SomeObjectWithCGPoint : NSObject {
+    CGPoint point;
+}
+- (BOOL)verifyPoint:(CGPoint)pt;
+@end
+
+@implementation SomeObjectWithCGPoint
+- (BOOL)verifyPoint:(CGPoint)pt;
+{
+    return point.x == pt.x && point.y == pt.y;
+}
+@end
+
+@interface NSValue (Internal)
+- (CGRect)rectValue;
+- (CGSize)sizeValue;
+- (CGPoint)pointValue;
+@end
+
+
 @testcase(NSKeyValueCoding)
 
 - (BOOL)testDefaultAccessor
@@ -4366,6 +4386,19 @@
     mutableSetValues = [setCoding mutableSetValueForKey:@"foo"];
     testassert([mutableSetValues isEqualToSet:[NSSet setWithArray:@[]]]);
 
+    return YES;
+}
+
+- (BOOL)testSetValueForKeyOnInnerStruct
+{
+    SomeObjectWithCGPoint *obj = [[SomeObjectWithCGPoint alloc] init];
+    NSValue *val = [NSValue valueWithCGPoint:CGPointFromString(@"{-42,-101}")];
+    testassert([val pointValue].x == -42);
+    testassert([val pointValue].y == -101);
+    
+    [obj setValue:val forKey:@"point"];
+    testassert([obj verifyPoint:[val pointValue]]);
+    
     return YES;
 }
 
