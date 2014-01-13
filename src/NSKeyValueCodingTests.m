@@ -441,6 +441,31 @@
 }
 @end
 
+#define SOME_LARGE_STRUCT_DATASZ 256
+typedef struct SomeLargeStruct {
+    uint8_t data[SOME_LARGE_STRUCT_DATASZ];
+} SomeLargeStruct;
+
+@interface SomeObjectWithLargeInnerStruct : NSObject {
+    SomeLargeStruct aLargeStruct;
+}
+- (BOOL)verifyInnerStruct:(SomeLargeStruct)largeStruct;
+@end
+
+@implementation SomeObjectWithLargeInnerStruct
+- (BOOL)verifyInnerStruct:(SomeLargeStruct)largeStruct
+{
+    for (unsigned int i=0; i<SOME_LARGE_STRUCT_DATASZ; i++)
+    {
+        if (largeStruct.data[i] != aLargeStruct.data[i])
+        {
+            return NO;
+        }
+    }
+    return YES;
+}
+@end
+
 @interface NSValue (Internal)
 - (CGRect)rectValue;
 - (CGSize)sizeValue;
@@ -4399,6 +4424,25 @@
     [obj setValue:val forKey:@"point"];
     testassert([obj verifyPoint:[val pointValue]]);
     
+    [obj release];
+    return YES;
+}
+
+- (BOOL)testSetValueForKeyOnLargeInnerStruct
+{
+    SomeObjectWithLargeInnerStruct *obj = [[SomeObjectWithLargeInnerStruct alloc] init];
+    SomeLargeStruct aStruct;
+    for (unsigned int i=0; i<SOME_LARGE_STRUCT_DATASZ; i++)
+    {
+        aStruct.data[i] = (uint8_t)i;
+    }
+    
+    NSValue *val = [NSValue value:&aStruct withObjCType:@encode(SomeLargeStruct)];
+    
+    [obj setValue:val forKey:@"aLargeStruct"];
+    testassert([obj verifyInnerStruct:aStruct]);
+    
+    [obj release];
     return YES;
 }
 
