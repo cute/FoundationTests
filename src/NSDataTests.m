@@ -157,6 +157,25 @@
     return YES;
 }
 
+- (BOOL)testMutableDataAppendBytesForcingRealloc
+{
+    NSMutableData *data = [NSMutableData dataWithLength:2];
+    [data appendBytes:"abc" length:3];
+    [data appendBytes:"def" length:3];
+    
+    testassert([data length] == 8);
+    
+    const char *bytes = [data bytes];
+    
+    for (int i = 0; i < 2; i++)
+    {
+        testassert(bytes[i] == 0);
+    }
+    testassert(!strncmp("abcdef", bytes + 2, 6));
+    
+    return YES;
+}
+
 - (BOOL)testMutableDataReplaceBytes
 {
     NSMutableData *data = [NSMutableData dataWithLength:16];
