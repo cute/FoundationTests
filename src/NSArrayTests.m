@@ -46,6 +46,39 @@
 @property (nonatomic, readwrite) int cnt;
 @end
 
+@interface ArrayFastEnumeration : NSArray
+@end
+
+@implementation ArrayFastEnumeration
+{
+    NSUInteger _count;
+    id *_things;
+}
+
+- (NSUInteger)count
+{
+    return _count;
+}
+
+- (id)objectAtIndex:(NSUInteger)index
+{
+    return _things[index];
+}
+
+- (id)initWithObjects:(const id [])objects count:(NSUInteger)cnt
+{
+    self = [super init];
+    if (self != nil)
+    {
+        _count = cnt;
+        _things = malloc(cnt * sizeof(id));
+        memcpy(_things, objects, cnt * sizeof(id));
+    }
+    return self;
+}
+
+@end
+
 @implementation NSMutableArraySubclass
 
 - (id)init
@@ -1086,6 +1119,27 @@ static NSComparisonResult compare(id a, id b, void *context)
         *stop = idx == 2;
     }];
     testassert(sum == 7);
+    return YES;
+}
+
+- (BOOL)testSubclassFastEnumeration
+{
+    NSMutableArray *ma = [NSMutableArray array];
+    for (NSUInteger i = 0; i < 1000; i++)
+    {
+        [ma addObject:@(i)];
+    }
+
+    ArrayFastEnumeration *ff = [[[ArrayFastEnumeration alloc] initWithArray:ma] autorelease];
+
+    NSUInteger total = 0;
+    for (id f in ff)
+    {
+        total += [f integerValue];
+    }
+
+    testassert(total == 499500);
+
     return YES;
 }
 
