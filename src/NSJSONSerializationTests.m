@@ -81,6 +81,16 @@
     return YES;
 }
 
+- (BOOL)testDictionaryWithStringWithEscaptedCharacters
+{
+    NSDictionary *theDict = @{@"source": @"<a href=\"http://google.com/something\" rel=\"nofollow\">Hello</a>"};
+    NSData *data = [NSJSONSerialization dataWithJSONObject:theDict options:0 error:nil];
+    id result = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    
+    testassert(result != nil);
+    return YES;
+}
+
 - (BOOL)testGeneralDataSeralization
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
