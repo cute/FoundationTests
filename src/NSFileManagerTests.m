@@ -200,5 +200,62 @@ static NSString *makePath(NSFileManager *manager, NSString *name)
     return YES;
 }
 
+- (BOOL)testCurrentDirectoryIsFSRoot
+{
+    testassert([[[NSFileManager defaultManager] currentDirectoryPath] isEqualToString:@"/"]);
+    
+    NSUInteger sz = PATH_MAX;
+    char buffer[sz];
+    getcwd(buffer, sz);
+    testassert([[[NSFileManager defaultManager] currentDirectoryPath] isEqualToString:[NSString stringWithCString:buffer encoding:NSUTF8StringEncoding]]);
+    
+    return YES;
+}
+
+- (BOOL)testRelativePathWithBundleCWD
+{
+    NSString* oldCWD = [[NSFileManager defaultManager] currentDirectoryPath];
+    
+    FILE* fd = NULL;
+    
+    @try
+    {
+        [[NSFileManager defaultManager] changeCurrentDirectoryPath:[[NSBundle mainBundle] bundlePath]];
+        testassert([[[NSFileManager defaultManager] currentDirectoryPath] isEqualToString:[[NSBundle mainBundle] bundlePath]]);
+        
+        NSString* realPath = [[NSBundle mainBundle] pathForResource:@"Info" ofType:@"plist"];
+        testassert(realPath != nil);
+        
+        // These should resolve to a file inside the bundle
+        NSUInteger sz = PATH_MAX;
+        char buffer[sz];
+        
+        fd = fopen("./Info.plist", "r");
+        testassert(fd != NULL);
+        fclose(fd);
+        
+        realpath("./Info.plist", buffer);
+        testassert([realPath isEqualToString:[NSString stringWithCString:buffer encoding:NSUTF8StringEncoding]]);
+        
+        fd = fopen("Info.plist", "r");
+        testassert(fd != NULL);
+        fclose(fd);
+        
+        realpath("Info.plist", buffer);
+        testassert([realPath isEqualToString:[NSString stringWithCString:buffer encoding:NSUTF8StringEncoding]]);
+        
+        fd = NULL;
+    }
+    @finally
+    {
+        if (fd != NULL)
+        {
+            fclose(fd);
+        }
+        testassert([[NSFileManager defaultManager] changeCurrentDirectoryPath:oldCWD]);
+    }
+    
+    return YES;
+}
 
 @end
