@@ -998,6 +998,18 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+-(BOOL)testStringByReplacingMatchesInString  // issue 571
+{
+    NSError *error = nil;
+    NSString* testStr = @"aaa<bbb>ccc";
+    
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<bbb>" options:NSRegularExpressionCaseInsensitive error:&error];
+    
+    testStr = [regex stringByReplacingMatchesInString:testStr options:0 range:NSMakeRange(0, [testStr length]) withTemplate:@""];
+    testassert([testStr isEqualToString:@"aaaccc"]);
+    return YES;
+}
+
 #pragma mark -
 
 @end
