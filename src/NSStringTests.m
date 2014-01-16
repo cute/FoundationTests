@@ -540,6 +540,16 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL) testComponentsSeparatedByCharactersInSet // issue 569
+{
+    NSCharacterSet *characterSet = [NSCharacterSet characterSetWithCharactersInString: @", "];
+    NSString *pointString = @"0,0 -124,0";
+    NSArray *pointArray = [pointString componentsSeparatedByCharactersInSet:characterSet];
+    NSArray *testArray = @[@"0", @"0", @"-124", @"0"];
+    testassert([pointArray isEqualToArray:testArray]);
+    return YES;
+}
+
 - (BOOL) testStringByDeletingPathExtension
 {
     NSString *abc = [@"abc.xyz" stringByDeletingPathExtension];
