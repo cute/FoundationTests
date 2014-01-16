@@ -862,6 +862,25 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL)testPlaceholderMutableInit
+{
+    NSMutableString* ms = [[NSMutableString alloc] initWithString:@"foo"];
+    testassert([ms isEqualToString:@"foo"]);
+    
+    return YES;
+}
+
+- (BOOL)testPlaceholderMutableInitWithPathStore
+{
+    NSString* pathString = [NSString pathWithComponents:@[@"foo", @"bar", @"baz"]];
+    testassert([pathString isKindOfClass:objc_getClass("NSPathStore2")]);
+    
+    NSMutableString* mutablePathString = [[NSMutableString alloc] initWithString:pathString];
+    testassert([pathString isEqualToString:mutablePathString]);
+    
+    return YES;
+}
+
 #pragma mark -
 #pragma mark test [NSString initWithFormat:arguments:]
 
@@ -917,6 +936,17 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL)testStringByDeletingPathExtension_fromNSPathStore2
+{
+    NSString *path = [NSString pathWithComponents:@[@"foo", @"bar", @"baz_file.txt"]];
+    testassert([path isKindOfClass:NSClassFromString(@"NSPathStore2")]);
+    path = [path stringByDeletingPathExtension];
+    testassert([path isEqualToString:@"foo/bar/baz_file"]);
+    testassert(!strcmp([path UTF8String], "foo/bar/baz_file"));
+    
+    return YES;
+}
+
 - (BOOL)testSubstringWithRange
 {
     NSString *str = [@"foo-bar-baz" substringWithRange:NSMakeRange(4, 3)];
@@ -930,6 +960,41 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     NSString *str2 = @"name.ttf";
     NSString *str3 = [str2 stringByDeletingPathExtension];
     testassert([str1 isEqualToString:str3]);
+    return YES;
+}
+
+- (BOOL)testHashValue
+{
+    NSString *str = @"Hello world";
+    testassert([str hash] == 4081981767u);
+    return YES;
+}
+
+- (BOOL)testHashValueEmptyStr
+{
+    NSString *str = @"";
+    testassert([str hash] == 0u);
+    return YES;
+}
+
+- (BOOL)testHashValueNil
+{
+    NSString *str = nil;
+    testassert([str hash] == 0u);
+    return YES;
+}
+
+- (BOOL)testHashValueUnicode
+{
+    NSString *str = @"你好世界";
+    testassert([str hash] == 1409314931u);
+    return YES;
+}
+
+- (BOOL)testHashValueSpaces
+{
+    NSString *str = @"    ";
+    testassert([str hash] == 975558852u);
     return YES;
 }
 

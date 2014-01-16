@@ -73,4 +73,11 @@
     return YES;
 }
 
+- (BOOL)testDescriptionWithLocale
+{
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:1389044286.5453091];
+    testassert([[date description] isEqualToString:@"2014-01-06 21:38:06 +0000"]);
+    return YES;
+}
+
 @end

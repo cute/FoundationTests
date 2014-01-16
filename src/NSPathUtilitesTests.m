@@ -498,4 +498,48 @@
     return YES;
 }
 
+- (BOOL)testNSPathStore2Hash
+{
+    NSString *path = [NSString pathWithComponents:@[@"/", @"foo", @"bar", @"baz"]];
+    testassert([path class] == NSClassFromString(@"NSPathStore2"));
+    testassert([path isEqualToString:@"/foo/bar/baz"]);
+    
+    testassert([path hash] == 2138626127);
+    
+    return YES;
+}
+
+- (BOOL)testNSPathStore2HashComparison
+{
+    NSString *path = [NSString pathWithComponents:@[@"/", @"foo", @"bar", @"baz"]];
+    testassert([path class] == NSClassFromString(@"NSPathStore2"));
+    testassert([path isEqualToString:@"/foo/bar/baz"]);
+    
+    NSString *str = @"/foo/bar/baz";
+    
+    testassert([path hash] == [str hash]);
+    
+    return YES;
+}
+
+- (BOOL)testNSPathStore2InDictionary
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    NSString *path = [NSString pathWithComponents:@[@"/", @"foo", @"bar", @"baz"]];
+    testassert([path class] == NSClassFromString(@"NSPathStore2"));
+    testassert([path isEqualToString:@"/foo/bar/baz"]);
+    
+    [dict setObject:@"foo" forKey:path];
+    
+    NSString *str = @"/foo/bar/baz";
+    
+    testassert([str isEqualToString:path]);
+    
+    [dict setObject:@"foo" forKey:str];
+
+    testassert([dict count] == 1);
+    
+    return YES;
+}
+
 @end

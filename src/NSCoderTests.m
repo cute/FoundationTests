@@ -1214,6 +1214,49 @@
     return YES;
 }
 
+- (BOOL) testEncodeValueOfCFBooleanType
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    
+    [archive encodeObject:(id)kCFBooleanTrue forKey:@"boolTrue"];
+    [archive encodeObject:(id)kCFBooleanFalse forKey:@"boolFalse"];
+    [archive finishEncoding];
+    
+    NSKeyedUnarchiver *unarchive = [[[NSKeyedUnarchiver alloc] initForReadingWithData:data] autorelease];
+    id boolTrue = [unarchive decodeObjectForKey:@"boolTrue"];
+    id boolFalse = [unarchive decodeObjectForKey:@"boolFalse"];
+    testassert([boolTrue isKindOfClass:objc_getClass("__NSCFBoolean")]);
+    testassert([boolFalse isKindOfClass:objc_getClass("__NSCFBoolean")]);
+    
+    testassert(CFBooleanGetValue((CFBooleanRef)boolTrue));
+    testassert(!CFBooleanGetValue((CFBooleanRef)boolFalse));
+    return YES;
+    
+}
+
+- (BOOL) testEncodeValueOfCFBooleanTypeXML
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
+    
+    [archive setOutputFormat:NSPropertyListXMLFormat_v1_0];
+    [archive encodeObject:(id)kCFBooleanTrue forKey:@"boolTrue"];
+    [archive encodeObject:(id)kCFBooleanFalse forKey:@"boolFalse"];
+    [archive finishEncoding];
+    
+    NSKeyedUnarchiver *unarchive = [[[NSKeyedUnarchiver alloc] initForReadingWithData:data] autorelease];
+    id boolTrue = [unarchive decodeObjectForKey:@"boolTrue"];
+    id boolFalse = [unarchive decodeObjectForKey:@"boolFalse"];
+    testassert([boolTrue isKindOfClass:objc_getClass("__NSCFBoolean")]);
+    testassert([boolFalse isKindOfClass:objc_getClass("__NSCFBoolean")]);
+    
+    testassert(CFBooleanGetValue((CFBooleanRef)boolTrue));
+    testassert(!CFBooleanGetValue((CFBooleanRef)boolFalse));
+    return YES;
+    
+}
+
 - (BOOL) testEncodeValueOfObjType1
 {
     NSMutableData *data = [NSMutableData data];
@@ -2748,6 +2791,27 @@
     [decoder finishDecoding];
     [decoder release];
     testassert(val == dval);
+    return YES;
+}
+
+- (BOOL)testNilData
+{
+    id obj = [NSKeyedUnarchiver unarchiveObjectWithData:nil];
+    testassert(obj == nil);
+    return YES;
+}
+
+- (BOOL)testNilData2
+{
+    NSKeyedUnarchiver *archiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:nil];
+    testassert(archiver == nil);
+    return YES;
+}
+
+- (BOOL)testNilPath
+{
+    id obj = [NSKeyedUnarchiver unarchiveObjectWithFile:nil];
+    testassert(obj == nil);
     return YES;
 }
 

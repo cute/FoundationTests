@@ -34,6 +34,13 @@
     return YES;
 }
 
+- (BOOL)testDataWithContentsOfMappedFileNil
+{
+    NSData *data = [NSData dataWithContentsOfMappedFile:nil];
+    testassert(data == nil);
+    return YES;
+}
+
 - (BOOL)testInitWithContentsOfURLNil
 {
     NSData *data = [[NSData alloc] initWithContentsOfURL:nil];
@@ -147,6 +154,25 @@
     }
     testassert(!strncmp("abcdef", bytes + 7, 6));
 
+    return YES;
+}
+
+- (BOOL)testMutableDataAppendBytesForcingRealloc
+{
+    NSMutableData *data = [NSMutableData dataWithLength:2];
+    [data appendBytes:"abc" length:3];
+    [data appendBytes:"def" length:3];
+    
+    testassert([data length] == 8);
+    
+    const char *bytes = [data bytes];
+    
+    for (int i = 0; i < 2; i++)
+    {
+        testassert(bytes[i] == 0);
+    }
+    testassert(!strncmp("abcdef", bytes + 2, 6));
+    
     return YES;
 }
 
@@ -416,6 +442,14 @@
     testassert(exception);
     testassert(error == nil);
     
+    return YES;
+}
+
+- (BOOL)testNoCopySmallAllocation
+{
+    char *buffer = malloc(10);
+    NSData *data = [NSData dataWithBytesNoCopy:buffer length:10 freeWhenDone:YES];
+    testassert([data bytes] == buffer);
     return YES;
 }
 
