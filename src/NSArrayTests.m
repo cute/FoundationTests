@@ -1143,6 +1143,63 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
+-(BOOL) testSortUsingComparator
+{
+    NSMutableArray* numbers = [NSMutableArray array];
+    [numbers addObject: [NSNumber numberWithInt: 5] ];
+    [numbers addObject: [NSNumber numberWithInt: 2] ];
+    [numbers addObject: [NSNumber numberWithInt: 4] ];
+    [numbers addObject: [NSNumber numberWithInt: 1] ];
+    [numbers addObject: [NSNumber numberWithInt: 3] ];
+    
+    [numbers sortUsingComparator: ^NSComparisonResult( id first, id second ) {
+        NSNumber* firstObj = (NSNumber*) first;
+        NSNumber* secondObj = (NSNumber*) second;
+        return [firstObj compare: secondObj];
+    }];
+    
+    testassert([numbers isEqualToArray:@[@1, @2, @3, @4, @5]]);
+    return YES;
+}
+
+-(BOOL) testSortUsingException
+{
+    NSMutableArray* numbers = [NSMutableArray array];
+    [numbers addObject: [NSNumber numberWithInt: 5] ];
+    [numbers addObject: [NSNumber numberWithInt: 2] ];
+    BOOL foundException = NO;
+    
+    @try {
+        [numbers sortUsingComparator: nil];
+    }
+    @catch (NSException *e) {
+        foundException = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+    }
+    testassert(foundException);
+    return YES;
+}
+
+-(BOOL) testSortUsingComparatorOptions
+{
+    NSMutableArray* numbers = [NSMutableArray array];
+    [numbers addObject: [NSNumber numberWithInt: 5] ];
+    [numbers addObject: [NSNumber numberWithInt: 2] ];
+    [numbers addObject: [NSNumber numberWithInt: 4] ];
+    [numbers addObject: [NSNumber numberWithInt: 1] ];
+    [numbers addObject: [NSNumber numberWithInt: 3] ];
+    
+    [numbers sortWithOptions:NSSortStable usingComparator:^NSComparisonResult( id first, id second ) {
+        NSNumber* firstObj = (NSNumber*) first;
+        NSNumber* secondObj = (NSNumber*) second;
+        return [firstObj compare: secondObj];
+    }];
+    
+    testassert([numbers isEqualToArray:@[@1, @2, @3, @4, @5]]);
+    return YES;
+}
+
+
 #pragma mark Helpers
 
 - (id)unretainedObjectInMutableArray:(NSMutableArray*)m

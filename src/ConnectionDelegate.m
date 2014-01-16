@@ -22,6 +22,12 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [_resultData release];
+    [super dealloc];
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     [_resultData setLength:0];

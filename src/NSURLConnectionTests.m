@@ -44,14 +44,14 @@
 /* This test is a bit abusive and takes some time so it should stay commented out unless you want to test is outright
 - (BOOL)testLargeNumberofRequestsInSuccession
 {
-    ConnectionDelegate *delegate = [[[ConnectionDelegate alloc] init] autorelease];
-    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/gzipHeaderCompressed", HOST]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:TIMEOUT];
-    
-    for(int i = 0; i < 1025; i++)
+
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://apportableplayground.herokuapp.com/hamletInTheRaw"]];
+
+    for(int i = 0; i < 1030; i++)
     {
         @autoreleasepool {
-            NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:TIMEOUT];
+            ConnectionDelegate *delegate = [[[ConnectionDelegate alloc] init] autorelease];
+            NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:5];
             NSURLConnection *connection = [NSURLConnection connectionWithRequest:request delegate:delegate];
             [connection start];
             do {

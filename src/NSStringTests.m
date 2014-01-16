@@ -540,6 +540,16 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL) testComponentsSeparatedByCharactersInSet // issue 569
+{
+    NSCharacterSet *characterSet = [NSCharacterSet characterSetWithCharactersInString: @", "];
+    NSString *pointString = @"0,0 -124,0";
+    NSArray *pointArray = [pointString componentsSeparatedByCharactersInSet:characterSet];
+    NSArray *testArray = @[@"0", @"0", @"-124", @"0"];
+    testassert([pointArray isEqualToArray:testArray]);
+    return YES;
+}
+
 - (BOOL) testStringByDeletingPathExtension
 {
     NSString *abc = [@"abc.xyz" stringByDeletingPathExtension];
@@ -995,6 +1005,18 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 {
     NSString *str = @"    ";
     testassert([str hash] == 975558852u);
+    return YES;
+}
+
+-(BOOL)testStringByReplacingMatchesInString  // issue 571
+{
+    NSError *error = nil;
+    NSString* testStr = @"aaa<bbb>ccc";
+    
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<bbb>" options:NSRegularExpressionCaseInsensitive error:&error];
+    
+    testStr = [regex stringByReplacingMatchesInString:testStr options:0 range:NSMakeRange(0, [testStr length]) withTemplate:@""];
+    testassert([testStr isEqualToString:@"aaaccc"]);
     return YES;
 }
 
