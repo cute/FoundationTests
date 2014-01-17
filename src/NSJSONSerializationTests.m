@@ -83,21 +83,31 @@
 
 - (BOOL)testDictionaryWithStringWithEscaptedCharacters
 {
-    NSDictionary *theDict = @{@"source": @"<a href=\"http://google.com/something\" rel=\"nofollow\">Hello</a>"};
+    NSString *theKey = @"source";
+    NSString *theValue = @"\u0040<a href=\"http://google.com/something\" rel=\"nofollow\">Hello</a>";
+    NSDictionary *theDict = @{theKey : theValue};
     NSData *data = [NSJSONSerialization dataWithJSONObject:theDict options:0 error:nil];
+    testassert(data != nil);
     id result = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    NSString *resultValue = [result objectForKey:theKey];
     
     testassert(result != nil);
+    testassert([resultValue isEqualToString:theValue]);
     return YES;
 }
 
 - (BOOL)testDictionaryWithStringWithEscaptedCharacters2
 {
-    NSDictionary *theDict = @{@"source": @"hello \n world"};
+    NSString *theKey = @"source";
+    NSString *theValue = @"\u0040hello \n world \r Hello \b world \f Hello \t";
+    NSDictionary *theDict = @{theKey : theValue};
     NSData *data = [NSJSONSerialization dataWithJSONObject:theDict options:0 error:nil];
+    testassert(data != nil);
     id result = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    NSString *resultValue = [result objectForKey:theKey];
     
     testassert(result != nil);
+    testassert([resultValue isEqualToString:theValue]);
     return YES;
 }
 
