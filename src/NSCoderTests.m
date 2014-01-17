@@ -2895,7 +2895,6 @@
     GraphObject *root = [unarchiver decodeObjectForKey:@"root"];
     [unarchiver finishDecoding];
     testassert([[root children] count] == 3);
-    [root release];
     [unarchiver release];
     [archiver release];
     return YES;
