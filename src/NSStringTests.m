@@ -540,6 +540,20 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL) testComponentsSeparatedByString // issue 574
+{
+    NSArray* a = [@"\n\nQWERTY\n" componentsSeparatedByString: @"\n"];
+    testassert([a count] == 4);
+    return YES;
+}
+
+- (BOOL) testComponentsSeparatedByCharactersInSet574 // issue 574
+{
+    NSArray* a = [@"\n\nQWERTY\n" componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    testassert([a count] == 4);
+    return YES;
+}
+
 - (BOOL) testComponentsSeparatedByCharactersInSet // issue 569
 {
     NSCharacterSet *characterSet = [NSCharacterSet characterSetWithCharactersInString: @", "];
@@ -1005,18 +1019,6 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 {
     NSString *str = @"    ";
     testassert([str hash] == 975558852u);
-    return YES;
-}
-
--(BOOL)testStringByReplacingMatchesInString  // issue 571
-{
-    NSError *error = nil;
-    NSString* testStr = @"aaa<bbb>ccc";
-    
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<bbb>" options:NSRegularExpressionCaseInsensitive error:&error];
-    
-    testStr = [regex stringByReplacingMatchesInString:testStr options:0 range:NSMakeRange(0, [testStr length]) withTemplate:@""];
-    testassert([testStr isEqualToString:@"aaaccc"]);
     return YES;
 }
 

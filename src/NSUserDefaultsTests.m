@@ -91,7 +91,23 @@
     return YES;
 }
 
+- (BOOL)testRemoveObjectForKey  // issue 573
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *defaultsDictionary = [defaults dictionaryRepresentation];
+    for (NSString *key in [defaultsDictionary allKeys]) {
+        [defaults removeObjectForKey:key];
+    }
+    [defaults synchronize];
+    return YES;
+}
 
+- (BOOL) testRemovePersistentDomainForName // issue 573
+{
+    NSString* domainName = [[NSBundle mainBundle] bundleIdentifier];
+    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName: domainName];
+    return YES;
+}
 @end
 
 
