@@ -540,16 +540,88 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
+- (BOOL) testComponentsSeparatedByStringEmpty
+{
+    NSArray *a = [@"" componentsSeparatedByString: @"a"];
+    testassert([a count] == 1);
+    testassert([[a objectAtIndex:0] isEqualToString:@""]);
+    return YES;
+}
+
+- (BOOL) testComponentsSeparatedByStringEmptySeparator
+{
+    NSArray *a = [@"" componentsSeparatedByString: @""];
+    testassert([a count] == 1);
+    testassert([[a objectAtIndex:0] isEqualToString:@""]);
+    return YES;
+}
+
+- (BOOL) testComponentsSeparatedByStringEmptySeparator2
+{
+    NSArray *a = [@"abcdefghij" componentsSeparatedByString: @""];
+    testassert([a count] == 1);
+    testassert([[a objectAtIndex:0] isEqualToString:@"abcdefghij"]);
+    return YES;
+}
+
+- (BOOL) testComponentsSeparatedByStringNilSeparator
+{
+    BOOL foundException = NO;
+    NSArray *a;
+    @try {
+        a = [@"" componentsSeparatedByString:nil];
+    }
+    @catch (NSException *e) {
+        foundException = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+    }
+
+    testassert(foundException);
+    return YES;
+}
+
+- (BOOL) testComponentsSeparatedByCharactersInSetNilSeparator
+{
+    BOOL foundException = NO;
+    NSArray *a;
+    @try {
+        a = [@"" componentsSeparatedByCharactersInSet:nil];
+    }
+    @catch (NSException *e) {
+        foundException = YES;
+        testassert([[e name] isEqualToString:@"NSInvalidArgumentException"]);
+    }
+    testassert(foundException);
+    return YES;
+}
+
+
+- (BOOL) testComponentsSeparatedByStringOne
+{
+    NSArray *a = [@" " componentsSeparatedByString: @" "];
+    testassert([a count] == 2);
+    return YES;
+}
+
 - (BOOL) testComponentsSeparatedByString // issue 574
 {
-    NSArray* a = [@"\n\nQWERTY\n" componentsSeparatedByString: @"\n"];
+    NSArray *a = [@"\n\nQWERTY\n" componentsSeparatedByString: @"\n"];
     testassert([a count] == 4);
+    return YES;
+}
+
+- (BOOL) testRangeOfCharacterFromSet574 // issue 574
+{
+    NSString *s = @"\n\nQWERTY\n";;
+    NSRange range = [s rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet] options:0 range:NSMakeRange(0, [s length])];
+    testassert(range.location == 0 && range.length == 1);
     return YES;
 }
 
 - (BOOL) testComponentsSeparatedByCharactersInSet574 // issue 574
 {
-    NSArray* a = [@"\n\nQWERTY\n" componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    NSArray *a = [@"\n\nQWERTY\n" componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    testassert([[a objectAtIndex:0] isEqualToString:@""]);
     testassert([a count] == 4);
     return YES;
 }
