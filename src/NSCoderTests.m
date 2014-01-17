@@ -232,6 +232,64 @@
 
 @end
 
+@interface GraphObject : NSObject <NSCoding> {
+    NSMutableArray *children;
+    GraphObject *parent;
+}
+
+@property (nonatomic, readonly) NSArray *children;
+
+- (void)addChild:(GraphObject *)object;
+
+@end
+
+@implementation GraphObject
+
+- (id)init
+{
+    self = [super init];
+    if (self)
+    {
+        children = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)coder
+{
+    self = [super init];
+    if (self)
+    {
+        children = [[coder decodeObjectForKey:@"children"] retain];
+        parent = [coder decodeObjectForKey:@"parent"];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [children release];
+    [super dealloc];
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+    [coder encodeObject:children forKey:@"children"];
+    [coder encodeObject:parent forKey:@"parent"];
+}
+
+- (void)addChild:(GraphObject *)object
+{
+    [children addObject:object];
+    object->parent = self;
+}
+
+- (NSArray *)children
+{
+    return [[children copy] autorelease];
+}
+
+@end
 
 @testcase(NSCoder)
 
@@ -2812,6 +2870,34 @@
 {
     id obj = [NSKeyedUnarchiver unarchiveObjectWithFile:nil];
     testassert(obj == nil);
+    return YES;
+}
+
+- (BOOL)testGraph
+{
+    NSMutableData *data = [NSMutableData data];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    GraphObject *a = [[GraphObject alloc] init];
+    GraphObject *b = [[GraphObject alloc] init];
+    GraphObject *c = [[GraphObject alloc] init];
+    GraphObject *d = [[GraphObject alloc] init];
+    [a addChild:b];
+    [a addChild:c];
+    [a addChild:d];
+    [b release];
+    [c release];
+    [d release];
+    [archiver encodeObject:a forKey:@"root"];
+    [a release];
+    [archiver finishEncoding];
+    
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+    GraphObject *root = [unarchiver decodeObjectForKey:@"root"];
+    [unarchiver finishDecoding];
+    testassert([[root children] count] == 3);
+    [root release];
+    [unarchiver release];
+    [archiver release];
     return YES;
 }
 
