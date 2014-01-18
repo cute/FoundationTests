@@ -112,8 +112,19 @@
 
 - (BOOL) testRemovePersistentDomainForName // issue 573
 {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:@"Paul" forKey:@"foo456"];
+    [defaults synchronize];
+    testassert([@"Paul" isEqualToString:[defaults stringForKey:@"foo456"]]);
+    
     NSString *domainName = [[NSBundle mainBundle] bundleIdentifier];
     [[NSUserDefaults standardUserDefaults] removePersistentDomainForName: domainName];
+    testassert([defaults stringForKey:@"foo456"] == nil);
+    
+    [defaults setObject:@"Paul" forKey:@"foo789"];
+    [defaults synchronize];
+    testassert([@"Paul" isEqualToString:[defaults stringForKey:@"foo789"]]);
+
     return YES;
 }
 @end
