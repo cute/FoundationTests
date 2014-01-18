@@ -7,7 +7,7 @@ static NSUInteger constTen(const void *str)
     return 10;
 }
 
-- (BOOL)testCStringHash
+test(CStringHash)
 {
     NSPointerFunctions *functions = [[[NSPointerFunctions alloc] initWithOptions:NSPointerFunctionsCStringPersonality] autorelease];
     NSUInteger (*hashFunction)(const void *item, NSUInteger (*size)(const void *item)) = [functions hashFunction];

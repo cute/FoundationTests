@@ -269,7 +269,7 @@ static id forwardObject(int i, id base)
     }
 }
 
-- (BOOL)testForwardingObjectChains
+test(ForwardingObjectChains)
 {
     NSMutableArray *array = [NSMutableArray array];
 
@@ -347,7 +347,7 @@ static id forwardObject(int i, id base)
     return YES;
 }
 
-- (BOOL)testCustomForwardInvocation
+test(CustomForwardInvocation)
 {
     ForwardingTestsCustomForwardInvocation* obj = [[ForwardingTestsCustomForwardInvocation new] autorelease];
 

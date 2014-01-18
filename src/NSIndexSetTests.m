@@ -10,7 +10,7 @@
 
 @testcase(NSIndexSet)
 
-- (BOOL)testIndexSet
+test(IndexSet)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:0];
@@ -24,7 +24,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSet2
+test(IndexSet2)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:0];
@@ -39,7 +39,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSet3
+test(IndexSet3)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:2];
@@ -54,7 +54,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSet4
+test(IndexSet4)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -69,7 +69,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSetWithIndex
+test(IndexSetWithIndex)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSetWithIndex:2];
     NSArray *a = @[@1, @20, @300, @4000];
@@ -81,7 +81,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSetWithIndexesInRange
+test(IndexSetWithIndexesInRange)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
     NSArray *a = @[@1, @20, @300, @4000];
@@ -94,7 +94,7 @@
 }
 
 
-- (BOOL)testContainsIndex
+test(ContainsIndex)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     testassert([indexSet containsIndex:2] == NO);
@@ -106,7 +106,7 @@
     return YES;
 }
 
-- (BOOL)testContainsIndexes
+test(ContainsIndexes)
 {
     NSMutableIndexSet *indexSet0 = [NSMutableIndexSet indexSet];
     testassert([indexSet0 containsIndexes:nil] == YES);
@@ -130,7 +130,7 @@
     return YES;
 }
 
-- (BOOL)testContainsIndexesInRange
+test(ContainsIndexesInRange)
 {
     NSIndexSet *indexSet0 = [NSIndexSet indexSet];
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
@@ -144,7 +144,7 @@
     return YES;
 }
 
-- (BOOL)testContainsIndexesInRange2
+test(ContainsIndexesInRange2)
 {
     NSMutableIndexSet *indexSet = [[[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)] mutableCopy] autorelease];
     [indexSet addIndexesInRange:NSMakeRange(100,4)];
@@ -157,7 +157,7 @@
 }
 
 
-- (BOOL)testCount
+test(Count)
 {
     NSIndexSet *indexSet0 = [NSMutableIndexSet indexSet];
     testassert([indexSet0 count] == 0);
@@ -173,7 +173,7 @@
 }
 
 
-- (BOOL)testCountOfIndexesInRange
+test(CountOfIndexesInRange)
 {
     NSMutableIndexSet *indexSet0 = [NSMutableIndexSet indexSet];
     testassert([indexSet0 countOfIndexesInRange:NSMakeRange(1,3)] == 0);
@@ -195,7 +195,7 @@
 }
 
 
-- (BOOL)testFirstIndex
+test(FirstIndex)
 {
     NSMutableIndexSet *indexSet0 = [NSMutableIndexSet indexSet];
     testassert([indexSet0 firstIndex] == NSNotFound);
@@ -206,7 +206,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTest
+test(IndexPassingTest)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
     
@@ -217,7 +217,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTest2
+test(IndexPassingTest2)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
     
@@ -228,7 +228,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTestReverse
+test(IndexPassingTestReverse)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
     
@@ -239,7 +239,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTestReverse2
+test(IndexPassingTestReverse2)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
     
@@ -251,7 +251,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTestConcurrent
+test(IndexPassingTestConcurrent)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
     
@@ -262,7 +262,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTestConcurrent2
+test(IndexPassingTestConcurrent2)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
     
@@ -275,7 +275,7 @@
 }
 
 
-- (BOOL)testIndexPassingTestMultiple
+test(IndexPassingTestMultiple)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -288,7 +288,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTest2Multiple
+test(IndexPassingTest2Multiple)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -301,7 +301,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTestReverseMultiple
+test(IndexPassingTestReverseMultiple)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -315,7 +315,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTestReverse2Multiple
+test(IndexPassingTestReverse2Multiple)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -330,7 +330,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTestConcurrentMultiple
+test(IndexPassingTestConcurrentMultiple)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -344,7 +344,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTestConcurrent2Multiple
+test(IndexPassingTestConcurrent2Multiple)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -358,7 +358,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTestRange
+test(IndexPassingTestRange)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
     
@@ -369,7 +369,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTest2Range
+test(IndexPassingTest2Range)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
     
@@ -380,7 +380,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTestReverseRange
+test(IndexPassingTestReverseRange)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
     
@@ -391,7 +391,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTestReverse2Range
+test(IndexPassingTestReverse2Range)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
     
@@ -403,7 +403,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTestReverse2Range2
+test(IndexPassingTestReverse2Range2)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
     
@@ -416,7 +416,7 @@
 }
 
 
-- (BOOL)testIndexPassingTestConcurrentRange
+test(IndexPassingTestConcurrentRange)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
     
@@ -427,7 +427,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTestConcurrent2Range
+test(IndexPassingTestConcurrent2Range)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
     
@@ -439,7 +439,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTestMultipleRange
+test(IndexPassingTestMultipleRange)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -452,7 +452,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTestMultipleRange2
+test(IndexPassingTestMultipleRange2)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -465,7 +465,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTest2MultipleRange
+test(IndexPassingTest2MultipleRange)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -478,7 +478,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTestReverseMultipleRange
+test(IndexPassingTestReverseMultipleRange)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -492,7 +492,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTestReverse2MultipleRange
+test(IndexPassingTestReverse2MultipleRange)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -507,7 +507,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTestConcurrentMultipleRange
+test(IndexPassingTestConcurrentMultipleRange)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -521,7 +521,7 @@
     return YES;
 }
 
-- (BOOL)testIndexPassingTestConcurrent2MultipleRange
+test(IndexPassingTestConcurrent2MultipleRange)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -535,7 +535,7 @@
     return YES;
 }
 
-- (BOOL)testIndexesPassingTest
+test(IndexesPassingTest)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
     NSArray *a = @[@1, @20, @300, @4000];
@@ -552,7 +552,7 @@
     return YES;
 }
 
-- (BOOL)testIndexesPassingTestReverse
+test(IndexesPassingTestReverse)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
     NSArray *a = @[@1, @20, @300, @4000];
@@ -570,7 +570,7 @@
     return YES;
 }
 
-- (BOOL)testIndexesPassingTestConcurrent
+test(IndexesPassingTestConcurrent)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
     NSArray *a = @[@1, @20, @300, @4000];
@@ -589,7 +589,7 @@
 }
 
 
-- (BOOL)testIndexesPassingTestMultiple
+test(IndexesPassingTestMultiple)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -609,7 +609,7 @@
     return YES;
 }
 
-- (BOOL)testIndexesPassingTestReverseMultiple
+test(IndexesPassingTestReverseMultiple)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -629,7 +629,7 @@
     return YES;
 }
 
-- (BOOL)testIndexesPassingTestConcurrentMultiple
+test(IndexesPassingTestConcurrentMultiple)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -649,7 +649,7 @@
     return YES;
 }
 
-- (BOOL)testIndexesPassingTestRange
+test(IndexesPassingTestRange)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
     NSArray *a = @[@1, @20, @300, @4000];
@@ -666,7 +666,7 @@
     return YES;
 }
 
-- (BOOL)testIndexesPassingTestReverseRange
+test(IndexesPassingTestReverseRange)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)];
     NSArray *a = @[@1, @20, @300, @4000];
@@ -684,7 +684,7 @@
     return YES;
 }
 
-- (BOOL)testIndexesPassingTestConcurrentRange
+test(IndexesPassingTestConcurrentRange)
 {
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 4)];
     NSArray *a = @[@1, @20, @300, @4000, @50000];
@@ -703,7 +703,7 @@
 }
 
 
-- (BOOL)testIndexesPassingTestMultipleRange
+test(IndexesPassingTestMultipleRange)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -723,7 +723,7 @@
     return YES;
 }
 
-- (BOOL)testIndexesPassingTestReverseMultipleRange
+test(IndexesPassingTestReverseMultipleRange)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -743,7 +743,7 @@
     return YES;
 }
 
-- (BOOL)testIndexesPassingTestConcurrentMultipleRange
+test(IndexesPassingTestConcurrentMultipleRange)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -763,7 +763,7 @@
     return YES;
 }
 
-- (BOOL)testIndexGreaterThanIndex
+test(IndexGreaterThanIndex)
 {
     NSMutableIndexSet *indexSet0 = [NSMutableIndexSet indexSet];
     testassert([indexSet0 indexGreaterThanIndex:2] == NSNotFound);
@@ -779,7 +779,7 @@
     return YES;
 }
 
-- (BOOL)testIndexGreaterThanOrEqualToIndex
+test(IndexGreaterThanOrEqualToIndex)
 {
     NSMutableIndexSet *indexSet0 = [NSMutableIndexSet indexSet];
     testassert([indexSet0 indexGreaterThanOrEqualToIndex:2] == NSNotFound);
@@ -795,7 +795,7 @@
     return YES;
 }
 
-- (BOOL)testIndexLessThanIndex
+test(IndexLessThanIndex)
 {
     NSMutableIndexSet *indexSet0 = [NSMutableIndexSet indexSet];
     testassert([indexSet0 indexLessThanIndex:2] == NSNotFound);
@@ -811,7 +811,7 @@
     return YES;
 }
 
-- (BOOL)testIndexLessThanOrEqualToIndex
+test(IndexLessThanOrEqualToIndex)
 {
     NSMutableIndexSet *indexSet0 = [NSMutableIndexSet indexSet];
     testassert([indexSet0 indexLessThanOrEqualToIndex:2] == NSNotFound);
@@ -827,7 +827,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithIndex
+test(InitWithIndex)
 {
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:2];
     testassert([indexSet indexLessThanOrEqualToIndex:2] == 2);
@@ -835,7 +835,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithIndexesInRange
+test(InitWithIndexesInRange)
 {
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(2,99)];
     testassert([indexSet indexLessThanOrEqualToIndex:2] == 2);
@@ -843,7 +843,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithIndexSet
+test(InitWithIndexSet)
 {
     NSIndexSet *indexSetIniter = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(2,99)];
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndexSet:indexSetIniter];
@@ -854,7 +854,7 @@
 }
 
 
-- (BOOL)testIntersectsIndexesInRange
+test(IntersectsIndexesInRange)
 {
     NSMutableIndexSet *indexSet0 = [NSMutableIndexSet indexSet];
     testassert([indexSet0 intersectsIndexesInRange:NSMakeRange(4,2)] == NO);
@@ -875,7 +875,7 @@
     return YES;
 }
 
-- (BOOL)testIsEqualToIndexSet
+test(IsEqualToIndexSet)
 {
     NSIndexSet *indexSetIniter = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(2,99)];
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndexSet:indexSetIniter];
@@ -888,7 +888,7 @@
     return YES;
 }
 
-- (BOOL)testLastIndex
+test(LastIndex)
 {
     NSMutableIndexSet *indexSet0 = [NSMutableIndexSet indexSet];
     testassert([indexSet0 lastIndex] == NSNotFound);
@@ -899,7 +899,7 @@
     return YES;
 }
 
-- (BOOL)testRemoveAllIndexes
+test(RemoveAllIndexes)
 {
     NSIndexSet *indexSet0 = [NSIndexSet indexSet];
     NSMutableIndexSet *indexSet0m = [[indexSet0 mutableCopy] autorelease];
@@ -911,7 +911,7 @@
     return YES;
 }
 
-- (BOOL)testRemoveIndex
+test(RemoveIndex)
 {
     NSMutableIndexSet *indexSet = [[[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)] mutableCopy] autorelease];
     [indexSet removeIndex:2];
@@ -932,7 +932,7 @@
     return YES;
 }
 
-- (BOOL)testRemoveIndexesInRange
+test(RemoveIndexesInRange)
 {
     NSMutableIndexSet *indexSet = [[[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 4)] mutableCopy] autorelease];
     [indexSet removeIndexesInRange:NSMakeRange(2,2)];
@@ -951,7 +951,7 @@
     return YES;
 }
 
-- (BOOL)testRemoveIndexesInRange2
+test(RemoveIndexesInRange2)
 {
     NSMutableIndexSet *indexSet0 = [[[NSIndexSet indexSet] mutableCopy] autorelease];
     [indexSet0 removeIndexesInRange:NSMakeRange(2,2)];
@@ -974,7 +974,7 @@
     return YES;
 }
 
-- (BOOL)testRemoveIndexes
+test(RemoveIndexes)
 {
     NSMutableIndexSet *indexSet = [[[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 4)] mutableCopy] autorelease];
     NSMutableIndexSet *indexSet0 = [NSMutableIndexSet indexSet];
@@ -986,7 +986,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSetEnumerateIndexesInRange
+test(IndexSetEnumerateIndexesInRange)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:0];
@@ -1001,7 +1001,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSetEnumerateIndexesInRangeEarlyExit
+test(IndexSetEnumerateIndexesInRangeEarlyExit)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:0];
@@ -1017,7 +1017,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSetEnumerateIndexesReverse
+test(IndexSetEnumerateIndexesReverse)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -1032,7 +1032,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSetEnumerateIndexesInRangeReverse
+test(IndexSetEnumerateIndexesInRangeReverse)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -1048,7 +1048,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSetEnumerateIndexesInRangeReverse2
+test(IndexSetEnumerateIndexesInRangeReverse2)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -1065,7 +1065,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSetEnumerateIndexesInRangeConcurrent
+test(IndexSetEnumerateIndexesInRangeConcurrent)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:0];
@@ -1080,7 +1080,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSetEnumerateIndexesInRangeConcurrent2
+test(IndexSetEnumerateIndexesInRangeConcurrent2)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:0];
@@ -1094,7 +1094,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSetEnumerateNilException
+test(IndexSetEnumerateNilException)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     
@@ -1112,7 +1112,7 @@
 }
 
 
-- (BOOL)testIndexSetEnumerateIndexesInRangeRange
+test(IndexSetEnumerateIndexesInRangeRange)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:0];
@@ -1127,7 +1127,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSetEnumerateIndexesInRangeEarlyExitRange
+test(IndexSetEnumerateIndexesInRangeEarlyExitRange)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:0];
@@ -1143,7 +1143,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSetEnumerateIndexesInRangeReverseRange
+test(IndexSetEnumerateIndexesInRangeReverseRange)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -1159,7 +1159,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSetEnumerateIndexesInRangeReverseRange2
+test(IndexSetEnumerateIndexesInRangeReverseRange2)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:1];
@@ -1175,7 +1175,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSetEnumerateIndexesInRangeConcurrentRange
+test(IndexSetEnumerateIndexesInRangeConcurrentRange)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:0];
@@ -1190,7 +1190,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSetEnumerateIndexesInRangeConcurrentRange2
+test(IndexSetEnumerateIndexesInRangeConcurrentRange2)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:0];
@@ -1204,7 +1204,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSetMultipleRanges
+test(IndexSetMultipleRanges)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:0];
@@ -1218,7 +1218,7 @@
 }
 
 
-- (BOOL)testIndexSetShiftIndexesStartingAtIndexByRollunder
+test(IndexSetShiftIndexesStartingAtIndexByRollunder)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndexesInRange: NSMakeRange(0, 2)];
@@ -1228,7 +1228,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSetShiftIndexesStartingAtIndexBy
+test(IndexSetShiftIndexesStartingAtIndexBy)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:2];
@@ -1241,7 +1241,7 @@
 }
 
 
-- (BOOL)testIndexSetShiftIndexesStartingAtIndexBy2
+test(IndexSetShiftIndexesStartingAtIndexBy2)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndex:2];
@@ -1254,7 +1254,7 @@
     return YES;
 }
 
-- (BOOL)testIndexSetShiftIndexesStartingAtIndexByRollover
+test(IndexSetShiftIndexesStartingAtIndexByRollover)
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     [indexSet addIndexesInRange: NSMakeRange(NSNotFound - 2, 1)];

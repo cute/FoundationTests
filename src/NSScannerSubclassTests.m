@@ -32,7 +32,7 @@
 
 @testcase(NSScannerSubclass)
 
-- (BOOL)testAllocClass
+test(AllocClass)
 {
     MyScanner* scanner = [MyScanner alloc];
 
@@ -44,7 +44,7 @@
     return YES;
 }
 
--(BOOL)testScannerWithStringClass
+test(ScannerWithStringClass)
 {
     NSScanner* scanner = [MyScanner scannerWithString:@""];
 
@@ -53,7 +53,7 @@
     return YES;
 }
 
-- (BOOL)testLocalizedScannerWithStringClass
+test(LocalizedScannerWithStringClass)
 {
     NSScanner* scanner = [MyScanner localizedScannerWithString:@""];
 
@@ -90,7 +90,7 @@ static BOOL InvokeRequiredMethod(NSScanner* scanner, int index)
     return NO;
 }
 
--(BOOL)testScannerRequired
+test(ScannerRequired)
 {
     MyScanner* scanner = [[MyScanner alloc] init];
 
@@ -168,7 +168,7 @@ static BOOL InvokeOptionalMethod(NSScanner* scanner, int index)
     return NO;
 }
 
--(BOOL)testScannerOptional
+test(ScannerOptional)
 {
     SimpleScanner* scanner = [[SimpleScanner alloc] initWithString:@""];
 

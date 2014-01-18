@@ -5,7 +5,7 @@
 
 @testcase(NSUserDefaults)
 
-- (BOOL)testSetAndGet
+test(SetAndGet)
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:@"apportable" forKey:@"firstName"];
@@ -32,7 +32,7 @@
     return YES;
 }
 
-- (BOOL)testSetAndGetURL  
+test(SetAndGetURL)
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSURL *url = [[NSURL alloc] initFileURLWithPath:@"www.apportable.com"];
@@ -42,7 +42,7 @@
     return YES;
 }
 
-- (BOOL) testRegisterDefaults
+test(RegisterDefaults)
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *appDefaults  = [NSDictionary dictionaryWithObjectsAndKeys:@"xyz", @"abc", @2, @"def", nil];
@@ -55,7 +55,7 @@
 }
 
                 
-- (BOOL) testRegisterDefaultsDontOverwrite
+test(RegisterDefaultsDontOverwrite)
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:@"apportable" forKey:@"firstName"];
@@ -67,7 +67,7 @@
     return YES;
 }
 
-- (BOOL)testStoreDate
+test(StoreDate)
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDate *date = [NSDate date];
@@ -79,7 +79,7 @@
     return YES;
 }
 
-- (BOOL)testStoreData
+test(StoreData)
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *data = [NSData dataWithBytes:"foo" length:3];
@@ -91,7 +91,7 @@
     return YES;
 }
 
-- (BOOL)testRemoveObjectForKey  // issue 573
+test(RemoveObjectForKey) // issue 573
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:@"Paul" forKey:@"foo123"];
@@ -110,7 +110,7 @@
     return YES;
 }
 
-- (BOOL) testRemovePersistentDomainForName // issue 573
+test(RemovePersistentDomainForName) // issue 573
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:@"Paul" forKey:@"foo456"];

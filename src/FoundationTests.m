@@ -10,7 +10,6 @@
 #define DEBUG_LOG printf
 #endif
 
-
 @implementation SubclassTracker {
     CFMutableArrayRef calls;
     Class class;
@@ -156,12 +155,48 @@ static void test_signal(int sig)
     siglongjmp(jbuf, 1);
 }
 
-static void runTests(id tests)
+struct testClassEntry {
+    Class cls;
+    NSUInteger count;
+    struct testName *methods;
+} *testClasses = NULL;
+static int testClassCount = 0;
+static int testClassCapacity = 0;
+
+void registerTestClass(Class cls)
 {
-    unsigned int count;
-    Class c = [tests class];
+    if (testClasses == NULL)
+    {
+        testClassCapacity = 128;
+        testClasses = malloc(testClassCapacity * sizeof(*testClasses));
+        if (testClasses == NULL)
+        {
+            abort();
+            return;
+        }
+    }
+    else if (testClassCount + 1 > testClassCapacity)
+    {
+        testClassCapacity *= 2;
+        struct testClassEntry *buffer = realloc(testClasses, testClassCapacity * sizeof(*testClasses));
+        if (buffer == NULL)
+        {
+            abort();
+            return;
+        }
+        testClasses = buffer;
+    }
+    testClasses[testClassCount++] = (struct testClassEntry) {
+        .cls = cls,
+        .methods = NULL,
+    };
+}
+
+static void runTests(struct testClassEntry *testSuite)
+{
+    Class c = testSuite->cls;
+    id tests = [[c alloc] init];
     const char *class_name = class_getName(c);
-    Method *methods = class_copyMethodList(c, &count);
 
     unsigned int success_count = 0;
     unsigned int assertion_count = 0;
@@ -172,28 +207,14 @@ static void runTests(id tests)
     unsigned int test_count = 0;
     
     DEBUG_LOG("Running tests for %.*s:\n", (int)strlen(class_name) - (int)strlen("TestsApportable"), class_name);
-    for (unsigned int i = 0; i < count; i++)
+
+    for (unsigned int idx = 0; idx < testSuite->count; idx++)
     {
-        SEL sel = method_getName(methods[i]);
-        const char *sel_name = sel_getName(sel);
-        IMP imp = method_getImplementation(methods[i]);
-
-        if (strncmp(sel_name, "test", 4) != 0)
-        {
-            continue;
-        }
-
-        char returnType[256];
-        method_getReturnType(methods[i], returnType, sizeof(returnType));
-
-        if (strncmp(returnType, @encode(BOOL), sizeof(returnType)))
-        {
-            skip_count++;
-            total_skip_count++;
-            DEBUG_LOG("%s: %s SKIPPED (return type %s should be BOOL)\n", class_name, sel_name, returnType);
-            continue;
-        }
-
+        const char *sel_name = testSuite->methods[idx].methodName;
+        SEL sel = sel_registerName(testSuite->methods[idx].methodName);
+        Method m = class_getInstanceMethod(c, sel);
+        IMP imp = method_getImplementation(m);
+        
         BOOL success = NO;
         BOOL exception = NO;
 
@@ -264,38 +285,8 @@ static void runTests(id tests)
         DEBUG_LOG("%u failures (assertions, signals, and uncaught exceptions)\n", failure_count);
     }
     DEBUG_LOG("\n");
-
-    free(methods);
-}
-
-static Class *testClasses = NULL;
-static int testClassCount = 0;
-static int testClassCapacity = 0;
-
-void registerTestClass(Class cls)
-{
-    if (testClasses == NULL)
-    {
-        testClassCapacity = 128;
-        testClasses = malloc(testClassCapacity * sizeof(Class));
-        if (testClasses == NULL)
-        {
-            abort();
-            return;
-        }
-    }
-    else if (testClassCount + 1 > testClassCapacity)
-    {
-        testClassCapacity *= 2;
-        Class *buffer = realloc(testClasses, testClassCapacity * sizeof(Class));
-        if (buffer == NULL)
-        {
-            abort();
-            return;
-        }
-        testClasses = buffer;
-    }
-    testClasses[testClassCount++] = cls;
+    
+    [tests release];
 }
 
 void runFoundationTests(void)
@@ -306,15 +297,39 @@ void runFoundationTests(void)
         return;
     }
     
-    qsort_b(testClasses, testClassCount, sizeof(Class), ^(const void *c1, const void *c2) {
-        return strcmp(class_getName(*(Class *)c1), class_getName(*(Class *)c2));
+    qsort_b(testClasses, testClassCount, sizeof(struct testClassEntry), ^(const void *c1, const void *c2) {
+        return strcmp(class_getName(((struct testClassEntry *)c1)->cls), class_getName(((struct testClassEntry *)c2)->cls));
     });
 
-    for (unsigned idx = 0; idx < testClassCount; idx++)
+    for (unsigned testClassIdx = 0; testClassIdx < testClassCount; testClassIdx++)
     {
-        id testObj = [[testClasses[idx] alloc] init];
-        runTests(testObj);
-        [testObj release];
+        struct testClassEntry *tc = &testClasses[testClassIdx];
+        struct testName *testNames = (struct testName *)[tc->cls testNames];
+        struct testName *ptr = testNames;
+
+        tc->count = 0;
+        while (ptr->methodName != NULL)
+        {
+            tc->count++;
+            ptr = ptr->next;
+        }
+        
+        tc->methods = malloc(tc->count * sizeof(*tc->methods));
+
+        ptr = testNames;
+        for (NSUInteger idx = 0; idx < tc->count; idx++)
+        {
+            tc->methods[idx] = *ptr;
+            ptr = ptr->next;
+        }
+
+        qsort_b(tc->methods, tc->count, sizeof(struct testName), ^int(const void *c1, const void *c2) {
+            return ((struct testName *)c1)->line - ((struct testName *)c2)->line;
+        });
+        
+        runTests(tc);
+
+        free(tc->methods);
     }
 
     DEBUG_LOG("Foundation test totals %.02f%%\n", 100.0 * ((double)total_success_count / (double)total_test_count));

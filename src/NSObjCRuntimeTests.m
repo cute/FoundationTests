@@ -17,7 +17,7 @@
 
 @testcase(NSObjCRuntime)
 
-- (BOOL)testChar
+test(Char)
 {
     const char *encoding = @encode(char);
     NSUInteger size = -1;
@@ -32,7 +32,7 @@
     return YES;
 }
 
-- (BOOL)testShort
+test(Short)
 {
     const char *encoding = @encode(short);
     NSUInteger size = -1;
@@ -47,7 +47,7 @@
     return YES;
 }
 
-- (BOOL)testInt
+test(Int)
 {
     const char *encoding = @encode(int);
     NSUInteger size = -1;
@@ -62,7 +62,7 @@
     return YES;
 }
 
-- (BOOL)testLong
+test(Long)
 {
     const char *encoding = @encode(long);
     NSUInteger size = -1;
@@ -77,7 +77,7 @@
     return YES;
 }
 
-- (BOOL)testLongLong
+test(LongLong)
 {
     const char *encoding = @encode(long long);
     NSUInteger size = -1;
@@ -92,7 +92,7 @@
     return YES;
 }
 
-- (BOOL)testUnsignedChar
+test(UnsignedChar)
 {
     const char *encoding = @encode(unsigned char);
     NSUInteger size = -1;
@@ -107,7 +107,7 @@
     return YES;
 }
 
-- (BOOL)testUnsignedShort
+test(UnsignedShort)
 {
     const char *encoding = @encode(unsigned short);
     NSUInteger size = -1;
@@ -122,7 +122,7 @@
     return YES;
 }
 
-- (BOOL)testUnsignedInt
+test(UnsignedInt)
 {
     const char *encoding = @encode(unsigned int);
     NSUInteger size = -1;
@@ -137,7 +137,7 @@
     return YES;
 }
 
-- (BOOL)testUnsignedLong
+test(UnsignedLong)
 {
     const char *encoding = @encode(unsigned long);
     NSUInteger size = -1;
@@ -152,7 +152,7 @@
     return YES;
 }
 
-- (BOOL)testUnsignedLongLong
+test(UnsignedLongLong)
 {
     const char *encoding = @encode(unsigned long long);
     NSUInteger size = -1;
@@ -167,7 +167,7 @@
     return YES;
 }
 
-- (BOOL)testBOOL
+test(BOOL)
 {
     const char *encoding = @encode(BOOL);
     NSUInteger size = -1;
@@ -182,7 +182,7 @@
     return YES;
 }
 
-- (BOOL)testDouble
+test(Double)
 {
     const char *encoding = @encode(double);
     NSUInteger size = -1;
@@ -197,7 +197,7 @@
     return YES;
 }
 
-- (BOOL)testFloat
+test(Float)
 {
     const char *encoding = @encode(float);
     NSUInteger size = -1;
@@ -212,7 +212,7 @@
     return YES;
 }
 
-- (BOOL)testId
+test(Id)
 {
     const char *encoding = @encode(id);
     NSUInteger size = -1;
@@ -227,7 +227,7 @@
     return YES;
 }
 
-- (BOOL)testClass
+test(Class)
 {
     const char *encoding = @encode(Class);
     NSUInteger size = -1;
@@ -242,7 +242,7 @@
     return YES;
 }
 
-- (BOOL)testSEL
+test(SEL)
 {
     const char *encoding = @encode(SEL);
     NSUInteger size = -1;
@@ -257,7 +257,7 @@
     return YES;
 }
 
-- (BOOL)testCharPtr
+test(CharPtr)
 {
     const char *encoding = @encode(char *);
     NSUInteger size = -1;
@@ -276,7 +276,7 @@
 // with size and alignment equal to sizeof(type). The following are
 // the more complicated cases.
 
-- (BOOL)testVoid
+test(Void)
 {
     const char *encoding = @encode(void);
     NSUInteger size = -1;
@@ -293,7 +293,7 @@
     return YES;
 }
 
-- (BOOL)testPtr
+test(Ptr)
 {
     // All (non-function) pointers have the same size and alignment,
     // so we just have to test that NSGetSizeAndAlignment correctly
@@ -322,7 +322,7 @@
     return YES;
 }
 
-- (BOOL)testArray
+test(Array)
 {
     // For all arrays, the alignment is the alignment of the element
     // type, and the size is the element size times the element
@@ -376,7 +376,7 @@
     return YES;
 }
 
-- (BOOL)testStruct
+test(Struct)
 {
     NSUInteger size;
     NSUInteger alignment;
@@ -424,7 +424,7 @@
     return YES;
 }
 
-- (BOOL)testUnion
+test(Union)
 {
     NSUInteger size;
     NSUInteger alignment;
@@ -472,7 +472,7 @@
     return YES;
 }
 
-- (BOOL)testBitfield
+test(Bitfield)
 {
     // NSGetSizeAndAlignment should throw NSInvalidArgumentException on bitfields
 
@@ -498,7 +498,7 @@
     return YES;
 }
 
-- (BOOL)testComplex
+test(Complex)
 {
     // NSGetSizeAndAlignment should throw NSInvalidArgumentException on _Complex types
 
@@ -535,7 +535,7 @@
     return YES;
 }
 
-- (BOOL)testTypeQualifiersAndComments
+test(TypeQualifiersAndComments)
 {
     // NSGetSizeAndAlignment should walk over type qualifiers,
     // represented by any of the characters in "nNoOrRV". It should
@@ -561,7 +561,7 @@
     return YES;
 }
 
-- (BOOL)testEmpty
+test(Empty)
 {
     const char *type = "";
     NSUInteger size = -1;
@@ -579,7 +579,7 @@
 #if CF_BUILDING_CF
 extern const char *__NSGetSizeAndAlignment(const char *, NSUInteger *, NSUInteger *, BOOL);
 
-- (BOOL)testSizeHints
+test(SizeHints)
 {
     // Type encodings such as "c1{=@}8" are emitted by
     // method_getTypeEncoding, in which the '1' and '8' are supposed
@@ -618,7 +618,7 @@ extern const char *__NSGetSizeAndAlignment(const char *, NSUInteger *, NSUIntege
 }
 #endif
 
-- (BOOL)testNSStringFromSelectorEmpty
+test(NSStringFromSelectorEmpty)
 {
     SEL sel = NULL;
     NSString *str = NSStringFromSelector(sel);
@@ -627,7 +627,7 @@ extern const char *__NSGetSizeAndAlignment(const char *, NSUInteger *, NSUIntege
     return YES;
 }
 
-- (BOOL)testNSStringFromSelectorCreated
+test(NSStringFromSelectorCreated)
 {
     SEL sel = sel_registerName("thisIsATestSelector:");
     NSString *str = NSStringFromSelector(sel);
@@ -636,7 +636,7 @@ extern const char *__NSGetSizeAndAlignment(const char *, NSUInteger *, NSUIntege
     return YES;
 }
 
-- (BOOL)testNSStringFromSelectorCompiled
+test(NSStringFromSelectorCompiled)
 {
     SEL sel = @selector(testNSStringFromSelectorCompiled);
     NSString *str = NSStringFromSelector(sel);
@@ -645,7 +645,7 @@ extern const char *__NSGetSizeAndAlignment(const char *, NSUInteger *, NSUIntege
     return YES;
 }
 
-- (BOOL)testNSSelectorFromStringEmpty
+test(NSSelectorFromStringEmpty)
 {
     NSString *str = nil;
     SEL sel = NSSelectorFromString(str);
@@ -655,7 +655,7 @@ extern const char *__NSGetSizeAndAlignment(const char *, NSUInteger *, NSUIntege
     return YES;
 }
 
-- (BOOL)testNSSelectorFromStringExisting
+test(NSSelectorFromStringExisting)
 {
     NSString *str = @"testNSSelectorFromStringExisting";
     SEL sel = NSSelectorFromString(str);
@@ -664,7 +664,7 @@ extern const char *__NSGetSizeAndAlignment(const char *, NSUInteger *, NSUIntege
     return YES;
 }
 
-- (BOOL)testNSSelectorFromStringNotExisting
+test(NSSelectorFromStringNotExisting)
 {
     NSString *str = @"thisSelectorDoesNotExistBecauseItHasNotBeenCompiledOrRegistered::::::";
     SEL sel = NSSelectorFromString(str);
@@ -673,7 +673,7 @@ extern const char *__NSGetSizeAndAlignment(const char *, NSUInteger *, NSUIntege
     return YES;
 }
 
-- (BOOL)testNSStringFromClassEmpty
+test(NSStringFromClassEmpty)
 {
     Class cls = nil;
     NSString *str = NSStringFromClass(cls);
@@ -682,7 +682,7 @@ extern const char *__NSGetSizeAndAlignment(const char *, NSUInteger *, NSUIntege
     return YES;
 }
 
-- (BOOL)testNSStringFromClassNotNil
+test(NSStringFromClassNotNil)
 {
     Class cls = [self class];
     NSString *str = NSStringFromClass(cls);
@@ -691,7 +691,7 @@ extern const char *__NSGetSizeAndAlignment(const char *, NSUInteger *, NSUIntege
     return YES;
 }
 
-- (BOOL)testNSStringFromProtocolLookup
+test(NSStringFromProtocolLookup)
 {
     Protocol *p = objc_getProtocol("NSObject");
     NSString *str = NSStringFromProtocol(p);
@@ -700,7 +700,7 @@ extern const char *__NSGetSizeAndAlignment(const char *, NSUInteger *, NSUIntege
     return YES;
 }
 
-- (BOOL)testNSStringFromProtocolCompiled
+test(NSStringFromProtocolCompiled)
 {
     Protocol *p = @protocol(NSObject);
     NSString *str = NSStringFromProtocol(p);
@@ -709,7 +709,7 @@ extern const char *__NSGetSizeAndAlignment(const char *, NSUInteger *, NSUIntege
     return YES;
 }
 
-- (BOOL)testNSProtocolFromStringNil
+test(NSProtocolFromStringNil)
 {
     NSString *str = nil;
     Protocol *p = NSProtocolFromString(str);
@@ -718,7 +718,7 @@ extern const char *__NSGetSizeAndAlignment(const char *, NSUInteger *, NSUIntege
     return YES;
 }
 
-- (BOOL)testNSProtocolFromStringNotNil
+test(NSProtocolFromStringNotNil)
 {
     NSString *str = @"NSObject";
     Protocol *p = NSProtocolFromString(str);
@@ -727,7 +727,7 @@ extern const char *__NSGetSizeAndAlignment(const char *, NSUInteger *, NSUIntege
     return YES;
 }
 
-- (BOOL)testNSExtraRefCount
+test(NSExtraRefCount)
 {
     NSObject *o = [[NSObject alloc] init];
     testassert([o retainCount] == NSExtraRefCount(o) + 1);
@@ -740,7 +740,7 @@ extern const char *__NSGetSizeAndAlignment(const char *, NSUInteger *, NSUIntege
     return YES;
 }
 
-- (BOOL)testIvarEncodings
+test(IvarEncodings)
 {
     const char *range = ivar_getTypeEncoding(class_getInstanceVariable([TestEncodingSource class], "range"));
     const char *point = ivar_getTypeEncoding(class_getInstanceVariable([TestEncodingSource class], "point"));

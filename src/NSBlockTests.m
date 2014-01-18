@@ -2,7 +2,7 @@
 
 @testcase(NSBlock)
 
-- (BOOL)testGlobalBlock
+test(GlobalBlock)
 {
     NSString *desc = [^{
 
@@ -12,7 +12,7 @@
     return YES;
 }
 
-- (BOOL)testBlockCopy
+test(BlockCopy)
 {
     id block = [^{
 
@@ -22,7 +22,7 @@
     return YES;
 }
 
-- (BOOL)testBlockRelease
+test(BlockRelease)
 {
     void (^block)() = Block_copy(^{
 
@@ -32,7 +32,7 @@
     return YES;
 }
 
-- (BOOL)testBlockInvoke
+test(BlockInvoke)
 {
     __block BOOL invoked = NO;
     [^{
@@ -43,7 +43,7 @@
     return YES;
 }
 
-- (BOOL)testBlockNSInvocation
+test(BlockNSInvocation)
 {
     __block BOOL invoked = NO;
     void (^block)(char ch) = ^(char c){

@@ -3,13 +3,13 @@
 
 @testcase(NSProxy)
 
-- (BOOL)testAlloc
+test(Alloc)
 {
     testassert([NSProxy alloc] != nil);
     return YES;
 }
 
-- (BOOL)testRetainReleaseAutorelease
+test(RetainReleaseAutorelease)
 {
     NSProxy *p = [NSProxy alloc];
     [p retain];
@@ -18,7 +18,7 @@
     return YES;
 }
 
-- (BOOL)testBaseMethods
+test(BaseMethods)
 {
     NSProxy *p = [NSProxy alloc];
     [p hash];
@@ -27,7 +27,7 @@
     return YES;
 }
 
-- (BOOL)testClass
+test(Class)
 {
     NSProxy *p = [NSProxy alloc];
     testassert([p class] == objc_getClass("NSProxy"));
@@ -35,7 +35,7 @@
     return YES;
 }
 
-- (BOOL)testForwardingTarget
+test(ForwardingTarget)
 {
     NSProxy *p = [NSProxy alloc];
     testassert([p forwardingTargetForSelector:@selector(test)] == nil);
@@ -43,21 +43,21 @@
     return YES;
 }
 
-- (BOOL)testImplementsConformsToProtocol
+test(ImplementsConformsToProtocol)
 {
     Class cls = objc_getClass("NSProxy");
     testassert(class_getInstanceMethod(cls, @selector(conformsToProtocol:)) != NULL);
     return YES;
 }
 
-- (BOOL)testImplementsMethodSignatureForSelector
+test(ImplementsMethodSignatureForSelector)
 {
     Class cls = objc_getClass("NSProxy");
     testassert(class_getInstanceMethod(cls, @selector(methodSignatureForSelector:)) != NULL);
     return YES;
 }
 
-- (BOOL)testMethodSignatureForSelector
+test(MethodSignatureForSelector)
 {
     NSProxy *p = [NSProxy alloc];
     BOOL exceptionCaught = NO;
@@ -74,14 +74,14 @@
     return YES;
 }
 
-- (BOOL)testImplementsIsKindOfClass
+test(ImplementsIsKindOfClass)
 {
     Class cls = objc_getClass("NSProxy");
     testassert(class_getInstanceMethod(cls, @selector(isKindOfClass:)) != NULL);
     return YES;
 }
 
-- (BOOL)testIsKindOfClass
+test(IsKindOfClass)
 {
     NSProxy *p = [NSProxy alloc];
     BOOL exceptionCaught = NO;
@@ -98,14 +98,14 @@
     return YES;
 }
 
-- (BOOL)testImplementsIsMemberOfClass
+test(ImplementsIsMemberOfClass)
 {
     Class cls = objc_getClass("NSProxy");
     testassert(class_getInstanceMethod(cls, @selector(isMemberOfClass:)) != NULL);
     return YES;
 }
 
-- (BOOL)testIsMemberOfClass
+test(IsMemberOfClass)
 {
     NSProxy *p = [NSProxy alloc];
     BOOL exceptionCaught = NO;

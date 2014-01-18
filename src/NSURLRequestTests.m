@@ -7,20 +7,20 @@
 
 @testcase(NSURLRequest)
 
-- (BOOL)testSingletonFactoryPattern
+test(SingletonFactoryPattern)
 {
     testassert([NSURLRequest alloc] != [NSURLRequest alloc]);
 
     return YES;
 }
 
-- (BOOL)testDefaultTimeout
+test(DefaultTimeout)
 {
     testassert([NSURLRequest defaultTimeoutInterval] == 60.0);
     return YES;
 }
 
-- (BOOL)testSetDefaultTimeout
+test(SetDefaultTimeout)
 {
     NSTimeInterval ti = [NSURLRequest defaultTimeoutInterval];
     [NSURLRequest setDefaultTimeoutInterval:30.0];
@@ -33,7 +33,7 @@
 }
 
 
-- (BOOL)testDefaultInit
+test(DefaultInit)
 {
     NSURLRequest *request = [[NSURLRequest alloc] init];
 
@@ -72,7 +72,7 @@
     return YES;
 }
 
-- (BOOL)testURLConstruction
+test(URLConstruction)
 {
     NSURL *url = [NSURL URLWithString:@"http://www.google.com"];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
@@ -85,7 +85,7 @@
     return YES;
 }
 
-- (BOOL)testAdvancedConstruction
+test(AdvancedConstruction)
 {
     NSURL *url = [NSURL URLWithString:@"http://www.google.com"];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:42.5];
@@ -98,7 +98,7 @@
     return YES;
 }
 
-- (BOOL)testDefaultMutableInit
+test(DefaultMutableInit)
 {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
 
@@ -136,7 +136,7 @@
     return YES;
 }
 
-- (BOOL)testMutableRequest
+test(MutableRequest)
 {
     NSURL *url = [NSURL URLWithString:@"http://www.google.com"];
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
@@ -175,7 +175,7 @@
     return YES;
 }
 
-- (BOOL)testAllHeaderFieldsIsCopied
+test(AllHeaderFieldsIsCopied)
 {
     NSURL *url = [NSURL URLWithString:@"http://www.google.com"];
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
@@ -185,7 +185,7 @@
     return YES;
 }
 
-- (BOOL)testAllHeaderFieldsIsCFDictionary
+test(AllHeaderFieldsIsCFDictionary)
 {
     NSURL *url = [NSURL URLWithString:@"http://www.google.com"];
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
@@ -203,7 +203,7 @@
     return YES;
 }
 
-- (BOOL)testCopyURLRequest
+test(CopyURLRequest)
 {
     NSURL *url = [NSURL URLWithString:@"http://www.google.com"];
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:url];
@@ -225,7 +225,7 @@
     return YES;
 }
 
-- (BOOL)testPercent2BInURLRequest
+test(Percent2BInURLRequest)
 {
     // TODO: It would be nice to be able to repro this issue without relying on requesting igunpro assests.
     NSURL *url = [NSURL URLWithString:@"https://s3.amazonaws.com/igunpro/10-22%2bb78ddb3e%2bPackage.zip"];

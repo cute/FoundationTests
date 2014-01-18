@@ -13,7 +13,7 @@ NSString *mainBundlePath = nil;
 static NSBundle *zeroLevelBundle, *firstLevelBundle, *secondLevelBundle;
 
 #pragma mark - Instantiation Tests
-- (BOOL)testMainBundle
+test(MainBundle)
 {
     NSBundle *bundle = [NSBundle mainBundle];
     testassert(nil != bundle);
@@ -21,7 +21,7 @@ static NSBundle *zeroLevelBundle, *firstLevelBundle, *secondLevelBundle;
     return YES;
 }
 
-- (BOOL)testCFBundleGetMainBundle
+test(CFBundleGetMainBundle)
 {
     CFBundleRef cfBundle = CFBundleGetMainBundle();
     testassert(nil != cfBundle);
@@ -29,7 +29,7 @@ static NSBundle *zeroLevelBundle, *firstLevelBundle, *secondLevelBundle;
     return YES;
 }
 
-- (BOOL)testMainBundlePath
+test(MainBundlePath)
 {
     mainBundlePath = [[[NSBundle mainBundle] bundlePath] copy];
     testassert(nil != mainBundlePath);
@@ -39,14 +39,14 @@ static NSBundle *zeroLevelBundle, *firstLevelBundle, *secondLevelBundle;
 }
 
 
-- (BOOL)testMainBundleIdentifier
+test(MainBundleIdentifier)
 {
     NSString *s = [[NSBundle mainBundle] bundleIdentifier];
     testassert([s isEqualToString:@"com.apportable.FoundationTests"]);
     return YES;
 }
 
-- (BOOL)testValidNonMainBundleAllocInitCreation
+test(ValidNonMainBundleAllocInitCreation)
 {
     zeroLevelBundle = [[NSBundle alloc] initWithPath:[mainBundlePath stringByAppendingPathComponent:@"0.bundle"]];
     testassert(
@@ -71,7 +71,7 @@ static NSBundle *zeroLevelBundle, *firstLevelBundle, *secondLevelBundle;
     return YES;
 }
 
-- (BOOL)testValidNonMainBundleClassMethodCreation
+test(ValidNonMainBundleClassMethodCreation)
 {
     if (zeroLevelBundle)
         RELEASEANDNIL(zeroLevelBundle);
@@ -103,7 +103,7 @@ static NSBundle *zeroLevelBundle, *firstLevelBundle, *secondLevelBundle;
     return YES;
 }
 
-- (BOOL)testInvalidNonMainBundleCreation
+test(InvalidNonMainBundleCreation)
 {
     NSBundle *badZeroLevelBundle = [NSBundle bundleWithPath:@"0.bundle"];
     testassert(nil == badZeroLevelBundle);
@@ -117,7 +117,7 @@ static NSBundle *zeroLevelBundle, *firstLevelBundle, *secondLevelBundle;
     return YES;
 }
 
-- (BOOL)testLocalizedStrings
+test(LocalizedStrings)
 {
     NSString *localizedString = NSLocalizedString(@"Hello,\n“foo bar.”\n", @"a comment");
     testassert(localizedString != nil);
@@ -125,14 +125,14 @@ static NSBundle *zeroLevelBundle, *firstLevelBundle, *secondLevelBundle;
     return YES;
 }
 
-- (BOOL)testLocalizedInfoDictionary
+test(LocalizedInfoDictionary)
 {
 	NSDictionary *localizedInfoDictionary = [[NSBundle mainBundle] localizedInfoDictionary];
 	testassert(localizedInfoDictionary != nil);
 	return YES;
 }
 
-- (BOOL)testBuiltInPlugInsPath
+test(BuiltInPlugInsPath)
 {
 	NSString *builtInPlugInsPath = [[NSBundle mainBundle] builtInPlugInsPath];
 	testassert(builtInPlugInsPath != nil);
@@ -140,7 +140,7 @@ static NSBundle *zeroLevelBundle, *firstLevelBundle, *secondLevelBundle;
 	return YES;
 }
 
-- (BOOL)testSharedSupportPath
+test(SharedSupportPath)
 {
 	NSString *sharedSupportPath = [[NSBundle mainBundle] sharedSupportPath];
 	testassert(sharedSupportPath != nil);
@@ -148,7 +148,7 @@ static NSBundle *zeroLevelBundle, *firstLevelBundle, *secondLevelBundle;
 	return YES;
 }
 
-- (BOOL)testSharedFrameworksPath
+test(SharedFrameworksPath)
 {
 	NSString *sharedFrameworksPath = [[NSBundle mainBundle] sharedFrameworksPath];
 	testassert(sharedFrameworksPath != nil);
@@ -156,7 +156,7 @@ static NSBundle *zeroLevelBundle, *firstLevelBundle, *secondLevelBundle;
 	return YES;
 }
 
-- (BOOL)testPrivateFrameworksPath
+test(PrivateFrameworksPath)
 {
 	NSString *privateFrameworksPath = [[NSBundle mainBundle] privateFrameworksPath];
 	testassert(privateFrameworksPath != nil);
@@ -164,7 +164,7 @@ static NSBundle *zeroLevelBundle, *firstLevelBundle, *secondLevelBundle;
 	return YES;
 }
 
-- (BOOL)testAppStoreReceiptURL
+test(AppStoreReceiptURL)
 {
 	NSURL *appStoreReceiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
     testassert(appStoreReceiptURL != nil);

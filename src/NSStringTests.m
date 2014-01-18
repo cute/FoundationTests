@@ -26,7 +26,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 
 @testcase(NSString)
 
-- (BOOL)testAllocate
+test(Allocate)
 {
     NSString *s1 = [NSString alloc];
     NSString *s2 = [NSString alloc];
@@ -36,7 +36,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)teststringByReplacingOccurrencesOfString
+test(stringByReplacingOccurrencesOfString)
 {
     NSString *s = @"abcdefghij+1234+567";
     NSString *s2 = [s stringByReplacingOccurrencesOfString:@"+" withString:@" "];
@@ -44,7 +44,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)teststringByReplacingPercentEscapesUsingEncoding
+test(stringByReplacingPercentEscapesUsingEncoding)
 {
     NSString *s = @"abcd7";
     NSString *s2 = [s stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -52,7 +52,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)teststringByReplacingPercentEscapesUsingEncodingNil
+test(stringByReplacingPercentEscapesUsingEncodingNil)
 {
     NSString *s = @"abcdefg%hij+1234+56%7";
     NSString *s2 = [s stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
@@ -60,7 +60,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testCreationWithNil
+test(CreationWithNil)
 {
     void (^block)() = ^{
         [[NSString alloc] initWithString:nil];
@@ -81,7 +81,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testCreationWithAscii
+test(CreationWithAscii)
 {
     // Sample with ascii encoding must not throw
     [NSString stringWithCString:AsciiSample encoding:NSASCIIStringEncoding];
@@ -89,7 +89,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testCreationWithUnicode
+test(CreationWithUnicode)
 {
     // Sample with unicode must not throw
     [NSString stringWithCharacters:AsciiSampleUnicode length:AsciiSampleMaxUnicodeLength];
@@ -97,7 +97,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testMutableCreationWithUnicode
+test(MutableCreationWithUnicode)
 {
     // Sample with unicode must not throw
     [NSMutableString stringWithCharacters:AsciiSampleUnicode length:AsciiSampleMaxUnicodeLength];
@@ -105,7 +105,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testMutableCreationWithUnicodeSuccess
+test(MutableCreationWithUnicodeSuccess)
 {
     // Sample with unicode must not throw
     NSMutableString *aString = [NSMutableString stringWithCharacters:AsciiSampleUnicode length:50];
@@ -114,7 +114,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testDepreciatedCStringCreation1
+test(DepreciatedCStringCreation1)
 {
     // Creation with cstring of NULL and zero length must not throw
     [NSString stringWithCString:NULL length:0];
@@ -122,7 +122,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testDepreciatedCStringCreation2
+test(DepreciatedCStringCreation2)
 {
     // Creation with cstring of sample must not throw
     [NSString stringWithCString:AsciiSample length:AsciiSampleLength];
@@ -130,7 +130,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testcStringUsingEncoding
+test(cStringUsingEncoding)
 {
     NSString *s = @"abcd";
     NSString *s2 = [s substringToIndex:3];
@@ -142,7 +142,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 }
 
 
-- (BOOL)testcStringUsingEncoding2
+test(cStringUsingEncoding2)
 {
     NSString *s = @"¡™£¢∞§¶";
     const char *cString = [s cStringUsingEncoding:NSASCIIStringEncoding];
@@ -151,7 +151,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 }
 
 
-- (BOOL)testcStringUsingEncoding3
+test(cStringUsingEncoding3)
 {
     NSString *s = @"¡™£¢∞§¶";
     const char *cString = [s cStringUsingEncoding:NSUnicodeStringEncoding];
@@ -162,7 +162,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 
 
 // Fails with XCode 4
-- (BOOL)testCFStringGetCStringPtr
+test(CFStringGetCStringPtr)
 {
     NSString *s = @"abcd";
     NSString *s2 = [s substringToIndex:3];
@@ -172,7 +172,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testCFStringGetCStringPtr2
+test(CFStringGetCStringPtr2)
 {
     NSString *s = @"abcd";
     NSString *s2 = [s substringToIndex:3];
@@ -182,7 +182,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 }
 
 // Fails with XCode 4
-- (BOOL)testCFStringGetCStringPtr3
+test(CFStringGetCStringPtr3)
 {
     NSString *s = @"abcd";
     NSString *s2 = [s substringToIndex:3];
@@ -192,7 +192,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testCFStringGetCStringPtr4
+test(CFStringGetCStringPtr4)
 {
     NSString *s = @"abcd";
     NSString *s2 = [s substringToIndex:3];
@@ -201,7 +201,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testCFStringGetCStringPtr5
+test(CFStringGetCStringPtr5)
 {
     NSString *s = @"abcd";
     NSString *s2 = [s substringToIndex:3];
@@ -211,7 +211,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 }
 
 // Fails with XCode 4
-- (BOOL)testCFStringGetCStringPtr6
+test(CFStringGetCStringPtr6)
 {
     CFStringRef s = CFSTR("abc");
     const char *cString = CFStringGetCStringPtr(s, kCFStringEncodingASCII);
@@ -221,7 +221,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 }
 
 // Fails with XCode 4
-- (BOOL)testCFStringGetCStringPtr7
+test(CFStringGetCStringPtr7)
 {
     CFStringRef s = CFSTR("a/bc");
     const char *cString = CFStringGetCStringPtr(s, kCFStringEncodingASCII);
@@ -230,7 +230,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testCFStringGetCString
+test(CFStringGetCString)
 {
     CFStringRef s = CFSTR("abc");
     char cString[4];
@@ -239,14 +239,14 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testLengths
+test(Lengths)
 {
     // TODO
 
     return YES;
 }
 
-- (BOOL)testConstantStrings
+test(ConstantStrings)
 {
     const char *s = [UTF8SampleNSString UTF8String];
 
@@ -263,21 +263,21 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testConstantEquality
+test(ConstantEquality)
 {
     testassert(@"foo" != @"bar");
     testassert(@"foo" == @"foo");
     return YES;
 }
 
-- (BOOL)testConstantEqualityFromExternal
+test(ConstantEqualityFromExternal)
 {
     extern NSString *const externalFoo;
     testassert(externalFoo == @"foo");
     return YES;
 }
 
-- (BOOL)testInitAndLength
+test(InitAndLength)
 {
     NSString *s1 = @"abc";
     NSString *s2 = [NSString stringWithUTF8String:"abc"];
@@ -293,7 +293,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 }
 
 
-- (BOOL)testStringWithFormat
+test(StringWithFormat)
 {
     NSString *str = @"/abc";
     char *str2 = "~/Documents";
@@ -303,7 +303,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testNullCharacters
+test(NullCharacters)
 {
     testassert(([[NSString stringWithFormat:@"%c", '\0'] length] == 0));
 
@@ -341,7 +341,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testStringByDeletingLastPathComponent
+test(StringByDeletingLastPathComponent)
 {
     testassert([[@"" stringByDeletingLastPathComponent] isEqualToString:@""]);
     testassert([[@"/" stringByDeletingLastPathComponent] isEqualToString:@"/"]);
@@ -360,13 +360,13 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 
 /* stringByDeletingLastPathComponent should get rid of earlier duplicate slashes */
 
-- (BOOL)testStringByDeletingLastPathComponentTODO
+test(StringByDeletingLastPathComponentTODO)
 {
     testassert([[@"a//b/////c///" stringByDeletingLastPathComponent] isEqualToString:@"a/b"]);
     return YES;
 }
 
-- (BOOL)testStringByAppendingPathComponent
+test(StringByAppendingPathComponent)
 {
     testassert([[@"" stringByAppendingPathComponent:@""] isEqualToString:@""]);
     testassert([[@"a" stringByAppendingPathComponent:@""] isEqualToString:@"a"]);
@@ -405,7 +405,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 }
 
 
-- (BOOL) testStringWithString
+test(StringWithString)
 {
     NSString *s = @"I'm constant";
     NSString *s2 = [NSString stringWithString:s];
@@ -413,7 +413,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testStringWithNullUTF8String
+test(StringWithNullUTF8String)
 {
     void (^block)() = ^{
         [NSString stringWithUTF8String:NULL];
@@ -431,7 +431,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testStringWithNullUTF8String2
+test(StringWithNullUTF8String2)
 {
     void (^block)() = ^{
         [[NSString alloc] initWithUTF8String:NULL];
@@ -449,7 +449,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testGetCharacters
+test(GetCharacters)
 {
     NSString *s = @"I'm constant";
     NSUInteger length = [s length];
@@ -460,7 +460,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testGetCharacters_isNotNilTerminated
+test(GetCharacters_isNotNilTerminated)
 {
     NSString *s = @"föo";
     NSUInteger length = [s length];
@@ -492,7 +492,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testStringByTrimmingCharactersInSet
+test(StringByTrimmingCharactersInSet)
 {
     NSString *abc = [@"##A#BCD#D##" stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"#"]];
     testassert([abc isEqualToString:@"A#BCD#D"]);
@@ -500,7 +500,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testStringByTrimmingCharactersInSet2
+test(StringByTrimmingCharactersInSet2)
 {
     NSString *abc = [@"##A#BCD#D@@" stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"#@"]];
     testassert([abc isEqualToString:@"A#BCD#D"]);
@@ -508,7 +508,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testStringByTrimmingCharactersInSet3
+test(StringByTrimmingCharactersInSet3)
 {
     NSString *abc = [@"@@" stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"#@"]];
     testassert([abc isEqualToString:@""]);
@@ -516,7 +516,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testStringByTrimmingCharactersInSet4
+test(StringByTrimmingCharactersInSet4)
 {
     NSString *abc = [@"@123" stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"#@"]];
     testassert([abc isEqualToString:@"123"]);
@@ -524,7 +524,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testStringByTrimmingCharactersInSet5
+test(StringByTrimmingCharactersInSet5)
 {
     NSString *abc = [@"123#" stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"#@"]];
     testassert([abc isEqualToString:@"123"]);
@@ -532,7 +532,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testStringByTrimmingCharactersInSet6
+test(StringByTrimmingCharactersInSet6)
 {
     NSString *abc = [@"" stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"#@"]];
     testassert([abc isEqualToString:@""]);
@@ -540,7 +540,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testComponentsSeparatedByStringEmpty
+test(ComponentsSeparatedByStringEmpty)
 {
     NSArray *a = [@"" componentsSeparatedByString: @"a"];
     testassert([a count] == 1);
@@ -548,7 +548,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testComponentsSeparatedByStringEmptySeparator
+test(ComponentsSeparatedByStringEmptySeparator)
 {
     NSArray *a = [@"" componentsSeparatedByString: @""];
     testassert([a count] == 1);
@@ -556,7 +556,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testComponentsSeparatedByStringEmptySeparator2
+test(ComponentsSeparatedByStringEmptySeparator2)
 {
     NSArray *a = [@"abcdefghij" componentsSeparatedByString: @""];
     testassert([a count] == 1);
@@ -564,7 +564,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testComponentsSeparatedByStringNilSeparator
+test(ComponentsSeparatedByStringNilSeparator)
 {
     BOOL foundException = NO;
     NSArray *a;
@@ -580,7 +580,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testComponentsSeparatedByCharactersInSetNilSeparator
+test(ComponentsSeparatedByCharactersInSetNilSeparator)
 {
     BOOL foundException = NO;
     NSArray *a;
@@ -596,21 +596,21 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 }
 
 
-- (BOOL) testComponentsSeparatedByStringOne
+test(ComponentsSeparatedByStringOne)
 {
     NSArray *a = [@" " componentsSeparatedByString: @" "];
     testassert([a count] == 2);
     return YES;
 }
 
-- (BOOL) testComponentsSeparatedByString // issue 574
+test(ComponentsSeparatedByString) // issue 574
 {
     NSArray *a = [@"\n\nQWERTY\n" componentsSeparatedByString: @"\n"];
     testassert([a count] == 4);
     return YES;
 }
 
-- (BOOL) testRangeOfCharacterFromSet574 // issue 574
+test(RangeOfCharacterFromSet574) // issue 574
 {
     NSString *s = @"\n\nQWERTY\n";;
     NSRange range = [s rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet] options:0 range:NSMakeRange(0, [s length])];
@@ -618,7 +618,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testComponentsSeparatedByCharactersInSet574 // issue 574
+test(ComponentsSeparatedByCharactersInSet574) // issue 574
 {
     NSArray *a = [@"\n\nQWERTY\n" componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
     testassert([[a objectAtIndex:0] isEqualToString:@""]);
@@ -626,7 +626,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testComponentsSeparatedByCharactersInSet // issue 569
+test(ComponentsSeparatedByCharactersInSet) // issue 569
 {
     NSCharacterSet *characterSet = [NSCharacterSet characterSetWithCharactersInString: @", "];
     NSString *pointString = @"0,0 -124,0";
@@ -636,123 +636,123 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL) testStringByDeletingPathExtension
+test(StringByDeletingPathExtension)
 {
     NSString *abc = [@"abc.xyz" stringByDeletingPathExtension];
     testassert([abc isEqualToString:@"abc"]);
     return YES;
 }
 
-- (BOOL) testStringByDeletingPathExtension2
+test(StringByDeletingPathExtension2)
 {
     NSString *abc = [@".xyz" stringByDeletingPathExtension];
     testassert([abc isEqualToString:@".xyz"]);
     return YES;
 }
 
-- (BOOL) testStringByDeletingPathExtension3
+test(StringByDeletingPathExtension3)
 {
     NSString *abc = [@"xyz" stringByDeletingPathExtension];
     testassert([abc isEqualToString:@"xyz"]);
     return YES;
 }
 
-- (BOOL) testStringByDeletingPathExtension4
+test(StringByDeletingPathExtension4)
 {
     NSString *abc = [@"" stringByDeletingPathExtension];
     testassert([abc isEqualToString:@""]);
     return YES;
 }
 
-- (BOOL) testStringByDeletingPathExtension5
+test(StringByDeletingPathExtension5)
 {
     NSString *abc = [@"abc..xyz" stringByDeletingPathExtension];
     testassert([abc isEqualToString:@"abc."]);
     return YES;
 }
 
-- (BOOL) testStringByStandardizingPath1
+test(StringByStandardizingPath1)
 {
     NSString *abc = [@"/abc/" stringByStandardizingPath];
     testassert([abc isEqualToString:@"/abc"]);
     return YES;
 }
 
-- (BOOL)testStringByStandardizingPath2
+test(StringByStandardizingPath2)
 {
     NSString *baz = [@"/abc/../bar/../baz" stringByStandardizingPath];
     testassert([baz isEqualToString:@"/baz"]);
     return YES;
 }
 
-- (BOOL)testStringByStandardizingPath3
+test(StringByStandardizingPath3)
 {
     NSString *abc = [@"~/abc/" stringByStandardizingPath];
     testassert([abc isEqualToString:[NSHomeDirectory() stringByAppendingPathComponent:@"abc"]]);
     return YES;
 }
 
-- (BOOL)testLossyEncodingNSASCIIStringEncoding
+test(LossyEncodingNSASCIIStringEncoding)
 {
     return [self runLossyEncodingTest:NSASCIIStringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSNEXTSTEPStringEncoding
+test(LossyEncodingNSNEXTSTEPStringEncoding)
 {
     return [self runLossyEncodingTest:NSNEXTSTEPStringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSUTF8StringEncoding
+test(LossyEncodingNSUTF8StringEncoding)
 {
     return [self runLossyEncodingTest:NSUTF8StringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSISOLatin1StringEncoding
+test(LossyEncodingNSISOLatin1StringEncoding)
 {
     return [self runLossyEncodingTest:NSISOLatin1StringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSNonLossyASCIIStringEncoding
+test(LossyEncodingNSNonLossyASCIIStringEncoding)
 {
     return [self runLossyEncodingTest:NSNonLossyASCIIStringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSUnicodeStringEncoding
+test(LossyEncodingNSUnicodeStringEncoding)
 {
     return [self runLossyEncodingTest:NSUnicodeStringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSWindowsCP1252StringEncoding
+test(LossyEncodingNSWindowsCP1252StringEncoding)
 {
     return [self runLossyEncodingTest:NSWindowsCP1252StringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSMacOSRomanStringEncoding
+test(LossyEncodingNSMacOSRomanStringEncoding)
 {
     return [self runLossyEncodingTest:NSMacOSRomanStringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSUTF16StringEncoding
+test(LossyEncodingNSUTF16StringEncoding)
 {
     return [self runLossyEncodingTest:NSUTF16StringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSUTF16BigEndianStringEncoding
+test(LossyEncodingNSUTF16BigEndianStringEncoding)
 {
     return [self runLossyEncodingTest:NSUTF16BigEndianStringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSUTF16LittleEndianStringEncoding
+test(LossyEncodingNSUTF16LittleEndianStringEncoding)
 {
     return [self runLossyEncodingTest:NSUTF16LittleEndianStringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSUTF32BigEndianStringEncoding
+test(LossyEncodingNSUTF32BigEndianStringEncoding)
 {
     return [self runLossyEncodingTest:NSUTF32BigEndianStringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSUTF32LittleEndianStringEncoding
+test(LossyEncodingNSUTF32LittleEndianStringEncoding)
 {
     return [self runLossyEncodingTest:NSUTF32LittleEndianStringEncoding];
 }
@@ -760,54 +760,54 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 // these tests should be run when we have a icu database for the encodings
 #if ICU_DATA
 
-- (BOOL)testLossyEncodingNSJapaneseEUCStringEncoding
+test(LossyEncodingNSJapaneseEUCStringEncoding)
 {
     return [self runLossyEncodingTest:NSJapaneseEUCStringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSSymbolStringEncoding
+test(LossyEncodingNSSymbolStringEncoding)
 {
     return [self runLossyEncodingTest:NSSymbolStringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSShiftJISStringEncoding
+test(LossyEncodingNSShiftJISStringEncoding)
 {
     return [self runLossyEncodingTest:NSShiftJISStringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSISOLatin2StringEncoding
+test(LossyEncodingNSISOLatin2StringEncoding)
 {
     return [self runLossyEncodingTest:NSISOLatin2StringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSWindowsCP1251StringEncoding
+test(LossyEncodingNSWindowsCP1251StringEncoding)
 {
     return [self runLossyEncodingTest:NSWindowsCP1251StringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSWindowsCP1253StringEncoding
+test(LossyEncodingNSWindowsCP1253StringEncoding)
 {
     return [self runLossyEncodingTest:NSWindowsCP1253StringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSWindowsCP1254StringEncoding
+test(LossyEncodingNSWindowsCP1254StringEncoding)
 {
     return [self runLossyEncodingTest:NSWindowsCP1254StringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSWindowsCP1250StringEncoding
+test(LossyEncodingNSWindowsCP1250StringEncoding)
 {
     return [self runLossyEncodingTest:NSWindowsCP1250StringEncoding];
 }
 
-- (BOOL)testLossyEncodingNSISO2022JPStringEncoding
+test(LossyEncodingNSISO2022JPStringEncoding)
 {
     return [self runLossyEncodingTest:NSISO2022JPStringEncoding];
 }
 
 #endif
 
-- (BOOL)testStringComparisons
+test(StringComparisons)
 {
     NSComparisonResult result = [[NSString stringWithString:@"foo"] compare:nil];
     testassert(result == NSOrderedDescending);
@@ -819,7 +819,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testExtraEncodings
+test(ExtraEncodings)
 {
     NSString *string = @"√∫˜µƒ©˙∆˚¬®†¥¨ˆøπ";
     const char *cstring = [string cStringUsingEncoding:NSASCIIStringEncoding];
@@ -835,21 +835,21 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testFloatFormat1
+test(FloatFormat1)
 {
     NSString *string = [NSString stringWithFormat:@"%g", 2.9f];
     testassert([string isEqualToString:@"2.9"]);
     return YES;
 }
 
-- (BOOL)testFloatFormat2
+test(FloatFormat2)
 {
     NSString *string = [NSString stringWithFormat:@"%f", 2.9f];
     testassert([string isEqualToString:@"2.900000"]);
     return YES;
 }
 
-- (BOOL)testFloatFormat3
+test(FloatFormat3)
 {
     CGSize sz = CGSizeMake(1.1f, 2.9f);
     NSString *string = [NSString stringWithFormat:@"%.*g", 8, sz.height];
@@ -857,21 +857,21 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testFloatFormat4
+test(FloatFormat4)
 {
     NSString *string = [NSString stringWithFormat:@"%.*g", 8, 2.9f];
     testassert([string isEqualToString:@"2.9000001"]);
     return YES;
 }
 
-- (BOOL)testFloatFormat5
+test(FloatFormat5)
 {
     NSString *string = [NSString stringWithFormat:@"%.8g", 2.9f];
     testassert([string isEqualToString:@"2.9000001"]);
     return YES;
 }
 
-- (BOOL)testBoolValue
+test(BoolValue)
 {
     testassert([@"1" boolValue] == YES);
     testassert([@"-1" boolValue] == YES);
@@ -897,7 +897,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testSimpleConstruction
+test(SimpleConstruction)
 {
     NSSimpleCString *str = [[NSSimpleCString alloc] initWithCStringNoCopy:strdup("foo") length:3];
     testassert(str != nil);
@@ -906,7 +906,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testGetCStringMaxBufferCount
+test(GetCStringMaxBufferCount)
 {
    NSString *string = @"this is a string with 35 characters";
 
@@ -925,7 +925,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
    return YES;
 }
 
-- (BOOL)testInternalGetCStringMaxBufferCount
+test(InternalGetCStringMaxBufferCount)
 {
     NSString *string = @"this is a string with 35 characters";
     
@@ -944,7 +944,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testHasPrefix
+test(HasPrefix)
 {
     NSString *str1 = @"the quick brown fox jumped over the lazy dog";
     NSString *str2 = @"the quick";
@@ -958,7 +958,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testPlaceholderMutableInit
+test(PlaceholderMutableInit)
 {
     NSMutableString* ms = [[NSMutableString alloc] initWithString:@"foo"];
     testassert([ms isEqualToString:@"foo"]);
@@ -966,7 +966,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testPlaceholderMutableInitWithPathStore
+test(PlaceholderMutableInitWithPathStore)
 {
     NSString* pathString = [NSString pathWithComponents:@[@"foo", @"bar", @"baz"]];
     testassert([pathString isKindOfClass:objc_getClass("NSPathStore2")]);
@@ -1004,21 +1004,21 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return str;
 }
 
-- (BOOL)testInitWithFormat1
+test(InitWithFormat1)
 {
     NSString *str = [[self class] aStringWithFormat:@"a string '%@' and another string '%@'", @"foo", @"bar"];
     testassert([str isEqualToString:@"a string 'foo' and another string 'bar'"]);
     return YES;
 }
 
-- (BOOL)testInitWithFormat2
+test(InitWithFormat2)
 {
     NSString *str = [[self class] aStringWithFormat2:@"a string '%@' and another string '%@'", @"foo", @"bar"];
     testassert([str isEqualToString:@"a string 'foo' and another string 'bar'"]);
     return YES;
 }
 
-- (BOOL)testInitWithFormat_fromNSPathStore2
+test(InitWithFormat_fromNSPathStore2)
 {
     NSString *defaultPngPath = [[NSBundle mainBundle] pathForResource:@"ATestPlist" ofType:@"plist"];
     testassert([defaultPngPath isKindOfClass:NSClassFromString(@"__NSCFString")]);
@@ -1032,7 +1032,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testStringByDeletingPathExtension_fromNSPathStore2
+test(StringByDeletingPathExtension_fromNSPathStore2)
 {
     NSString *path = [NSString pathWithComponents:@[@"foo", @"bar", @"baz_file.txt"]];
     testassert([path isKindOfClass:NSClassFromString(@"NSPathStore2")]);
@@ -1043,14 +1043,14 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testSubstringWithRange
+test(SubstringWithRange)
 {
     NSString *str = [@"foo-bar-baz" substringWithRange:NSMakeRange(4, 3)];
     testassert([str isEqualToString:@"bar"]);
     return YES;
 }
 
-- (BOOL)testIsEqualToStringWithNSPathStore2
+test(IsEqualToStringWithNSPathStore2)
 {
     NSString *str1 = @"name";
     NSString *str2 = @"name.ttf";
@@ -1059,35 +1059,35 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
     return YES;
 }
 
-- (BOOL)testHashValue
+test(HashValue)
 {
     NSString *str = @"Hello world";
     testassert([str hash] == 4081981767u);
     return YES;
 }
 
-- (BOOL)testHashValueEmptyStr
+test(HashValueEmptyStr)
 {
     NSString *str = @"";
     testassert([str hash] == 0u);
     return YES;
 }
 
-- (BOOL)testHashValueNil
+test(HashValueNil)
 {
     NSString *str = nil;
     testassert([str hash] == 0u);
     return YES;
 }
 
-- (BOOL)testHashValueUnicode
+test(HashValueUnicode)
 {
     NSString *str = @"你好世界";
     testassert([str hash] == 1409314931u);
     return YES;
 }
 
-- (BOOL)testHashValueSpaces
+test(HashValueSpaces)
 {
     NSString *str = @"    ";
     testassert([str hash] == 975558852u);

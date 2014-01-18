@@ -10,7 +10,7 @@
 
 @testcase(NSDateFormatter)
 
-- (BOOL)testCFDateFormatterLongStyle
+test(CFDateFormatterLongStyle)
 {
     CFDateRef date = CFDateCreate(NULL, 123456);
     CFLocaleRef currentLocale = CFLocaleCopyCurrent();
@@ -29,7 +29,7 @@
     return YES;
 }
 
-- (BOOL)testCFDateFormatterNoStyle
+test(CFDateFormatterNoStyle)
 {
     CFDateRef date = CFDateCreate(NULL, 123456);
     CFLocaleRef currentLocale = CFLocaleCopyCurrent();
@@ -48,7 +48,7 @@
     return YES;
 }
 
-- (BOOL)testCFDateFormatterComparing
+test(CFDateFormatterComparing)
 {
     CFDateRef date = CFDateCreate(NULL, 123456);
     CFStringRef enUSLocaleIdentifier = CFSTR("en_US");
@@ -94,7 +94,7 @@
     return YES;
 }
 
-- (BOOL)testCFDateFixedFormats
+test(CFDateFixedFormats)
 {
     CFLocaleRef currentLocale = CFLocaleCopyCurrent();
     CFDateRef date = CFDateCreate(NULL, 123456);
@@ -115,7 +115,7 @@
     return YES;
 }
 
-- (BOOL)testNSDateFormatterShortStyle
+test(NSDateFormatterShortStyle)
 {
     NSDate *today = [NSDate dateWithTimeIntervalSinceNow:0];
     NSDateFormatter *dateFormat = [[[NSDateFormatter alloc] init] autorelease];
@@ -126,7 +126,7 @@
 }
 
 
-- (BOOL)testNSDateFormatterLongerStyle
+test(NSDateFormatterLongerStyle)
 {
     NSDate *today = [NSDate date];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -137,7 +137,7 @@
     return YES;
 }
 
-- (BOOL)testNSDateFormatterLongerStyle2
+test(NSDateFormatterLongerStyle2)
 {
     NSDate *today = [NSDate date];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -148,7 +148,7 @@
     return YES;
 }
 
-- (BOOL)testNSDateFormatterTime
+test(NSDateFormatterTime)
 {
     NSDate *today = [NSDate date];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -159,7 +159,7 @@
     return YES;
 }
 
-- (BOOL)testNSDateFormatterConvert
+test(NSDateFormatterConvert)
 {
     NSString *dateStr = @"20130912";
     

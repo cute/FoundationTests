@@ -10,7 +10,7 @@
 
 @testcase(NSCalendar)
 
-- (BOOL)testAllocate
+test(Allocate)
 {
     NSCalendar *c1 = [NSCalendar alloc];
     NSCalendar *c2 = [NSCalendar alloc];
@@ -36,7 +36,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return date;
 }
 
-- (BOOL) testNSCalendarDateByAddingComponents1Minute
+test(NSCalendarDateByAddingComponents1Minute)
 {
     NSDate *date = makeNSDate(2013, 10, 19, 4, 45);
     testassert([date timeIntervalSinceReferenceDate] == 403875900);  // nothing else will work if this fails
@@ -57,7 +57,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL) testNSCalendarDateByAddingComponents1Second
+test(NSCalendarDateByAddingComponents1Second)
 {
     NSDate *date = makeNSDate(2013, 10, 19, 4, 45);
     
@@ -77,7 +77,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL) testNSCalendarDateByAddingComponents99Seconds
+test(NSCalendarDateByAddingComponents99Seconds)
 {
     NSDate *date = makeNSDate(2013, 10, 19, 4, 45);
     
@@ -97,7 +97,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL) testNSCalendarDateByAddingComponents
+test(NSCalendarDateByAddingComponents)
 {
     NSDate *date = makeNSDate(2013, 10, 19, 4, 45);
     
@@ -121,7 +121,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL)testRangeOfUnitStartDateIntervalForDate
+test(RangeOfUnitStartDateIntervalForDate)
 {
     NSDate *date = nil;
     NSTimeInterval t = 409957455.721963; // 2013-12-28 21:04:15 +0000
@@ -132,7 +132,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL)testComponentsFromDate
+test(ComponentsFromDate)
 {
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSTimeInterval t = 409957455.721963; // 2013-12-28 21:04:15 +0000
@@ -146,7 +146,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL)testBlankDateComponents
+test(BlankDateComponents)
 {
     NSDateComponents *comps = [[NSDateComponents alloc] init];
     testassert([comps era] == INT_MAX);
@@ -168,7 +168,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL)testEra
+test(Era)
 {
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSUInteger flags = NSCalendarUnitEra;
@@ -180,7 +180,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL)testYear
+test(Year)
 {
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSUInteger flags = NSCalendarUnitYear;
@@ -192,7 +192,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL)testMonth
+test(Month)
 {
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSUInteger flags = NSCalendarUnitMonth;
@@ -204,7 +204,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL)testDay
+test(Day)
 {
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSUInteger flags = NSCalendarUnitDay;
@@ -216,7 +216,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL)testHour
+test(Hour)
 {
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSUInteger flags = NSCalendarUnitHour;
@@ -228,7 +228,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL)testMinute
+test(Minute)
 {
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSUInteger flags = NSCalendarUnitMinute;
@@ -240,7 +240,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL)testSecond
+test(Second)
 {
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSUInteger flags = NSCalendarUnitSecond;
@@ -252,7 +252,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL)testWeekday
+test(Weekday)
 {
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSUInteger flags = NSCalendarUnitWeekday;
@@ -264,7 +264,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL)testWeekdayOrdinal
+test(WeekdayOrdinal)
 {
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSUInteger flags = NSCalendarUnitWeekdayOrdinal;
@@ -276,7 +276,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL)testQuarter
+test(Quarter)
 {
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSUInteger flags = NSCalendarUnitQuarter;
@@ -288,7 +288,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL)testWeekOfMonth
+test(WeekOfMonth)
 {
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSUInteger flags = NSCalendarUnitWeekOfMonth;
@@ -300,7 +300,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL)testWeekOfYear
+test(WeekOfYear)
 {
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSUInteger flags = NSCalendarUnitWeekOfYear;
@@ -312,7 +312,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL)testYearForWeekOfYear
+test(YearForWeekOfYear)
 {
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSUInteger flags = NSCalendarUnitYearForWeekOfYear;
@@ -324,7 +324,7 @@ static NSDate *makeNSDate(int year, int month, int day, int hour, int minute)
     return YES;
 }
 
-- (BOOL)testFullComponents
+test(FullComponents)
 {
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSTimeInterval t = 409957455.721963; // 2013-12-28 21:04:15 +0000

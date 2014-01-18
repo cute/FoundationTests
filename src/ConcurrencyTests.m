@@ -37,7 +37,7 @@
 
 @testcase(Concurrency)
 
-- (BOOL)testNSOperationQueue_ArbitraryQueue
+test(NSOperationQueue_ArbitraryQueue)
 {
     
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
@@ -63,13 +63,13 @@
     return success;
 }
 
-- (BOOL)testNSOperationQueue_ArbitraryQueue_AFewMoreTimes
+test(NSOperationQueue_ArbitraryQueue_AFewMoreTimes)
 {
     
 #define NOT_DETERMINISTIC_BUT_DO_IT_A_FEW_MORE_TIMES 1000
     for (unsigned int i=0; i<NOT_DETERMINISTIC_BUT_DO_IT_A_FEW_MORE_TIMES; i++)
     {
-        if (![self testNSOperationQueue_ArbitraryQueue])
+        if (![self NSOperationQueue_ArbitraryQueue])
         {
             return NO;
         }

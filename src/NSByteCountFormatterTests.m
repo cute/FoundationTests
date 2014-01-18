@@ -9,7 +9,7 @@ static NSArray *unitStrings;
     unitStrings = [@[@"bytes", @"KB", @"MB", @"GB", @"TB", @"PB", @"EB", @"ZB", @"YB"] retain];
 }
 
-- (BOOL)testCreation
+test(Creation)
 {
     NSByteCountFormatter *formatter = [NSByteCountFormatter alloc];
     testassert(formatter != nil);
@@ -18,7 +18,7 @@ static NSArray *unitStrings;
     return YES;
 }
 
-- (BOOL)testInit
+test(Init)
 {
     NSByteCountFormatter *formatter = [[NSByteCountFormatter alloc] init];
 
@@ -37,7 +37,7 @@ static NSArray *unitStrings;
 }
 
 // Zero byte counts may be printed specially.
-- (BOOL)testZeroBytes
+test(ZeroBytes)
 {
     NSByteCountFormatter *formatter = [[NSByteCountFormatter alloc] init];
 
@@ -49,7 +49,7 @@ static NSArray *unitStrings;
     return YES;
 }
 
-- (BOOL)testZeroBytesWithBytes
+test(ZeroBytesWithBytes)
 {
     NSByteCountFormatter *formatter = [[NSByteCountFormatter alloc] init];
     formatter.allowedUnits = NSByteCountFormatterUseBytes;
@@ -62,7 +62,7 @@ static NSArray *unitStrings;
     return YES;
 }
 
-- (BOOL)testZeroBytesWithKilobytes
+test(ZeroBytesWithKilobytes)
 {
     NSByteCountFormatter *formatter = [[NSByteCountFormatter alloc] init];
     formatter.allowedUnits = NSByteCountFormatterUseKB;
@@ -75,7 +75,7 @@ static NSArray *unitStrings;
     return YES;
 }
 
-- (BOOL)testZeroBytesWithoutNonnumericFormatting
+test(ZeroBytesWithoutNonnumericFormatting)
 {
     NSByteCountFormatter *formatter = [[NSByteCountFormatter alloc] init];
     formatter.allowsNonnumericFormatting = NO;
@@ -88,7 +88,7 @@ static NSArray *unitStrings;
     return YES;
 }
 
-- (BOOL)testBinarySizes
+test(BinarySizes)
 {
     NSByteCountFormatter *formatter = [[NSByteCountFormatter alloc] init];
     formatter.adaptive = NO;
@@ -110,7 +110,7 @@ static NSArray *unitStrings;
     return YES;
 }
 
-- (BOOL)testDecimalSizes
+test(DecimalSizes)
 {
     NSByteCountFormatter *formatter = [[NSByteCountFormatter alloc] init];
     formatter.adaptive = NO;
@@ -130,7 +130,7 @@ static NSArray *unitStrings;
     return YES;
 }
 
-- (BOOL)testActualByteCount
+test(ActualByteCount)
 {
     NSByteCountFormatter *formatter = [[NSByteCountFormatter alloc] init];
     formatter.adaptive = NO;
@@ -146,7 +146,7 @@ static NSArray *unitStrings;
     return YES;
 }
 
-- (BOOL)testExcludesUnit
+test(ExcludesUnit)
 {
     NSByteCountFormatter *formatter = [[NSByteCountFormatter alloc] init];
     formatter.adaptive = NO;
@@ -161,7 +161,7 @@ static NSArray *unitStrings;
     return YES;
 }
 
-- (BOOL)testExcludesCount
+test(ExcludesCount)
 {
     NSByteCountFormatter *formatter = [[NSByteCountFormatter alloc] init];
     formatter.adaptive = NO;

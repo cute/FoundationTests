@@ -188,7 +188,7 @@
         return result; \
     }
 
-- (BOOL)testBasicNotifyingInstanceCharacteristics
+test(BasicNotifyingInstanceCharacteristics)
 {
     @autoreleasepool
     {
@@ -224,7 +224,7 @@
     }
 }
 
-- (BOOL)testZeroObservances
+test(ZeroObservances)
 {
     OBSERVER_PROLOGUE(Observable, @"anInt", 0, NULL);
 
@@ -233,7 +233,7 @@
     OBSERVER_EPILOGUE();
 }
 
-- (BOOL)testSingleObservance
+test(SingleObservance)
 {
     OBSERVER_PROLOGUE(Observable, @"anInt", 0, NULL);
 
@@ -244,7 +244,7 @@
     OBSERVER_EPILOGUE();
 }
 
-- (BOOL)testManyObservances
+test(ManyObservances)
 {
     static const NSUInteger iterations = 10;
 
@@ -260,7 +260,7 @@
     OBSERVER_EPILOGUE();
 }
 
-- (BOOL)testPriorObservance
+test(PriorObservance)
 {
     OBSERVER_PROLOGUE(Observable, @"anInt", NSKeyValueObservingOptionPrior, NULL);
 
@@ -271,7 +271,7 @@
     OBSERVER_EPILOGUE();
 }
 
-- (BOOL)testZeroObservancesWithBadObservable
+test(ZeroObservancesWithBadObservable)
 {
     OBSERVER_PROLOGUE(BadObservable, @"anInt", 0, NULL);
 
@@ -280,7 +280,7 @@
     OBSERVER_EPILOGUE();
 }
 
-- (BOOL)testSingleObservanceWithBadObservable
+test(SingleObservanceWithBadObservable)
 {
     OBSERVER_PROLOGUE(BadObservable, @"anInt", 0, NULL);
 
@@ -291,7 +291,7 @@
     OBSERVER_EPILOGUE();
 }
 
-- (BOOL)testManyObservancesWithBadObservable
+test(ManyObservancesWithBadObservable)
 {
     static const NSUInteger iterations = 10;
 
@@ -307,7 +307,7 @@
     OBSERVER_EPILOGUE();
 }
 
-- (BOOL)testPriorObservanceWithBadObservable
+test(PriorObservanceWithBadObservable)
 {
     OBSERVER_PROLOGUE(BadObservable, @"anInt", NSKeyValueObservingOptionPrior, NULL);
 
@@ -318,7 +318,7 @@
     OBSERVER_EPILOGUE();
 }
 
--(BOOL)testMidCycleUnregister
+test(MidCycleUnregister)
 {
     @autoreleasepool
     {
@@ -333,7 +333,7 @@
         return YES;
     }
 }
--(BOOL)testMidCycleRegister
+test(MidCycleRegister)
 {
     @autoreleasepool
     {
@@ -352,7 +352,7 @@
         return YES;
     }
 }
--(BOOL)testMidCycleRegisterSame
+test(MidCycleRegisterSame)
 {
     @autoreleasepool
     {
@@ -370,7 +370,7 @@
     }
 }
 
--(BOOL)testMidCyclePartialUnregister
+test(MidCyclePartialUnregister)
 {
     @autoreleasepool
     {
@@ -388,7 +388,7 @@
     }
 }
 
--(BOOL)testMidCycleReregister
+test(MidCycleReregister)
 {
     @autoreleasepool
     {
@@ -406,7 +406,7 @@
     }
 }
 
-- (BOOL)testMidCycleReregisterWithContext
+test(MidCycleReregisterWithContext)
 {
     @autoreleasepool
     {
@@ -424,7 +424,7 @@
     }
 }
 
-- (BOOL)testDependantKeyChange
+test(DependantKeyChange)
 {
     @autoreleasepool
     {
@@ -437,7 +437,7 @@
         return YES;
     }
 }
-- (BOOL)testDependantKeyIndependentChange
+test(DependantKeyIndependentChange)
 {
     @autoreleasepool
     {
@@ -450,7 +450,7 @@
         return YES;
     }
 }
-- (BOOL)testNestedDependantKeyChange
+test(NestedDependantKeyChange)
 {
     @autoreleasepool
     {
@@ -464,7 +464,7 @@
         return YES;
     }
 }
-- (BOOL)testNestedDependantKeyUnnestedChange
+test(NestedDependantKeyUnnestedChange)
 {
     @autoreleasepool
     {
@@ -480,7 +480,7 @@
 }
 
 
-- (BOOL)testNestedObservableLeaf
+test(NestedObservableLeaf)
 {
     @autoreleasepool
     {
@@ -496,7 +496,7 @@
     }
 }
 
-- (BOOL)testNestedObservableBranch
+test(NestedObservableBranch)
 {
     @autoreleasepool
     {

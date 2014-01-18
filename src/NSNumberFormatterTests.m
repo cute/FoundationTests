@@ -2,7 +2,7 @@
 
 @testcase(NSNumberFormatter)
 
-- (BOOL) testNSNumberFormatterInit
+test(NSNumberFormatterInit)
 {
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     
@@ -15,7 +15,7 @@
     return YES;
 }
 
-- (BOOL) testNSNumberFormatterDecimal
+test(NSNumberFormatterDecimal)
 {
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
@@ -25,7 +25,7 @@
     return YES;
 }
 
-- (BOOL) testNSNumberFormatterDecimalFloat
+test(NSNumberFormatterDecimalFloat)
 {
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
@@ -35,7 +35,7 @@
     return YES;
 }
 
-- (BOOL) testNSNumberFormatterPercent
+test(NSNumberFormatterPercent)
 {
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterPercentStyle];
@@ -45,7 +45,7 @@
     return YES;
 }
 
-- (BOOL) testNSNumberFormatterSpellOut
+test(NSNumberFormatterSpellOut)
 {
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterSpellOutStyle];
@@ -55,7 +55,7 @@
     return YES;
 }
 
-- (BOOL) testNSNumberFormatterCurrency
+test(NSNumberFormatterCurrency)
 {
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
@@ -65,7 +65,7 @@
     return YES;
 }
 
-- (BOOL) testNSNumberFormatterGrouping
+test(NSNumberFormatterGrouping)
 {
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
@@ -77,7 +77,7 @@
     return YES;
 }
 
-- (BOOL) testFormattedDecimal
+test(FormattedDecimal)
 {    
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     NSDecimalNumber *dn = [NSDecimalNumber decimalNumberWithString:@"49.0"];
@@ -87,7 +87,7 @@
     return YES;
 }
 
-- (BOOL) testNSNumberMaximumFractionDigits
+test(NSNumberMaximumFractionDigits)
 {
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     
@@ -99,7 +99,7 @@
     return YES;
 }
 
-- (BOOL) testNSNumberLocaleOther
+test(NSNumberLocaleOther)
 {
     NSLocale *frLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"fr_FR"];
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];

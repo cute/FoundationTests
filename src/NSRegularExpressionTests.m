@@ -10,7 +10,7 @@
 
 @testcase(NSRegularExpression)
 
-- (BOOL)testRegularEnumerateSimple
+test(RegularEnumerateSimple)
 {
     NSError *error = NULL;
     __block BOOL enteredBlock = NO;
@@ -33,7 +33,7 @@
     return YES;
 }
 
-- (BOOL)testRegularEnumerateMultiple
+test(RegularEnumerateMultiple)
 {
     NSError *error = NULL;
     __block BOOL enteredBlock = NO;
@@ -59,7 +59,7 @@
     return YES;
 }
 
-- (BOOL)testRegularEnumerateSimpleNotFound
+test(RegularEnumerateSimpleNotFound)
 {
     NSError *error = NULL;
     __block BOOL enteredBlock = NO;
@@ -76,7 +76,7 @@
     return YES;
 }
 
-- (BOOL)testRegularEnumerate
+test(RegularEnumerate)
 {
     NSError *error = NULL;
     __block BOOL enteredBlock = NO;
@@ -99,7 +99,7 @@
     return YES;
 }
 
-- (BOOL)testRegularExpressionNumberOfMatches
+test(RegularExpressionNumberOfMatches)
 {
     NSError *error = NULL;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\b(a|b)(c|d)\\b"
@@ -111,7 +111,7 @@
     return YES;
 }
 
-- (BOOL)testRegularExpressionNumberOfMatches2
+test(RegularExpressionNumberOfMatches2)
 {
     NSString *in = @"^[0-9a-zA-Z_]+[0-9a-zA-Z _-]*$";
     
@@ -127,7 +127,7 @@
 }
 
 
-- (BOOL)testRegularEnumerateSimpleReportCompletion
+test(RegularEnumerateSimpleReportCompletion)
 {
     NSError *error = NULL;
     __block BOOL enteredBlock = NO;
@@ -159,7 +159,7 @@
     return YES;
 }
 
-- (BOOL)testRegularEnumerateSimpleReportProgress
+test(RegularEnumerateSimpleReportProgress)
 {
     NSError *error = NULL;
     __block BOOL enteredBlock = NO;
@@ -184,7 +184,7 @@
 
 
 
-- (BOOL)testRegularExpressionNilString
+test(RegularExpressionNilString)
 {
     
     NSString *in = @"^[0-9a-zA-Z_]+[0-9a-zA-Z _-]*$";
@@ -208,7 +208,7 @@
 }
 
 
--(BOOL)testStringByReplacingMatchesInString  // issue 571
+test(StringByReplacingMatchesInString) // issue 571
 {
     NSError *error = nil;
     NSString* testStr = @"aaa<bbb>ccc";

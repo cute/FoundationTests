@@ -70,7 +70,7 @@
 
 @testcase(NSStringSubclass)
 
-- (BOOL)testRangeOfStringCallPattern
+test(RangeOfStringCallPattern)
 {
     NSStringSubclass *target = [[NSStringSubclass alloc] init];
     testassert(target != nil);
@@ -82,7 +82,7 @@
     return YES;
 }
 
-- (BOOL)testCopy
+test(Copy)
 {
     NSStringSubclass *target = [[NSStringSubclass alloc] init];
     testassert(target != nil);
@@ -97,7 +97,7 @@
     return YES;
 }
 
-- (BOOL)testCFStringCopy
+test(CFStringCopy)
 {
     NSStringSubclass *target = [[NSStringSubclass alloc] init];
     testassert(target != nil);

@@ -11,7 +11,7 @@
 @testcase(NSFileHandle)
 
 
-- (BOOL)testNSFileHandleWriteRead
+test(NSFileHandleWriteRead)
 {
     NSString *filename = @"testNSFileHandle";
     NSData *data = [NSData dataWithBytes:"abc" length:3];

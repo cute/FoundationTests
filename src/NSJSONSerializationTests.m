@@ -10,14 +10,14 @@
 
 @testcase(NSJSONSerialization)
 
-- (BOOL)testCreatingDataFromJSONObject1
+test(CreatingDataFromJSONObject1)
 {
     NSData *someData = [NSJSONSerialization dataWithJSONObject:@{@"someKey": @"someValue"} options:0 error:nil];
     testassert(someData != nil);
     return YES;
 }
 
-- (BOOL)testCreatingDataFromJSONObject2
+test(CreatingDataFromJSONObject2)
 {
     NSDictionary* msg = @{
                           @"type" : @"STATEBROADCAST",
@@ -34,7 +34,7 @@
     return YES;
 }
 
-- (BOOL)testEscapedCharacters
+test(EscapedCharacters)
 {
     NSString *str = @"{\"jsonData\": \"{\\\"stuff\\\": [{\\\"id\\\": 1234}],}\"}";
     NSData* data = [str dataUsingEncoding:NSUTF8StringEncoding];
@@ -43,7 +43,7 @@
     return YES;
 }
 
-- (BOOL)testFailingAtCreatingAJSONObjectAndPassingANilError1
+test(FailingAtCreatingAJSONObjectAndPassingANilError1)
 {
     NSData *someData = [@"data" dataUsingEncoding:NSUTF8StringEncoding];
     NSString *json = [NSJSONSerialization JSONObjectWithData:someData options:0 error:nil];
@@ -51,7 +51,7 @@
     return YES;
 }
 
-- (BOOL)testSuccessAtCreatingASimpleJSONObject
+test(SuccessAtCreatingASimpleJSONObject)
 {
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"data" ofType:@"json"];
     NSData *someData = [NSData dataWithContentsOfFile:filePath];
@@ -67,7 +67,7 @@
     return YES;
 }
 
-- (BOOL)testSuccessAtCreatingJSONWithCrazyCharacters
+test(SuccessAtCreatingJSONWithCrazyCharacters)
 {
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"SpecialCharactersJSONTest" ofType:@"json"];
     NSData *someData = [NSData dataWithContentsOfFile:filePath];
@@ -81,7 +81,7 @@
     return YES;
 }
 
-- (BOOL)testDictionaryWithStringWithEscaptedCharacters
+test(DictionaryWithStringWithEscaptedCharacters)
 {
     NSString *theKey = @"source";
     NSString *theValue = @"\u0040<a href=\"http://google.com/something\" rel=\"nofollow\">Hello</a>";
@@ -96,7 +96,7 @@
     return YES;
 }
 
-- (BOOL)testDictionaryWithStringWithEscaptedCharacters2
+test(DictionaryWithStringWithEscaptedCharacters2)
 {
     NSString *theKey = @"source";
     NSString *theValue = @"\u0040hello \n world \r Hello \b world \f Hello \t";
@@ -111,7 +111,7 @@
     return YES;
 }
 
-- (BOOL)testGeneralDataSeralization
+test(GeneralDataSeralization)
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     NSDictionary *dict2 = @{@"obj1" : @"value1", @"obj2" : @"value2"};
@@ -157,7 +157,7 @@
     return YES;
 }
 
-- (BOOL)testEmptyArray
+test(EmptyArray)
 {
     NSString *str = @"{\"test\":[]}";
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:0 error:NULL];
@@ -166,7 +166,7 @@
     return YES;
 }
 
-- (BOOL)testEmptyDict
+test(EmptyDict)
 {
     NSString *str = @"{\"test\":{}}";
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:0 error:NULL];
@@ -175,7 +175,7 @@
     return YES;
 }
 
-- (BOOL)testNumberParsing
+test(NumberParsing)
 {
 #ifdef APPORTABLE
 #warning Remove this when NSDecimalNumber doubleValue is more accurate

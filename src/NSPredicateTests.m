@@ -10,7 +10,7 @@
 
 @testcase(NSPredicateTests)
 
-- (BOOL)testBlockPredicateEvaluation
+test(BlockPredicateEvaluation)
 {
     __block BOOL blockExecuted = NO;
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"foo", @"bar", nil];

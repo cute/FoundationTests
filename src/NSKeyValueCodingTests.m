@@ -531,14 +531,14 @@ typedef struct SomeLargeStruct {
 
 @testcase(NSKeyValueCoding)
 
-- (BOOL)testDefaultAccessor
+test(DefaultAccessor)
 {
     BOOL accessor = [NSObject accessInstanceVariablesDirectly];
     testassert(accessor == YES);
     return YES;
 }
 
-- (BOOL)testDirectInterfaceIvar
+test(DirectInterfaceIvar)
 {
     Direct *d = [[Direct alloc] init];
     [d setValue:@YES forKey:@"interfaceIvar"];
@@ -547,7 +547,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testDirectImplementationIvar
+test(DirectImplementationIvar)
 {
     Direct *d = [[Direct alloc] init];
     [d setValue:@YES forKey:@"implementationIvar"];
@@ -556,7 +556,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testDirectUnknown
+test(DirectUnknown)
 {
     Direct *d = [[Direct alloc] init];
     BOOL thrown = NO;
@@ -571,7 +571,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testDirectProperty
+test(DirectProperty)
 {
     Direct *d = [[Direct alloc] init];
     [d setValue:@YES forKey:@"property"];
@@ -580,7 +580,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testDirectUnderscorePrefix
+test(DirectUnderscorePrefix)
 {
     Direct *d = [[Direct alloc] init];
     [d setValue:@YES forKey:@"underscorePrefix"];
@@ -589,7 +589,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testDirectUnderscorePrefix2
+test(DirectUnderscorePrefix2)
 {
     Direct *d = [[Direct alloc] init];
     [d setValue:@YES forKey:@"_underscorePrefix"];
@@ -598,7 +598,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testDirectDoubleUnderscorePrefix
+test(DirectDoubleUnderscorePrefix)
 {
     Direct *d = [[Direct alloc] init];
     BOOL thrown = NO;
@@ -613,7 +613,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testDirectDoubleUnderscorePrefix2
+test(DirectDoubleUnderscorePrefix2)
 {
     Direct *d = [[Direct alloc] init];
     [d setValue:@YES forKey:@"_doubleUnderscorePrefix"];
@@ -622,7 +622,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testDirectUnderscorePostfix
+test(DirectUnderscorePostfix)
 {
     Direct *d = [[Direct alloc] init];
     BOOL thrown = NO;
@@ -637,7 +637,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testDirectIsPrefix
+test(DirectIsPrefix)
 {
     Direct *d = [[Direct alloc] init];
     [d setValue:@YES forKey:@"prefixed"];
@@ -646,7 +646,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testDirectIsUnderscorePrefix
+test(DirectIsUnderscorePrefix)
 {
     Direct *d = [[Direct alloc] init];
     [d setValue:@YES forKey:@"underscoredPrefix"];
@@ -655,7 +655,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testDirectIncorrectFirstLetterCaseSetter
+test(DirectIncorrectFirstLetterCaseSetter)
 {
     Direct *d = [[Direct alloc] init];
     BOOL thrown = NO;
@@ -670,7 +670,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testDirectIncorrectCaseSetter
+test(DirectIncorrectCaseSetter)
 {
     Direct *d = [[Direct alloc] init];
     BOOL thrown = NO;
@@ -685,7 +685,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testDirectObjectSetter
+test(DirectObjectSetter)
 {
     Direct *d = [[Direct alloc] init];
     RetainTestObject *retainTest = [[RetainTestObject alloc] init];
@@ -696,7 +696,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testDirectWeakObjectSetter
+test(DirectWeakObjectSetter)
 {
     Direct *d = [[Direct alloc] init];
     RetainTestObject *retainTest = [[RetainTestObject alloc] init];
@@ -707,7 +707,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testDirectStrongObjectSetter
+test(DirectStrongObjectSetter)
 {
     Direct *d = [[Direct alloc] init];
     RetainTestObject *retainTest = [[RetainTestObject alloc] init];
@@ -718,7 +718,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testDirectReassignObjectSetter
+test(DirectReassignObjectSetter)
 {
     Direct *d = [[Direct alloc] init];
     RetainTestObject *retainTest1 = [[RetainTestObject alloc] init];
@@ -733,7 +733,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testDirectOrder1
+test(DirectOrder1)
 {
     Direct *d = [[Direct alloc] init];
     [d setValue:@YES forKey:@"foo1"];
@@ -742,7 +742,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testDirectOrder2
+test(DirectOrder2)
 {
     Direct *d = [[Direct alloc] init];
     [d setValue:@YES forKey:@"foo2"];
@@ -751,7 +751,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testDirectOrder3
+test(DirectOrder3)
 {
     Direct *d = [[Direct alloc] init];
     [d setValue:@YES forKey:@"foo3"];
@@ -760,7 +760,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectInterfaceIvar
+test(IndirectInterfaceIvar)
 {
     Indirect *d = [[Indirect alloc] init];
     [d setValue:@YES forKey:@"interfaceIvar"];
@@ -769,7 +769,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectImplementationIvar
+test(IndirectImplementationIvar)
 {
     Indirect *d = [[Indirect alloc] init];
     [d setValue:@YES forKey:@"implementationIvar"];
@@ -778,7 +778,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectUnknown
+test(IndirectUnknown)
 {
     Indirect *d = [[Indirect alloc] init];
     BOOL thrown = NO;
@@ -793,7 +793,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectProperty
+test(IndirectProperty)
 {
     Indirect *d = [[Indirect alloc] init];
     [d setValue:@YES forKey:@"property"];
@@ -802,7 +802,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectUnderscorePrefix
+test(IndirectUnderscorePrefix)
 {
     Indirect *d = [[Indirect alloc] init];
     [d setValue:@YES forKey:@"underscorePrefix"];
@@ -811,7 +811,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectUnderscorePrefix2
+test(IndirectUnderscorePrefix2)
 {
     Indirect *d = [[Indirect alloc] init];
     [d setValue:@YES forKey:@"_underscorePrefix"];
@@ -820,7 +820,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectDoubleUnderscorePrefix
+test(IndirectDoubleUnderscorePrefix)
 {
     Indirect *d = [[Indirect alloc] init];
     [d setValue:@YES forKey:@"doubleUnderscorePrefix"];
@@ -829,7 +829,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectDoubleUnderscorePrefix2
+test(IndirectDoubleUnderscorePrefix2)
 {
     Indirect *d = [[Indirect alloc] init];
     BOOL thrown = NO;
@@ -845,7 +845,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectUnderscorePostfix
+test(IndirectUnderscorePostfix)
 {
     Indirect *d = [[Indirect alloc] init];
     BOOL thrown = NO;
@@ -860,7 +860,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectIsPrefix
+test(IndirectIsPrefix)
 {
     Indirect *d = [[Indirect alloc] init];
     BOOL thrown = NO;
@@ -877,7 +877,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectIsUnderscorePrefix
+test(IndirectIsUnderscorePrefix)
 {
     Indirect *d = [[Indirect alloc] init];
     BOOL thrown = NO;
@@ -893,7 +893,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectIncorrectFirstLetterCaseSetter
+test(IndirectIncorrectFirstLetterCaseSetter)
 {
     Indirect *d = [[Indirect alloc] init];
     [d setValue:@YES forKey:@"InterfaceIvar"];
@@ -902,7 +902,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectIncorrectCaseSetter
+test(IndirectIncorrectCaseSetter)
 {
     Indirect *d = [[Indirect alloc] init];
     BOOL thrown = NO;
@@ -917,7 +917,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectObjectSetter
+test(IndirectObjectSetter)
 {
     Indirect *d = [[Indirect alloc] init];
     RetainTestObject *retainTest = [[RetainTestObject alloc] init];
@@ -928,7 +928,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectWeakObjectSetter
+test(IndirectWeakObjectSetter)
 {
     Indirect *d = [[Indirect alloc] init];
     RetainTestObject *retainTest = [[RetainTestObject alloc] init];
@@ -939,7 +939,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectStrongObjectSetter
+test(IndirectStrongObjectSetter)
 {
     Indirect *d = [[Indirect alloc] init];
     RetainTestObject *retainTest = [[RetainTestObject alloc] init];
@@ -950,7 +950,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectReassignObjectSetter
+test(IndirectReassignObjectSetter)
 {
     Indirect *d = [[Indirect alloc] init];
     RetainTestObject *retainTest1 = [[RetainTestObject alloc] init];
@@ -965,7 +965,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectOrder1
+test(IndirectOrder1)
 {
     Indirect *d = [[Indirect alloc] init];
     [d setValue:@YES forKey:@"foo1"];
@@ -974,7 +974,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectOrder2
+test(IndirectOrder2)
 {
     Indirect *d = [[Indirect alloc] init];
     [d setValue:@YES forKey:@"foo2"];
@@ -983,7 +983,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testIndirectOrder3
+test(IndirectOrder3)
 {
     Indirect *d = [[Indirect alloc] init];
     [d setValue:@YES forKey:@"foo3"];
@@ -992,7 +992,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testSetNilValueOnNSMutableDictionaryForKey1
+test(SetNilValueOnNSMutableDictionaryForKey1)
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setValue:nil forKey:@"foo"];
@@ -1000,7 +1000,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testSetValueOnNSMutableDictionaryForNilKey
+test(SetValueOnNSMutableDictionaryForNilKey)
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     BOOL exception = NO;
@@ -1016,7 +1016,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testSetNilValueOnNSMutableDictionaryForKey2
+test(SetNilValueOnNSMutableDictionaryForKey2)
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setValue:[NSArray array] forKey:@"foo"];
@@ -1025,7 +1025,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testSetNilValueOnNSMutableDictionaryForKey3
+test(SetNilValueOnNSMutableDictionaryForKey3)
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setValue:@"hello" forKey:@"foo"];
@@ -1037,7 +1037,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testSetNilValueOnNSMutableDictionaryForKey4
+test(SetNilValueOnNSMutableDictionaryForKey4)
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setObject:@"hello" forKey:@"foo"];
@@ -1051,7 +1051,7 @@ typedef struct SomeLargeStruct {
 
 // [NSMutableDictionary setValue:forKeyPath:] silent FAIL cases ...
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_PathWithAtSymbols
+test(setValueForKeyPath_onNSMutableDictionary_PathWithAtSymbols)
 {
     id anObj = nil;
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
@@ -1067,7 +1067,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_ValidYetNonexistentASCIIKeyPath
+test(setValueForKeyPath_onNSMutableDictionary_ValidYetNonexistentASCIIKeyPath)
 {
     id anObj = nil;
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
@@ -1083,7 +1083,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_ValidYetNonexistentKeyPathWithSomeUnicodeSymbols
+test(setValueForKeyPath_onNSMutableDictionary_ValidYetNonexistentKeyPathWithSomeUnicodeSymbols)
 {
     id anObj = nil;
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
@@ -1099,7 +1099,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_AnotherWhackyKeyPathWithMoarUnicodeSymbols
+test(setValueForKeyPath_onNSMutableDictionary_AnotherWhackyKeyPathWithMoarUnicodeSymbols)
 {
     id anObj = nil;
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
@@ -1115,7 +1115,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_LeadingDot
+test(setValueForKeyPath_onNSMutableDictionary_LeadingDot)
 {
     id anObj = nil;
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
@@ -1131,7 +1131,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_UnaryDot
+test(setValueForKeyPath_onNSMutableDictionary_UnaryDot)
 {
     id anObj = nil;
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
@@ -1147,7 +1147,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_DotsBros
+test(setValueForKeyPath_onNSMutableDictionary_DotsBros)
 {
     id anObj = nil;
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
@@ -1165,7 +1165,7 @@ typedef struct SomeLargeStruct {
 
 // [NSMutableDictionary setValue:forKeyPath:] success cases ...
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_EmptyPath
+test(setValueForKeyPath_onNSMutableDictionary_EmptyPath)
 {
     id anObj = nil;
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
@@ -1182,7 +1182,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_LastDot
+test(setValueForKeyPath_onNSMutableDictionary_LastDot)
 {
     id anObj = nil;
 
@@ -1208,7 +1208,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_SelfReferentialPath
+test(setValueForKeyPath_onNSMutableDictionary_SelfReferentialPath)
 {
     id anObj = nil;
 
@@ -1232,7 +1232,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_LongerSelfReferentialPath
+test(setValueForKeyPath_onNSMutableDictionary_LongerSelfReferentialPath)
 {
     id anObj = nil;
 
@@ -1263,7 +1263,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_AddingNewSubKey
+test(setValueForKeyPath_onNSMutableDictionary_AddingNewSubKey)
 {
     id anObj = nil;
 
@@ -1288,7 +1288,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_RediculouslyLongRecursiveKeyPath
+test(setValueForKeyPath_onNSMutableDictionary_RediculouslyLongRecursiveKeyPath)
 {
     id anObj = nil;
 
@@ -1314,7 +1314,7 @@ typedef struct SomeLargeStruct {
 
 // [NSMutableDictionary setValue:forKeyPath:] special operators tests ...
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_MaxOperator
+test(setValueForKeyPath_onNSMutableDictionary_MaxOperator)
 {
     id anObj = nil;
 
@@ -1340,7 +1340,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_CountOperator
+test(setValueForKeyPath_onNSMutableDictionary_CountOperator)
 {
     id anObj = nil;
 
@@ -1369,7 +1369,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_SubPathCountOperator
+test(setValueForKeyPath_onNSMutableDictionary_SubPathCountOperator)
 {
     id anObj = nil;
 
@@ -1404,7 +1404,7 @@ typedef struct SomeLargeStruct {
 
 // [NSMutableDictionary setValue:forKeyPath:] assertion cases ...
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_Assertion1
+test(setValueForKeyPath_onNSMutableDictionary_Assertion1)
 {
     BOOL exception = NO;
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
@@ -1423,7 +1423,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_Assertion2
+test(setValueForKeyPath_onNSMutableDictionary_Assertion2)
 {
     BOOL exception = NO;
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"barVal", @"barKey", @"fooVal", @"fooKey", nil];
@@ -1443,7 +1443,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL) test_setValueForKeyPath_onNSMutableDictionary_Assertion3
+test(setValueForKeyPath_onNSMutableDictionary_Assertion3)
 {
     BOOL exception = NO;
     id anObj = nil;
@@ -1483,7 +1483,7 @@ typedef struct SomeLargeStruct {
 #pragma mark -
 #pragma mark NSDictionary KVC tests
 
-- (BOOL)test_NSDictionary_valueForKeyPath_NilPath
+test(NSDictionary_valueForKeyPath_NilPath)
 {
     id anObj;
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"fooVal", @"fooKey", nil];
@@ -1494,7 +1494,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_EmptyPath
+test(NSDictionary_valueForKeyPath_EmptyPath)
 {
     id anObj;
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"empty", @"", nil];
@@ -1505,7 +1505,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_ValidShortPath
+test(NSDictionary_valueForKeyPath_ValidShortPath)
 {
     id anObj;
     NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
@@ -1520,7 +1520,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_LeadingDot
+test(NSDictionary_valueForKeyPath_LeadingDot)
 {
     id anObj;
     NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
@@ -1533,7 +1533,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_TrailingDot
+test(NSDictionary_valueForKeyPath_TrailingDot)
 {
     id anObj;
     NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
@@ -1546,7 +1546,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_TrailingDot2
+test(NSDictionary_valueForKeyPath_TrailingDot2)
 {
     id anObj;
     NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
@@ -1561,7 +1561,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_TrailingDot3
+test(NSDictionary_valueForKeyPath_TrailingDot3)
 {
     BOOL exception = NO;
     id anObj;
@@ -1582,7 +1582,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_InvalidKey
+test(NSDictionary_valueForKeyPath_InvalidKey)
 {
     BOOL exception = NO;
     id anObj;
@@ -1606,7 +1606,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_RecursivePaths
+test(NSDictionary_valueForKeyPath_RecursivePaths)
 {
     id anObj;
     NSMutableArray *subarray = [NSMutableArray arrayWithObjects:@0, [NSNumber numberWithInt:0], [NSNumber numberWithFloat:0.0f], [NSNumber numberWithInt:101], [NSNumber numberWithFloat:4], [NSNumber numberWithLong:-2], nil];
@@ -1641,7 +1641,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_InvalidPaths
+test(NSDictionary_valueForKeyPath_InvalidPaths)
 {
     id anObj;
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"fooVal", @"fooKey", nil];
@@ -1657,7 +1657,7 @@ typedef struct SomeLargeStruct {
 
 // @count
 
-- (BOOL)test_NSDictionary_valueForKeyPath_CountOperator1
+test(NSDictionary_valueForKeyPath_CountOperator1)
 {
     id anObj;
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"fooVal", @"fooKey", @"barVal", @"barKey", nil];
@@ -1670,7 +1670,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_CountOperator2
+test(NSDictionary_valueForKeyPath_CountOperator2)
 {
     BOOL exception = NO;
     id anObj;
@@ -1689,7 +1689,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_CountOperator3
+test(NSDictionary_valueForKeyPath_CountOperator3)
 {
     BOOL exception = NO;
     id anObj;
@@ -1708,7 +1708,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_CountOperator4
+test(NSDictionary_valueForKeyPath_CountOperator4)
 {
     id anObj;
     NSMutableDictionary *loop = [NSMutableDictionary dictionary];
@@ -1740,7 +1740,7 @@ typedef struct SomeLargeStruct {
 
 // -
 
-- (BOOL)test_NSDictionary_valueForKeyPath_InvalidOperatorWithRemainderPath
+test(NSDictionary_valueForKeyPath_InvalidOperatorWithRemainderPath)
 {
     BOOL exception = NO;
     id anObj;
@@ -1759,7 +1759,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_InvalidOperator
+test(NSDictionary_valueForKeyPath_InvalidOperator)
 {
     BOOL exception = NO;
     id anObj;
@@ -1778,7 +1778,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_InvalidOperatorWithDot
+test(NSDictionary_valueForKeyPath_InvalidOperatorWithDot)
 {
     BOOL exception = NO;
     id anObj;
@@ -1799,7 +1799,7 @@ typedef struct SomeLargeStruct {
 
 // @avg
 
-- (BOOL)test_NSDictionary_valueForKeyPath_AvgOperator1
+test(NSDictionary_valueForKeyPath_AvgOperator1)
 {
     BOOL exception = NO;
     id anObj;
@@ -1819,7 +1819,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_AvgOperator2
+test(NSDictionary_valueForKeyPath_AvgOperator2)
 {
     BOOL exception = NO;
     id anObj;
@@ -1839,7 +1839,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_AvgOperator3
+test(NSDictionary_valueForKeyPath_AvgOperator3)
 {
     BOOL exception = NO;
     id anObj;
@@ -1861,7 +1861,7 @@ typedef struct SomeLargeStruct {
 
 // @max
 
-- (BOOL)test_NSDictionary_valueForKeyPath_MaxOperator1
+test(NSDictionary_valueForKeyPath_MaxOperator1)
 {
     BOOL exception = NO;
     id anObj;
@@ -1881,7 +1881,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_MaxOperator2
+test(NSDictionary_valueForKeyPath_MaxOperator2)
 {
     BOOL exception = NO;
     id anObj;
@@ -1901,7 +1901,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_MaxOperator3
+test(NSDictionary_valueForKeyPath_MaxOperator3)
 {
     BOOL exception = NO;
     id anObj;
@@ -1923,7 +1923,7 @@ typedef struct SomeLargeStruct {
 
 // @min
 
-- (BOOL)test_NSDictionary_valueForKeyPath_MinOperator1
+test(NSDictionary_valueForKeyPath_MinOperator1)
 {
     BOOL exception = NO;
     id anObj;
@@ -1943,7 +1943,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_MinOperator2
+test(NSDictionary_valueForKeyPath_MinOperator2)
 {
     BOOL exception = NO;
     id anObj;
@@ -1963,7 +1963,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_MinOperator3
+test(NSDictionary_valueForKeyPath_MinOperator3)
 {
     BOOL exception = NO;
     id anObj;
@@ -1985,7 +1985,7 @@ typedef struct SomeLargeStruct {
 
 // @sum
 
-- (BOOL)test_NSDictionary_valueForKeyPath_SumOperator1
+test(NSDictionary_valueForKeyPath_SumOperator1)
 {
     BOOL exception = NO;
     id anObj;
@@ -2004,7 +2004,7 @@ typedef struct SomeLargeStruct {
 
     return YES;
 }
-- (BOOL)test_NSDictionary_valueForKeyPath_SumOperator2
+test(NSDictionary_valueForKeyPath_SumOperator2)
 {
     BOOL exception = NO;
     id anObj;
@@ -2024,7 +2024,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_SumOperator3
+test(NSDictionary_valueForKeyPath_SumOperator3)
 {
     BOOL exception = NO;
     id anObj;
@@ -2046,7 +2046,7 @@ typedef struct SomeLargeStruct {
 
 // @unionOfObjects
 
-- (BOOL)test_NSDictionary_valueForKeyPath_unionOfObjects1
+test(NSDictionary_valueForKeyPath_unionOfObjects1)
 {
     BOOL exception = NO;
     id anObj;
@@ -2066,7 +2066,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_unionOfObjects2
+test(NSDictionary_valueForKeyPath_unionOfObjects2)
 {
     BOOL exception = NO;
     id anObj;
@@ -2088,7 +2088,7 @@ typedef struct SomeLargeStruct {
 
 // @distinctUnionOfObjects
 
-- (BOOL)test_NSDictionary_valueForKeyPath_distinctUnionOfObjects1
+test(NSDictionary_valueForKeyPath_distinctUnionOfObjects1)
 {
     BOOL exception = NO;
     id anObj;
@@ -2108,7 +2108,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_distinctUnionOfObjects2
+test(NSDictionary_valueForKeyPath_distinctUnionOfObjects2)
 {
     BOOL exception = NO;
     id anObj;
@@ -2130,7 +2130,7 @@ typedef struct SomeLargeStruct {
 
 // @unionOfArrays
 
-- (BOOL)test_NSDictionary_valueForKeyPath_unionOfArrays1
+test(NSDictionary_valueForKeyPath_unionOfArrays1)
 {
     BOOL exception = NO;
     id anObj;
@@ -2150,7 +2150,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_unionOfArrays2
+test(NSDictionary_valueForKeyPath_unionOfArrays2)
 {
     BOOL exception = NO;
     id anObj;
@@ -2172,7 +2172,7 @@ typedef struct SomeLargeStruct {
 
 // @distinctUnionOfArrays
 
-- (BOOL)test_NSDictionary_valueForKeyPath_distinctUnionOfArrays1
+test(NSDictionary_valueForKeyPath_distinctUnionOfArrays1)
 {
     BOOL exception = NO;
     id anObj;
@@ -2192,7 +2192,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_distinctUnionOfArrays2
+test(NSDictionary_valueForKeyPath_distinctUnionOfArrays2)
 {
     BOOL exception = NO;
     id anObj;
@@ -2213,7 +2213,7 @@ typedef struct SomeLargeStruct {
 
 // @distinctUnionOfSets
 
-- (BOOL)test_NSDictionary_valueForKeyPath_distinctUnionOfSets1
+test(NSDictionary_valueForKeyPath_distinctUnionOfSets1)
 {
     BOOL exception = NO;
     id anObj;
@@ -2233,7 +2233,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSDictionary_valueForKeyPath_distinctUnionOfSets2
+test(NSDictionary_valueForKeyPath_distinctUnionOfSets2)
 {
     BOOL exception = NO;
     id anObj;
@@ -2256,7 +2256,7 @@ typedef struct SomeLargeStruct {
 #pragma mark -
 #pragma mark NSArray KVC tests
 
-- (BOOL)test_NSArray_valueForKeyPath_NilPath
+test(NSArray_valueForKeyPath_NilPath)
 {
     BOOL exception = NO;
     id anObj;
@@ -2275,7 +2275,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_InvalidPath
+test(NSArray_valueForKeyPath_InvalidPath)
 {
     BOOL exception = NO;
     id anObj;
@@ -2294,7 +2294,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_EmptyPath
+test(NSArray_valueForKeyPath_EmptyPath)
 {
     BOOL exception = NO;
     id anObj;
@@ -2313,7 +2313,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_DotPath
+test(NSArray_valueForKeyPath_DotPath)
 {
     BOOL exception = NO;
     id anObj;
@@ -2332,7 +2332,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_UnaryAt
+test(NSArray_valueForKeyPath_UnaryAt)
 {
     BOOL exception = NO;
     id anObj;
@@ -2351,7 +2351,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_One
+test(NSArray_valueForKeyPath_One)
 {
     BOOL exception = NO;
     id anObj;
@@ -2370,7 +2370,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_AtOne
+test(NSArray_valueForKeyPath_AtOne)
 {
     BOOL exception = NO;
     id anObj;
@@ -2389,7 +2389,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Ats
+test(NSArray_valueForKeyPath_Ats)
 {
     BOOL exception = NO;
     id anObj;
@@ -2410,7 +2410,7 @@ typedef struct SomeLargeStruct {
 
 // @count
 
-- (BOOL)test_NSArray_valueForKeyPath_CountOperator
+test(NSArray_valueForKeyPath_CountOperator)
 {
     id anObj;
     NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
@@ -2423,7 +2423,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_CountOperatorIgnoreRighthandPath
+test(NSArray_valueForKeyPath_CountOperatorIgnoreRighthandPath)
 {
     id anObj;
     NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
@@ -2436,7 +2436,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_CountOperatorPrefix
+test(NSArray_valueForKeyPath_CountOperatorPrefix)
 {
     BOOL exception = NO;
     id anObj;
@@ -2455,7 +2455,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Recursion
+test(NSArray_valueForKeyPath_Recursion)
 {
     NSMutableArray *recursiveArray = [NSMutableArray array];
     [recursiveArray addObject:recursiveArray];
@@ -2472,7 +2472,7 @@ typedef struct SomeLargeStruct {
 
 // @max
 
-- (BOOL)test_NSArray_valueForKeyPath_Max1
+test(NSArray_valueForKeyPath_Max1)
 {
     id anObj;
     NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
@@ -2485,7 +2485,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Max2
+test(NSArray_valueForKeyPath_Max2)
 {
     id anObj;
     NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
@@ -2498,7 +2498,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Max3
+test(NSArray_valueForKeyPath_Max3)
 {
     id anObj;
 
@@ -2509,7 +2509,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Max4
+test(NSArray_valueForKeyPath_Max4)
 {
     id anObj;
     NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
@@ -2522,7 +2522,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Max5
+test(NSArray_valueForKeyPath_Max5)
 {
     BOOL exception = NO;
     id anObj;
@@ -2541,7 +2541,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Max6
+test(NSArray_valueForKeyPath_Max6)
 {
     BOOL exception = NO;
     id anObj;
@@ -2560,7 +2560,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Max7
+test(NSArray_valueForKeyPath_Max7)
 {
     BOOL exception = NO;
     id anObj;
@@ -2581,7 +2581,7 @@ typedef struct SomeLargeStruct {
 
 // @min
 
-- (BOOL)test_NSArray_valueForKeyPath_Min1
+test(NSArray_valueForKeyPath_Min1)
 {
     id anObj;
     NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
@@ -2594,7 +2594,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Min2
+test(NSArray_valueForKeyPath_Min2)
 {
     id anObj;
     NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
@@ -2607,7 +2607,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Min3
+test(NSArray_valueForKeyPath_Min3)
 {
     id anObj;
 
@@ -2618,7 +2618,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Min4
+test(NSArray_valueForKeyPath_Min4)
 {
     id anObj;
     NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
@@ -2631,7 +2631,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Min5
+test(NSArray_valueForKeyPath_Min5)
 {
     BOOL exception = NO;
     id anObj;
@@ -2650,7 +2650,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Min6
+test(NSArray_valueForKeyPath_Min6)
 {
     BOOL exception = NO;
     id anObj;
@@ -2669,7 +2669,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Min7
+test(NSArray_valueForKeyPath_Min7)
 {
     BOOL exception = NO;
     id anObj;
@@ -2690,7 +2690,7 @@ typedef struct SomeLargeStruct {
 
 // @avg
 
-- (BOOL)test_NSArray_valueForKeyPath_Avg1
+test(NSArray_valueForKeyPath_Avg1)
 {
     id anObj;
     NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
@@ -2703,7 +2703,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Avg2
+test(NSArray_valueForKeyPath_Avg2)
 {
     id anObj;
     NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
@@ -2716,7 +2716,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Avg3
+test(NSArray_valueForKeyPath_Avg3)
 {
     id anObj;
 
@@ -2727,7 +2727,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Avg4
+test(NSArray_valueForKeyPath_Avg4)
 {
     BOOL exception = NO;
     id anObj;
@@ -2746,7 +2746,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Avg5
+test(NSArray_valueForKeyPath_Avg5)
 {
     BOOL exception = NO;
     id anObj;
@@ -2765,7 +2765,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Avg6
+test(NSArray_valueForKeyPath_Avg6)
 {
     BOOL exception = NO;
     id anObj;
@@ -2784,7 +2784,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Avg7
+test(NSArray_valueForKeyPath_Avg7)
 {
     BOOL exception = NO;
     id anObj;
@@ -2805,7 +2805,7 @@ typedef struct SomeLargeStruct {
 
 // @sum
 
-- (BOOL)test_NSArray_valueForKeyPath_Sum1
+test(NSArray_valueForKeyPath_Sum1)
 {
     id anObj;
     NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
@@ -2818,7 +2818,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Sum2
+test(NSArray_valueForKeyPath_Sum2)
 {
     id anObj;
     NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
@@ -2831,7 +2831,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Sum3
+test(NSArray_valueForKeyPath_Sum3)
 {
     id anObj;
 
@@ -2844,7 +2844,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Sum4
+test(NSArray_valueForKeyPath_Sum4)
 {
     id anObj;
     NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
@@ -2857,7 +2857,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Sum5
+test(NSArray_valueForKeyPath_Sum5)
 {
     BOOL exception = NO;
     id anObj;
@@ -2877,7 +2877,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Sum6
+test(NSArray_valueForKeyPath_Sum6)
 {
     BOOL exception = NO;
     id anObj;
@@ -2897,7 +2897,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_Sum7
+test(NSArray_valueForKeyPath_Sum7)
 {
     BOOL exception = NO;
     id anObj;
@@ -2919,7 +2919,7 @@ typedef struct SomeLargeStruct {
 
 // @unionOfObjects
 
-- (BOOL)test_NSArray_valueForKeyPath_unionOfObjects1
+test(NSArray_valueForKeyPath_unionOfObjects1)
 {
     id anObj;
     NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
@@ -2932,7 +2932,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_unionOfObjects2
+test(NSArray_valueForKeyPath_unionOfObjects2)
 {
     id anObj;
     NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
@@ -2945,7 +2945,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_unionOfObjects3
+test(NSArray_valueForKeyPath_unionOfObjects3)
 {
     id anObj;
 
@@ -2958,7 +2958,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_unionOfObjects4
+test(NSArray_valueForKeyPath_unionOfObjects4)
 {
     BOOL exception = NO;
     id anObj;
@@ -2979,7 +2979,7 @@ typedef struct SomeLargeStruct {
 
 // @distinctUnionOfObjects
 
-- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfObjects1
+test(NSArray_valueForKeyPath_distinctUnionOfObjects1)
 {
     id anObj;
     NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
@@ -2992,7 +2992,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfObjects2
+test(NSArray_valueForKeyPath_distinctUnionOfObjects2)
 {
     id anObj;
     NSMutableArray *anArray = [NSMutableArray arrayWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"a NSMutableString"], @"", nil];
@@ -3005,7 +3005,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfObjects3
+test(NSArray_valueForKeyPath_distinctUnionOfObjects3)
 {
     id anObj;
 
@@ -3018,7 +3018,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfObjects4
+test(NSArray_valueForKeyPath_distinctUnionOfObjects4)
 {
     BOOL exception = NO;
     id anObj;
@@ -3040,7 +3040,7 @@ typedef struct SomeLargeStruct {
 
 // @unionOfArrays
 
-- (BOOL)test_NSArray_valueForKeyPath_unionOfArrays1
+test(NSArray_valueForKeyPath_unionOfArrays1)
 {
     id anObj;
     NSMutableArray *anotherArray = [NSMutableArray array];
@@ -3058,7 +3058,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_unionOfArrays2
+test(NSArray_valueForKeyPath_unionOfArrays2)
 {
     BOOL exception = NO;
     id anObj;
@@ -3079,7 +3079,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_unionOfArrays3
+test(NSArray_valueForKeyPath_unionOfArrays3)
 {
     BOOL exception = NO;
     id anObj;
@@ -3100,7 +3100,7 @@ typedef struct SomeLargeStruct {
 
 // @distinctUnionOfArrays
 
-- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfArrays1
+test(NSArray_valueForKeyPath_distinctUnionOfArrays1)
 {
     id anObj;
     NSMutableArray *anotherArray = [NSMutableArray array];
@@ -3118,7 +3118,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfArrays2
+test(NSArray_valueForKeyPath_distinctUnionOfArrays2)
 {
     id anObj;
     NSMutableArray *anotherArray = [NSMutableArray array];
@@ -3136,7 +3136,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfArrays3
+test(NSArray_valueForKeyPath_distinctUnionOfArrays3)
 {
     BOOL exception = NO;
     id anObj;
@@ -3157,7 +3157,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfArrays4
+test(NSArray_valueForKeyPath_distinctUnionOfArrays4)
 {
     BOOL exception = NO;
     id anObj;
@@ -3178,7 +3178,7 @@ typedef struct SomeLargeStruct {
 
 // @distinctUnionOfSets
 
-- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfSets1
+test(NSArray_valueForKeyPath_distinctUnionOfSets1)
 {
     id anObj;
     NSMutableArray *anotherArray = [NSMutableArray array];
@@ -3193,7 +3193,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfSets2
+test(NSArray_valueForKeyPath_distinctUnionOfSets2)
 {
     id anObj;
     NSMutableArray *anotherArray = [NSMutableArray array];
@@ -3208,7 +3208,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSArray_valueForKeyPath_distinctUnionOfSets3
+test(NSArray_valueForKeyPath_distinctUnionOfSets3)
 {
     BOOL exception = NO;
     id anObj;
@@ -3230,7 +3230,7 @@ typedef struct SomeLargeStruct {
 #pragma mark -
 #pragma mark NSSet KVC Tests
 
-- (BOOL)test_NSSet_valueForKeyPath_NilPath
+test(NSSet_valueForKeyPath_NilPath)
 {
     BOOL exception = NO;
     id anObj;
@@ -3249,7 +3249,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_InvalidPath
+test(NSSet_valueForKeyPath_InvalidPath)
 {
     BOOL exception = NO;
     id anObj;
@@ -3268,7 +3268,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_EmptyPath
+test(NSSet_valueForKeyPath_EmptyPath)
 {
     BOOL exception = NO;
     id anObj;
@@ -3287,7 +3287,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_UnaryDot
+test(NSSet_valueForKeyPath_UnaryDot)
 {
     BOOL exception = NO;
     id anObj;
@@ -3306,7 +3306,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_UnaryAt
+test(NSSet_valueForKeyPath_UnaryAt)
 {
     BOOL exception = NO;
     id anObj;
@@ -3325,7 +3325,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_One
+test(NSSet_valueForKeyPath_One)
 {
     BOOL exception = NO;
     id anObj;
@@ -3344,7 +3344,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_AtOne
+test(NSSet_valueForKeyPath_AtOne)
 {
     BOOL exception = NO;
     id anObj;
@@ -3363,7 +3363,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Ats
+test(NSSet_valueForKeyPath_Ats)
 {
     BOOL exception = NO;
     id anObj;
@@ -3382,7 +3382,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_CountOperator
+test(NSSet_valueForKeyPath_CountOperator)
 {
     id anObj;
     NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
@@ -3395,7 +3395,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_CountOperatorIgnoreRighthandPath
+test(NSSet_valueForKeyPath_CountOperatorIgnoreRighthandPath)
 {
     id anObj;
     NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
@@ -3408,7 +3408,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_CountOperatorInvalidPrefix
+test(NSSet_valueForKeyPath_CountOperatorInvalidPrefix)
 {
     BOOL exception = NO;
     id anObj;
@@ -3427,7 +3427,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_recursion
+test(NSSet_valueForKeyPath_recursion)
 {
     NSMutableSet *recursiveSet = [NSMutableSet set];
     [recursiveSet addObject:@[@"foo", @"bar"]];
@@ -3443,7 +3443,7 @@ typedef struct SomeLargeStruct {
 
 // @max
 
-- (BOOL)test_NSSet_valueForKeyPath_Max1
+test(NSSet_valueForKeyPath_Max1)
 {
     id anObj;
     NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
@@ -3456,7 +3456,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Max2
+test(NSSet_valueForKeyPath_Max2)
 {
     id anObj;
     NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
@@ -3469,7 +3469,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Max3
+test(NSSet_valueForKeyPath_Max3)
 {
     id anObj;
 
@@ -3480,7 +3480,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Max4
+test(NSSet_valueForKeyPath_Max4)
 {
     id anObj;
     NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
@@ -3493,7 +3493,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Max5
+test(NSSet_valueForKeyPath_Max5)
 {
     BOOL exception = NO;
     id anObj;
@@ -3512,7 +3512,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Max6
+test(NSSet_valueForKeyPath_Max6)
 {
     BOOL exception = NO;
     id anObj;
@@ -3531,7 +3531,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Max7
+test(NSSet_valueForKeyPath_Max7)
 {
     BOOL exception = NO;
     id anObj;
@@ -3552,7 +3552,7 @@ typedef struct SomeLargeStruct {
 
 // @min
 
-- (BOOL)test_NSSet_valueForKeyPath_Min1
+test(NSSet_valueForKeyPath_Min1)
 {
     id anObj;
     NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
@@ -3565,7 +3565,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Min2
+test(NSSet_valueForKeyPath_Min2)
 {
     id anObj;
     NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
@@ -3578,7 +3578,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Min3
+test(NSSet_valueForKeyPath_Min3)
 {
     id anObj;
 
@@ -3589,7 +3589,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Min4
+test(NSSet_valueForKeyPath_Min4)
 {
     id anObj;
     NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
@@ -3602,7 +3602,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Min5
+test(NSSet_valueForKeyPath_Min5)
 {
     BOOL exception = NO;
     id anObj;
@@ -3621,7 +3621,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Min6
+test(NSSet_valueForKeyPath_Min6)
 {
     BOOL exception = NO;
     id anObj;
@@ -3640,7 +3640,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Min7
+test(NSSet_valueForKeyPath_Min7)
 {
     BOOL exception = NO;
     id anObj;
@@ -3661,7 +3661,7 @@ typedef struct SomeLargeStruct {
 
 // @avg
 
-- (BOOL)test_NSSet_valueForKeyPath_Avg1
+test(NSSet_valueForKeyPath_Avg1)
 {
     id anObj;
     NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
@@ -3674,7 +3674,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Avg2
+test(NSSet_valueForKeyPath_Avg2)
 {
     id anObj;
     NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
@@ -3687,7 +3687,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Avg3
+test(NSSet_valueForKeyPath_Avg3)
 {
     id anObj;
 
@@ -3698,7 +3698,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Avg4
+test(NSSet_valueForKeyPath_Avg4)
 {
     BOOL exception = NO;
     id anObj;
@@ -3717,7 +3717,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Avg5
+test(NSSet_valueForKeyPath_Avg5)
 {
     BOOL exception = NO;
     id anObj;
@@ -3736,7 +3736,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Avg6
+test(NSSet_valueForKeyPath_Avg6)
 {
     BOOL exception = NO;
     id anObj;
@@ -3755,7 +3755,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Avg7
+test(NSSet_valueForKeyPath_Avg7)
 {
     BOOL exception = NO;
     id anObj;
@@ -3776,7 +3776,7 @@ typedef struct SomeLargeStruct {
 
 // @sum
 
-- (BOOL)test_NSSet_valueForKeyPath_Sum1
+test(NSSet_valueForKeyPath_Sum1)
 {
     id anObj;
     NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
@@ -3789,7 +3789,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Sum2
+test(NSSet_valueForKeyPath_Sum2)
 {
     id anObj;
     NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
@@ -3802,7 +3802,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Sum3
+test(NSSet_valueForKeyPath_Sum3)
 {
     id anObj;
 
@@ -3815,7 +3815,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Sum4
+test(NSSet_valueForKeyPath_Sum4)
 {
     id anObj;
     NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
@@ -3828,7 +3828,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Sum5
+test(NSSet_valueForKeyPath_Sum5)
 {
     BOOL exception = NO;
     id anObj;
@@ -3847,7 +3847,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Sum6
+test(NSSet_valueForKeyPath_Sum6)
 {
     BOOL exception = NO;
     id anObj;
@@ -3866,7 +3866,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_Sum7
+test(NSSet_valueForKeyPath_Sum7)
 {
     BOOL exception = NO;
     id anObj;
@@ -3885,7 +3885,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_extraMinMaxAvgSum
+test(NSSet_valueForKeyPath_extraMinMaxAvgSum)
 {
     NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"fooVal", @"fooKey", @"barVal", @"barKey", @101, @"101Key", nil];
     NSMutableSet *set = [NSMutableSet setWithObject:dict];
@@ -3926,7 +3926,7 @@ typedef struct SomeLargeStruct {
 
 // @unionOfObjects
 
-- (BOOL)test_NSSet_valueForKeyPath_unionOfObjects1
+test(NSSet_valueForKeyPath_unionOfObjects1)
 {
     BOOL exception = NO;
     id anObj;
@@ -3945,7 +3945,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_unionOfObjects2
+test(NSSet_valueForKeyPath_unionOfObjects2)
 {
     BOOL exception = NO;
     id anObj;
@@ -3964,7 +3964,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_unionOfObjects3
+test(NSSet_valueForKeyPath_unionOfObjects3)
 {
     BOOL exception = NO;
     id anObj;
@@ -3983,7 +3983,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_unionOfObjects4
+test(NSSet_valueForKeyPath_unionOfObjects4)
 {
     NSMutableSet *anotherSet = [NSMutableSet set];
     [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
@@ -4007,7 +4007,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_unionOfObjects5
+test(NSSet_valueForKeyPath_unionOfObjects5)
 {
     NSMutableSet *anotherSet = [NSMutableSet set];
     [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
@@ -4033,7 +4033,7 @@ typedef struct SomeLargeStruct {
 
 // @distinctUnionOfObjects
 
-- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfObjects1
+test(NSSet_valueForKeyPath_distinctUnionOfObjects1)
 {
     id anObj;
     NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
@@ -4046,7 +4046,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfObjects2
+test(NSSet_valueForKeyPath_distinctUnionOfObjects2)
 {
     id anObj;
     NSSet *aSet = [NSSet setWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithChar:0x81], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"another constant NSString with a long description", [NSMutableString stringWithString:@"an NSMutableString"], @"", nil];
@@ -4059,7 +4059,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfObjects3
+test(NSSet_valueForKeyPath_distinctUnionOfObjects3)
 {
     BOOL exception = NO;
     id anObj;
@@ -4078,7 +4078,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfObjects4
+test(NSSet_valueForKeyPath_distinctUnionOfObjects4)
 {
     NSMutableSet *anotherSet = [NSMutableSet set];
     [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
@@ -4097,7 +4097,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfObjects5
+test(NSSet_valueForKeyPath_distinctUnionOfObjects5)
 {
     NSMutableSet *anotherSet = [NSMutableSet set];
     [anotherSet addObject:[NSSet setWithObjects:@"hello", @"world", @"-23", [NSSet setWithObjects:@"subsetobj", @"subsetobj", [NSSet setWithObjects:@"subsubsetobj", nil], nil], nil]];
@@ -4117,7 +4117,7 @@ typedef struct SomeLargeStruct {
 
 // @unionOfArrays
 
-- (BOOL)test_NSSet_valueForKeyPath_unionOfArrays1
+test(NSSet_valueForKeyPath_unionOfArrays1)
 {
     BOOL exception = NO;
     id anObj;
@@ -4141,7 +4141,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_unionOfArrays2
+test(NSSet_valueForKeyPath_unionOfArrays2)
 {
     BOOL exception = NO;
     id anObj;
@@ -4165,7 +4165,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_unionOfArrays3
+test(NSSet_valueForKeyPath_unionOfArrays3)
 {
     BOOL exception = NO;
     id anObj;
@@ -4188,7 +4188,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_unionOfArrays4
+test(NSSet_valueForKeyPath_unionOfArrays4)
 {
     BOOL exception = NO;
     id anObj;
@@ -4213,7 +4213,7 @@ typedef struct SomeLargeStruct {
 
 // @distinctUnionOfArrays
 
-- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfArrays1
+test(NSSet_valueForKeyPath_distinctUnionOfArrays1)
 {
     id anObj;
     NSMutableSet *anotherSet = [NSMutableSet set];
@@ -4232,7 +4232,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfArrays2
+test(NSSet_valueForKeyPath_distinctUnionOfArrays2)
 {
     id anObj;
     NSMutableSet *anotherSet = [NSMutableSet set];
@@ -4251,7 +4251,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfArrays3
+test(NSSet_valueForKeyPath_distinctUnionOfArrays3)
 {
     id anObj;
     NSMutableSet *anotherSet = [NSMutableSet set];
@@ -4270,7 +4270,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfArrays4
+test(NSSet_valueForKeyPath_distinctUnionOfArrays4)
 {
     BOOL exception = NO;
     id anObj;
@@ -4296,7 +4296,7 @@ typedef struct SomeLargeStruct {
 
 // @distinctUnionOfSets
 
-- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfSets1
+test(NSSet_valueForKeyPath_distinctUnionOfSets1)
 {
     id anObj;
     NSMutableSet *anotherSet = [NSMutableSet set];
@@ -4314,7 +4314,7 @@ typedef struct SomeLargeStruct {
 
 #pragma mark -
 
-- (BOOL)test_NSSet_valueForKeyPath_distinctUnionOfSets2
+test(NSSet_valueForKeyPath_distinctUnionOfSets2)
 {
     BOOL exception = NO;
     id anObj;
@@ -4333,7 +4333,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_valueForKeyPath_strangeExceptions1
+test(valueForKeyPath_strangeExceptions1)
 {
     NSArray *anArray = [NSArray arrayWithObjects:[NSMutableString stringWithString:@"an NSMutableString"], nil];
     BOOL exception = NO;
@@ -4352,7 +4352,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_valueForKeyPath_strangeExceptions2
+test(valueForKeyPath_strangeExceptions2)
 {
     NSSet *aSet = [NSSet setWithObjects:[NSMutableString stringWithString:@"an NSMutableString"], nil];
     BOOL exception = NO;
@@ -4371,7 +4371,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_valueForKeyPath_onEmptySet
+test(valueForKeyPath_onEmptySet)
 {
     NSMutableSet *set = [NSMutableSet set];
 
@@ -4397,7 +4397,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_mutableArrayValueForKey_basicMethodAccess
+test(mutableArrayValueForKey_basicMethodAccess)
 {
     ArrayCodingTest *arrayCoding = [[[ArrayCodingTest alloc] init] autorelease];
 
@@ -4424,7 +4424,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_mutableOrderedSetValueForKey_basicMethodAccess
+test(mutableOrderedSetValueForKey_basicMethodAccess)
 {
     OrderedSetCodingTest *orderedSetCoding = [[[OrderedSetCodingTest alloc] init] autorelease];
 
@@ -4447,7 +4447,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)test_mutableSetValueForKey_basicMethodAccess
+test(mutableSetValueForKey_basicMethodAccess)
 {
     SetCodingTest *setCoding = [[[SetCodingTest alloc] init] autorelease];
 
@@ -4470,7 +4470,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testSetValueForKeyOnInnerCGPoint
+test(SetValueForKeyOnInnerCGPoint)
 {
     SomeObjectWithCGPoint *obj = [[SomeObjectWithCGPoint alloc] init];
     NSValue *val = [NSValue valueWithCGPoint:CGPointFromString(@"{-42,-101}")];
@@ -4484,7 +4484,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testSetValueForKeyOnInnerCGSize
+test(SetValueForKeyOnInnerCGSize)
 {
     SomeObjectWithCGSize *obj = [[SomeObjectWithCGSize alloc] init];
     NSValue *val = [NSValue valueWithCGSize:CGSizeMake(42,84)];
@@ -4498,7 +4498,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testSetValueForKeyOnInnerCGRect
+test(SetValueForKeyOnInnerCGRect)
 {
     SomeObjectWithCGRect *obj = [[SomeObjectWithCGRect alloc] init];
     NSValue *val = [NSValue valueWithCGRect:CGRectMake(-123.5f, 456, 42, 84.25f)];
@@ -4514,7 +4514,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testSetValueForKeyOnInnerNSRange
+test(SetValueForKeyOnInnerNSRange)
 {
     SomeObjectWithNSRange *obj = [[SomeObjectWithNSRange alloc] init];
     NSRange range = NSMakeRange(33, 66);
@@ -4528,7 +4528,7 @@ typedef struct SomeLargeStruct {
 }
 
 
-- (BOOL)testSetValueForKeyOnInnerStruct
+test(SetValueForKeyOnInnerStruct)
 {
     SomeObjectWithSmallishInnerStruct *obj = [[SomeObjectWithSmallishInnerStruct alloc] init];
     SomeSmallishStruct aStruct;
@@ -4543,7 +4543,7 @@ typedef struct SomeLargeStruct {
     return YES;
 }
 
-- (BOOL)testSetValueForKeyOnLargeInnerStruct
+test(SetValueForKeyOnLargeInnerStruct)
 {
     SomeObjectWithLargeInnerStruct *obj = [[SomeObjectWithLargeInnerStruct alloc] init];
     SomeLargeStruct aStruct;

@@ -3,7 +3,7 @@
 
 @testcase(NSNumber)
 
-- (BOOL)testAllocate
+test(Allocate)
 {
     NSNumber *n1 = [NSNumber alloc];
     NSNumber *n2 = [NSNumber alloc];
@@ -13,28 +13,28 @@
     return YES;
 }
 
-- (BOOL)testYESStringValue
+test(YESStringValue)
 {
     NSString *result = [[NSNumber numberWithBool:YES] stringValue];
     testassert([result isEqualToString:@"1"]);
     return YES;
 }
 
-- (BOOL)testNOStringValue
+test(NOStringValue)
 {
     NSString *result = [[NSNumber numberWithBool:NO] stringValue];
     testassert([result isEqualToString:@"0"]);
     return YES;
 }
 
-- (BOOL)testBOOLdescription
+test(BOOLdescription)
 {
     NSString *result = [[NSNumber numberWithBool:YES] description];
     testassert([result isEqualToString:@"1"]);
     return YES;
 }
 
-- (BOOL)testSharedBoolInstances
+test(SharedBoolInstances)
 {
     NSNumber *y1 = [NSNumber numberWithBool:YES];
     NSNumber *y2 = [NSNumber numberWithBool:YES];
@@ -61,7 +61,7 @@
     return YES;
 }
 
-- (BOOL)testSharedNumberInstances
+test(SharedNumberInstances)
 {
     NSNumber* nan = [NSNumber numberWithDouble:NAN];
     NSNumber* nan2 = [NSNumber numberWithDouble:NAN];
@@ -84,7 +84,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithBool
+test(NumberWithBool)
 {
     // boolValue is guaranteed to return YES or NO since OS X 10.3
 
@@ -115,7 +115,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithChar1
+test(NumberWithChar1)
 {
     testassert([[NSNumber numberWithChar:0] boolValue] == NO);
     testassert([[NSNumber numberWithChar:-23] boolValue] == YES);
@@ -162,7 +162,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithChar2
+test(NumberWithChar2)
 {
     testassert([[NSNumber numberWithChar:0] integerValue] == (NSInteger)0);
     testassert([[NSNumber numberWithChar:-23] integerValue] == (NSInteger)-23);
@@ -203,7 +203,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithUnsignedChar1
+test(NumberWithUnsignedChar1)
 {
     testassert([[NSNumber numberWithUnsignedChar:0] boolValue] == NO);
     testassert([[NSNumber numberWithUnsignedChar:42] boolValue] == YES);
@@ -235,7 +235,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithUnsignedChar2
+test(NumberWithUnsignedChar2)
 {
 
     testassert([[NSNumber numberWithUnsignedChar:0] integerValue] == (NSInteger)0);
@@ -265,7 +265,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithShort1
+test(NumberWithShort1)
 {
     testassert([[NSNumber numberWithShort:0] boolValue] == NO);
     testassert([[NSNumber numberWithShort:-23] boolValue] == YES);
@@ -312,7 +312,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithShort2
+test(NumberWithShort2)
 {
     testassert([[NSNumber numberWithShort:0] integerValue] == (NSInteger)0);
     testassert([[NSNumber numberWithShort:-23] integerValue] == (NSInteger)-23);
@@ -353,7 +353,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithUnsignedShort1
+test(NumberWithUnsignedShort1)
 {
     testassert([[NSNumber numberWithUnsignedShort:0] boolValue] == NO);
     testassert([[NSNumber numberWithUnsignedShort:42] boolValue] == YES);
@@ -386,7 +386,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithUnsignedShort2
+test(NumberWithUnsignedShort2)
 {
     testassert([[NSNumber numberWithUnsignedShort:0] integerValue] == (NSInteger)0);
     testassert([[NSNumber numberWithUnsignedShort:42] integerValue] == (NSInteger)42);
@@ -415,7 +415,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithInt1
+test(NumberWithInt1)
 {
     testassert([[NSNumber numberWithInt:0] boolValue] == NO);
     testassert([[NSNumber numberWithInt:-23] boolValue] == YES);
@@ -456,7 +456,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithInt2
+test(NumberWithInt2)
 {
     testassert([[NSNumber numberWithInt:0] unsignedIntValue] == (unsigned int)0);
     testassert([[NSNumber numberWithInt:-23] unsignedIntValue] == (unsigned int)-23);
@@ -503,7 +503,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithUnsignedInt1
+test(NumberWithUnsignedInt1)
 {
     testassert([[NSNumber numberWithUnsignedInt:0] boolValue] == NO);
     testassert([[NSNumber numberWithUnsignedInt:42] boolValue] == YES);
@@ -536,7 +536,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithUnsignedInt2
+test(NumberWithUnsignedInt2)
 {
     testassert([[NSNumber numberWithUnsignedInt:0] integerValue] == (NSInteger)0);
     testassert([[NSNumber numberWithUnsignedInt:42] integerValue] == (NSInteger)42);
@@ -565,7 +565,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithLong1
+test(NumberWithLong1)
 {
     testassert([[NSNumber numberWithLong:0] boolValue] == NO);
     testassert([[NSNumber numberWithLong:-23] boolValue] == YES);
@@ -616,7 +616,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithLong2
+test(NumberWithLong2)
 {
     testassert([[NSNumber numberWithLong:0] integerValue] == (NSInteger)0);
     testassert([[NSNumber numberWithLong:-23] integerValue] == (NSInteger)-23);
@@ -657,7 +657,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithUnsignedLong1
+test(NumberWithUnsignedLong1)
 {
     testassert([[NSNumber numberWithUnsignedLong:0] boolValue] == NO);
     testassert([[NSNumber numberWithUnsignedLong:42] boolValue] == YES);
@@ -690,7 +690,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithUnsignedLong2
+test(NumberWithUnsignedLong2)
 {
     testassert([[NSNumber numberWithUnsignedLong:0] integerValue] == (NSInteger)0);
     testassert([[NSNumber numberWithUnsignedLong:42] integerValue] == (NSInteger)42);
@@ -723,7 +723,7 @@
  * @note the behavior of boolValue for long longs
  */
 
-- (BOOL)testNumberWithLongLong1
+test(NumberWithLongLong1)
 {
     testassert([[NSNumber numberWithLongLong:0] boolValue] == NO);
     testassert([[NSNumber numberWithLongLong:-23] boolValue] == YES);
@@ -771,7 +771,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithLongLong2
+test(NumberWithLongLong2)
 {
     testassert([[NSNumber numberWithLongLong:0] integerValue] == (NSInteger)0);
     testassert([[NSNumber numberWithLongLong:-23] integerValue] == (NSInteger)-23);
@@ -812,7 +812,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithUnsignedLongLong1
+test(NumberWithUnsignedLongLong1)
 {
     testassert([[NSNumber numberWithUnsignedLongLong:0] boolValue] == NO);
     testassert([[NSNumber numberWithUnsignedLongLong:42] boolValue] == YES);
@@ -845,7 +845,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithUnsignedLongLong2
+test(NumberWithUnsignedLongLong2)
 {
     testassert([[NSNumber numberWithUnsignedLongLong:0] integerValue] == (NSInteger)0);
     testassert([[NSNumber numberWithUnsignedLongLong:42] integerValue] == (NSInteger)42);
@@ -874,7 +874,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithInteger1
+test(NumberWithInteger1)
 {
     testassert([[NSNumber numberWithInteger:0] boolValue] == NO);
     testassert([[NSNumber numberWithInteger:-23] boolValue] == YES);
@@ -925,7 +925,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithInteger2
+test(NumberWithInteger2)
 {
     testassert([[NSNumber numberWithInteger:0] integerValue] == (NSInteger)0);
     testassert([[NSNumber numberWithInteger:-23] integerValue] == (NSInteger)-23);
@@ -966,7 +966,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithUnsignedInteger1
+test(NumberWithUnsignedInteger1)
 {
     testassert([[NSNumber numberWithUnsignedInteger:0] boolValue] == NO);
     testassert([[NSNumber numberWithUnsignedInteger:42] boolValue] == YES);
@@ -995,7 +995,7 @@
     return YES;
 }
 
-- (BOOL)testNumberWithUnsignedInteger2
+test(NumberWithUnsignedInteger2)
 {
     testassert([[NSNumber numberWithUnsignedInteger:0] unsignedIntValue] == (unsigned int)0);
     testassert([[NSNumber numberWithUnsignedInteger:42] unsignedIntValue] == (unsigned int)42);
@@ -1029,7 +1029,7 @@
 }
 
 
-- (BOOL)testIsNumber
+test(IsNumber)
 {
     NSNumber *n = [NSNumber numberWithBool:YES];
     testassert([n isNSNumber__]);
@@ -1039,7 +1039,7 @@
     return YES;
 }
 
-- (BOOL)testStrtod
+test(Strtod)
 {
     double d = strtod("1.99", NULL);
     testassert(d == 1.99);
@@ -1047,14 +1047,14 @@
 }
 
 #warning TODO strtod_l implementation
-//- (BOOL)testStrtod_l
+//test(Strtod_l)
 //{
 //    double d = strtod_l("1.99", NULL, NULL);
 //    testassert(d == 1.99);
 //    return YES;
 //}
 
-- (BOOL)testNumberComparisons
+test(NumberComparisons)
 {
     BOOL exception = NO;
     @try {
