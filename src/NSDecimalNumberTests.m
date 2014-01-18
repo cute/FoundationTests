@@ -9,7 +9,7 @@
 #import "FoundationTests.h"
 
 @testcase(NSDecimalNumber)
-
+#if 0
 - (BOOL)testInitWithDouble1
 {
     double original = SCHAR_MAX;
@@ -1594,4 +1594,5 @@
     
     return YES;
 }
+#endif
 @end
