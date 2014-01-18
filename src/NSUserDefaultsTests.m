@@ -94,17 +94,25 @@
 - (BOOL)testRemoveObjectForKey  // issue 573
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:@"Paul" forKey:@"foo123"];
+    [defaults synchronize];
     NSDictionary *defaultsDictionary = [defaults dictionaryRepresentation];
+    NSString *check = [defaultsDictionary objectForKey:@"foo123"];
+    testassert(check != nil);
+    testassert([check isEqualToString:@"Paul"]);
     for (NSString *key in [defaultsDictionary allKeys]) {
         [defaults removeObjectForKey:key];
     }
     [defaults synchronize];
+    defaultsDictionary = [defaults dictionaryRepresentation];
+    check = [defaultsDictionary objectForKey:@"foo123"];
+    testassert(check == nil);
     return YES;
 }
 
 - (BOOL) testRemovePersistentDomainForName // issue 573
 {
-    NSString* domainName = [[NSBundle mainBundle] bundleIdentifier];
+    NSString *domainName = [[NSBundle mainBundle] bundleIdentifier];
     [[NSUserDefaults standardUserDefaults] removePersistentDomainForName: domainName];
     return YES;
 }
