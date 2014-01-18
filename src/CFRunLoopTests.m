@@ -204,7 +204,7 @@ static void *runLoopStart3(void *ctx) {
     return NULL;
 }
 
-- (BOOL)testCFRunLoopAddSource1
+test(CFRunLoopAddSource1)
 {
     sourceAHasRun = NO;
     sourceBHasRun = NO;
@@ -220,7 +220,7 @@ static void *runLoopStart3(void *ctx) {
     return YES;
 }
 
-- (BOOL)testCFRunLoopAddSource1a
+test(CFRunLoopAddSource1a)
 {
     sourceAHasRun = NO;
     sourceBHasRun = NO;
@@ -236,7 +236,7 @@ static void *runLoopStart3(void *ctx) {
     return YES;
 }
 
-- (BOOL)testCFRunLoopAddSource2
+test(CFRunLoopAddSource2)
 {
     sourceAHasRun = NO;
     sourceBHasRun = NO;
@@ -252,7 +252,7 @@ static void *runLoopStart3(void *ctx) {
     return YES;
 }
 
-- (BOOL)testCFRunLoopAddSource2a
+test(CFRunLoopAddSource2a)
 {
     sourceAHasRun = NO;
     sourceBHasRun = NO;
@@ -268,7 +268,7 @@ static void *runLoopStart3(void *ctx) {
     return YES;
 }
 
-- (BOOL)testCFRunLoopAddSource3
+test(CFRunLoopAddSource3)
 {
     sourceAHasRun = NO;
     sourceBHasRun = NO;
@@ -282,7 +282,7 @@ static void *runLoopStart3(void *ctx) {
     return YES;
 }
 
-- (BOOL)testCFRunLoopAddSource3a
+test(CFRunLoopAddSource3a)
 {
     sourceAHasRun = NO;
     sourceBHasRun = NO;
@@ -296,7 +296,7 @@ static void *runLoopStart3(void *ctx) {
     return YES;
 }
 
-- (BOOL)testCFRunLoopNoStarvation
+test(CFRunLoopNoStarvation)
 {
     sourceAHasRun = NO;
     sourceBHasRun = NO;
@@ -310,7 +310,7 @@ static void *runLoopStart3(void *ctx) {
     return YES;
 }
 
-- (BOOL)testCFRunLoopThatShowsStarvation
+test(CFRunLoopThatShowsStarvation)
 {
     sourceAHasRun = NO;
     sourceBHasRun = NO;
