@@ -10,7 +10,7 @@
 
 @testcase(NSData)
 
-- (BOOL)testAllocate
+test(Allocate)
 {
     NSData *d1 = [NSData alloc];
     NSData *d2 = [NSData alloc];
@@ -20,42 +20,42 @@
     return YES;
 }
 
-- (BOOL)testInitWithContentsOfFileNil
+test(InitWithContentsOfFileNil)
 {
     NSData *data = [[NSData alloc] initWithContentsOfFile:nil];
     testassert(data == nil);
     return YES;
 }
 
-- (BOOL)testDataWithContentsOfFileNil
+test(DataWithContentsOfFileNil)
 {
     NSData *data = [NSData dataWithContentsOfFile:nil];
     testassert(data == nil);
     return YES;
 }
 
-- (BOOL)testDataWithContentsOfMappedFileNil
+test(DataWithContentsOfMappedFileNil)
 {
     NSData *data = [NSData dataWithContentsOfMappedFile:nil];
     testassert(data == nil);
     return YES;
 }
 
-- (BOOL)testInitWithContentsOfURLNil
+test(InitWithContentsOfURLNil)
 {
     NSData *data = [[NSData alloc] initWithContentsOfURL:nil];
     testassert(data == nil);
     return YES;
 }
 
-- (BOOL)testDataWithContentsOfURLNil
+test(DataWithContentsOfURLNil)
 {
     NSData *data = [NSData dataWithContentsOfURL:nil];
     testassert(data == nil);
     return YES;
 }
 
-- (BOOL)testInitWithContentsOfURLNilOptionsError
+test(InitWithContentsOfURLNilOptionsError)
 {
     void (^block)() = ^{
         [[NSData alloc] initWithContentsOfURL:nil options:0 error:NULL];
@@ -77,7 +77,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithContentsOfFileNilOptionsError
+test(InitWithContentsOfFileNilOptionsError)
 {
     void (^block)() = ^{
         [[NSData alloc] initWithContentsOfFile:nil options:0 error:NULL];
@@ -99,7 +99,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithContentsOfURLGood
+test(InitWithContentsOfURLGood)
 {
     NSData *data = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:@"http://www.apportable.com/about"]];
     testassert(data != nil);
@@ -107,7 +107,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithContentsOfURLBad
+test(InitWithContentsOfURLBad)
 {
     NSData *data = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:@"http://www.apportablexxxx.com/about"]];
     testassert(data == nil);
@@ -115,14 +115,14 @@
     return YES;
 }
 
-- (BOOL)testMutableDataWithLength
+test(MutableDataWithLength)
 {
     NSMutableData *data = [NSMutableData dataWithLength:7];
     testassert([data length] == 7);
     return YES;
 }
 
-- (BOOL)testMutableDataWithData
+test(MutableDataWithData)
 {
     NSData *data = [NSData dataWithBytes:"abc" length:3];
     NSMutableData *data2 = [NSMutableData dataWithData:data];
@@ -130,7 +130,7 @@
     return YES;
 }
 
-- (BOOL)testMutableDataWithDataMutable
+test(MutableDataWithDataMutable)
 {
     NSMutableData *data = [NSMutableData dataWithLength:7];
     NSMutableData *data2 = [NSMutableData dataWithData:data];
@@ -138,7 +138,7 @@
     return YES;
 }
 
-- (BOOL)testMutableDataAppendBytes
+test(MutableDataAppendBytes)
 {
     NSMutableData *data = [NSMutableData dataWithLength:7];
     [data appendBytes:"abc" length:3];
@@ -157,7 +157,7 @@
     return YES;
 }
 
-- (BOOL)testMutableDataAppendBytesForcingRealloc
+test(MutableDataAppendBytesForcingRealloc)
 {
     NSMutableData *data = [NSMutableData dataWithLength:2];
     [data appendBytes:"abc" length:3];
@@ -176,7 +176,7 @@
     return YES;
 }
 
-- (BOOL)testMutableDataReplaceBytes
+test(MutableDataReplaceBytes)
 {
     NSMutableData *data = [NSMutableData dataWithLength:16];
     testassert([data length] == 16);
@@ -195,7 +195,7 @@
     return YES;
 }
 
-- (BOOL)testMutableDataResetBytes
+test(MutableDataResetBytes)
 {
     NSMutableData *data = [NSMutableData dataWithLength:16];
     testassert([data length] == 16);
@@ -215,7 +215,7 @@
     return YES;
 }
 
-- (BOOL)testRangeOfData
+test(RangeOfData)
 {
     const char *bytes = "abcdabcdbcd";
     NSData *data = [NSData dataWithBytes:bytes length:strlen(bytes)];
@@ -275,7 +275,7 @@
     return YES;
 }
 
-- (BOOL)testNSData_writeToFileAtomicallyYes
+test(NSData_writeToFileAtomicallyYes)
 {
     const char bytes[] = {"foo"};
     NSData *data = [NSData dataWithBytes:bytes length:4];
@@ -293,7 +293,7 @@
     return YES;
 }
 
-- (BOOL)testNSData_writeToFileAtomically_withNilValue
+test(NSData_writeToFileAtomically_withNilValue)
 {
     const char bytes[] = {"foo"};
     NSData *data = [NSData dataWithBytes:bytes length:4];
@@ -302,7 +302,7 @@
     return YES;
 }
 
-- (BOOL)testNSData_writeToFileAtomically_withEmptyValue
+test(NSData_writeToFileAtomically_withEmptyValue)
 {
     NSData *data = [NSData data];
     
@@ -319,7 +319,7 @@
     return YES;
 }
 
-- (BOOL)testNSData_writeToURLAtomicallyYes
+test(NSData_writeToURLAtomicallyYes)
 {
     const char bytes[] = {"foo"};
     NSData *data = [NSData dataWithBytes:bytes length:4];
@@ -337,7 +337,7 @@
     return YES;
 }
 
-- (BOOL)testNSData_writeToURLAtomically_withNilValue
+test(NSData_writeToURLAtomically_withNilValue)
 {
     const char bytes[] = {"foo"};
     NSData *data = [NSData dataWithBytes:bytes length:4];
@@ -346,7 +346,7 @@
     return YES;
 }
 
-- (BOOL)testNSData_writeToURLAtomically_withEmptyValue
+test(NSData_writeToURLAtomically_withEmptyValue)
 {
     NSData *data = [NSData data];
     
@@ -363,7 +363,7 @@
     return YES;
 }
 
-- (BOOL)testNSData_writeToFile_options_error
+test(NSData_writeToFile_options_error)
 {
     const char bytes[] = {"foo"};
     NSData *data = [NSData dataWithBytes:bytes length:4];
@@ -382,7 +382,7 @@
     return YES;
 }
 
-- (BOOL)testNSData_writeToNilFile_options_error
+test(NSData_writeToNilFile_options_error)
 {
     const char bytes[] = {"foo"};
     NSData *data = [NSData dataWithBytes:bytes length:4];
@@ -404,7 +404,7 @@
     return YES;
 }
 
-- (BOOL)testNSData_writeToURL_options_error
+test(NSData_writeToURL_options_error)
 {
     const char bytes[] = {"foo"};
     NSData *data = [NSData dataWithBytes:bytes length:4];
@@ -423,7 +423,7 @@
     return YES;
 }
 
-- (BOOL)testNSData_writeToNilURL_options_error
+test(NSData_writeToNilURL_options_error)
 {
     const char bytes[] = {"foo"};
     NSData *data = [NSData dataWithBytes:bytes length:4];
@@ -445,7 +445,7 @@
     return YES;
 }
 
-- (BOOL)testNoCopySmallAllocation
+test(NoCopySmallAllocation)
 {
     char *buffer = malloc(10);
     NSData *data = [NSData dataWithBytesNoCopy:buffer length:10 freeWhenDone:YES];

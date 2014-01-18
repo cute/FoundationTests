@@ -10,7 +10,7 @@ static int func(NSException *e)
     return 99;
 }
 
-- (BOOL)testRaiseWithCall
+test(RaiseWithCall)
 {
     NSException *e = [NSException exceptionWithName:nil reason:nil userInfo:nil];
     BOOL raised = NO;
@@ -39,7 +39,7 @@ static int funcWithBlock(NSException *e)
     return x;
 }
 
-- (BOOL)testRaiseWithBlockVariablesCall
+test(RaiseWithBlockVariablesCall)
 {
     NSException *e = [NSException exceptionWithName:nil reason:nil userInfo:nil];
     BOOL raised = NO;
@@ -56,7 +56,7 @@ static int funcWithBlock(NSException *e)
     return YES;
 }
 
-- (BOOL)testRaiseWithBlockVariables
+test(RaiseWithBlockVariables)
 {
     NSException *e = [NSException exceptionWithName:nil reason:nil userInfo:nil];
     BOOL raised = NO;
@@ -81,7 +81,7 @@ static int funcWithBlock(NSException *e)
     return YES;
 }
 
-- (BOOL)testInitWithNameReasonUserInfo
+test(InitWithNameReasonUserInfo)
 {
     NSException *e = [[NSException alloc] initWithName:nil reason:nil userInfo:nil];
 
@@ -92,7 +92,7 @@ static int funcWithBlock(NSException *e)
     return YES;
 }
 
-- (BOOL)testExceptionWithNameReasonUserInfo
+test(ExceptionWithNameReasonUserInfo)
 {
     NSException *e = [NSException exceptionWithName:nil reason:nil userInfo:nil];
 
@@ -101,7 +101,7 @@ static int funcWithBlock(NSException *e)
     return YES;
 }
 
-- (BOOL)testCopy
+test(Copy)
 {
     NSException *e1 = [NSException exceptionWithName:nil reason:nil userInfo:nil];
     NSException *e2 = [e1 copy];
@@ -114,7 +114,7 @@ static int funcWithBlock(NSException *e)
     return YES;
 }
 
-- (BOOL)testRaise
+test(Raise)
 {
     NSException *e = [NSException exceptionWithName:nil reason:nil userInfo:nil];
     BOOL raised = NO;
@@ -131,7 +131,7 @@ static int funcWithBlock(NSException *e)
     return YES;
 }
 
-- (BOOL)testCatch
+test(Catch)
 {
     NSException *e = [NSException exceptionWithName:nil reason:nil userInfo:nil];
 

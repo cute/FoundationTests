@@ -295,7 +295,7 @@
 
 #pragma mark - Class for coder
 
-- (BOOL)testCoderVersion
+test(CoderVersion)
 {
     NSCoder *coder = [[NSCoder alloc] init];
     testassert([coder systemVersion] == 1000);
@@ -303,7 +303,7 @@
     return YES;
 }
 
-- (BOOL)testKeyedArchiverVersion
+test(KeyedArchiverVersion)
 {
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:[NSMutableData data]];
     testassert([archiver systemVersion] == 2000);
@@ -311,7 +311,7 @@
     return YES;
 }
 
-- (BOOL)testInternalClassForCoder
+test(InternalClassForCoder)
 {
     // These are the classes that will actually create some internal
     // subclass, and thus different class and classForCoder.
@@ -347,7 +347,7 @@
     return YES;
 }
 
-- (BOOL)testActualClassForCoder
+test(ActualClassForCoder)
 {
     // These are the classes that have the same class and classForCoder.
     NSArray *classes = @[
@@ -371,7 +371,7 @@
     return YES;
 }
 
-- (BOOL)testOtherClassForCoder
+test(OtherClassForCoder)
 {
     // These classes cannot be directly inited, and so are tested separately.
 
@@ -497,7 +497,7 @@
 
 // Uncomment this to test decoding a mom file that's added to the main bundle.
 
-//- (BOOL) testMomDecode
+//test(MomDecode)
 //{
 //    NSString *path = [[NSBundle mainBundle] pathForResource:@"DotsDataModel" ofType:@"bin"];
 //    NSURL                *url = [NSURL fileURLWithPath:path];
@@ -508,7 +508,7 @@
 //    return YES;
 //}
 
-- (BOOL) testInitForWritingWithNil
+test(InitForWritingWithNil)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -524,7 +524,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithNilXML
+test(InitForWritingWithNilXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -540,7 +540,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithNilXMLLength
+test(InitForWritingWithNilXMLLength)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -557,7 +557,7 @@
     return YES;
 }
 
-- (BOOL)testEmptyArchive
+test(EmptyArchive)
 {
     NSData* objectEncoded = [NSKeyedArchiver archivedDataWithRootObject:nil];
     testassert([objectEncoded length] == 135);
@@ -569,7 +569,7 @@
     return YES;
 }
 
-- (BOOL)testBasicObjectsNScodingIsImplemented
+test(BasicObjectsNScodingIsImplemented)
 {
     for (id (^c)(void) in [self NSCodingSupportedClasses])
     {
@@ -581,7 +581,7 @@
     return YES;
 }
 
-- (BOOL)testEmptyArchiveDecoded
+test(EmptyArchiveDecoded)
 {
     NSData *objectEncoded = [NSKeyedArchiver archivedDataWithRootObject:nil];
     NSKeyedUnarchiver *unarchive = [NSKeyedUnarchiver unarchiveObjectWithData:objectEncoded];
@@ -590,7 +590,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataEmpty
+test(InitForWritingWithMutableDataEmpty)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -607,7 +607,7 @@
 }
 
 
-- (BOOL) testInitForWritingWithMutableDataInt
+test(InitForWritingWithMutableDataInt)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -629,7 +629,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataIntXML
+test(InitForWritingWithMutableDataIntXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -644,7 +644,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataIntBigger
+test(InitForWritingWithMutableDataIntBigger)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -659,7 +659,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataIntBiggerXML
+test(InitForWritingWithMutableDataIntBiggerXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -675,7 +675,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataIntMax
+test(InitForWritingWithMutableDataIntMax)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -690,7 +690,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataIntMaxXML
+test(InitForWritingWithMutableDataIntMaxXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -706,7 +706,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataIntNegative
+test(InitForWritingWithMutableDataIntNegative)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -721,7 +721,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataIntNegativeXML
+test(InitForWritingWithMutableDataIntNegativeXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -737,7 +737,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataIntMin
+test(InitForWritingWithMutableDataIntMin)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -752,7 +752,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataIntMinXML
+test(InitForWritingWithMutableDataIntMinXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -768,7 +768,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataBool
+test(InitForWritingWithMutableDataBool)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -790,7 +790,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataBoolXML
+test(InitForWritingWithMutableDataBoolXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -806,7 +806,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataBytes
+test(InitForWritingWithMutableDataBytes)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -831,7 +831,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataBytesXML
+test(InitForWritingWithMutableDataBytesXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -851,7 +851,7 @@
 }
 
 
-- (BOOL) testInitForWritingWithMutableDataBytes15
+test(InitForWritingWithMutableDataBytes15)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -870,7 +870,7 @@
 }
 
 
-- (BOOL) testInitForWritingWithMutableDataBytes15XML
+test(InitForWritingWithMutableDataBytes15XML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -890,7 +890,7 @@
 }
 
 
-- (BOOL) testInitForWritingWithMutableDataBytesLong
+test(InitForWritingWithMutableDataBytesLong)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -909,7 +909,7 @@
 }
 
 
-- (BOOL) testInitForWritingWithMutableDataBytesLongXML
+test(InitForWritingWithMutableDataBytesLongXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -928,7 +928,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataDouble
+test(InitForWritingWithMutableDataDouble)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -950,7 +950,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataDoubleXML
+test(InitForWritingWithMutableDataDoubleXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -966,7 +966,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataFloat
+test(InitForWritingWithMutableDataFloat)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -988,7 +988,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataFloatXML
+test(InitForWritingWithMutableDataFloatXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1004,7 +1004,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataInt32
+test(InitForWritingWithMutableDataInt32)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1024,7 +1024,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataInt32XML
+test(InitForWritingWithMutableDataInt32XML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1040,7 +1040,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataInt64
+test(InitForWritingWithMutableDataInt64)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1065,7 +1065,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataInt64XML
+test(InitForWritingWithMutableDataInt64XML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1081,7 +1081,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableMultiple
+test(InitForWritingWithMutableMultiple)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1100,7 +1100,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableMultipleXML
+test(InitForWritingWithMutableMultipleXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1120,7 +1120,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableOverwrite
+test(InitForWritingWithMutableOverwrite)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1136,7 +1136,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableOverwriteXML
+test(InitForWritingWithMutableOverwriteXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1153,7 +1153,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataBytesTwiceLong
+test(InitForWritingWithMutableDataBytesTwiceLong)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1177,7 +1177,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithMutableDataBytesTwiceLongXML
+test(InitForWritingWithMutableDataBytesTwiceLongXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1202,7 +1202,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithString
+test(InitForWritingWithString)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1219,7 +1219,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithStringXML
+test(InitForWritingWithStringXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1237,7 +1237,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSpecialStringDollarNull
+test(InitForWritingWithSpecialStringDollarNull)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1254,7 +1254,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSpecialStringDollarNullXML
+test(InitForWritingWithSpecialStringDollarNullXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1272,7 +1272,7 @@
     return YES;
 }
 
-- (BOOL) testEncodeValueOfCFBooleanType
+test(EncodeValueOfCFBooleanType)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1293,7 +1293,7 @@
     
 }
 
-- (BOOL) testEncodeValueOfCFBooleanTypeXML
+test(EncodeValueOfCFBooleanTypeXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1315,7 +1315,7 @@
     
 }
 
-- (BOOL) testEncodeValueOfObjType1
+test(EncodeValueOfObjType1)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1333,7 +1333,7 @@
     return YES;
 }
 
-- (BOOL) testEncodeValueOfObjType1XML
+test(EncodeValueOfObjType1XML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1353,7 +1353,7 @@
 }
 
 
-- (BOOL) testEncodeValueOfObjType2
+test(EncodeValueOfObjType2)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1372,7 +1372,7 @@
     return YES;
 }
 
-- (BOOL) testEncodeValueOfObjType2XML
+test(EncodeValueOfObjType2XML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1392,7 +1392,7 @@
     return YES;
 }
 
-- (BOOL) testEncodeValueOfObjType3
+test(EncodeValueOfObjType3)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1415,7 +1415,7 @@
     return YES;
 }
 
-- (BOOL) testEncodeValueOfObjType3XML
+test(EncodeValueOfObjType3XML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1440,7 +1440,7 @@
 }
 
 
-- (BOOL) testInitForWritingWithValue
+test(InitForWritingWithValue)
 {
     static uint8_t bytes[] = {
         0x62, 0x70, 0x6c, 0x69, 0x73, 0x74, 0x30, 0x30,
@@ -1492,7 +1492,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithValueXML
+test(InitForWritingWithValueXML)
 {
     static int foo = 0xee;
     NSMutableData *data = [NSMutableData data];
@@ -1511,7 +1511,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleClass
+test(InitForWritingWithSimpleClass)
 {
     NSMutableData *data = [NSMutableData data];
     SimpleClass *obj = [[SimpleClass alloc] init];
@@ -1531,7 +1531,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleClassXML
+test(InitForWritingWithSimpleClassXML)
 {
     NSMutableData *data = [NSMutableData data];
     SimpleClass *obj = [[SimpleClass alloc] init];
@@ -1553,7 +1553,7 @@
 }
 
 
-- (BOOL) testSimpleClassContainsValueForKeyXML
+test(SimpleClassContainsValueForKeyXML)
 {
     NSMutableData *data = [NSMutableData data];
     SimpleClass *obj = [[SimpleClass alloc] init];
@@ -1570,7 +1570,7 @@
     return YES;
 }
 
-- (BOOL) testSimpleClassContainsValueForKey
+test(SimpleClassContainsValueForKey)
 {
     NSMutableData *data = [NSMutableData data];
     SimpleClass *obj = [[SimpleClass alloc] init];
@@ -1586,7 +1586,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleClassWithString
+test(InitForWritingWithSimpleClassWithString)
 {
     NSMutableData *data = [NSMutableData data];
     SimpleClassWithString *obj = [[SimpleClassWithString alloc] init];
@@ -1608,7 +1608,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleClassWithStringXML
+test(InitForWritingWithSimpleClassWithStringXML)
 {
     NSMutableData *data = [NSMutableData data];
     SimpleClassWithString *obj = [[SimpleClassWithString alloc] init];
@@ -1631,7 +1631,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleClassWithCString
+test(InitForWritingWithSimpleClassWithCString)
 {
     NSMutableData *data = [NSMutableData data];
     SimpleClassWithCString *obj = [[SimpleClassWithCString alloc] initWithCString:"abcdef"];
@@ -1652,7 +1652,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleClassWithCStringXML
+test(InitForWritingWithSimpleClassWithCStringXML)
 {
     NSMutableData *data = [NSMutableData data];
     SimpleClassWithCString *obj = [[SimpleClassWithCString alloc] initWithCString:"abcdef"];
@@ -1674,7 +1674,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleClassWithCStringAutorelease
+test(InitForWritingWithSimpleClassWithCStringAutorelease)
 {
     NSMutableData *data = [NSMutableData data];
     @autoreleasepool {
@@ -1697,7 +1697,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleClassWithCStringAutoreleaseXML
+test(InitForWritingWithSimpleClassWithCStringAutoreleaseXML)
 {
     NSMutableData *data = [NSMutableData data];
     @autoreleasepool {
@@ -1721,7 +1721,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleClassWithCStringAutoreleaseEmpty
+test(InitForWritingWithSimpleClassWithCStringAutoreleaseEmpty)
 {
     NSMutableData *data = [NSMutableData data];
     @autoreleasepool {
@@ -1744,7 +1744,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleClassWithCStringAutoreleaseEmptyXML
+test(InitForWritingWithSimpleClassWithCStringAutoreleaseEmptyXML)
 {
     NSMutableData *data = [NSMutableData data];
     @autoreleasepool {
@@ -1768,7 +1768,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleClassWithCStringAutoreleaseNULL
+test(InitForWritingWithSimpleClassWithCStringAutoreleaseNULL)
 {
     NSMutableData *data = [NSMutableData data];
     @autoreleasepool {
@@ -1791,7 +1791,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleClassWithCStringAutoreleaseNULLXML
+test(InitForWritingWithSimpleClassWithCStringAutoreleaseNULLXML)
 {
     NSMutableData *data = [NSMutableData data];
     @autoreleasepool {
@@ -1815,7 +1815,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleClassToFile
+test(InitForWritingWithSimpleClassToFile)
 {
     SimpleClass *obj = [[SimpleClass alloc] init];
     
@@ -1834,7 +1834,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSameNSNumber
+test(InitForWritingWithSameNSNumber)
 {
     NSMutableData *data = [NSMutableData data];
     NSNumber *num = [NSNumber numberWithInt:123];
@@ -1855,7 +1855,7 @@
 }
 
 
-- (BOOL) testInitForWritingWithSameNSNumberXML
+test(InitForWritingWithSameNSNumberXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSNumber *num = [NSNumber numberWithInt:123];
@@ -1877,7 +1877,7 @@
 }
 
 
-- (BOOL) testInitForWritingWithSimpleClassSame
+test(InitForWritingWithSimpleClassSame)
 {
     NSMutableData *data = [NSMutableData data];
     SimpleClass *obj = [[SimpleClass alloc] init];
@@ -1903,7 +1903,7 @@
 }
 
 
-- (BOOL) testInitForWritingWithSimpleClassSameXML
+test(InitForWritingWithSimpleClassSameXML)
 {
     NSMutableData *data = [NSMutableData data];
     SimpleClass *obj = [[SimpleClass alloc] init];
@@ -1929,7 +1929,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithDictionary
+test(InitForWritingWithDictionary)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1946,7 +1946,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithDictionaryXML
+test(InitForWritingWithDictionaryXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1964,7 +1964,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleDictionary3
+test(InitForWritingWithSimpleDictionary3)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -1981,7 +1981,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleDictionary3XML
+test(InitForWritingWithSimpleDictionary3XML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -2000,7 +2000,7 @@
 }
 
 
-- (BOOL) testInitForWritingWithSimpleDictionary
+test(InitForWritingWithSimpleDictionary)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -2017,7 +2017,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleDictionaryXML
+test(InitForWritingWithSimpleDictionaryXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -2035,7 +2035,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleClassWithStringInDictionary
+test(InitForWritingWithSimpleClassWithStringInDictionary)
 {
     NSMutableData *data = [NSMutableData data];
     SimpleClassWithString *obj = [[SimpleClassWithString alloc] init];
@@ -2059,7 +2059,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleClassWithStringInDictionaryXML
+test(InitForWritingWithSimpleClassWithStringInDictionaryXML)
 {
     NSMutableData *data = [NSMutableData data];
     SimpleClassWithString *obj = [[SimpleClassWithString alloc] init];
@@ -2084,7 +2084,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithValueCGSize
+test(InitForWritingWithValueCGSize)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -2101,7 +2101,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithValueCGSizeXML
+test(InitForWritingWithValueCGSizeXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -2119,7 +2119,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithArray
+test(InitForWritingWithArray)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -2136,7 +2136,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithArrayXML
+test(InitForWritingWithArrayXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -2154,7 +2154,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithNSNull
+test(InitForWritingWithNSNull)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -2172,7 +2172,7 @@
 }
 
 
-- (BOOL) testInitForWritingWithNSNullXML
+test(InitForWritingWithNSNullXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -2190,7 +2190,7 @@
     return YES;
 }
 
-- (BOOL)testSimpleArchiveNumber
+test(SimpleArchiveNumber)
 {
     NSData* objectEncoded = [NSKeyedArchiver archivedDataWithRootObject:@123];
     testassert([objectEncoded length] == 139);
@@ -2203,7 +2203,7 @@
     return YES;
 }
 
-- (BOOL)testSimpleArchiveString
+test(SimpleArchiveString)
 {
     NSData* objectEncoded = [NSKeyedArchiver archivedDataWithRootObject:@"abcdefg"];
     testassert([objectEncoded length] == 145);
@@ -2216,7 +2216,7 @@
     return YES;
 }
 
-- (BOOL)testSimpleArchiveNSDate
+test(SimpleArchiveNSDate)
 {
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:1387931403.0];
     NSData *objectEncoded = [NSKeyedArchiver archivedDataWithRootObject:date];
@@ -2229,7 +2229,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithStringNonAscii
+test(InitForWritingWithStringNonAscii)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -2246,7 +2246,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithStringNonAsciiXML
+test(InitForWritingWithStringNonAsciiXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -2264,7 +2264,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithNSNumber
+test(InitForWritingWithNSNumber)
 {
     NSMutableData *data = [NSMutableData data];
     NSNumber *num = [NSNumber numberWithInt:123];
@@ -2281,7 +2281,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithNSDate
+test(InitForWritingWithNSDate)
 {
     NSMutableData *data = [NSMutableData data];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:131180400.0];
@@ -2298,7 +2298,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithNSNumberXML
+test(InitForWritingWithNSNumberXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSNumber *num = [NSNumber numberWithInt:123];
@@ -2316,7 +2316,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithNSNumberReal
+test(InitForWritingWithNSNumberReal)
 {
     NSMutableData *data = [NSMutableData data];
     NSNumber *num = [NSNumber numberWithDouble:1234567.5];
@@ -2333,7 +2333,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithNSNumberRealXML
+test(InitForWritingWithNSNumberRealXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSNumber *num = [NSNumber numberWithDouble:1234567.5];
@@ -2351,7 +2351,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithNSData
+test(InitForWritingWithNSData)
 {
     NSMutableData *data = [NSMutableData data];
     NSData *d = [NSData dataWithBytes:"abc" length:3];
@@ -2368,7 +2368,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithNSDataXML
+test(InitForWritingWithNSDataXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSData *d = [NSData dataWithBytes:"abc" length:3];
@@ -2386,7 +2386,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithNestedArray
+test(InitForWritingWithNestedArray)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -2404,7 +2404,7 @@
 }
 
 
-- (BOOL) testInitForWritingWithNestedArrayXML
+test(InitForWritingWithNestedArrayXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -2422,7 +2422,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleSet
+test(InitForWritingWithSimpleSet)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -2439,7 +2439,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSimpleSetXML
+test(InitForWritingWithSimpleSetXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -2457,7 +2457,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSet
+test(InitForWritingWithSet)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -2474,7 +2474,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSetXML
+test(InitForWritingWithSetXML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -2492,7 +2492,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSet2
+test(InitForWritingWithSet2)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -2509,7 +2509,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithSet2XML
+test(InitForWritingWithSet2XML)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archive = [[[NSKeyedArchiver alloc] initForWritingWithMutableData:data] autorelease];
@@ -2527,7 +2527,7 @@
     return YES;
 }
 
-- (BOOL)testSimpleArchiveArray
+test(SimpleArchiveArray)
 {
     NSData* objectEncoded = [NSKeyedArchiver archivedDataWithRootObject:@[ @4, @5, @6]];
     testassert([objectEncoded length] == 252);
@@ -2545,7 +2545,7 @@
     return YES;
 }
 
-- (BOOL)testSimpleArchiveDictionary
+test(SimpleArchiveDictionary)
 {
     NSData* objectEncoded = [NSKeyedArchiver archivedDataWithRootObject:@{ @"abc": @4, @"def": @9}];
     testassert([objectEncoded length] == 287);
@@ -2563,7 +2563,7 @@
     return YES;
 }
 
-- (BOOL)testBasicObjectsEncodeDecodeWithoutCGPoint
+test(BasicObjectsEncodeDecodeWithoutCGPoint)
 {
     for (id (^c)(void) in [self NSCodingSupportedClassesWithoutCGPoint])
     {
@@ -2580,7 +2580,7 @@
     return YES;
 }
 
-- (BOOL)testBasicObjectsEncodeDecode
+test(BasicObjectsEncodeDecode)
 {
     for (id (^c)(void) in [self NSCodingSupportedClasses])
     {
@@ -2597,7 +2597,7 @@
     return YES;
 }
 
-- (BOOL) testInitForWritingWithNullString
+test(InitForWritingWithNullString)
 {
     NSMutableData *data = [NSMutableData data];
     
@@ -2618,7 +2618,7 @@
     return YES;
 }
 
-- (BOOL)testEncodeDecodeOfDifferentTypes0
+test(EncodeDecodeOfDifferentTypes0)
 {
     FoundationTestKeyedCoderTest* obj = [FoundationTestKeyedCoderTest new];
     obj.objectString = @"apportable is leet";
@@ -2633,7 +2633,7 @@
     return YES;
 }
 
-- (BOOL)testEncodeDecodeOfDifferentTypes1
+test(EncodeDecodeOfDifferentTypes1)
 {
     FoundationTestKeyedCoderTest* obj = [FoundationTestKeyedCoderTest new];
     obj.objectString = @"apportable is leet";
@@ -2658,7 +2658,7 @@
     return YES;
 }
 
-- (BOOL)testEncodeDecodeOfDifferentTypes2
+test(EncodeDecodeOfDifferentTypes2)
 {
     FoundationTestKeyedCoderTest* obj = [FoundationTestKeyedCoderTest new];
     obj.objectValue = [NSValue valueWithCGSize:(CGSize){100, 500}];
@@ -2672,7 +2672,7 @@
     return YES;
 }
 
-- (BOOL)testRoundTripChar
+test(RoundTripChar)
 {
     char val = 'A';
     NSMutableData *data = [[NSMutableData alloc] init];
@@ -2690,7 +2690,7 @@
     return YES;
 }
 
-- (BOOL)testRoundTripUnsignedChar
+test(RoundTripUnsignedChar)
 {
     unsigned char val = 5;
     NSMutableData *data = [[NSMutableData alloc] init];
@@ -2708,7 +2708,7 @@
     return YES;
 }
 
-- (BOOL)testRoundTripShort
+test(RoundTripShort)
 {
     short val = 888;
     NSMutableData *data = [[NSMutableData alloc] init];
@@ -2726,7 +2726,7 @@
     return YES;
 }
 
-- (BOOL)testRoundTripUnsignedShort
+test(RoundTripUnsignedShort)
 {
     unsigned short val = -888;
     NSMutableData *data = [[NSMutableData alloc] init];
@@ -2744,7 +2744,7 @@
     return YES;
 }
 
-- (BOOL)testRoundTripInt
+test(RoundTripInt)
 {
     int val = -383838383;
     NSMutableData *data = [[NSMutableData alloc] init];
@@ -2762,7 +2762,7 @@
     return YES;
 }
 
-- (BOOL)testRoundTripUnsignedInt
+test(RoundTripUnsignedInt)
 {
     unsigned int val = 383838383;
     NSMutableData *data = [[NSMutableData alloc] init];
@@ -2780,7 +2780,7 @@
     return YES;
 }
 
-- (BOOL)testRoundTripLong
+test(RoundTripLong)
 {
     long val = -383838383;
     NSMutableData *data = [[NSMutableData alloc] init];
@@ -2798,7 +2798,7 @@
     return YES;
 }
 
-- (BOOL)testRoundTripUnsignedLong
+test(RoundTripUnsignedLong)
 {
     unsigned long val = 383838383;
     NSMutableData *data = [[NSMutableData alloc] init];
@@ -2816,7 +2816,7 @@
     return YES;
 }
 
-- (BOOL)testRoundTripLongLong
+test(RoundTripLongLong)
 {
     long long val = -3838383383383838383LL;
     NSMutableData *data = [[NSMutableData alloc] init];
@@ -2834,7 +2834,7 @@
     return YES;
 }
 
-- (BOOL)testRoundTripUnsignedLongLong
+test(RoundTripUnsignedLongLong)
 {
     unsigned long long val = 3838388383383838383ULL;
     NSMutableData *data = [[NSMutableData alloc] init];
@@ -2852,28 +2852,28 @@
     return YES;
 }
 
-- (BOOL)testNilData
+test(NilData)
 {
     id obj = [NSKeyedUnarchiver unarchiveObjectWithData:nil];
     testassert(obj == nil);
     return YES;
 }
 
-- (BOOL)testNilData2
+test(NilData2)
 {
     NSKeyedUnarchiver *archiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:nil];
     testassert(archiver == nil);
     return YES;
 }
 
-- (BOOL)testNilPath
+test(NilPath)
 {
     id obj = [NSKeyedUnarchiver unarchiveObjectWithFile:nil];
     testassert(obj == nil);
     return YES;
 }
 
-- (BOOL)testGraph
+test(Graph)
 {
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];

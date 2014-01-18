@@ -20,7 +20,7 @@
 @testcase(NSValue)
 
 
-- (BOOL)testNSValueDocs1
+test(NSValueDocs1)
 {
     char *myCString = "This is a string.";
     char *out;
@@ -30,7 +30,7 @@
     return YES;
 }
 
-- (BOOL) testNSValueChar
+test(NSValueChar)
 {
     char myChar = 9;
     NSValue *myNSValueObj = [[NSValue alloc] initWithBytes:&myChar objCType:@encode(char)];
@@ -45,7 +45,7 @@
     return YES;
 }
 
-- (BOOL) testNSValueInt
+test(NSValueInt)
 {
     int myInt = 42;
     NSValue *myNSValueObj = [[NSValue alloc] initWithBytes:&myInt objCType:@encode(int)];
@@ -60,7 +60,7 @@
     return YES;
 }
 
-- (BOOL) testNSValueFloat
+test(NSValueFloat)
 {
     float myFloat = 42.0f;
     NSValue *myNSValueObj = [[NSValue alloc] initWithBytes:&myFloat objCType:@encode(float)];
@@ -75,7 +75,7 @@
     return YES;
 }
 
-- (BOOL) testNSValueDouble
+test(NSValueDouble)
 {
     double myDouble = 1234.5678;
     NSValue *myNSValueObj = [[NSValue alloc]
@@ -92,7 +92,7 @@
     return YES;
 }
 
-- (BOOL) testNSValueLongLong
+test(NSValueLongLong)
 {
     long long myLongLong = 123456789;
     NSValue *myNSValueObj = [[NSValue alloc] initWithBytes:&myLongLong objCType:@encode(long long)];
@@ -112,7 +112,7 @@ typedef struct {
     float imaginary;
 } ImaginaryNumber;
 
-- (BOOL)testNSValueDocs2
+test(NSValueDocs2)
 {
     ImaginaryNumber miNumber;
     miNumber.real = 1.1;
@@ -191,7 +191,7 @@ typedef struct {
     } q;
 } myStruct;
 
-- (BOOL)testNSValueBigStruct
+test(NSValueBigStruct)
 {
     myStruct t = {0};
     myStruct q = {0};
@@ -217,7 +217,7 @@ typedef struct {
     return YES;
 }
 
-- (BOOL)testRangeValue
+test(RangeValue)
 {
     NSRange r = {55, 44};
     NSValue *val = [NSValue valueWithRange:r];
@@ -226,7 +226,7 @@ typedef struct {
     return YES;
 }
 
-- (BOOL)testRectValue
+test(RectValue)
 {
     CGRect r = {{55.0f, 44.0f}, {22.0f, 77.0f}};
     NSValue *val = [NSValue valueWithCGRect:r];
@@ -237,7 +237,7 @@ typedef struct {
     return YES;
 }
 
-- (BOOL)testSizeValue
+test(SizeValue)
 {
     CGSize sz = {22.0f, 77.0f};
     NSValue *val = [NSValue valueWithCGSize:sz];
@@ -246,7 +246,7 @@ typedef struct {
     return YES;
 }
 
-- (BOOL)testPointValue
+test(PointValue)
 {
     CGPoint pt = {55.0f, 44.0f};
     NSValue *val = [NSValue valueWithCGPoint:pt];
@@ -256,7 +256,7 @@ typedef struct {
 }
 
 
-- (BOOL)testHugeStruct
+test(HugeStruct)
 {
 // TODO add huge struct test (like the one in NSInvocationTests.m)
     

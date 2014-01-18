@@ -14,7 +14,7 @@
 // Change this if device has another default
 #define MY_TIMEZONE @"America/Los_Angeles"
 
-- (BOOL)testCFTimeZoneCopySystem
+test(CFTimeZoneCopySystem)
 {
     NSTimeZone *d = (NSTimeZone *)CFTimeZoneCopySystem();
     NSString *name = [d name];
@@ -23,7 +23,7 @@
     return YES;
 }
 
-- (BOOL)testCFTimeZoneGetName
+test(CFTimeZoneGetName)
 {
     CFTimeZoneRef tz = CFTimeZoneCopySystem();
     CFStringRef n = CFTimeZoneGetName(tz);
@@ -31,7 +31,7 @@
     return YES;
 }
 
-- (BOOL)testCFTimeZoneCopyDefault
+test(CFTimeZoneCopyDefault)
 {
     NSTimeZone *d = (NSTimeZone *)CFTimeZoneCopyDefault();
     NSString *name = [d name];
@@ -40,7 +40,7 @@
     return YES;
 }
 
-- (BOOL)testCFTimeZoneCreateWithName
+test(CFTimeZoneCreateWithName)
 {
     NSTimeZone *d = (NSTimeZone *)CFTimeZoneCreateWithName(NULL, CFSTR("Europe/Monaco"), false);
     NSString *name = [d name];
@@ -49,7 +49,7 @@
     return YES;
 }
 
-- (BOOL)testCFTimeZoneSetDefault
+test(CFTimeZoneSetDefault)
 {
     CFTimeZoneRef cftz = CFTimeZoneCreateWithName(NULL, CFSTR("Europe/Monaco"), false);
     CFTimeZoneSetDefault(cftz);
@@ -83,7 +83,7 @@ static CFAbsoluteTime makeCFAbsoluteTime(int year, int month, int day)
     return CFGregorianDateGetAbsoluteTime(gregDate, NULL);
 }
 
-- (BOOL)testCFTimeZoneGetDaylightSavingTimeOffset
+test(CFTimeZoneGetDaylightSavingTimeOffset)
 {
     CFTimeZoneRef tz = CFTimeZoneCreateWithName(NULL, CFSTR("America/Los_Angeles"), false);
     CFAbsoluteTime t = makeCFAbsoluteTime(2013, 10, 18);
@@ -93,7 +93,7 @@ static CFAbsoluteTime makeCFAbsoluteTime(int year, int month, int day)
     return YES;
 }
 
-- (BOOL)testCFTimeZoneGetNextDaylightSavingTimeTransition
+test(CFTimeZoneGetNextDaylightSavingTimeTransition)
 {
     CFTimeZoneRef tz = CFTimeZoneCreateWithName(NULL, CFSTR("America/Los_Angeles"), false);
     CFAbsoluteTime t = makeCFAbsoluteTime(2013, 10, 18);
@@ -109,7 +109,7 @@ static CFAbsoluteTime makeCFAbsoluteTime(int year, int month, int day)
     return YES;
 }
 
-- (BOOL)testCFTimeZoneGetSecondsFromGMT
+test(CFTimeZoneGetSecondsFromGMT)
 {
     CFTimeZoneRef tz = CFTimeZoneCreateWithName(NULL, CFSTR("America/Los_Angeles"), false);
     CFAbsoluteTime t = makeCFAbsoluteTime(2013, 10, 18);
@@ -120,7 +120,7 @@ static CFAbsoluteTime makeCFAbsoluteTime(int year, int month, int day)
     return YES;
 }
 
-- (BOOL)testCFTimeZoneIsDaylightSavingTime
+test(CFTimeZoneIsDaylightSavingTime)
 {
     CFTimeZoneRef tz = CFTimeZoneCreateWithName(NULL, CFSTR("America/Los_Angeles"), false);
     CFAbsoluteTime t = makeCFAbsoluteTime(2013, 10, 18);
@@ -139,7 +139,7 @@ static CFAbsoluteTime makeCFAbsoluteTime(int year, int month, int day)
     return YES;
 }
 
-- (BOOL)testDefaultTimeZone
+test(DefaultTimeZone)
 {
     NSTimeZone *d = [NSTimeZone defaultTimeZone];
     const char *cName = object_getClassName(d);
@@ -147,7 +147,7 @@ static CFAbsoluteTime makeCFAbsoluteTime(int year, int month, int day)
     return YES;
 }
 
-- (BOOL)testDefaultTimeZoneName
+test(DefaultTimeZoneName)
 {
     NSTimeZone *d = [NSTimeZone defaultTimeZone];
     NSString *name = [d name];
@@ -156,7 +156,7 @@ static CFAbsoluteTime makeCFAbsoluteTime(int year, int month, int day)
     return YES;
 }
 
-- (BOOL)testLocalTimeZoneName
+test(LocalTimeZoneName)
 {
     NSTimeZone *d = [NSTimeZone localTimeZone];
     NSString *name = [d name];
@@ -165,7 +165,7 @@ static CFAbsoluteTime makeCFAbsoluteTime(int year, int month, int day)
     return YES;
 }
 
-- (BOOL) testTimeZoneForSecondsFromGMT
+test(TimeZoneForSecondsFromGMT)
 {
     NSTimeZone *tz = [NSTimeZone timeZoneForSecondsFromGMT:-300];
     NSString *name = [tz name];
@@ -173,7 +173,7 @@ static CFAbsoluteTime makeCFAbsoluteTime(int year, int month, int day)
     return YES;
 }
 
-- (BOOL) testDaylightSavingTimeOffset
+test(DaylightSavingTimeOffset)
 {
     NSTimeZone *tz = [NSTimeZone timeZoneForSecondsFromGMT:60];
     NSTimeInterval ti = [tz daylightSavingTimeOffset];
@@ -201,7 +201,7 @@ static NSDate *makeNSDate(int year, int month, int day)
     return date;
 }
 
-- (BOOL) testDaylightSavingTimeOffsetForDate
+test(DaylightSavingTimeOffsetForDate)
 {
     NSTimeZone *tz = [NSTimeZone timeZoneForSecondsFromGMT:-300];
     NSDate *date = makeNSDate(2013, 10, 19);
@@ -225,7 +225,7 @@ static NSDate *makeNSDate(int year, int month, int day)
 }
 
 
-- (BOOL) testIsDaylightSavingTime
+test(IsDaylightSavingTime)
 {
     NSTimeZone *tz = [[NSTimeZone alloc] initWithName:@"US/Hawaii"];  // no DST in Hawaii
     BOOL b = [tz isDaylightSavingTime];
@@ -233,7 +233,7 @@ static NSDate *makeNSDate(int year, int month, int day)
     return YES;
 }
 
-- (BOOL) testIsDaylightSavingTimeForDate
+test(IsDaylightSavingTimeForDate)
 {
     NSTimeZone *tz = [[NSTimeZone alloc] initWithName:@"America/Los_Angeles"];
     NSDate *date = makeNSDate(2013, 10, 19);
@@ -252,14 +252,14 @@ static NSDate *makeNSDate(int year, int month, int day)
     return YES;
 }
 
-- (BOOL) testIsEqualToTimeZone
+test(IsEqualToTimeZone)
 {
     NSTimeZone *tz = [[NSTimeZone alloc] initWithName:MY_TIMEZONE];
     testassert([tz isEqualToTimeZone:[NSTimeZone localTimeZone]]);
     return YES;
 }
 
-- (BOOL) testName
+test(Name)
 {
     NSTimeZone *tz = [[NSTimeZone alloc] initWithName:MY_TIMEZONE];
     NSString *name = [tz name];
@@ -267,7 +267,7 @@ static NSDate *makeNSDate(int year, int month, int day)
     return YES;
 }
 
-- (BOOL) testNextDaylightSavingTimeTransition
+test(NextDaylightSavingTimeTransition)
 {
     NSTimeZone *tz = [[NSTimeZone alloc] initWithName:@"US/Hawaii"];  // no DST in Hawaii
     NSDate *d = [tz nextDaylightSavingTimeTransition];
@@ -275,7 +275,7 @@ static NSDate *makeNSDate(int year, int month, int day)
     return YES;
 }
 
-- (BOOL) testNextDaylightSavingTimeTransitionAfterDate
+test(NextDaylightSavingTimeTransitionAfterDate)
 {
     NSTimeZone *tz = [[NSTimeZone alloc] initWithName:@"America/Los_Angeles"];
     NSDate *date = makeNSDate(2013, 10, 19);
@@ -294,7 +294,7 @@ static NSDate *makeNSDate(int year, int month, int day)
     return YES;
 }
 
-- (BOOL) testSecondsFromGMT
+test(SecondsFromGMT)
 {
     NSTimeZone *tz = [[NSTimeZone alloc] initWithName:@"US/Hawaii"];  // never in Hawaii
     NSInteger sec = [tz secondsFromGMT];
@@ -302,7 +302,7 @@ static NSDate *makeNSDate(int year, int month, int day)
     return YES;
 }
 
-- (BOOL) testSecondsFromGMTForDate
+test(SecondsFromGMTForDate)
 {
     NSTimeZone *tz = [NSTimeZone timeZoneForSecondsFromGMT:60];
     NSDate *date = makeNSDate(2013, 10, 19);

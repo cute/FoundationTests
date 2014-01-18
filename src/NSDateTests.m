@@ -13,7 +13,7 @@
 
 @testcase(NSDate)
 
-- (BOOL)testAllocate
+test(Allocate)
 {
     NSDate *d1 = [NSDate alloc];
     NSDate *d2 = [NSDate alloc];
@@ -23,7 +23,7 @@
     return YES;
 }
 
-- (BOOL)testReasonableDate
+test(ReasonableDate)
 {
     NSDate *d1 = [NSDate date];
     
@@ -40,7 +40,7 @@
     return YES;
 }
 
-- (BOOL)testTimeIntervalSince1970
+test(TimeIntervalSince1970)
 {
     NSDate *d1 = [NSDate dateWithTimeIntervalSince1970:12345678.0];
     
@@ -51,7 +51,7 @@
     return YES;
 }
 
-- (BOOL)testDistantFuture
+test(DistantFuture)
 {
     NSTimeInterval t = 0;
     NSDate *date = [NSDate distantFuture];
@@ -62,7 +62,7 @@
     return YES;
 }
 
-- (BOOL)testDistantPast
+test(DistantPast)
 {
     NSTimeInterval t = 0;
     NSDate *date = [NSDate distantPast];
@@ -73,7 +73,7 @@
     return YES;
 }
 
-- (BOOL)testDescriptionWithLocale
+test(DescriptionWithLocale)
 {
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:1389044286.5453091];
     testassert([[date description] isEqualToString:@"2014-01-06 21:38:06 +0000"]);

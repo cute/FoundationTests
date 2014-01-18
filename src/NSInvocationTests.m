@@ -22,7 +22,7 @@
     return [str substringWithRange:range];
 }
 
-- (BOOL)testIncorrectAllocInit
+test(IncorrectAllocInit)
 {
     NSInvocation *inv = [[NSInvocation alloc] init]; // should not throw
 
@@ -30,7 +30,7 @@
     return YES;
 }
 
-- (BOOL)testInvocationWithMethodSiganture
+test(InvocationWithMethodSiganture)
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
@@ -38,7 +38,7 @@
     return YES;
 }
 
-- (BOOL)testSelectorUnset
+test(SelectorUnset)
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
@@ -47,7 +47,7 @@
     return YES;
 }
 
-- (BOOL)testSelectorSet
+test(SelectorSet)
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
@@ -57,7 +57,7 @@
     return YES;
 }
 
-- (BOOL)testTargetUnset
+test(TargetUnset)
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
@@ -66,7 +66,7 @@
     return YES;
 }
 
-- (BOOL)testTargetSet
+test(TargetSet)
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
@@ -81,7 +81,7 @@
     return YES;
 }
 
-- (BOOL)testMethodSignature
+test(MethodSignature)
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
@@ -90,7 +90,7 @@
     return YES;
 }
 
-- (BOOL)testArgumentsSetOutOfOrder
+test(ArgumentsSetOutOfOrder)
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
@@ -103,7 +103,7 @@
     return YES;
 }
 
-- (BOOL)testArgumentsRetainedUnretained
+test(ArgumentsRetainedUnretained)
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
@@ -115,7 +115,7 @@
     return YES;
 }
 
-- (BOOL)testArgumentsRetainedRetained
+test(ArgumentsRetainedRetained)
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
@@ -129,7 +129,7 @@
     return YES;
 }
 
-- (BOOL)testSetArgumentAtIndexBeyondBounds
+test(SetArgumentAtIndexBeyondBounds)
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
@@ -152,7 +152,7 @@
     return YES;
 }
 
-- (BOOL)testGetReturnValueUninvoked
+test(GetReturnValueUninvoked)
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
@@ -166,7 +166,7 @@
     return YES;
 }
 
-- (BOOL)testGetReturnValueInvoked
+test(GetReturnValueInvoked)
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
@@ -181,7 +181,7 @@
     return YES;
 }
 
-- (BOOL)testSetReturnValueUninvoked
+test(SetReturnValueUninvoked)
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
@@ -197,7 +197,7 @@
     return YES;
 }
 
-- (BOOL)testSetReturnValueInvoked
+test(SetReturnValueInvoked)
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
@@ -218,7 +218,7 @@
     return YES;
 }
 
-- (BOOL)testGetArgumentAtIndex
+test(GetArgumentAtIndex)
 {
     NSString *unintedString = [NSString alloc];
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[unintedString methodSignatureForSelector:@selector(initWithBytes:length:encoding:)]];
@@ -252,7 +252,7 @@
     return YES;
 }
 
-- (BOOL)testCharStarBehaviorWithUnretainedArguments
+test(CharStarBehaviorWithUnretainedArguments)
 {
     NSString *unintedString = [NSString alloc];
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[unintedString methodSignatureForSelector:@selector(initWithCString:encoding:)]];
@@ -276,7 +276,7 @@
     free(bytesArg);
     return YES;
 }
-- (BOOL)testCharStarBehaviorWithRetainedArguments
+test(CharStarBehaviorWithRetainedArguments)
 {
     NSString *unintedString = [NSString alloc];
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[unintedString methodSignatureForSelector:@selector(initWithCString:encoding:)]];
@@ -317,7 +317,7 @@
     return YES;
 }
 
-- (BOOL)testInvokeAllUnset
+test(InvokeAllUnset)
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
@@ -328,7 +328,7 @@
 
     return YES;
 }
-- (BOOL)testInvokeSelAndArgsUnset
+test(InvokeSelAndArgsUnset)
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
@@ -339,7 +339,7 @@
     return YES;
 
 }
-- (BOOL)testInvokeArgsUnset
+test(InvokeArgsUnset)
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
@@ -351,7 +351,7 @@
     return YES;
 
 }
-- (BOOL)testInvokeWithTarget
+test(InvokeWithTarget)
 {
     NSDictionary *dict = @{@"Foo": @"bar"};
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[dict methodSignatureForSelector:@selector(objectForKey:)]];
@@ -366,7 +366,7 @@
     return YES;
 }
 
-- (BOOL)testStructParameter
+test(StructParameter)
 {
     NSString *str = @"Foobarbazqux";
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[str methodSignatureForSelector:@selector(substringWithRange:)]];
@@ -383,7 +383,7 @@
     return YES;
 }
 
-- (BOOL)testMixedParameters
+test(MixedParameters)
 {
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(substringFromString:withRange:)]];
     [inv setSelector:@selector(substringFromString:withRange:)];
@@ -405,7 +405,7 @@
     return [[NSObject alloc] init];
 }
 
-- (BOOL)testUnretainedArgsRetainsReturnValue
+test(UnretainedArgsRetainsReturnValue)
 {
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(newObjectReturn)]];
     [inv setTarget:self];
@@ -418,7 +418,7 @@
     return YES;
 
 }
-- (BOOL)testRetainedArgsRetainsReturnValue
+test(RetainedArgsRetainsReturnValue)
 {
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(newObjectReturn)]];
     [inv setTarget:self];
@@ -436,7 +436,7 @@
 }
 
 #warning TODO: fix NSInvocation trying to autorelease result (NSRange) below.
-- (BOOL)testStructReturn
+test(StructReturn)
 {
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(methodReturningRange)]];
     [inv setSelector:@selector(methodReturningRange)];
@@ -449,7 +449,7 @@
     return YES;
 }
 
-- (BOOL)testStructPtrReturn
+test(StructPtrReturn)
 {
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(referenceToNewRange)]];
     [inv setTarget:self];
@@ -475,7 +475,7 @@ struct charStruct {
     return ret;
 }
 
-- (BOOL)testCharStructReturn
+test(CharStructReturn)
 {
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(charStructRetMethod)]];
     [inv setSelector:@selector(charStructRetMethod)];
@@ -498,7 +498,7 @@ struct shortStruct {
     return ret;
 }
 
-- (BOOL)testShortStructReturn
+test(ShortStructReturn)
 {
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(shortStructRetMethod)]];
     [inv setSelector:@selector(shortStructRetMethod)];
@@ -522,7 +522,7 @@ struct shortCharStruct {
     return ret;
 }
 
-- (BOOL)testShortCharStructReturn
+test(ShortCharStructReturn)
 {
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(shortCharStructRetMethod)]];
     [inv setSelector:@selector(shortCharStructRetMethod)];
@@ -546,7 +546,7 @@ struct intStruct {
     return ret;
 }
 
-- (BOOL)testIntStructReturn
+test(IntStructReturn)
 {
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(intStructRetMethod)]];
     [inv setSelector:@selector(intStructRetMethod)];
@@ -570,7 +570,7 @@ struct charIntStruct {
     return ret;
 }
 
-- (BOOL)testCharIntStructReturn
+test(CharIntStructReturn)
 {
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(charIntStructRetMethod)]];
     [inv setSelector:@selector(charIntStructRetMethod)];
@@ -595,7 +595,7 @@ struct intCharStruct {
     return ret;
 }
 
-- (BOOL)testIntCharStructReturn
+test(IntCharStructReturn)
 {
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(intCharStructRetMethod)]];
     [inv setSelector:@selector(intCharStructRetMethod)];
@@ -619,7 +619,7 @@ struct longLongStruct {
     return ret;
 }
 
-- (BOOL)testLongLongStructReturn
+test(LongLongStructReturn)
 {
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(longLongStructRetMethod)]];
     [inv setSelector:@selector(longLongStructRetMethod)];
@@ -643,7 +643,7 @@ struct longLongCharStruct {
     return ret;
 }
 
-- (BOOL)testLongLongCharStructReturn
+test(LongLongCharStructReturn)
 {
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(longLongCharStructRetMethod)]];
     [inv setSelector:@selector(longLongCharStructRetMethod)];
@@ -668,7 +668,7 @@ struct charLongLongStruct {
     return ret;
 }
 
-- (BOOL)testCharLongLongStructReturn
+test(CharLongLongStructReturn)
 {
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(charLongLongStructRetMethod)]];
     [inv setSelector:@selector(charLongLongStructRetMethod)];
@@ -692,7 +692,7 @@ struct doubleStruct {
     return ret;
 }
 
-- (BOOL)testDoubleStructReturn
+test(DoubleStructReturn)
 {
     IOS_SIMULATOR_BUG_FAILURE();
 
@@ -718,7 +718,7 @@ struct doubleCharStruct {
     return ret;
 }
 
-- (BOOL)testDoubleCharStructReturn
+test(DoubleCharStructReturn)
 {
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(doubleCharStructRetMethod)]];
     [inv setSelector:@selector(doubleCharStructRetMethod)];
@@ -743,7 +743,7 @@ struct charDoubleStruct {
     return ret;
 }
 
-- (BOOL)testCharDoubleStructReturn
+test(CharDoubleStructReturn)
 {
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(charDoubleStructRetMethod)]];
     [inv setSelector:@selector(charDoubleStructRetMethod)];
@@ -822,7 +822,7 @@ int *baz(int *qux) { return NULL;};
     return ret;
 }
 
-- (BOOL)testHugeStruct
+test(HugeStruct)
 {
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(hugeStructRetMethod)]];
     [inv setSelector:@selector(hugeStructRetMethod)];
@@ -919,7 +919,7 @@ TYPERETURN(SEL, sel, IL({@selector(self), @selector(characterAtIndex:), @selecto
 #undef TYPERETURN
 
 #define TESTTYPERETURN(type, nospaceType) \
-- (BOOL)test##nospaceType##Return \
+test(test##nospaceType##Return) \
 { \
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(nospaceType##Return)]]; \
     [inv setTarget:self]; \
@@ -951,7 +951,7 @@ TESTTYPERETURN(SEL, sel)
 
 #undef TESTTYPERETURN
 
--(BOOL)testUnicharReturn
+test(UnicharReturn)
 {
     NSString *target = [[NSString alloc] initWithUTF8String:"Foo"];
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[target methodSignatureForSelector:@selector(characterAtIndex:)]];

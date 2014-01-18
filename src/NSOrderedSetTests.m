@@ -2,7 +2,7 @@
 
 @testcase(NSOrderedSet)
 
-- (BOOL)testBlankCreation
+test(BlankCreation)
 {
     NSOrderedSet *os = [[NSOrderedSet alloc] init];
 
@@ -14,7 +14,7 @@
     return YES;
 }
 
-- (BOOL)testDefaultCreationMany
+test(DefaultCreationMany)
 {
     int count = 10;
     NSObject **members = malloc(2 * sizeof(*members) * count);
@@ -36,7 +36,7 @@
     return YES;
 }
 
-- (BOOL)testDefaultCreationWithArray
+test(DefaultCreationWithArray)
 {
     NSOrderedSet *os = [[NSOrderedSet alloc] initWithArray:@[@1, @2]];
 
@@ -49,7 +49,7 @@
     return YES;
 }
 
-- (BOOL)testOrderedSetCreation
+test(OrderedSetCreation)
 {
     NSOrderedSet *s = [[NSOrderedSet alloc] initWithObjects:
                 [[[NSObject alloc] init] autorelease],
@@ -67,7 +67,7 @@
     return YES;
 }
 
-- (BOOL)testOrderedSetWithCopyCreation
+test(OrderedSetWithCopyCreation)
 {
     // Ideally we would use just NSObjects for this test, but they are not copyable.
     NSOrderedSet *s = [[NSOrderedSet alloc] initWithObjects:
@@ -87,7 +87,7 @@
     return YES;
 }
 
-- (BOOL)testOrderedSetWithoutCopyCreation
+test(OrderedSetWithoutCopyCreation)
 {
     NSOrderedSet *s = [[NSOrderedSet alloc] initWithObjects:
                 [[[NSObject alloc] init] autorelease],
@@ -105,7 +105,7 @@
     return YES;
 }
 
-- (BOOL)testVarArgsCreation
+test(VarArgsCreation)
 {
     NSOrderedSet *os = [[NSOrderedSet alloc] initWithObjects:
                         [[[NSObject alloc] init] autorelease],
@@ -121,7 +121,7 @@
     return YES;
 }
 
-- (BOOL)testArrayCreation
+test(ArrayCreation)
 {
     NSOrderedSet *os = [[NSOrderedSet alloc] initWithArray:@[
                         [[[NSObject alloc] init] autorelease],
@@ -137,7 +137,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleInit
+test(DoubleInit)
 {
     void (^block)() = ^{
         NSOrderedSet *s = [[NSOrderedSet alloc] initWithObjects:
@@ -169,7 +169,7 @@
     return YES;
 }
 
-- (BOOL)testContainsObject
+test(ContainsObject)
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
@@ -193,7 +193,7 @@
     return YES;
 }
 
-- (BOOL)testAddObject
+test(AddObject)
 {
     NSMutableOrderedSet *os = [[NSMutableOrderedSet alloc] init];
     int count = 10;
@@ -221,7 +221,7 @@
     return YES;
 }
 
-- (BOOL)testAddObjectNil
+test(AddObjectNil)
 {
     void (^block)() = ^{
         NSMutableOrderedSet *os = [[[NSMutableOrderedSet alloc] init] autorelease];
@@ -244,7 +244,7 @@
     return YES;
 }
 
-- (BOOL)testRemoveObject
+test(RemoveObject)
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
@@ -266,7 +266,7 @@
     return YES;
 }
 
-- (BOOL)testRemoveObjectNil
+test(RemoveObjectNil)
 {
     // Removing nil should not throw
     NSMutableOrderedSet *os = [[[NSMutableOrderedSet alloc] init] autorelease];
@@ -275,7 +275,7 @@
     return YES;
 }
 
-- (BOOL)testRemoveUnretainedObject
+test(RemoveUnretainedObject)
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
@@ -290,7 +290,7 @@
     return YES;
 }
 
-- (BOOL)testNilContainsObject
+test(NilContainsObject)
 {
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
     NSObject *o2 = [[[NSObject alloc] init] autorelease];
@@ -304,7 +304,7 @@
     return YES;
 }
 
-- (BOOL)testCount
+test(Count)
 {
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
     NSObject *o2 = [[[NSObject alloc] init] autorelease];
@@ -318,7 +318,7 @@
     return YES;
 }
 
-- (BOOL)testObjectEnumerator
+test(ObjectEnumerator)
 {
     NSMutableOrderedSet *os = [[NSMutableOrderedSet alloc] init];
     int count = 10;
@@ -368,7 +368,7 @@
     return YES;
 }
 
-- (BOOL)testFastEnumeration
+test(FastEnumeration)
 {
     NSMutableOrderedSet *os = [[NSMutableOrderedSet alloc] init];
     int count = 10;
@@ -418,7 +418,7 @@
     return YES;
 }
 
-- (BOOL)testCopyWithZone
+test(CopyWithZone)
 {
     NSOrderedSet *os = [[NSOrderedSet alloc] initWithObjects:
                         [[[NSObject alloc] init] autorelease],
@@ -436,7 +436,7 @@
     return YES;
 }
 
-- (BOOL)testMutableCopyWithZone
+test(MutableCopyWithZone)
 {
     NSOrderedSet *os = [[NSOrderedSet alloc] initWithObjects:
                         [[[NSObject alloc] init] autorelease],
@@ -454,7 +454,7 @@
     return YES;
 }
 
-- (BOOL)testAddObjectsFromArray
+test(AddObjectsFromArray)
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
     NSMutableOrderedSet *os = [[NSMutableOrderedSet alloc] initWithObjects: o0, nil];
@@ -465,7 +465,7 @@
     return YES;
 }
 
-- (BOOL)testOrderedSetCreationWithVariousObjectsAndDuplicates
+test(OrderedSetCreationWithVariousObjectsAndDuplicates)
 {
     NSMutableOrderedSet *aOrderedSet = [[NSMutableOrderedSet alloc] initWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"42", @"42", nil];
     testassert([aOrderedSet count] == 5);
@@ -473,7 +473,7 @@
     return YES;
 }
 
-- (BOOL)testMinusOrderedSet
+test(MinusOrderedSet)
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
@@ -492,7 +492,7 @@
     return YES;
 }
 
-- (BOOL)testIntersectOrderedSet
+test(IntersectOrderedSet)
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
@@ -512,7 +512,7 @@
 }
 
 
-- (BOOL)testUnionOrderedSet
+test(UnionOrderedSet)
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
@@ -531,7 +531,7 @@
     return YES;
 }
 
-- (BOOL)testNSOrderedSetICreate0
+test(NSOrderedSetICreate0)
 {
     NSOrderedSet *os = [NSOrderedSet new];
     testassert(strcmp(object_getClassName(os), "__NSOrderedSetI") == 0);
@@ -539,14 +539,14 @@
     return YES;
 }
 
-- (BOOL)testNSOrderedSetICreate1
+test(NSOrderedSetICreate1)
 {
     NSOrderedSet *os = [NSOrderedSet orderedSetWithObject:@91];
     testassert(strcmp(object_getClassName(os), "__NSOrderedSetI") == 0);
     return YES;
 }
 
-- (BOOL)testNSOrderedSetICreate0Unique
+test(NSOrderedSetICreate0Unique)
 {
     NSOrderedSet *os1 = [NSOrderedSet new];
     NSOrderedSet *os2 = [NSOrderedSet new];
@@ -559,7 +559,7 @@
     return YES;
 }
 
-- (BOOL)testAllocate
+test(Allocate)
 {
     NSOrderedSet *d1 = [NSOrderedSet alloc];
     NSOrderedSet *d2 = [NSOrderedSet alloc];
@@ -570,7 +570,7 @@
     return YES;
 }
 
-- (BOOL)testAllocateMutable
+test(AllocateMutable)
 {
     NSMutableOrderedSet *d1 = [NSMutableOrderedSet alloc];
     NSMutableOrderedSet *d2 = [NSMutableOrderedSet alloc];
@@ -581,7 +581,7 @@
     return YES;
 }
 
-- (BOOL)testBadCapacity
+test(BadCapacity)
 {
     __block BOOL raised = NO;
     __block NSMutableOrderedSet *orderedSet = nil;
@@ -600,7 +600,7 @@
     return YES;
 }
 
-- (BOOL)testLargeCapacity
+test(LargeCapacity)
 {
     __block BOOL raised = NO;
     __block NSMutableOrderedSet *orderedSet = nil;
@@ -618,7 +618,7 @@
     return YES;
 }
 
-- (BOOL)testAllocateDifferential
+test(AllocateDifferential)
 {
     NSOrderedSet *d1 = [NSOrderedSet alloc];
     NSMutableOrderedSet *d2 = [NSMutableOrderedSet alloc];
@@ -629,7 +629,7 @@
     return YES;
 }
 
-- (BOOL)testAllocatedRetainCount
+test(AllocatedRetainCount)
 {
     NSOrderedSet *d = [NSOrderedSet alloc];
 
@@ -639,7 +639,7 @@
     return YES;
 }
 
-- (BOOL)testAllocatedClass
+test(AllocatedClass)
 {
     // Allocation must be a NSOrderedSet subclass
     testassert([[NSOrderedSet alloc] isKindOfClass:[NSOrderedSet class]]);
@@ -656,7 +656,7 @@
     return YES;
 }
 
-- (BOOL)testRetainCount
+test(RetainCount)
 {
     NSOrderedSet *d = [NSOrderedSet alloc];
 
@@ -665,7 +665,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleDeallocAllocate
+test(DoubleDeallocAllocate)
 {
     NSOrderedSet *d = [NSOrderedSet alloc];
 
@@ -676,7 +676,7 @@
     return YES;
 }
 
-- (BOOL)testBlankMutableCreation
+test(BlankMutableCreation)
 {
     NSMutableOrderedSet *arr = [[NSMutableOrderedSet alloc] init];
 
@@ -688,7 +688,7 @@
     return YES;
 }
 
-- (BOOL)testDefaultCreation
+test(DefaultCreation)
 {
     id obj1 = [[NSObject alloc] init];
     NSOrderedSet *obj = [NSOrderedSet alloc];
@@ -702,7 +702,7 @@
     return YES;
 }
 
-- (BOOL)testDefaultMutableCreation
+test(DefaultMutableCreation)
 {
     id obj1 = [[NSObject alloc] init];
     NSMutableOrderedSet *arr = [[NSMutableOrderedSet alloc] initWithObjects:&obj1 count:1];
@@ -715,7 +715,7 @@
     return YES;
 }
 
-- (BOOL)testVarArgsMutableCreation
+test(VarArgsMutableCreation)
 {
     NSMutableOrderedSet *arr = [[NSMutableOrderedSet alloc] initWithObjects:@"foo", @"bar", @"baz", @"bar", nil];
 
@@ -729,7 +729,7 @@
     return YES;
 }
 
-- (BOOL)testOtherOrderedSetCreation
+test(OtherOrderedSetCreation)
 {
     NSOrderedSet *arr = [[NSOrderedSet alloc] initWithOrderedSet:
                          [NSOrderedSet orderedSetWithArray:@[@"bar", @"foo"]]];
@@ -743,7 +743,7 @@
     return YES;
 }
 
-- (BOOL)testOtherOrderedSetMutableCreation
+test(OtherOrderedSetMutableCreation)
 {
     NSMutableOrderedSet *arr = [[NSMutableOrderedSet alloc] initWithOrderedSet:
                                 [NSOrderedSet orderedSetWithArray:@[@"bar", @"foo"]]];
@@ -757,7 +757,7 @@
     return YES;
 }
 
-- (BOOL)testOtherOrderedSetCopyCreation
+test(OtherOrderedSetCopyCreation)
 {
     NSOrderedSet *arr = [[NSOrderedSet alloc] initWithOrderedSet:
                          [NSOrderedSet orderedSetWithArray:@[@"bar", @"foo"]] copyItems:YES];
@@ -771,7 +771,7 @@
     return YES;
 }
 
-- (BOOL)testOtherOrderedSetCopyMutableCreation
+test(OtherOrderedSetCopyMutableCreation)
 {
     NSMutableOrderedSet *arr = [[NSMutableOrderedSet alloc] initWithOrderedSet:
                                 [NSOrderedSet orderedSetWithArray:@[@"bar", @"foo"]] copyItems:YES];
@@ -786,7 +786,7 @@
     return YES;
 }
 
-- (BOOL)testOtherOrderedSetNoCopyCreation
+test(OtherOrderedSetNoCopyCreation)
 {
     NSOrderedSet *arr = [[NSOrderedSet alloc] initWithOrderedSet:
                          [NSOrderedSet orderedSetWithArray:@[@"bar", @"foo"]] copyItems:NO];
@@ -800,7 +800,7 @@
     return YES;
 }
 
-- (BOOL)testOtherOrderedSetNoCopyMutableCreation
+test(OtherOrderedSetNoCopyMutableCreation)
 {
     NSMutableOrderedSet *arr = [[NSMutableOrderedSet alloc] initWithOrderedSet:
                                 [NSOrderedSet orderedSetWithArray:@[@"bar", @"foo"]]];
@@ -815,7 +815,7 @@
     return YES;
 }
 
-- (BOOL)testOrderedSetMutableCreation
+test(OrderedSetMutableCreation)
 {
     NSMutableOrderedSet *arr = [[NSMutableOrderedSet alloc] initWithObjects:@"foo", @"bar", @"baz", nil];
 
@@ -832,7 +832,7 @@
 #warning TODO
 #if 0
 
-- (BOOL)testFileCreation
+test(FileCreation)
 {
     NSOrderedSet *arr = [[NSOrderedSet alloc] initWithContentsOfFile:@"Info.plist"];
 
@@ -845,7 +845,7 @@
     return YES;
 }
 
-- (BOOL)testFileMutableCreation
+test(FileMutableCreation)
 {
     NSMutableOrderedSet *arr = [[NSMutableOrderedSet alloc] initWithContentsOfFile:@"Info.plist"];
 
@@ -859,7 +859,7 @@
     return YES;
 }
 
-- (BOOL)testURLCreation
+test(URLCreation)
 {
     NSOrderedSet *arr = [[NSOrderedSet alloc] initWithContentsOfURL:[NSURL fileURLWithPath:@"Info.plist"]];
 
@@ -872,7 +872,7 @@
     return YES;
 }
 
-- (BOOL)testURLMutableCreation
+test(URLMutableCreation)
 {
     NSMutableOrderedSet *arr = [[NSMutableOrderedSet alloc] initWithContentsOfURL:[NSURL fileURLWithPath:@"Info.plist"]];
 
@@ -888,7 +888,7 @@
 
 #endif
 
-- (BOOL)testDescription
+test(Description)
 {
     NSOrderedSet *arr = [NSOrderedSet orderedSetWithArray:@[ @1, @2, @3 ]];
     NSString *d = @"{(\n    1,\n    2,\n    3\n)}";
@@ -901,7 +901,7 @@
     return YES;
 }
 
-- (BOOL)testRemoveAllObjects
+test(RemoveAllObjects)
 {
     NSMutableOrderedSet *m = [@[@3, @1, @2] mutableCopy];
     testassert([m count] == 3);
@@ -919,7 +919,7 @@
     return YES;
 }
 
-- (BOOL) testReplaceObjectsInRange1
+test(ReplaceObjectsInRange1)
 {
     NSMutableOrderedSet *m = [@[@1, @2] mutableCopy];
     id ids[2];
@@ -932,7 +932,7 @@
     return YES;
 }
 
-- (BOOL) testReplaceObjectsInRange2
+test(ReplaceObjectsInRange2)
 {
     NSMutableOrderedSet *m = [@[@1, @2] mutableCopy];
     id ids[2];
@@ -945,7 +945,7 @@
     return YES;
 }
 
-- (BOOL) testReplaceObjectsInRange3
+test(ReplaceObjectsInRange3)
 {
     NSMutableOrderedSet *m = [@[] mutableCopy];
     id ids[2];
@@ -956,7 +956,7 @@
     return YES;
 }
 
-- (BOOL) testReplaceObjectsInRange4
+test(ReplaceObjectsInRange4)
 {
     NSMutableOrderedSet *m = [@[@1, @2] mutableCopy];
     id ids[2];
@@ -967,7 +967,7 @@
     return YES;
 }
 
-- (BOOL) testReplaceObjectsInRange5
+test(ReplaceObjectsInRange5)
 {
     NSMutableOrderedSet *m = [@[] mutableCopy];
     id ids[2];
@@ -980,7 +980,7 @@
     return YES;
 }
 
-- (BOOL) testEnumeration
+test(Enumeration)
 {
     NSOrderedSet *os = [NSOrderedSet orderedSetWithArray:@[ @1, @2, @3 ]];
     int sum = 0;
@@ -992,7 +992,7 @@
     return YES;
 }
 
-- (BOOL) testEnumeration2
+test(Enumeration2)
 {
     int sum = 0;
     NSNumber *n;
@@ -1007,7 +1007,7 @@
     return YES;
 }
 
-- (BOOL) testEnumeration3
+test(Enumeration3)
 {
     NSString *s = @"a Z b Z c";
 
@@ -1025,7 +1025,7 @@
     return YES;
 }
 
-- (BOOL)testRemoveRangeExceptions
+test(RemoveRangeExceptions)
 {
     NSMutableOrderedSet *os = [@[@9] mutableCopy];
     BOOL raised = NO;
@@ -1053,7 +1053,7 @@
 }
 
 
-- (BOOL)testContainsValue
+test(ContainsValue)
 {
     NSValue *bodyPoint = [NSValue valueWithPointer:(int *)0x12345678];
     NSOrderedSet *orderedSet = [NSOrderedSet orderedSetWithObject:bodyPoint];
@@ -1065,7 +1065,7 @@
 }
 
 
-- (BOOL) testIndexesOfObjectsPassingTest
+test(IndexesOfObjectsPassingTest)
 {
     NSMutableOrderedSet *os = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
     NSIndexSet *is = [os indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
@@ -1075,7 +1075,7 @@
     return YES;
 }
 
-- (BOOL) testEnumerateObjects
+test(EnumerateObjects)
 {
     NSMutableOrderedSet *os = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
     __block int sum = 0;
@@ -1087,7 +1087,7 @@
     return YES;
 }
 
-- (BOOL) testEnumerateObjectsWithOptions
+test(EnumerateObjectsWithOptions)
 {
     NSMutableOrderedSet *os = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
     __block int sum = 0;
@@ -1099,7 +1099,7 @@
     return YES;
 }
 
-- (BOOL) testEnumerateObjectsWithOptionsReverse
+test(EnumerateObjectsWithOptionsReverse)
 {
     NSMutableOrderedSet *os = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
     __block int sum = 0;
@@ -1111,7 +1111,7 @@
     return YES;
 }
 
-- (BOOL) testEnumerateObjectsWithOptionsConcurrent
+test(EnumerateObjectsWithOptionsConcurrent)
 {
     NSMutableOrderedSet *os = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
     __block int sum = 0;
@@ -1124,7 +1124,7 @@
     return YES;
 }
 
-- (BOOL) testEnumerateObjectsWithOptionsReverseConcurrent
+test(EnumerateObjectsWithOptionsReverseConcurrent)
 {
     NSMutableOrderedSet *os = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
     __block int sum = 0;
@@ -1137,7 +1137,7 @@
     return YES;
 }
 
-- (BOOL)testInequalObjects1
+test(InequalObjects1)
 {
     InequalObject *o1 = [InequalObject new];
     InequalObject *o2 = [InequalObject new];
@@ -1160,7 +1160,7 @@
     return YES;
 }
 
-- (BOOL)testInequalObjects2
+test(InequalObjects2)
 {
     InequalObject *o1 = [InequalObject new];
     InequalObject *o2 = [InequalObject new];
@@ -1183,7 +1183,7 @@
     return YES;
 }
 
-- (BOOL)testInequalObjects3
+test(InequalObjects3)
 {
     InequalObject *o1 = [InequalObject new];
     InequalObject *o2 = [InequalObject new];
@@ -1208,7 +1208,7 @@
     return YES;
 }
 
-- (BOOL) testEnumerateObjectsAtIndexes
+test(EnumerateObjectsAtIndexes)
 {
     NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(2,2)];
     NSMutableOrderedSet *os = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
@@ -1221,7 +1221,7 @@
     return YES;
 }
 
-- (BOOL) testEnumerateObjectsAtIndexesException
+test(EnumerateObjectsAtIndexesException)
 {
     NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(3,2)];
     NSMutableOrderedSet *os = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
@@ -1251,7 +1251,7 @@
     return YES;
 }
 
-- (BOOL) testEnumerateObjectsAtIndexesReverse
+test(EnumerateObjectsAtIndexesReverse)
 {
     NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(1,3)];
     NSMutableOrderedSet *os = [[@[@1, @2, @3, @4] mutableCopy] autorelease];

@@ -3,7 +3,7 @@
 
 @testcase(NSLock)
 
-- (BOOL)testCreation
+test(Creation)
 {
     NSLock *lock = [[NSLock alloc] init];
     testassert(lock != nil);
@@ -12,7 +12,7 @@
     return YES;
 }
 
-- (BOOL)testBasicLock
+test(BasicLock)
 {
     NSLock* lock = [[NSLock alloc] init];
     for (int i = 0;  i < 100; i++)
@@ -24,7 +24,7 @@
     return YES;
 }
 
-- (BOOL)testNoninitedBehavior
+test(NoninitedBehavior)
 {
     NSLock* lock = [NSLock alloc];
     // should warn
@@ -74,7 +74,7 @@ static void *workerThread(void *data)
 }
 
 #define kNumTestThreads (2)
-- (BOOL)testTwoThreadsLock
+test(TwoThreadsLock)
 {
     NSLock *lock = [[NSLock alloc] init];
     int workInt;
@@ -98,7 +98,7 @@ static void *workerThread(void *data)
     return YES;
 }
 
-- (BOOL)testRecusiveLock
+test(RecusiveLock)
 {
     NSRecursiveLock *rLock = [[NSRecursiveLock alloc] init];
 
@@ -141,7 +141,7 @@ static void *signalingThread(void *ctx)
 }
 
 static SignalData data;
-- (BOOL)testCondition
+test(Condition)
 {
     NSCondition *cond = [[NSCondition alloc] init];
 
@@ -171,7 +171,7 @@ static SignalData data;
     return YES;
 }
 
-- (BOOL)testConditionNonInited
+test(ConditionNonInited)
 {
     NSCondition* cond = [NSCondition alloc];
     [cond lock];
@@ -182,14 +182,14 @@ static SignalData data;
     return YES;
 }
 
-- (BOOL)testConditionLockInitialValue
+test(ConditionLockInitialValue)
 {
     NSConditionLock *condLock = [[NSConditionLock alloc] init];
     testassert([condLock condition] == 0);
     return YES;
 }
 
-- (BOOL)testConditionLockWhenConditionNotEqual
+test(ConditionLockWhenConditionNotEqual)
 {
     NSConditionLock *condLock = [[NSConditionLock alloc] initWithCondition:2];
     BOOL locked = [condLock lockWhenCondition:1 beforeDate:[NSDate date]];

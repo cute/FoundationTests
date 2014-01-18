@@ -4,14 +4,14 @@
 
 @testcase(NSPathUtilities)
 
-- (BOOL)testPathExtension
+test(PathExtension)
 {
     NSString *s = @"abc.xyz";
     testassert([[s pathExtension] isEqualToString:@"xyz"]);
     return YES;
 }
 
-- (BOOL)testPathExtensionEmpty
+test(PathExtensionEmpty)
 {
     NSString *s = @"abc";
     testassert([[s pathExtension] isEqualToString:@""]);
@@ -19,7 +19,7 @@
 }
 
 
-- (BOOL)testPathExtensionEmptyStart
+test(PathExtensionEmptyStart)
 {
     NSString *s = @"";
     testassert([[s pathExtension] isEqualToString:@""]);
@@ -27,35 +27,35 @@
 }
 
 
-- (BOOL)testPathExtensionDot
+test(PathExtensionDot)
 {
     NSString *s = @".";
     testassert([[s pathExtension] isEqualToString:@""]);
     return YES;
 }
 
-- (BOOL)testPathExtensionDotEnd
+test(PathExtensionDotEnd)
 {
     NSString *s = @"abc.";
     testassert([[s pathExtension] isEqualToString:@""]);
     return YES;
 }
 
-- (BOOL)testPathExtensionLeadingDot
+test(PathExtensionLeadingDot)
 {
     NSString *s = @".xyz";
     testassert([[s pathExtension] isEqualToString:@""]);
     return YES;
 }
 
-- (BOOL)testPathExtensionDouble
+test(PathExtensionDouble)
 {
     NSString *s = @"abc.xyz.uvw";
     testassert([[s pathExtension] isEqualToString:@"uvw"]);
     return YES;
 }
 
-- (BOOL)testPathExtension_forNSPathStore2_1
+test(PathExtension_forNSPathStore2_1)
 {
     NSString *path = @"abc";
     
@@ -68,7 +68,7 @@
     return YES;
 }
 
-- (BOOL)testPathExtension_forNSPathStore2_1b
+test(PathExtension_forNSPathStore2_1b)
 {
     NSString *path = @"a/bc";
     
@@ -81,7 +81,7 @@
     return YES;
 }
 
-- (BOOL)testPathExtension_forNSPathStore2_1c
+test(PathExtension_forNSPathStore2_1c)
 {
     NSString *path = @".abc.xyz";
     
@@ -94,7 +94,7 @@
     return YES;
 }
 
-- (BOOL)testPathExtension_forNSPathStore2_1d
+test(PathExtension_forNSPathStore2_1d)
 {
     NSString *path = @"1.abc.xyz";
     
@@ -107,7 +107,7 @@
     return YES;
 }
 
-- (BOOL)testPathExtension_forNSPathStore2_2
+test(PathExtension_forNSPathStore2_2)
 {
     NSString *path = @"abc.xyz.";
     
@@ -120,7 +120,7 @@
     return YES;
 }
 
-- (BOOL)testPathExtension_forNSPathStore2_2b
+test(PathExtension_forNSPathStore2_2b)
 {
     NSString *path = @".abc.xyz";
     
@@ -133,7 +133,7 @@
     return YES;
 }
 
-- (BOOL)testPathExtension_forNSPathStore2_2c
+test(PathExtension_forNSPathStore2_2c)
 {
     NSString *path = @"abc.xyz.uvw";
     
@@ -146,7 +146,7 @@
     return YES;
 }
 
-- (BOOL)testPathExtension_forNSPathStore2_3
+test(PathExtension_forNSPathStore2_3)
 {
     NSString *path = @"abc.xyz.uvw";
     
@@ -159,7 +159,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsNil
+test(PathWithComponentsNil)
 {
     BOOL raised = NO;
 
@@ -175,7 +175,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsClass
+test(PathWithComponentsClass)
 {
     NSString* path = [NSString pathWithComponents:@[@"foo"]];
 
@@ -184,7 +184,7 @@
     return YES;
 }
 
-- (BOOL)testStringByDeletingLastPathComponentReturnValueType
+test(StringByDeletingLastPathComponentReturnValueType)
 {
     id path = [@"/foo/bar/baz" stringByDeletingLastPathComponent];
     testassert([path class] == objc_getClass("NSPathStore2"));
@@ -192,7 +192,7 @@
 }
 
 
-- (BOOL)testPathWithComponentsEmpty
+test(PathWithComponentsEmpty)
 {
     NSString* path = [NSString pathWithComponents:@[@""]];
 
@@ -201,7 +201,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsSimple
+test(PathWithComponentsSimple)
 {
     NSString* path = [NSString pathWithComponents:@[@"foo"]];
 
@@ -210,7 +210,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsPair
+test(PathWithComponentsPair)
 {
     NSString* path = [NSString pathWithComponents:@[@"foo", @"bar"]];
 
@@ -219,7 +219,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsWacky
+test(PathWithComponentsWacky)
 {
     NSString* path = [NSString pathWithComponents:@[@"~`!@#%^&*()-_{}[];:\",.<>?/\\|"]];
 
@@ -228,7 +228,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsSingleSlash
+test(PathWithComponentsSingleSlash)
 {
     NSString* path = [NSString pathWithComponents:@[@"/"]];
 
@@ -237,7 +237,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsDoubleSlash
+test(PathWithComponentsDoubleSlash)
 {
     NSString* path = [NSString pathWithComponents:@[@"/", @"/"]];
 
@@ -246,7 +246,7 @@
     return YES;
 }
 
--(BOOL)testPathWithComponetnsTrailingEmpty
+test(PathWithComponetnsTrailingEmpty)
 {
     NSString* path = [NSString pathWithComponents:@[@"foo", @""]];
 
@@ -258,7 +258,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsTrailingSlash
+test(PathWithComponentsTrailingSlash)
 {
     NSString* path = [NSString pathWithComponents:@[@"foo", @"/"]];
 
@@ -267,7 +267,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsSlashComponent
+test(PathWithComponentsSlashComponent)
 {
     NSString* path = [NSString pathWithComponents:@[@"foo", @"/", @"bar"]];
 
@@ -276,7 +276,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsContainedSeparator
+test(PathWithComponentsContainedSeparator)
 {
     NSString* path = [NSString pathWithComponents:@[@"foo/bar"]];
 
@@ -285,7 +285,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsContainedDoubleSeparator
+test(PathWithComponentsContainedDoubleSeparator)
 {
     NSString* path = [NSString pathWithComponents:@[@"foo//bar"]];
 
@@ -294,7 +294,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsContainedTripleSeparator
+test(PathWithComponentsContainedTripleSeparator)
 {
     NSString* path = [NSString pathWithComponents:@[@"foo///bar"]];
 
@@ -303,7 +303,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsContainedLeadingSlash
+test(PathWithComponentsContainedLeadingSlash)
 {
     NSString* path = [NSString pathWithComponents:@[@"/foo"]];
 
@@ -312,7 +312,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsContainedTerminator
+test(PathWithComponentsContainedTerminator)
 {
     NSString* path = [NSString pathWithComponents:@[@"foo\0bar"]];
 
@@ -321,7 +321,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsContainedTailingSlash
+test(PathWithComponentsContainedTailingSlash)
 {
     NSString* path = [NSString pathWithComponents:@[@"foo/"]];
 
@@ -330,7 +330,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsParentDirectory
+test(PathWithComponentsParentDirectory)
 {
     NSString* path = [NSString pathWithComponents:@[@"/", @"foo", @"..", @"bar"]];
 
@@ -339,7 +339,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsCurrentDirectory
+test(PathWithComponentsCurrentDirectory)
 {
     NSString* path = [NSString pathWithComponents:@[@"/", @"foo", @".", @"bar"]];
 
@@ -348,7 +348,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsParentDirectoryContained
+test(PathWithComponentsParentDirectoryContained)
 {
     NSString* path = [NSString pathWithComponents:@[@"foo/../bar"]];
 
@@ -357,7 +357,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsCurrentDirectoryContained
+test(PathWithComponentsCurrentDirectoryContained)
 {
     NSString* path = [NSString pathWithComponents:@[@"foo/./bar"]];
 
@@ -366,7 +366,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsComponentsSplit
+test(PathWithComponentsComponentsSplit)
 {
     NSString* path = [NSString pathWithComponents:@[@"/foo"]];
 
@@ -377,7 +377,7 @@
     return YES;
 }
 
-- (BOOL)testPathWithComponentsComponentsTwin
+test(PathWithComponentsComponentsTwin)
 {
     NSString* path = [NSString pathWithComponents:@[@"foo/bar"]];
 
@@ -388,42 +388,42 @@
     return YES;
 }
 
-- (BOOL)testStringByAppendingPathExtension1
+test(StringByAppendingPathExtension1)
 {
     NSString *str = [@"foo" stringByAppendingPathExtension:@"bar"];
     testassert([str isEqualToString:@"foo.bar"]);
     return YES;
 }
 
-- (BOOL)testStringByAppendingPathExtension2
+test(StringByAppendingPathExtension2)
 {
     NSString *str = [@"foo." stringByAppendingPathExtension:@"bar"];
     testassert([str isEqualToString:@"foo..bar"]);
     return YES;
 }
 
-- (BOOL)testStringByAppendingPathExtension3
+test(StringByAppendingPathExtension3)
 {
     NSString *str = [@"foo" stringByAppendingPathExtension:@".bar"];
     testassert([str isEqualToString:@"foo..bar"]);
     return YES;
 }
 
-- (BOOL)testStringByAppendingPathExtension4
+test(StringByAppendingPathExtension4)
 {
     NSString *str = [@"foo.bar" stringByAppendingPathExtension:@"baz"];
     testassert([str isEqualToString:@"foo.bar.baz"]);
     return YES;
 }
 
-- (BOOL)testStringByAppendingPathExtension5
+test(StringByAppendingPathExtension5)
 {
     NSString *str = [@"foo.bar" stringByAppendingPathExtension:@"bar"];
     testassert([str isEqualToString:@"foo.bar.bar"]);
     return YES;
 }
 
-- (BOOL)testStringByAppendingPathExtensionNil
+test(StringByAppendingPathExtensionNil)
 {
     BOOL thrown = NO;
     @try {
@@ -436,14 +436,14 @@
     return YES;
 }
 
-- (BOOL)testStringByExpandingTildeInPath1
+test(StringByExpandingTildeInPath1)
 {
     NSString *str = [@"~/test" stringByExpandingTildeInPath];
     testassert([str isEqualToString:[NSHomeDirectory() stringByAppendingPathComponent:@"test"]]);
     return YES;
 }
 
-- (BOOL)testStringByExpandingTildeInPath2
+test(StringByExpandingTildeInPath2)
 {
     NSString *str = [@"/foo/../~/test" stringByExpandingTildeInPath];
     testassert([str isEqualToString:@"/foo/../~/test"]);
@@ -451,7 +451,7 @@
 }
 
 
-- (BOOL)testURLFromPathStore
+test(URLFromPathStore)
 {
     NSString *str = [NSString pathWithComponents:@[@"/", @"foo", @"bar", @"baz"]];
     testassert([str class] == NSClassFromString(@"NSPathStore2"));
@@ -462,7 +462,7 @@
     return YES;
 }
 
-- (BOOL)testStringByDeletingPathExtension1
+test(StringByDeletingPathExtension1)
 {
     NSString *str = [@"foo/bar/baz.bar" stringByDeletingPathExtension];
     testassert([str isEqualToString:@"foo/bar/baz"]);
@@ -470,35 +470,35 @@
     return YES;
 }
 
-- (BOOL)testStringByDeletingPathExtension2
+test(StringByDeletingPathExtension2)
 {
     NSString *str = [@"foo/bar/baz" stringByDeletingPathExtension];
     testassert([str isEqualToString:@"foo/bar/baz"]);
     return YES;
 }
 
-- (BOOL)testStringByDeletingPathExtension3
+test(StringByDeletingPathExtension3)
 {
     NSString *str = [@"foo/bar/.baz" stringByDeletingPathExtension];
     testassert([str isEqualToString:@"foo/bar/.baz"]);
     return YES;
 }
 
-- (BOOL)testStringByDeletingPathExtension4
+test(StringByDeletingPathExtension4)
 {
     NSString *str = [@"foo/bar/." stringByDeletingPathExtension];
     testassert([str isEqualToString:@"foo/bar/."]);
     return YES;
 }
 
-- (BOOL)testSubstringWithRange
+test(SubstringWithRange)
 {
     NSString *str = [[NSString pathWithComponents:@[@"foo", @"bar", @"baz"]] substringWithRange:NSMakeRange(4, 3)];
     testassert([str isEqualToString:@"bar"]);
     return YES;
 }
 
-- (BOOL)testNSPathStore2Hash
+test(NSPathStore2Hash)
 {
     NSString *path = [NSString pathWithComponents:@[@"/", @"foo", @"bar", @"baz"]];
     testassert([path class] == NSClassFromString(@"NSPathStore2"));
@@ -509,7 +509,7 @@
     return YES;
 }
 
-- (BOOL)testNSPathStore2HashComparison
+test(NSPathStore2HashComparison)
 {
     NSString *path = [NSString pathWithComponents:@[@"/", @"foo", @"bar", @"baz"]];
     testassert([path class] == NSClassFromString(@"NSPathStore2"));
@@ -522,7 +522,7 @@
     return YES;
 }
 
-- (BOOL)testNSPathStore2InDictionary
+test(NSPathStore2InDictionary)
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     NSString *path = [NSString pathWithComponents:@[@"/", @"foo", @"bar", @"baz"]];

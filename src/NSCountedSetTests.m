@@ -2,7 +2,7 @@
 
 @testcase(NSCountedSet)
 
-- (BOOL)testAllocate
+test(Allocate)
 {
     NSCountedSet *s1 = [NSCountedSet alloc];
     NSCountedSet *s2 = [NSCountedSet alloc];
@@ -15,7 +15,7 @@
     return YES;
 }
 
-- (BOOL)testBlankCreation
+test(BlankCreation)
 {
     NSCountedSet *cs = [[NSCountedSet alloc] init];
 
@@ -27,7 +27,7 @@
     return YES;
 }
 
-- (BOOL)testDefaultCreationMany
+test(DefaultCreationMany)
 {
     int count = 10;
     NSObject **members = malloc(2 * sizeof(*members) * count);
@@ -49,7 +49,7 @@
     return YES;
 }
 
-- (BOOL)testDefaultCreationWithCapacity
+test(DefaultCreationWithCapacity)
 {
     int count = 10;
     NSCountedSet *cs = [[NSCountedSet alloc] initWithCapacity:count];
@@ -62,7 +62,7 @@
     return YES;
 }
 
-- (BOOL)testSetCreation
+test(SetCreation)
 {
     NSSet *s = [[NSSet alloc] initWithObjects:
                    [[[NSObject alloc] init] autorelease],
@@ -80,7 +80,7 @@
     return YES;
 }
 
-- (BOOL)testSetWithCopyCreation
+test(SetWithCopyCreation)
 {
     // Ideally we would use just NSObjects for this test, but they are not copyable.
     NSSet *s = [[NSSet alloc] initWithObjects:
@@ -99,7 +99,7 @@
     return YES;
 }
 
-- (BOOL)testSetWithoutCopyCreation
+test(SetWithoutCopyCreation)
 {
     NSSet *s = [[NSSet alloc] initWithObjects:
                    [[[NSObject alloc] init] autorelease],
@@ -117,7 +117,7 @@
     return YES;
 }
 
-- (BOOL)testVarArgsCreation
+test(VarArgsCreation)
 {
     NSCountedSet *cs = [[NSCountedSet alloc] initWithObjects:
                            [[[NSObject alloc] init] autorelease],
@@ -133,7 +133,7 @@
     return YES;
 }
 
-- (BOOL)testArrayCreation
+test(ArrayCreation)
 {
     NSCountedSet *cs = [[NSCountedSet alloc] initWithArray:@[
                            [[[NSObject alloc] init] autorelease],
@@ -149,7 +149,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleInit
+test(DoubleInit)
 {
     void (^block)() = ^{
         NSSet *s = [[NSSet alloc] initWithObjects:
@@ -181,7 +181,7 @@
     return YES;
 }
 
-- (BOOL)testCountForObject
+test(CountForObject)
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
@@ -203,7 +203,7 @@
     return YES;
 }
 
-- (BOOL)testAddObject
+test(AddObject)
 {
     NSCountedSet *cs = [[NSCountedSet alloc] init];
     int count = 10;
@@ -231,7 +231,7 @@
     return YES;
 }
 
-- (BOOL)testAddObjectNil
+test(AddObjectNil)
 {
     void (^block)() = ^{
         NSCountedSet *cs = [[[NSCountedSet alloc] init] autorelease];
@@ -254,7 +254,7 @@
     return YES;
 }
 
-- (BOOL)testRemoveObject
+test(RemoveObject)
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
@@ -278,7 +278,7 @@
     return YES;
 }
 
-- (BOOL)testRemoveObjectNil
+test(RemoveObjectNil)
 {
     void (^block)() = ^{
         NSCountedSet *cs = [[[NSCountedSet alloc] init] autorelease];
@@ -301,7 +301,7 @@
     return YES;
 }
 
-- (BOOL)testMember
+test(Member)
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
@@ -320,7 +320,7 @@
     return YES;
 }
 
-- (BOOL)testCount
+test(Count)
 {
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
     NSObject *o2 = [[[NSObject alloc] init] autorelease];
@@ -334,7 +334,7 @@
     return YES;
 }
 
-- (BOOL)testObjectEnumerator
+test(ObjectEnumerator)
 {
     NSCountedSet *cs = [[NSCountedSet alloc] init];
     int count = 10;
@@ -386,7 +386,7 @@
     return YES;
 }
 
-- (BOOL)testFastEnumeration
+test(FastEnumeration)
 {
     NSCountedSet *cs = [[NSCountedSet alloc] init];
     int count = 10;
@@ -436,7 +436,7 @@
     return YES;
 }
 
-- (BOOL)testCopyWithZone
+test(CopyWithZone)
 {
     NSCountedSet *cs = [[NSCountedSet alloc] initWithObjects:
                            [[[NSObject alloc] init] autorelease],
@@ -454,7 +454,7 @@
     return YES;
 }
 
-- (BOOL)testMutableCopyWithZone
+test(MutableCopyWithZone)
 {
     NSCountedSet *cs = [[NSCountedSet alloc] initWithObjects:
                            [[[NSObject alloc] init] autorelease],

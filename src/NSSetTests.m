@@ -10,7 +10,7 @@
 
 @testcase(NSSet)
 
-- (BOOL)testAllocate
+test(Allocate)
 {
     NSSet *s1 = [NSSet alloc];
     NSSet *s2 = [NSSet alloc];
@@ -20,7 +20,7 @@
     return YES;
 }
 
-- (BOOL)testBlankCreation
+test(BlankCreation)
 {
     NSSet *cs = [[NSSet alloc] init];
 
@@ -32,7 +32,7 @@
     return YES;
 }
 
-- (BOOL)testDefaultCreationMany
+test(DefaultCreationMany)
 {
     int count = 10;
     NSObject **members = malloc(2 * sizeof(*members) * count);
@@ -54,7 +54,7 @@
     return YES;
 }
 
-- (BOOL)testDefaultCreationWithArray
+test(DefaultCreationWithArray)
 {
     NSSet *cs = [[NSSet alloc] initWithArray:@[@1, @2]];
 
@@ -67,7 +67,7 @@
     return YES;
 }
 
-- (BOOL)testSetCreation
+test(SetCreation)
 {
     NSSet *s = [[NSSet alloc] initWithObjects:
                 [[[NSObject alloc] init] autorelease],
@@ -85,7 +85,7 @@
     return YES;
 }
 
-- (BOOL)testSetWithCopyCreation
+test(SetWithCopyCreation)
 {
     // Ideally we would use just NSObjects for this test, but they are not copyable.
     NSSet *s = [[NSSet alloc] initWithObjects:
@@ -105,7 +105,7 @@
     return YES;
 }
 
-- (BOOL)testSetWithoutCopyCreation
+test(SetWithoutCopyCreation)
 {
     NSSet *s = [[NSSet alloc] initWithObjects:
                 [[[NSObject alloc] init] autorelease],
@@ -123,7 +123,7 @@
     return YES;
 }
 
-- (BOOL)testVarArgsCreation
+test(VarArgsCreation)
 {
     NSSet *cs = [[NSSet alloc] initWithObjects:
                         [[[NSObject alloc] init] autorelease],
@@ -139,7 +139,7 @@
     return YES;
 }
 
-- (BOOL)testArrayCreation
+test(ArrayCreation)
 {
     NSSet *cs = [[NSSet alloc] initWithArray:@[
                         [[[NSObject alloc] init] autorelease],
@@ -155,7 +155,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleInit
+test(DoubleInit)
 {
     void (^block)() = ^{
         NSSet *s = [[NSSet alloc] initWithObjects:
@@ -187,7 +187,7 @@
     return YES;
 }
 
-- (BOOL)testContainsObject
+test(ContainsObject)
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
@@ -211,7 +211,7 @@
     return YES;
 }
 
-- (BOOL)testAddObject
+test(AddObject)
 {
     NSMutableSet *cs = [[NSMutableSet alloc] init];
     int count = 10;
@@ -239,7 +239,7 @@
     return YES;
 }
 
-- (BOOL)testAddObjectNil
+test(AddObjectNil)
 {
     void (^block)() = ^{
         NSMutableSet *cs = [[[NSMutableSet alloc] init] autorelease];
@@ -262,7 +262,7 @@
     return YES;
 }
 
-- (BOOL)testRemoveObject
+test(RemoveObject)
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
@@ -284,7 +284,7 @@
     return YES;
 }
 
-- (BOOL)testRemoveUnretainedObject
+test(RemoveUnretainedObject)
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
@@ -298,7 +298,7 @@
     return YES;
 }
 
-- (BOOL)testRemoveObjectNil
+test(RemoveObjectNil)
 {
     void (^block)() = ^{
         NSMutableSet *cs = [[[NSMutableSet alloc] init] autorelease];
@@ -321,7 +321,7 @@
     return YES;
 }
 
-- (BOOL)testNilMember
+test(NilMember)
 {
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
     NSObject *o2 = [[[NSObject alloc] init] autorelease];
@@ -335,7 +335,7 @@
     return YES;
 }
 
-- (BOOL)testMember
+test(Member)
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
@@ -354,7 +354,7 @@
     return YES;
 }
 
-- (BOOL)testCount
+test(Count)
 {
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
     NSObject *o2 = [[[NSObject alloc] init] autorelease];
@@ -368,7 +368,7 @@
     return YES;
 }
 
-- (BOOL)testObjectEnumerator
+test(ObjectEnumerator)
 {
     NSMutableSet *cs = [[NSMutableSet alloc] init];
     int count = 10;
@@ -420,7 +420,7 @@
     return YES;
 }
 
-- (BOOL)testFastEnumeration
+test(FastEnumeration)
 {
     NSMutableSet *cs = [[NSMutableSet alloc] init];
     int count = 10;
@@ -470,7 +470,7 @@
     return YES;
 }
 
-- (BOOL)testCopyWithZone
+test(CopyWithZone)
 {
     NSSet *cs = [[NSSet alloc] initWithObjects:
                         [[[NSObject alloc] init] autorelease],
@@ -488,7 +488,7 @@
     return YES;
 }
 
-- (BOOL)testMutableCopyWithZone
+test(MutableCopyWithZone)
 {
     NSSet *cs = [[NSSet alloc] initWithObjects:
                         [[[NSObject alloc] init] autorelease],
@@ -506,7 +506,7 @@
     return YES;
 }
 
-- (BOOL)testAnyObject
+test(AnyObject)
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
     NSSet *cs = [[NSSet alloc] initWithObjects: o0, nil];
@@ -520,7 +520,7 @@
     return YES;
 }
 
-- (BOOL)testAddObjectsFromArray
+test(AddObjectsFromArray)
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
     NSMutableSet *cs = [[NSMutableSet alloc] initWithObjects: o0, nil];
@@ -531,7 +531,7 @@
     return YES;
 }
 
-- (BOOL)testSetCreationWithVariousObjectsAndDuplicates
+test(SetCreationWithVariousObjectsAndDuplicates)
 {
     NSMutableSet *aSet = [[NSMutableSet alloc] initWithObjects:[NSNumber numberWithFloat:3.14159f], [NSNumber numberWithChar:0x7f], [NSNumber numberWithDouble:-6.62606957], [NSNumber numberWithBool:YES], @"42", @"42", @"42", @"42", nil];
     testassert([aSet count] == 5);
@@ -539,7 +539,7 @@
     return YES;
 }
 
-- (BOOL)testMinusSet
+test(MinusSet)
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
@@ -558,7 +558,7 @@
     return YES;
 }
 
-- (BOOL)testIntersectSet
+test(IntersectSet)
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
@@ -578,7 +578,7 @@
 }
 
 
-- (BOOL)testUnionSet
+test(UnionSet)
 {
     NSObject *o0 = [[[NSObject alloc] init] autorelease];
     NSObject *o1 = [[[NSObject alloc] init] autorelease];
@@ -597,7 +597,7 @@
     return YES;
 }
 
-- (BOOL)testBadCapacity
+test(BadCapacity)
 {
     __block BOOL raised = NO;
     __block NSMutableSet *set = nil;
@@ -616,7 +616,7 @@
     return YES;
 }
 
-- (BOOL)testLargeCapacity
+test(LargeCapacity)
 {
     __block BOOL raised = NO;
     __block NSMutableSet *set = nil;
@@ -634,7 +634,7 @@
     return YES;
 }
 
-- (BOOL)testSetArrayNumbers
+test(SetArrayNumbers)
 {
     NSSet *s1 = [NSSet setWithObjects:@[@7, @9], nil];
     NSSet *s2 = [NSSet setWithObjects:@[@7, @9], nil];

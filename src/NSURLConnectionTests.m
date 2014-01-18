@@ -7,7 +7,7 @@
 
 @testcase(NSURLConnection)
 
-- (BOOL)testSynchronous
+test(Synchronous)
 {
     NSString *urlStr = [NSString stringWithFormat:@"http://www.apportable.com"];
     
@@ -22,7 +22,7 @@
     return YES;
 }
 
-- (BOOL)testGZip
+test(GZip)
 {
     ConnectionDelegate *delegate = [[[ConnectionDelegate alloc] init] autorelease];
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/gzipHeaderCompressed", HOST]];
@@ -42,7 +42,7 @@
 }
 
 /* This test is a bit abusive and takes some time so it should stay commented out unless you want to test is outright
-- (BOOL)testLargeNumberofRequestsInSuccession
+test(LargeNumberofRequestsInSuccession)
 {
 
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://apportableplayground.herokuapp.com/hamletInTheRaw"]];
@@ -62,7 +62,7 @@
     return YES;
 }*/
 
-- (BOOL)testHamletRaw
+test(HamletRaw)
 {
     ConnectionDelegate *delegate = [[[ConnectionDelegate alloc] init] autorelease];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/hamletInTheRaw", HOST]];
@@ -87,7 +87,7 @@
     return YES;
 }
 
-- (BOOL)testHamletRawWithDelay
+test(HamletRawWithDelay)
 {
     ConnectionDelegate *delegate = [[[ConnectionDelegate alloc] init] autorelease];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/hamletInTheRawWithKeepAliveAndDelay", HOST]];
@@ -112,7 +112,7 @@
     return YES;
 }
 
-- (BOOL)testHamletGzipped
+test(HamletGzipped)
 {
     ConnectionDelegate *delegate = [[[ConnectionDelegate alloc] init] autorelease];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/gzipHeaderCompressedHamlet", HOST]];
@@ -137,7 +137,7 @@
     return YES;
 }
 
-- (BOOL)testHamletGzipped2
+test(HamletGzipped2)
 {
     ConnectionDelegate *delegate = [[[ConnectionDelegate alloc] init] autorelease];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/gzipHeaderCompressedHamletWithKeepAliveAndDelay", HOST]];
@@ -162,7 +162,7 @@
     return YES;
 }
 
-- (BOOL)testGZipDecodeFail
+test(GZipDecodeFail)
 {
     ConnectionDelegate *delegate = [[[ConnectionDelegate alloc] init] autorelease];
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/gzipHeaderUnCompressed", HOST]];

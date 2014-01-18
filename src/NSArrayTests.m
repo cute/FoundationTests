@@ -131,7 +131,7 @@
 
 @testcase(NSArray)
 
-- (BOOL)testNSArrayICreate0
+test(NSArrayICreate0)
 {
     NSArray *a = [NSArray new];
     testassert(strcmp(object_getClassName(a), "__NSArrayI") == 0);
@@ -139,14 +139,14 @@
     return YES;
 }
 
-- (BOOL)testNSArrayICreate1
+test(NSArrayICreate1)
 {
     NSArray *a = [NSArray arrayWithObject:@91];
     testassert(strcmp(object_getClassName(a), "__NSArrayI") == 0);
     return YES;
 }
 
-- (BOOL)testNSArrayICreate0Unique
+test(NSArrayICreate0Unique)
 {
     NSArray *a = [NSArray new];
     NSArray *b = [NSArray new];
@@ -159,7 +159,7 @@
     return YES;
 }
 
-- (BOOL)testAllocate
+test(Allocate)
 {
     NSArray *d1 = [NSArray alloc];
     NSArray *d2 = [NSArray alloc];
@@ -170,7 +170,7 @@
     return YES;
 }
 
-- (BOOL)testAllocateMutable
+test(AllocateMutable)
 {
     NSMutableArray *d1 = [NSMutableArray alloc];
     NSMutableArray *d2 = [NSMutableArray alloc];
@@ -181,7 +181,7 @@
     return YES;
 }
 
-- (BOOL)testBadCapacity
+test(BadCapacity)
 {
     __block BOOL raised = NO;
     __block NSMutableArray *array = nil;
@@ -200,7 +200,7 @@
     return YES;
 }
 
-- (BOOL)testLargeCapacity
+test(LargeCapacity)
 {
     __block BOOL raised = NO;
     __block NSMutableArray *array = nil;
@@ -218,7 +218,7 @@
     return YES;
 }
 
-- (BOOL)testAllocateDifferential
+test(AllocateDifferential)
 {
     NSArray *d1 = [NSArray alloc];
     NSMutableArray *d2 = [NSMutableArray alloc];
@@ -229,7 +229,7 @@
     return YES;
 }
 
-- (BOOL)testAllocatedRetainCount
+test(AllocatedRetainCount)
 {
     NSArray *d = [NSArray alloc];
 
@@ -239,7 +239,7 @@
     return YES;
 }
 
-- (BOOL)testAllocatedClass
+test(AllocatedClass)
 {
     // Allocation must be a NSArray subclass
     testassert([[NSArray alloc] isKindOfClass:[NSArray class]]);
@@ -256,7 +256,7 @@
     return YES;
 }
 
-- (BOOL)testRetainCount
+test(RetainCount)
 {
     NSArray *d = [NSArray alloc];
 
@@ -265,7 +265,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleDeallocAllocate
+test(DoubleDeallocAllocate)
 {
     NSArray *d = [NSArray alloc];
 
@@ -276,7 +276,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleInit
+test(DoubleInit)
 {
     void (^block)() = ^{
         [[NSArray arrayWithObjects:@"foo", @"bar", nil] initWithArray:@[@1, @2]];
@@ -298,7 +298,7 @@
     return YES;
 }
 
-- (BOOL)testBlankCreation
+test(BlankCreation)
 {
     NSArray *arr = [[NSArray alloc] init];
 
@@ -310,7 +310,7 @@
     return YES;
 }
 
-- (BOOL)testBlankMutableCreation
+test(BlankMutableCreation)
 {
     NSMutableArray *arr = [[NSMutableArray alloc] init];
 
@@ -322,7 +322,7 @@
     return YES;
 }
 
-- (BOOL)testDefaultCreation
+test(DefaultCreation)
 {
     id obj1 = [[NSObject alloc] init];
     NSArray *obj = [NSArray alloc];
@@ -336,7 +336,7 @@
     return YES;
 }
 
-- (BOOL)testDefaultMutableCreation
+test(DefaultMutableCreation)
 {
     id obj1 = [[NSObject alloc] init];
     NSMutableArray *arr = [[NSMutableArray alloc] initWithObjects:&obj1 count:1];
@@ -349,7 +349,7 @@
     return YES;
 }
 
-- (BOOL)testDefaultCreationMany
+test(DefaultCreationMany)
 {
     int count = 10;
     id *values = malloc(sizeof(id) * count);
@@ -369,7 +369,7 @@
     return YES;
 }
 
-- (BOOL)testVarArgsCreation
+test(VarArgsCreation)
 {
     NSArray *arr = [[NSArray alloc] initWithObjects:@"foo", @"bar", @"baz", @"bar", nil];
 
@@ -382,7 +382,7 @@
     return YES;
 }
 
-- (BOOL)testVarArgsMutableCreation
+test(VarArgsMutableCreation)
 {
     NSMutableArray *arr = [[NSMutableArray alloc] initWithObjects:@"foo", @"bar", @"baz", @"bar", nil];
 
@@ -396,7 +396,7 @@
     return YES;
 }
 
-- (BOOL)testOtherArrayCreation
+test(OtherArrayCreation)
 {
     NSArray *arr = [[NSArray alloc] initWithArray:(NSArray *)@[
                                                                                     @"bar",
@@ -412,7 +412,7 @@
     return YES;
 }
 
-- (BOOL)testOtherArrayMutableCreation
+test(OtherArrayMutableCreation)
 {
     NSMutableArray *arr = [[NSMutableArray alloc] initWithArray:(NSArray *)@[
                             @"bar",
@@ -428,7 +428,7 @@
     return YES;
 }
 
-- (BOOL)testOtherArrayCopyCreation
+test(OtherArrayCopyCreation)
 {
     NSArray *arr = [[NSArray alloc] initWithArray:(NSArray *)@[
                      @"bar",
@@ -444,7 +444,7 @@
     return YES;
 }
 
-- (BOOL)testOtherArrayCopyMutableCreation
+test(OtherArrayCopyMutableCreation)
 {
     NSMutableArray *arr = [[NSMutableArray alloc] initWithArray:(NSArray *)@[
                             @"bar",
@@ -461,7 +461,7 @@
     return YES;
 }
 
-- (BOOL)testOtherArrayNoCopyCreation
+test(OtherArrayNoCopyCreation)
 {
     NSArray *arr = [[NSArray alloc] initWithArray:(NSArray *)@[
                      @"bar",
@@ -477,7 +477,7 @@
     return YES;
 }
 
-- (BOOL)testOtherArrayNoCopyMutableCreation
+test(OtherArrayNoCopyMutableCreation)
 {
     NSMutableArray *arr = [[NSMutableArray alloc] initWithArray:(NSArray *)@[
                                                                                                   @"bar",
@@ -494,7 +494,7 @@
     return YES;
 }
 
-- (BOOL)testArrayCreation
+test(ArrayCreation)
 {
     NSArray *arr = [[NSArray alloc] initWithObjects:@"foo", @"bar", @"baz", nil];
 
@@ -507,7 +507,7 @@
     return YES;
 }
 
-- (BOOL)testArrayMutableCreation
+test(ArrayMutableCreation)
 {
     NSMutableArray *arr = [[NSMutableArray alloc] initWithObjects:@"foo", @"bar", @"baz", nil];
 
@@ -524,7 +524,7 @@
 #warning TODO
 #if 0
 
-- (BOOL)testFileCreation
+test(FileCreation)
 {
     NSArray *arr = [[NSArray alloc] initWithContentsOfFile:@"Info.plist"];
 
@@ -537,7 +537,7 @@
     return YES;
 }
 
-- (BOOL)testFileMutableCreation
+test(FileMutableCreation)
 {
     NSMutableArray *arr = [[NSMutableArray alloc] initWithContentsOfFile:@"Info.plist"];
 
@@ -551,7 +551,7 @@
     return YES;
 }
 
-- (BOOL)testURLCreation
+test(URLCreation)
 {
     NSArray *arr = [[NSArray alloc] initWithContentsOfURL:[NSURL fileURLWithPath:@"Info.plist"]];
 
@@ -564,7 +564,7 @@
     return YES;
 }
 
-- (BOOL)testURLMutableCreation
+test(URLMutableCreation)
 {
     NSMutableArray *arr = [[NSMutableArray alloc] initWithContentsOfURL:[NSURL fileURLWithPath:@"Info.plist"]];
 
@@ -580,7 +580,7 @@
 
 #endif
 
-- (BOOL)testSubclassCreation
+test(SubclassCreation)
 {
     NSArraySubclass *arr = [[NSArraySubclass alloc] init];
 
@@ -595,7 +595,7 @@
     return YES;
 }
 
-- (BOOL)testDescription
+test(Description)
 {
     // If all keys are same type and type is sortable, description should sort
 
@@ -610,7 +610,7 @@
     return YES;
 }
 
-- (BOOL)testSortedArrayUsingSelector
+test(SortedArrayUsingSelector)
 {
     NSArray *p = @[@3, @1, @2];
     NSArray *p2 = [ p sortedArrayUsingSelector:@selector(compare:)];
@@ -633,7 +633,7 @@ static NSComparisonResult compare(id a, id b, void *context)
 }
 
 
-- (BOOL)testSortedArrayUsingFunction
+test(SortedArrayUsingFunction)
 {
     NSArray *p = @[@3, @1, @2];
     NSArray *p2 = [ p sortedArrayUsingFunction:compare context:p];
@@ -643,7 +643,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL)testSortedArrayUsingComparator
+test(SortedArrayUsingComparator)
 {
     NSArray *p = @[@3, @1, @2];
     NSArray *p2 = [ p sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
@@ -655,7 +655,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL)testRemoveAllObjects
+test(RemoveAllObjects)
 {
     NSMutableArray *m = [@[@3, @1, @2] mutableCopy];
     testassert([m count] == 3);
@@ -673,7 +673,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL)testRemoveAllWithUnretainedObject
+test(RemoveAllWithUnretainedObject)
 {
     NSMutableArray* m = [@[@3, @2, @1] mutableCopy];
     [self unretainedObjectInMutableArray:m];
@@ -687,7 +687,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL)testSubclassRemoveAllObjects
+test(SubclassRemoveAllObjects)
 {
     NSMutableArraySubclass *m = [[NSMutableArraySubclass alloc] init];
     testassert([m count] == 2);
@@ -705,7 +705,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL)testRemoveObject
+test(RemoveObject)
 {
     NSMutableArray *m = [@[@3, @1, @2] mutableCopy];
     testassert([m count] == 3);
@@ -723,7 +723,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL)testRemoveUnretainedObject
+test(RemoveUnretainedObject)
 {
     NSMutableArray* m = [@[@3, @2, @1] mutableCopy];
     id obj = [self unretainedObjectInMutableArray:m];
@@ -737,7 +737,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL)testRemoveIdenticalUnretainedObject
+test(RemoveIdenticalUnretainedObject)
 {
     NSMutableArray* m = [@[@3, @2, @1] mutableCopy];
     id obj = [self unretainedObjectInMutableArray:m];
@@ -752,7 +752,7 @@ static NSComparisonResult compare(id a, id b, void *context)
 }
 
 
-- (BOOL) testReplaceObjectsInRange1
+test(ReplaceObjectsInRange1)
 {
     NSMutableArray *m = [@[@1, @2] mutableCopy];
     id ids[2];
@@ -765,7 +765,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL) testReplaceObjectsInRange2
+test(ReplaceObjectsInRange2)
 {
     NSMutableArray *m = [@[@1, @2] mutableCopy];
     id ids[2];
@@ -778,7 +778,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL) testReplaceObjectsInRange3
+test(ReplaceObjectsInRange3)
 {
     NSMutableArray *m = [@[] mutableCopy];
     id ids[2];
@@ -789,7 +789,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL) testReplaceObjectsInRange4
+test(ReplaceObjectsInRange4)
 {
     NSMutableArray *m = [@[@1, @2] mutableCopy];
     id ids[2];
@@ -800,7 +800,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL) testReplaceObjectsInRange5
+test(ReplaceObjectsInRange5)
 {
     NSMutableArray *m = [@[] mutableCopy];
     id ids[2];
@@ -813,7 +813,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL)testReplaceUnretainedObject
+test(ReplaceUnretainedObject)
 {
     NSMutableArray* m = [@[@3, @2, @1] mutableCopy];
     [self unretainedObjectInMutableArray:m];
@@ -827,7 +827,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL)testAddObjectsFromArray
+test(AddObjectsFromArray)
 {
     NSMutableArray *cs = [@[@9] mutableCopy];
     NSArray *a = @[@1, @2];
@@ -838,7 +838,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL) testEnumeration
+test(Enumeration)
 {
     NSArray *a = @[ @1, @2, @3];
     int sum = 0;
@@ -850,7 +850,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL) testEnumeration2
+test(Enumeration2)
 {
     int sum = 0;
     NSNumber *n;
@@ -865,7 +865,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL) testEnumeration3
+test(Enumeration3)
 {
     NSString *s = @"a Z b Z c";
 
@@ -883,7 +883,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL)testRemoveRangeExceptions
+test(RemoveRangeExceptions)
 {
     NSMutableArray *cs = [@[@9] mutableCopy];
     BOOL raised = NO;
@@ -911,7 +911,7 @@ static NSComparisonResult compare(id a, id b, void *context)
 }
 
 
-- (BOOL)testContainsValue
+test(ContainsValue)
 {
     NSValue *bodyPoint = [NSValue valueWithPointer:(int *)0x12345678];
     NSArray *array = [NSArray arrayWithObject:bodyPoint];
@@ -923,7 +923,7 @@ static NSComparisonResult compare(id a, id b, void *context)
 }
 
 
-- (BOOL) testIndexesOfObjectsPassingTest
+test(IndexesOfObjectsPassingTest)
 {
     NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
     NSIndexSet *is = [cs indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
@@ -933,7 +933,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL) testEnumerateObjects
+test(EnumerateObjects)
 {
     NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
     __block int sum = 0;
@@ -945,7 +945,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL) testEnumerateObjectsWithOptions
+test(EnumerateObjectsWithOptions)
 {
     NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
     __block int sum = 0;
@@ -957,7 +957,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL) testEnumerateObjectsWithOptionsReverse
+test(EnumerateObjectsWithOptionsReverse)
 {
     NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
     __block int sum = 0;
@@ -969,7 +969,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL) testEnumerateObjectsWithOptionsConcurrent
+test(EnumerateObjectsWithOptionsConcurrent)
 {
     NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
     __block int sum = 0;
@@ -982,7 +982,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL) testEnumerateObjectsWithOptionsReverseConcurrent
+test(EnumerateObjectsWithOptionsReverseConcurrent)
 {
     NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
     __block int sum = 0;
@@ -995,7 +995,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL)testInequalObjects1
+test(InequalObjects1)
 {
     InequalObject *o1 = [InequalObject new];
     InequalObject *o2 = [InequalObject new];
@@ -1018,7 +1018,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL)testInequalObjects2
+test(InequalObjects2)
 {
     InequalObject *o1 = [InequalObject new];
     InequalObject *o2 = [InequalObject new];
@@ -1041,7 +1041,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL)testInequalObjects3
+test(InequalObjects3)
 {
     InequalObject *o1 = [InequalObject new];
     InequalObject *o2 = [InequalObject new];
@@ -1066,7 +1066,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL) testEnumerateObjectsAtIndexes
+test(EnumerateObjectsAtIndexes)
 {
     NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(2,2)];
     NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
@@ -1079,7 +1079,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL) testEnumerateObjectsAtIndexesException
+test(EnumerateObjectsAtIndexesException)
 {
     NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(3,2)];
     NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
@@ -1109,7 +1109,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL) testEnumerateObjectsAtIndexesReverse
+test(EnumerateObjectsAtIndexesReverse)
 {
     NSIndexSet *is = [[NSIndexSet alloc] initWithIndexesInRange:NSMakeRange(1,3)];
     NSMutableArray *cs = [[@[@1, @2, @3, @4] mutableCopy] autorelease];
@@ -1122,7 +1122,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
-- (BOOL)testSubclassFastEnumeration
+test(SubclassFastEnumeration)
 {
     NSMutableArray *ma = [NSMutableArray array];
     for (NSUInteger i = 0; i < 1000; i++)
@@ -1143,7 +1143,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
--(BOOL) testSortUsingComparator
+test(SortUsingComparator)
 {
     NSMutableArray* numbers = [NSMutableArray array];
     [numbers addObject: [NSNumber numberWithInt: 5] ];
@@ -1162,7 +1162,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
--(BOOL) testSortUsingException
+test(SortUsingException)
 {
     NSMutableArray* numbers = [NSMutableArray array];
     [numbers addObject: [NSNumber numberWithInt: 5] ];
@@ -1180,7 +1180,7 @@ static NSComparisonResult compare(id a, id b, void *context)
     return YES;
 }
 
--(BOOL) testSortUsingComparatorOptions
+test(SortUsingComparatorOptions)
 {
     NSMutableArray* numbers = [NSMutableArray array];
     [numbers addObject: [NSNumber numberWithInt: 5] ];

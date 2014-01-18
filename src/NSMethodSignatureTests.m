@@ -14,7 +14,7 @@
     return nil;
 }
 
-- (BOOL)testFrameLength
+test(FrameLength)
 {
     NSString *obj = [[NSString alloc] init];
 
@@ -48,7 +48,7 @@
     return YES;
 }
 
-- (BOOL)testOneWay
+test(OneWay)
 {
     NSObject *obj = [[NSObject alloc] init];
 
@@ -61,7 +61,7 @@
     return YES;
 }
 
-- (BOOL)testMethodReturnLength
+test(MethodReturnLength)
 {
     NSObject *obj = [[NSObject alloc] init];
     NSMethodSignature *methodSignature = [obj methodSignatureForSelector:@selector(release)];
@@ -129,7 +129,7 @@
     return YES;
 }
 
-- (BOOL)testMethodReturnType
+test(MethodReturnType)
 {
     NSObject *obj = [[NSObject alloc] init];
     NSMethodSignature *methodSignature = [obj methodSignatureForSelector:@selector(release)];

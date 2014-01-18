@@ -2,7 +2,7 @@
 
 @testcase(NSSortDescriptor)
 
-- (BOOL)testCreation
+test(Creation)
 {
     NSSortDescriptor *desc = nil;
     desc = [[NSSortDescriptor alloc] initWithKey:nil ascending:NO];
@@ -96,7 +96,7 @@
     return YES;
 }
 
-- (BOOL)testComparisons
+test(Comparisons)
 {
     NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:nil ascending:YES comparator:^NSComparisonResult(id obj1, id obj2) {
         int i1 = [obj1 intValue];
@@ -127,7 +127,7 @@
     return YES;
 }
 
-- (BOOL)testSorting
+test(Sorting)
 {
     NSSortDescriptor *desc = [[NSSortDescriptor alloc] initWithKey:nil ascending:YES comparator:^NSComparisonResult(id obj1, id obj2) {
         int i1 = [obj1 intValue];

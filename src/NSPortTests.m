@@ -3,7 +3,7 @@
 
 @testcase(NSPort)
 
-- (BOOL)testAlloc
+test(Alloc)
 {
     return [[NSPort alloc] class] == [NSMachPort class];
 }
@@ -13,7 +13,7 @@ static volatile BOOL gotEndEvent = NO;
 
 #if !defined(TARGET_OS_MAC) || !TARGET_OS_MAC
 
-- (BOOL)testPortMaker
+test(PortMaker)
 {
     dispatch_queue_t queue = dispatch_queue_create("testPortMaker", DISPATCH_QUEUE_SERIAL);
     dispatch_sync(queue, ^{

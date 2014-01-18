@@ -10,7 +10,7 @@
 
 @testcase(NSLocale)
 
-- (BOOL)testAllocate
+test(Allocate)
 {
     NSLocale *l1 = [NSLocale alloc];
     NSLocale *l2 = [NSLocale alloc];
@@ -20,7 +20,7 @@
     return YES;
 }
 
-- (BOOL)testPreferredLanguages
+test(PreferredLanguages)
 {
     NSArray *langs = [NSLocale preferredLanguages];
     testassert([langs count] >= 1);
@@ -29,7 +29,7 @@
     return YES;
 }
 
-- (BOOL)testAutoupdatingCurrentLocale
+test(AutoupdatingCurrentLocale)
 {
     NSLocale *autoCurrentLocale = [NSLocale autoupdatingCurrentLocale];
     NSLocale *currentLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];

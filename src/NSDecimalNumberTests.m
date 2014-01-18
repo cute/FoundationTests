@@ -10,7 +10,7 @@
 
 @testcase(NSDecimalNumber)
 #if 0
-- (BOOL)testInitWithDouble1
+test(InitWithDouble1)
 {
     double original = SCHAR_MAX;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -34,7 +34,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble2
+test(InitWithDouble2)
 {
     double original = SCHAR_MIN;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -58,7 +58,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble3
+test(InitWithDouble3)
 {
     double original = UCHAR_MAX;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -82,7 +82,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble4
+test(InitWithDouble4)
 {
     double original = CHAR_MAX;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -106,7 +106,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble5
+test(InitWithDouble5)
 {
     double original = CHAR_MIN;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -130,7 +130,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble6
+test(InitWithDouble6)
 {
     double original = USHRT_MAX;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -154,7 +154,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble7
+test(InitWithDouble7)
 {
     double original = SHRT_MAX;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -178,7 +178,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble8
+test(InitWithDouble8)
 {
     double original = SHRT_MIN;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -202,7 +202,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble9
+test(InitWithDouble9)
 {
     double original = UINT_MAX;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -226,7 +226,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble10
+test(InitWithDouble10)
 {
     double original = INT_MAX;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -250,7 +250,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble11
+test(InitWithDouble11)
 {
     double original = INT_MIN;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -274,7 +274,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble12
+test(InitWithDouble12)
 {
 #if __LP64__
     double original = ULONG_MAX;
@@ -318,7 +318,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble13
+test(InitWithDouble13)
 {
 #if __LP64__
     double original = LONG_MAX;
@@ -362,7 +362,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble14
+test(InitWithDouble14)
 {
 #if __LP64__
     double original = LONG_MIN;
@@ -406,7 +406,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble15
+test(InitWithDouble15)
 {
     double original = ULLONG_MAX;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -430,7 +430,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble16
+test(InitWithDouble16)
 {
     double original = LLONG_MAX;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -454,7 +454,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble17
+test(InitWithDouble17)
 {
     double original = LLONG_MIN;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -478,7 +478,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble18
+test(InitWithDouble18)
 {
     double original = FLT_MAX;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -502,7 +502,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble19
+test(InitWithDouble19)
 {
     double original = DBL_MAX;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -526,7 +526,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble20
+test(InitWithDouble20)
 {
     double original = LDBL_MAX;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -550,7 +550,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble21
+test(InitWithDouble21)
 {
     double original = FLT_EPSILON;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -574,7 +574,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble22
+test(InitWithDouble22)
 {
     double original = DBL_EPSILON;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -598,7 +598,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble23
+test(InitWithDouble23)
 {
 #if TARGET_OS_IPHONE
     double original = LDBL_EPSILON;
@@ -642,7 +642,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble24
+test(InitWithDouble24)
 {
     double original = FLT_MIN;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -666,7 +666,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble25
+test(InitWithDouble25)
 {
     double original = DBL_MIN;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -690,7 +690,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble26
+test(InitWithDouble26)
 {
     double original = LDBL_MIN;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -714,7 +714,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble27
+test(InitWithDouble27)
 {
     double original = FLT_TRUE_MIN;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -738,7 +738,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble28
+test(InitWithDouble28)
 {
     double original = DBL_TRUE_MIN;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -762,7 +762,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble29
+test(InitWithDouble29)
 {
     double original = LDBL_TRUE_MIN;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -786,7 +786,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble30
+test(InitWithDouble30)
 {
     double original = LDBL_TRUE_MIN;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -810,7 +810,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble31
+test(InitWithDouble31)
 {
     double original = 1.0e-110;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -834,7 +834,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble32
+test(InitWithDouble32)
 {
     double original = 1.0e-110 - DBL_MIN;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -858,7 +858,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble33
+test(InitWithDouble33)
 {
     double original = 1.8e146;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -882,7 +882,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble34
+test(InitWithDouble34)
 {
     double original = 1.8e146 + DBL_MIN;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -906,7 +906,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble35
+test(InitWithDouble35)
 {
     double original = 1.8446744073709551616e19;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -930,7 +930,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDouble36
+test(InitWithDouble36)
 {
     double original = 1.8446744073709551616e19 + DBL_MIN;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
@@ -954,7 +954,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithDecimal
+test(InitWithDecimal)
 {
 #if __LP64__
     NSDecimal decimal;
@@ -1008,7 +1008,7 @@
     return YES;
 }
 
-- (BOOL)testNSDecimalNumberRepresentation1
+test(NSDecimalNumberRepresentation1)
 {
     NSDecimal decimal = [[NSDecimalNumber numberWithInt:1] decimalValue];
     testassert(decimal._exponent == 0);
@@ -1027,7 +1027,7 @@
     return YES;
 }
 
-- (BOOL)testNSDecimalNumberRepresentation2
+test(NSDecimalNumberRepresentation2)
 {
     NSDecimal decimal = [[NSDecimalNumber numberWithInt:(unsigned short)-1] decimalValue];
     testassert(decimal._exponent == 0);
@@ -1046,7 +1046,7 @@
     return YES;
 }
 
-- (BOOL)testNSDecimalNumberRepresentation3
+test(NSDecimalNumberRepresentation3)
 {
     NSDecimal decimal = [[NSDecimalNumber numberWithInt:65536] decimalValue];
     testassert(decimal._exponent == 0);
@@ -1065,7 +1065,7 @@
     return YES;
 }
 
-- (BOOL)testNSDecimalNumberRepresentation4
+test(NSDecimalNumberRepresentation4)
 {
     NSDecimal decimal = [[NSDecimalNumber numberWithDouble:65536.65535] decimalValue];
     testassert(decimal._exponent == -14);
@@ -1084,7 +1084,7 @@
     return YES;
 }
 
-- (BOOL)testNSDecimalNumberRepresentation5
+test(NSDecimalNumberRepresentation5)
 {
     NSDecimal decimal = [[NSDecimalNumber numberWithDouble:65536.65536] decimalValue];
     testassert(decimal._exponent == -5);
@@ -1103,7 +1103,7 @@
     return YES;
 }
 
-- (BOOL)testNSDecimalNumberRepresentation6
+test(NSDecimalNumberRepresentation6)
 {
     NSDecimal decimal = [[NSDecimalNumber numberWithDouble:-65536.65536] decimalValue];
     testassert(decimal._exponent == -5);
@@ -1122,7 +1122,7 @@
     return YES;
 }
 
-- (BOOL)testNSDecimalNumberRepresentation7
+test(NSDecimalNumberRepresentation7)
 {
     NSDecimal decimal = [[NSDecimalNumber numberWithDouble:1345.231534661346] decimalValue];
     testassert(decimal._exponent == -16);
@@ -1141,7 +1141,7 @@
     return YES;
 }
 
-- (BOOL)testNSDecimalNumberRepresentation8
+test(NSDecimalNumberRepresentation8)
 {
     NSDecimal decimal = [[[NSDecimalNumber alloc] initWithMantissa:18446744073709551615ULL exponent:0 isNegative:NO] decimalValue];
     testassert(decimal._exponent == 0);
@@ -1160,21 +1160,21 @@
     return YES;
 }
 
-- (BOOL)testObjCType
+test(ObjCType)
 {
     NSDecimalNumber *n = [NSDecimalNumber decimalNumberWithString:@"1.99"];
     testassert(strcmp([n objCType], "d") == 0);
     return YES;
 }
 
-- (BOOL)test_cfNumberType
+test(_cfNumberType)
 {
     NSDecimalNumber *n = [NSDecimalNumber decimalNumberWithString:@"1.99"];
     testassert([n _cfNumberType] == kCFNumberDoubleType);
     return YES;
 }
 
-- (BOOL)testDoubleValue1
+test(DoubleValue1)
 {
     NSDecimalNumber *n = nil;
     n = [NSDecimalNumber decimalNumberWithString:@"0"];
@@ -1183,7 +1183,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleValue2
+test(DoubleValue2)
 {
     NSDecimalNumber *n = nil;
     n = [NSDecimalNumber decimalNumberWithString:@"0.0"];
@@ -1192,7 +1192,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleValue3
+test(DoubleValue3)
 {
     NSDecimalNumber *n = nil;
     n = [NSDecimalNumber decimalNumberWithString:@"-0"];
@@ -1202,7 +1202,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleValue4
+test(DoubleValue4)
 {
     NSDecimalNumber *n = nil;
     n = [NSDecimalNumber decimalNumberWithString:@"-0.0"];
@@ -1212,7 +1212,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleValue5
+test(DoubleValue5)
 {
     NSDecimalNumber *n = nil;
     n = [NSDecimalNumber decimalNumberWithString:@"0.33"];
@@ -1222,7 +1222,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleValue6
+test(DoubleValue6)
 {
     NSDecimalNumber *n = nil;
     n = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%d", USHRT_MAX]];
@@ -1231,7 +1231,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleValue7
+test(DoubleValue7)
 {
     NSDecimalNumber *n = nil;
     n = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%f",(double)USHRT_MAX + 1.0]];
@@ -1240,7 +1240,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleValue8
+test(DoubleValue8)
 {
     NSDecimalNumber *n = nil;
     n = [NSDecimalNumber decimalNumberWithString:@"65536"];
@@ -1249,7 +1249,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleValue9
+test(DoubleValue9)
 {
     NSDecimalNumber *n = nil;
     n = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%llu", ULLONG_MAX]];
@@ -1258,7 +1258,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleValue10
+test(DoubleValue10)
 {
     NSDecimalNumber *n = nil;
     n = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%f", 1 + (double)ULLONG_MAX]];
@@ -1267,7 +1267,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleValue11
+test(DoubleValue11)
 {
     NSDecimalNumber *n = nil;
     n = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%f", 2.0 * (double)ULLONG_MAX]];
@@ -1276,7 +1276,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleValue12
+test(DoubleValue12)
 {
     NSDecimalNumber *n = nil;
     n = [NSDecimalNumber decimalNumberWithString:@"123234623564.12351251345134"];
@@ -1286,7 +1286,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleValue13
+test(DoubleValue13)
 {
     NSDecimalNumber *n = nil;
     n = [NSDecimalNumber decimalNumberWithString:@"12345678901234567890123456789012345678"];
@@ -1295,7 +1295,7 @@
     return YES;
 }
 
-- (BOOL)testNanEquality
+test(NanEquality)
 {
     NSDecimal nanDec = [[NSDecimalNumber notANumber] decimalValue];
     NSComparisonResult result = NSDecimalCompare(&nanDec, &nanDec);
@@ -1303,7 +1303,7 @@
     return YES;
 }
 
-- (BOOL)testNanEquality2
+test(NanEquality2)
 {
     NSDecimal nanDec = [[NSDecimalNumber notANumber] decimalValue];
     NSDecimal nanDec2 = [[NSDecimalNumber notANumber] decimalValue];
@@ -1313,7 +1313,7 @@
 }
 
 
-- (BOOL)testNanEquality3
+test(NanEquality3)
 {
     NSDecimal nanDec = [[NSDecimalNumber notANumber] decimalValue];
     NSDecimal zeroDec = [[NSDecimalNumber zero] decimalValue];
@@ -1322,7 +1322,7 @@
     return YES;
 }
 
-- (BOOL)testNanEquality4
+test(NanEquality4)
 {
     NSDecimal nanDec = [[NSDecimalNumber notANumber] decimalValue];
     NSDecimal zeroDec = [[NSDecimalNumber zero] decimalValue];
@@ -1331,7 +1331,7 @@
     return YES;
 }
 
-- (BOOL)testNanEquality5
+test(NanEquality5)
 {
     NSDecimal nanDec = [[NSDecimalNumber notANumber] decimalValue];
     NSDecimal oneDec = [[NSDecimalNumber one] decimalValue];
@@ -1340,7 +1340,7 @@
     return YES;
 }
 
-- (BOOL)testDecimalNumberDoubleValue
+test(DecimalNumberDoubleValue)
 {
     double zero = [[NSDecimalNumber zero] doubleValue];
     testassert(zero == 0.0);
@@ -1367,7 +1367,7 @@
     return YES;
 }
 //
-//- (BOOL)testDecimalNumberGetValueForType
+//test(DecimalNumberGetValueForType)
 //{
 //    NSDecimalNumber *dn = [NSDecimalNumber decimalNumberWithString:@"1.99"];
 //    double d;
@@ -1376,7 +1376,7 @@
 //    return YES;
 //}
 
-- (BOOL)testDecimalNumberInitWithCoder
+test(DecimalNumberInitWithCoder)
 {
 #if __LP64__
     NSDecimalNumber *number1 = [NSDecimalNumber decimalNumberWithString:@"123"];
@@ -1444,7 +1444,7 @@
     return YES;
 }
 
-- (BOOL)testDecimalNumberInitWithDecimal
+test(DecimalNumberInitWithDecimal)
 {
     NSDecimalNumber *dn = [NSDecimalNumber decimalNumberWithString:@"1.99"];
     NSDecimal dv = [dn decimalValue];
@@ -1455,7 +1455,7 @@
     return YES;
 }
 
-- (BOOL)testDecimalNumberCopy
+test(DecimalNumberCopy)
 {
     NSDecimal decimalSource = [[NSDecimalNumber numberWithInt:1337] decimalValue];
     NSDecimal decimalDestination;
@@ -1474,7 +1474,7 @@
     return YES;
 }
 
-- (BOOL)testDecimalNumberGetValueForDecimal
+test(DecimalNumberGetValueForDecimal)
 {
     NSDecimalNumber *dn = [NSDecimalNumber decimalNumberWithString:@"1.99"];
     NSDecimal decimal = [dn decimalValue];
@@ -1486,7 +1486,7 @@
     return YES;
 }
 
-- (BOOL)testDecimalNumberZeroOne
+test(DecimalNumberZeroOne)
 {
     NSDecimalNumber *one = [NSDecimalNumber one];
     NSDecimalNumber *zero = [NSDecimalNumber zero];
@@ -1497,14 +1497,14 @@
     return YES;
 }
 
-- (BOOL)testDecimalNumber_notANumber
+test(DecimalNumber_notANumber)
 {
     NSDecimalNumber *aNaN = [NSDecimalNumber notANumber];
     testassert(isnan([aNaN doubleValue]) != 0);
     return YES;
 }
 
-- (BOOL)testDecimalNumber_notANumber2
+test(DecimalNumber_notANumber2)
 {
     NSDecimalNumber *aNAN = [[NSDecimalNumber alloc] initWithDouble:NAN];
     NSDecimalNumber *notANumber = [NSDecimalNumber notANumber];
@@ -1515,7 +1515,7 @@
     return YES;
 }
 
-- (BOOL)testDecimalNumber_notANumber3a
+test(DecimalNumber_notANumber3a)
 {
     NSDecimalNumber *notANumber = [NSDecimalNumber notANumber];
     
@@ -1533,7 +1533,7 @@
     return YES;
 }
 
-- (BOOL)testDecimalNumber_notANumber3b
+test(DecimalNumber_notANumber3b)
 {
     NSDecimalNumber *notANumber = [NSDecimalNumber notANumber];
     
@@ -1552,7 +1552,7 @@
     return YES;
 }
 
-- (BOOL)testDecimalNumber_notANumber4
+test(DecimalNumber_notANumber4)
 {
     NSDecimal dcm = { 0 };
     dcm._isNegative = 1;
@@ -1564,7 +1564,7 @@
     return YES;
 }
 
-- (BOOL)testDecimalNumber_constructedNaN
+test(DecimalNumber_constructedNaN)
 {
     NSDecimal dcm = { 0 };
     dcm._isNegative = 1;
@@ -1576,7 +1576,7 @@
     return YES;
 }
 
-- (BOOL)testDecimalNumber_notANumber_doubleBits
+test(DecimalNumber_notANumber_doubleBits)
 {
     double d = [[NSDecimalNumber notANumber] doubleValue];
     uint8_t *buf = (uint8_t *)&d;

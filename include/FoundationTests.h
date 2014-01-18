@@ -3,17 +3,29 @@
 
 #define FoundationTest(c) c##TestsApportable
 
-#define testcase(name) interface FoundationTest(name) : NSObject @end \
-static void name##Register() __attribute((constructor)); \
-static void name##Register() { registerTestClass([FoundationTest(name) class]); } \
-@implementation FoundationTest(name)
+struct testName {
+    const char *methodName;
+    int line;
+    struct testName *next;
+};
 
-#define testrun(name) try { \
-    id suite = [[FoundationTest(name) alloc] init]; \
-    runTests(suite); \
-    [suite release]; \
-} @catch(...) { \
-}
+#define testcase(name, ...) \
+interface FoundationTest(name) : NSObject @end \
+static struct testName name##TestNames = {0}; \
+static struct testName *_testNames = &name##TestNames; \
+static void name##Register(void) __attribute((constructor)); \
+static void name##Register(void) { registerTestClass([FoundationTest(name) class]); } \
+@implementation FoundationTest(name) \
+__VA_ARGS__ \
++ (struct testName *)testNames { return _testNames; } \
+
+#define test(name) \
+static void  __attribute((constructor)) name##Register(void){ \
+struct testName *name = malloc(sizeof(*name)); \
+*name = (struct testName) { .methodName = #name, .line = __LINE__, .next = _testNames, }; \
+_testNames = name; \
+} \
+- (BOOL)name \
 
 #define testassert(b, ...) do { if (!_testassert(b , ##__VA_ARGS__, __FILE__, __LINE__)) return NO; } while (NO)
 BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_noreturn));

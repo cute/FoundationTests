@@ -43,7 +43,7 @@ extern CFTypeID CFTypeGetTypeID();
 
 @testcase(NSObject)
 
-- (BOOL)test_copyDescription
+test(copyDescription)
 {
     NSObject *obj = [[NSObject alloc] init];
     NSString *desc = [obj _copyDescription];
@@ -54,7 +54,7 @@ extern CFTypeID CFTypeGetTypeID();
     return YES;
 }
 
-- (BOOL)test_cfGetTypeID
+test(cfGetTypeID)
 {
     NSObject *obj = [[NSObject alloc] init];
     CFTypeID expected = CFTypeGetTypeID();
@@ -62,7 +62,7 @@ extern CFTypeID CFTypeGetTypeID();
     return YES;
 }
 
-- (BOOL)test__dealloc_zombie
+test(dealloc_zombie)
 {
     Class NSObjectClass = objc_getClass("NSObject");
     Method m = class_getInstanceMethod(NSObjectClass, @selector(__dealloc_zombie));
@@ -70,91 +70,91 @@ extern CFTypeID CFTypeGetTypeID();
     return YES;
 }
 
-- (BOOL)testIsNSValue__
+test(IsNSValue__)
 {
     NSObject *obj = [[NSObject alloc] init];
     testassert([obj isNSValue__] == NO);
     return YES;
 }
 
-- (BOOL)testIsNSTimeZone__
+test(IsNSTimeZone__)
 {
     NSObject *obj = [[NSObject alloc] init];
     testassert([obj isNSTimeZone__] == NO);
     return YES;
 }
 
-- (BOOL)testIsNSString__
+test(IsNSString__)
 {
     NSObject *obj = [[NSObject alloc] init];
     testassert([obj isNSString__] == NO);
     return YES;
 }
 
-- (BOOL)testIsNSSet__
+test(IsNSSet__)
 {
     NSObject *obj = [[NSObject alloc] init];
     testassert([obj isNSSet__] == NO);
     return YES;
 }
 
-- (BOOL)testIsNSOrderedSet__
+test(IsNSOrderedSet__)
 {
     NSObject *obj = [[NSObject alloc] init];
     testassert([obj isNSOrderedSet__] == NO);
     return YES;
 }
 
-- (BOOL)testIsNSNumber__
+test(IsNSNumber__)
 {
     NSObject *obj = [[NSObject alloc] init];
     testassert([obj isNSNumber__] == NO);
     return YES;
 }
 
-- (BOOL)testIsNSDictionary__
+test(IsNSDictionary__)
 {
     NSObject *obj = [[NSObject alloc] init];
     testassert([obj isNSDictionary__] == NO);
     return YES;
 }
 
-- (BOOL)testIsNSDate__
+test(IsNSDate__)
 {
     NSObject *obj = [[NSObject alloc] init];
     testassert([obj isNSDate__] == NO);
     return YES;
 }
 
-- (BOOL)testIsNSData__
+test(IsNSData__)
 {
     NSObject *obj = [[NSObject alloc] init];
     testassert([obj isNSData__] == NO);
     return YES;
 }
 
-- (BOOL)testIsNSArray__
+test(IsNSArray__)
 {
     NSObject *obj = [[NSObject alloc] init];
     testassert([obj isNSArray__] == NO);
     return YES;
 }
 
-- (BOOL)testInstanceMethodSignatureForSelector
+test(InstanceMethodSignatureForSelector)
 {
     NSMethodSignature *sig = [NSObject instanceMethodSignatureForSelector:@selector(init)];
     testassert(sig != NULL);
     return YES;
 }
 
-- (BOOL)testMethodSignatureForSelector1
+test(MethodSignatureForSelector1)
 {
     NSMethodSignature *sig = [NSObject methodSignatureForSelector:@selector(alloc)];
     testassert(sig != NULL);
     return YES;
 }
 
-- (BOOL)testMethodSignatureForSelector2
+test(MethodSignatureForSelector2)
 {
     NSObject *obj = [[NSObject alloc] init];
     NSMethodSignature *sig = [obj methodSignatureForSelector:@selector(init)];
@@ -163,14 +163,14 @@ extern CFTypeID CFTypeGetTypeID();
     return YES;
 }
 
-- (BOOL)testDescription1
+test(Description1)
 {
     NSString *str = [NSObject description];
     testassert([str isEqualToString:@"NSObject"]);
     return YES;
 }
 
-- (BOOL)testDescription2
+test(Description2)
 {
     NSObject *obj = [[NSObject alloc] init];
     NSString *desc = [obj description];
@@ -181,7 +181,7 @@ extern CFTypeID CFTypeGetTypeID();
     return YES;
 }
 
-- (BOOL)testDescription3
+test(Description3)
 {
     NSString *str = (NSString *)CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%@"), self);
     testassert([[self description] isEqualToString:str]);
@@ -189,13 +189,13 @@ extern CFTypeID CFTypeGetTypeID();
     return YES;
 }
 
-- (BOOL)testImplementsSelector1
+test(ImplementsSelector1)
 {
     testassert([NSObject implementsSelector:@selector(alloc)]);
     return YES;
 }
 
-- (BOOL)testImplementsSelector2
+test(ImplementsSelector2)
 {
     NSObject *obj = [[NSObject alloc] init];
     testassert([obj implementsSelector:@selector(init)]);
@@ -203,13 +203,13 @@ extern CFTypeID CFTypeGetTypeID();
     return YES;
 }
 
-- (BOOL)testInstancesImplementSelector
+test(InstancesImplementSelector)
 {
     testassert([NSObject instancesImplementSelector:@selector(init)]);
     return YES;
 }
 
-- (BOOL)testVersion
+test(Version)
 {
     NSInteger ver = [NSObject version];
     testassert(ver == 0);
@@ -218,7 +218,7 @@ extern CFTypeID CFTypeGetTypeID();
     return YES;
 }
 
-- (BOOL)testInitWithCoder
+test(InitWithCoder)
 {
     Class NSObjectClass = objc_getClass("NSObject");
     Method m = class_getInstanceMethod(NSObjectClass, @selector(initWithCoder:));
@@ -226,7 +226,7 @@ extern CFTypeID CFTypeGetTypeID();
     return YES;
 }
 
-- (BOOL)test_allowsDirectEncoding
+test(AllowsDirectEncoding)
 {
     NSObject *obj = [[NSObject alloc] init];
     testassert([obj _allowsDirectEncoding] == NO);
@@ -234,7 +234,7 @@ extern CFTypeID CFTypeGetTypeID();
     return YES;
 }
 
-- (BOOL)testClassForCoder
+test(ClassForCoder)
 {
     NSObject *obj = [[NSObject alloc] init];
     testassert([obj classForCoder] == [NSObject class]);
@@ -242,7 +242,7 @@ extern CFTypeID CFTypeGetTypeID();
     return YES;
 }
 
-- (BOOL)testReplacementObjectForCoder
+test(ReplacementObjectForCoder)
 {
     NSObject *obj = [[NSObject alloc] init];
     id replacement = [obj replacementObjectForCoder:nil];
@@ -251,7 +251,7 @@ extern CFTypeID CFTypeGetTypeID();
     return YES;
 }
 
-- (BOOL)testAwakeAfterUsingCoder
+test(AwakeAfterUsingCoder)
 {
     NSObject *obj = [[NSObject alloc] init];
     id replacement = [obj awakeAfterUsingCoder:nil];
@@ -260,7 +260,7 @@ extern CFTypeID CFTypeGetTypeID();
     return YES;
 }
 
-- (BOOL)testMissingForwarding
+test(MissingForwarding)
 {
     BOOL raised = NO;
     @try {

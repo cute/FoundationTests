@@ -18,7 +18,7 @@
 
 #ifndef IM_A_MAC_TARGET
 
-- (BOOL)testNSAttributedStringColorTest
+test(NSAttributedStringColorTest)
 {
     UIColor *one = [UIColor colorWithRed:1 green:0 blue:0 alpha:1];
     UIColor *two = [UIColor redColor];
@@ -26,21 +26,21 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringString
+test(NSAttributedStringString)
 {
     NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"My string."];
     testassert([[str string] isEqualToString:@"My string."]);
     return YES;
 }
 
-- (BOOL)testNSAttributedStringLength
+test(NSAttributedStringLength)
 {
     NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"My string."];
     testassert([str length] == 10);
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithStringAttributed
+test(NSAttributedStringInitWithStringAttributed)
 {
     UIColor *color = [UIColor yellowColor];
     NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
@@ -53,7 +53,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithAttributedString
+test(NSAttributedStringInitWithAttributedString)
 {
     UIColor *color = [UIColor yellowColor];
     NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
@@ -67,7 +67,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithStringAttributedEffective
+test(NSAttributedStringInitWithStringAttributedEffective)
 {
     UIColor *color = [UIColor yellowColor];
     NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
@@ -81,7 +81,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithStringAttributedEffectiveAttributesEmpty
+test(NSAttributedStringInitWithStringAttributedEffectiveAttributesEmpty)
 {
     NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:@"stringy"];
     NSRange range;
@@ -96,7 +96,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithStringAttributedEffectiveAttributesEmptyMutable
+test(NSAttributedStringInitWithStringAttributedEffectiveAttributesEmptyMutable)
 {
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@"stringy"];
     NSRange range;
@@ -122,21 +122,21 @@
 }
 
 
-- (BOOL)testNSAttributedStringStringMutable
+test(NSAttributedStringStringMutable)
 {
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"My string."];
     testassert([[str string] isEqualToString:@"My string."]);
     return YES;
 }
 
-- (BOOL)testNSAttributedStringLengthMutable
+test(NSAttributedStringLengthMutable)
 {
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"My string."];
     testassert([str length] == 10);
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithStringAttributedMutable
+test(NSAttributedStringInitWithStringAttributedMutable)
 {
     UIColor *color = [UIColor yellowColor];
     NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
@@ -149,7 +149,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithStringAttributedEffectiveMutable
+test(NSAttributedStringInitWithStringAttributedEffectiveMutable)
 {
     UIColor *color = [UIColor yellowColor];
     NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
@@ -164,7 +164,7 @@
 }
 
 
-- (BOOL)testNSAttributedStringInitWithStringAttributedEffectiveMutable2
+test(NSAttributedStringInitWithStringAttributedEffectiveMutable2)
 {
     UIColor *color = [UIColor yellowColor];
     NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
@@ -195,7 +195,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithStringAttributedOverlap
+test(NSAttributedStringInitWithStringAttributedOverlap)
 {
     UIColor *yellow = [UIColor yellowColor];
     UIColor *blue = [UIColor blueColor];
@@ -213,7 +213,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithStringAttributedOverlap2
+test(NSAttributedStringInitWithStringAttributedOverlap2)
 {
     UIColor *yellow = [UIColor yellowColor];
     UIColor *blue = [UIColor blueColor];
@@ -232,7 +232,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithStringAttributes
+test(NSAttributedStringInitWithStringAttributes)
 {
     UIColor *yellow = [UIColor yellowColor];
     UIColor *blue = [UIColor blueColor];
@@ -253,7 +253,7 @@
 }
 
 
-- (BOOL)testNSAttributedStringInitWithStringAttributedEffectiveMutableMerge1
+test(NSAttributedStringInitWithStringAttributedEffectiveMutableMerge1)
 {
     UIColor *color = [UIColor yellowColor];
     NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
@@ -286,7 +286,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithStringAttributedEffectiveMutableMerge2
+test(NSAttributedStringInitWithStringAttributedEffectiveMutableMerge2)
 {
     UIColor *color = [UIColor yellowColor];
     NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
@@ -319,7 +319,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithAttributedStringAttributedEffectiveMutableMerge2
+test(NSAttributedStringInitWithAttributedStringAttributedEffectiveMutableMerge2)
 {
     UIColor *color = [UIColor yellowColor];
     NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
@@ -354,7 +354,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithAttributedStringAttributedEffectiveMutableMergeFromImmutable
+test(NSAttributedStringInitWithAttributedStringAttributedEffectiveMutableMergeFromImmutable)
 {
     UIColor *yellow = [UIColor yellowColor];
     NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:yellow forKey:NSFontAttributeName];
@@ -396,7 +396,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithStringAttributedLongestEffectiveMutableMiss
+test(NSAttributedStringInitWithStringAttributedLongestEffectiveMutableMiss)
 {
     UIColor *color = [UIColor yellowColor];
     NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
@@ -414,7 +414,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithStringAttributedLongestEffectiveAttributes
+test(NSAttributedStringInitWithStringAttributedLongestEffectiveAttributes)
 {
     UIColor *color = [UIColor yellowColor];
     NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
@@ -428,7 +428,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithStringAttributedLongestEffectiveAttribute
+test(NSAttributedStringInitWithStringAttributedLongestEffectiveAttribute)
 {
     UIColor *color = [UIColor yellowColor];
     NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
@@ -442,7 +442,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithStringAttributedLongestEffectiveMutableMissAttributes
+test(NSAttributedStringInitWithStringAttributedLongestEffectiveMutableMissAttributes)
 {
     UIColor *color = [UIColor yellowColor];
     NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
@@ -458,7 +458,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithStringAttributedLongestEffectiveMutable
+test(NSAttributedStringInitWithStringAttributedLongestEffectiveMutable)
 {
     UIColor *color = [UIColor yellowColor];
     NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
@@ -486,7 +486,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithStringAttributedLongestEffectiveMutableAttributes
+test(NSAttributedStringInitWithStringAttributedLongestEffectiveMutableAttributes)
 {
     UIColor *color = [UIColor yellowColor];
     NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
@@ -522,7 +522,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringAttributeNil
+test(NSAttributedStringAttributeNil)
 {
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"My string."];
     [str addAttribute:NSBackgroundColorAttributeName value:[UIColor yellowColor] range:NSMakeRange(3,5)];
@@ -533,7 +533,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringInitWithStringAttributedMutable2
+test(NSAttributedStringInitWithStringAttributedMutable2)
 {
     UIColor *color = [UIColor yellowColor];
     NSDictionary *attrsDictionary =  [NSDictionary dictionaryWithObject:color forKey:NSFontAttributeName];
@@ -547,7 +547,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringAttribute
+test(NSAttributedStringAttribute)
 {
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"My string."];
     [str addAttribute:NSBackgroundColorAttributeName value:[UIColor yellowColor] range:NSMakeRange(3,5)];
@@ -558,7 +558,7 @@
 }
 
 
-- (BOOL)testNSAttributedStringException
+test(NSAttributedStringException)
 {
     BOOL gotException = NO;
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"My string."];
@@ -574,7 +574,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringExceptionOverlap
+test(NSAttributedStringExceptionOverlap)
 {
     BOOL gotException = NO;
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"My string."];
@@ -590,7 +590,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringUseCase
+test(NSAttributedStringUseCase)
 {
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"My string.abcdefghijklmnopqrstuvwxyz"];
     [str addAttribute:NSBackgroundColorAttributeName value:[UIColor yellowColor] range:NSMakeRange(3,5)];
@@ -600,7 +600,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringCopy
+test(NSAttributedStringCopy)
 {
     UIColor *red = [UIColor redColor];
     NSDictionary *dict = @{NSForegroundColorAttributeName: red};
@@ -615,7 +615,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringMutableCopy
+test(NSAttributedStringMutableCopy)
 {
     UIColor *red = [UIColor redColor];
     NSAttributedString *preCopy = [[NSAttributedString alloc] initWithString:@"My string."];
@@ -637,7 +637,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringAttributedSubstringFromRange
+test(NSAttributedStringAttributedSubstringFromRange)
 {
     UIColor *red = [UIColor redColor];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"My string."];
@@ -658,7 +658,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringEnumerateAttributesInRange
+test(NSAttributedStringEnumerateAttributesInRange)
 {
     __block NSUInteger found = NO;
     __block NSUInteger count = 0;
@@ -692,7 +692,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringEnumerateAttribute
+test(NSAttributedStringEnumerateAttribute)
 {
     __block NSUInteger found = 0;
     __block NSUInteger count = 0;
@@ -726,7 +726,7 @@
     return YES;
 }
 
-- (BOOL)testNSAttributedStringEmpty
+test(NSAttributedStringEmpty)
 {
     NSAttributedString *str = [[NSAttributedString alloc] initWithString:@""];
     int length = [str length];

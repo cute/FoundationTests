@@ -6,7 +6,7 @@
 
 @testcase(CFRunLoop)
 
-- (BOOL)testGetCurrent
+test(GetCurrent)
 {
     CFRunLoopRef rl = CFRunLoopGetCurrent();
 
@@ -16,7 +16,7 @@
     return YES;
 }
 
-- (BOOL)testGetMain
+test(GetMain)
 {
     CFRunLoopRef rl = CFRunLoopGetMain();
 
@@ -40,7 +40,7 @@ static void *runLoopStart(void *ctx)
     return NULL;
 }
 
-- (BOOL)testCFTLSReleaseCycles
+test(CFTLSReleaseCycles)
 {
     runloopDeallocEvents = 0;
     for (int i = 0; i < 1025; i++)
@@ -60,7 +60,7 @@ static void *runLoopStart2(void *ctx)
     return NULL;
 }
 
-- (BOOL)testNSTLSReleaseCycles
+test(NSTLSReleaseCycles)
 {
     for (int i = 0; i < 1025; i++)
     {

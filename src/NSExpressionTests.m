@@ -17,7 +17,7 @@
 
 @testcase(NSExpression)
 
-- (BOOL)testKeyPathExpression1
+test(KeyPathExpression1)
 {
     NSExpression *exp = [NSExpression expressionForKeyPath:@"foo"];
     testassert(exp != nil);
@@ -26,7 +26,7 @@
     return YES;
 }
 
-- (BOOL)testKeyPathExpression2
+test(KeyPathExpression2)
 {
     NSExpression *exp = [NSExpression expressionForKeyPath:@"foo.bar"];
     testassert(exp != nil);
@@ -35,7 +35,7 @@
     return YES;
 }
 
-- (BOOL)testSimpleMath1
+test(SimpleMath1)
 {
     NSExpression *expression = [NSExpression expressionWithFormat:@"1+1"];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -43,7 +43,7 @@
     return YES;
 }
 
-- (BOOL)testNewLines
+test(NewLines)
 {
     NSExpression *expression = [NSExpression expressionWithFormat:@"1\n+1"];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -51,7 +51,7 @@
     return YES;
 }
 
-- (BOOL)testTabs
+test(Tabs)
 {
     NSExpression *expression = [NSExpression expressionWithFormat:@"1\t+1"];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -59,7 +59,7 @@
     return YES;
 }
 
-- (BOOL)testEscaped
+test(Escaped)
 {
     BOOL thrown = NO;
     @try {
@@ -74,7 +74,7 @@
     return YES;
 }
 
-- (BOOL)testSimpleMath2
+test(SimpleMath2)
 {
     NSExpression *expression = [NSExpression expressionWithFormat:@"0x4444+0x2222"];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -82,7 +82,7 @@
     return YES;
 }
 
-- (BOOL)testSimpleMathWithComments1
+test(SimpleMathWithComments1)
 {
     BOOL thrown = NO;
     @try {
@@ -97,7 +97,7 @@
     return YES;
 }
 
-- (BOOL)testSimpleMathWithComments2
+test(SimpleMathWithComments2)
 {
     BOOL thrown = NO;
     @try {
@@ -112,7 +112,7 @@
     return YES;
 }
 
-- (BOOL)testTrigraph
+test(Trigraph)
 {
     BOOL thrown = NO;
     @try {
@@ -127,7 +127,7 @@
     return YES;
 }
 
-- (BOOL)testStatistics1
+test(Statistics1)
 {
     NSArray *numbers = @[@1, @2, @3];
     NSExpression *expression = [NSExpression expressionForFunction:@"sum:" arguments:@[[NSExpression expressionForConstantValue:numbers]]];
@@ -136,7 +136,7 @@
     return YES;
 }
 
-- (BOOL)testStatistics2
+test(Statistics2)
 {
     NSArray *numbers = @[@1, @2, @3];
     NSExpression *expression = [NSExpression expressionForFunction:@"count:" arguments:@[[NSExpression expressionForConstantValue:numbers]]];
@@ -145,7 +145,7 @@
     return YES;
 }
 
-- (BOOL)testStatistics3
+test(Statistics3)
 {
     NSArray *numbers = @[@1, @2, @3];
     NSExpression *expression = [NSExpression expressionForFunction:@"average:" arguments:@[[NSExpression expressionForConstantValue:numbers]]];
@@ -154,7 +154,7 @@
     return YES;
 }
 
-- (BOOL)testStatistics4
+test(Statistics4)
 {
     NSArray *numbers = @[@1, @2, @3];
     NSExpression *expression = [NSExpression expressionForFunction:@"min:" arguments:@[[NSExpression expressionForConstantValue:numbers]]];
@@ -163,7 +163,7 @@
     return YES;
 }
 
-- (BOOL)testStatistics5
+test(Statistics5)
 {
     NSArray *numbers = @[@1, @2, @3];
     NSExpression *expression = [NSExpression expressionForFunction:@"max:" arguments:@[[NSExpression expressionForConstantValue:numbers]]];
@@ -172,7 +172,7 @@
     return YES;
 }
 
-- (BOOL)testStatistics6
+test(Statistics6)
 {
     NSArray *numbers = @[@1, @2, @3];
     NSExpression *expression = [NSExpression expressionForFunction:@"median:" arguments:@[[NSExpression expressionForConstantValue:numbers]]];
@@ -181,7 +181,7 @@
     return YES;
 }
 
-- (BOOL)testStatistics7
+test(Statistics7)
 {
     NSArray *numbers = @[@1, @2, @3, @3];
     NSExpression *expression = [NSExpression expressionForFunction:@"mode:" arguments:@[[NSExpression expressionForConstantValue:numbers]]];
@@ -190,7 +190,7 @@
     return YES;
 }
 
-- (BOOL)testStatistics8
+test(Statistics8)
 {
     NSArray *numbers = @[@1, @2, @3];
     double avg = (1.0 + 2.0 + 3.0) / 3.0;
@@ -201,7 +201,7 @@
     return YES;
 }
 
-- (BOOL)testBounding1
+test(Bounding1)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"ceiling:" arguments:@[[NSExpression expressionForConstantValue:@3.3]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -209,7 +209,7 @@
     return YES;
 }
 
-- (BOOL)testBounding2
+test(Bounding2)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"trunc:" arguments:@[[NSExpression expressionForConstantValue:@3.3]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -217,7 +217,7 @@
     return YES;
 }
 
-- (BOOL)testBasicArithmetics1
+test(BasicArithmetics1)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"add:to:" arguments:@[[NSExpression expressionForConstantValue:@1], [NSExpression expressionForConstantValue:@1]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -225,7 +225,7 @@
     return YES;
 }
 
-- (BOOL)testBasicArithmetics2
+test(BasicArithmetics2)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"from:subtract:" arguments:@[[NSExpression expressionForConstantValue:@3], [NSExpression expressionForConstantValue:@1]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -233,7 +233,7 @@
     return YES;
 }
 
-- (BOOL)testBasicArithmetics3
+test(BasicArithmetics3)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"multiply:by:" arguments:@[[NSExpression expressionForConstantValue:@2], [NSExpression expressionForConstantValue:@6]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -241,7 +241,7 @@
     return YES;
 }
 
-- (BOOL)testBasicArithmetics4
+test(BasicArithmetics4)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"divide:by:" arguments:@[[NSExpression expressionForConstantValue:@8], [NSExpression expressionForConstantValue:@2]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -249,7 +249,7 @@
     return YES;
 }
 
-- (BOOL)testBasicArithmetics5
+test(BasicArithmetics5)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"modulus:by:" arguments:@[[NSExpression expressionForConstantValue:@7], [NSExpression expressionForConstantValue:@2]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -257,7 +257,7 @@
     return YES;
 }
 
-- (BOOL)testBasicArithmetics6
+test(BasicArithmetics6)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"abs:" arguments:@[[NSExpression expressionForConstantValue:@(-7)]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -265,7 +265,7 @@
     return YES;
 }
 
-- (BOOL)testAdvancedArithmetics1
+test(AdvancedArithmetics1)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"sqrt:" arguments:@[[NSExpression expressionForConstantValue:@9]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -273,7 +273,7 @@
     return YES;
 }
 
-- (BOOL)testAdvancedArithmetics2
+test(AdvancedArithmetics2)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"log:" arguments:@[[NSExpression expressionForConstantValue:@9]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -281,7 +281,7 @@
     return YES;
 }
 
-- (BOOL)testAdvancedArithmetics3
+test(AdvancedArithmetics3)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"ln:" arguments:@[[NSExpression expressionForConstantValue:@9]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -289,7 +289,7 @@
     return YES;
 }
 
-- (BOOL)testAdvancedArithmetics4
+test(AdvancedArithmetics4)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"floor:" arguments:@[[NSExpression expressionForConstantValue:@3.3]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -297,7 +297,7 @@
     return YES;
 }
 
-- (BOOL)testAdvancedArithmetics5
+test(AdvancedArithmetics5)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"raise:toPower:" arguments:@[[NSExpression expressionForConstantValue:@4], [NSExpression expressionForConstantValue:@3]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -305,7 +305,7 @@
     return YES;
 }
 
-- (BOOL)testAdvancedArithmetics6
+test(AdvancedArithmetics6)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"exp:" arguments:@[[NSExpression expressionForConstantValue:@4]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -313,7 +313,7 @@
     return YES;
 }
 
-- (BOOL)testDate
+test(Date)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"now" arguments:@[]];
     NSDate *now = [NSDate date];
@@ -328,7 +328,7 @@
     
 }
 
-- (BOOL)testRandom
+test(Random)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"random" arguments:@[]];
     [expression expressionValueWithObject:nil context:nil]; // lolz sploitz
@@ -339,7 +339,7 @@
     return YES;
 }
 
-- (BOOL)testRandomn
+test(Randomn)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"randomn:" arguments:@[[NSExpression expressionForConstantValue:@200]]];
     [expression expressionValueWithObject:nil context:nil]; // same exploit as random
@@ -351,7 +351,7 @@
 }
 
 
-- (BOOL)testRandom2
+test(Random2)
 {
     BOOL thrown = NO;
     @try {
@@ -364,7 +364,7 @@
     return YES;
 }
 
-- (BOOL)testBitwiseArithmetics1
+test(BitwiseArithmetics1)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"bitwiseAnd:with:" arguments:@[[NSExpression expressionForConstantValue:@4], [NSExpression expressionForConstantValue:@12]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -372,7 +372,7 @@
     return YES;
 }
 
-- (BOOL)testBitwiseArithmetics2
+test(BitwiseArithmetics2)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"bitwiseOr:with:" arguments:@[[NSExpression expressionForConstantValue:@4], [NSExpression expressionForConstantValue:@3]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -380,7 +380,7 @@
     return YES;
 }
 
-- (BOOL)testBitwiseArithmetics3
+test(BitwiseArithmetics3)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"bitwiseXor:with:" arguments:@[[NSExpression expressionForConstantValue:@4], [NSExpression expressionForConstantValue:@3]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -388,7 +388,7 @@
     return YES;
 }
 
-- (BOOL)testBitwiseArithmetics4
+test(BitwiseArithmetics4)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"leftshift:by:" arguments:@[[NSExpression expressionForConstantValue:@2], [NSExpression expressionForConstantValue:@3]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -396,7 +396,7 @@
     return YES;
 }
 
-- (BOOL)testBitwiseArithmetics5
+test(BitwiseArithmetics5)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"rightshift:by:" arguments:@[[NSExpression expressionForConstantValue:@4096], [NSExpression expressionForConstantValue:@1]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -404,7 +404,7 @@
     return YES;
 }
 
-- (BOOL)testBitwiseArithmetics6
+test(BitwiseArithmetics6)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"onesComplement:" arguments:@[[NSExpression expressionForConstantValue:@8]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -412,7 +412,7 @@
     return YES;
 }
 
-- (BOOL)testStrings1
+test(Strings1)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"lowercase:" arguments:@[[NSExpression expressionForConstantValue:@"FOO"]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -420,7 +420,7 @@
     return YES;
 }
 
-- (BOOL)testStrings2
+test(Strings2)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"uppercase:" arguments:@[[NSExpression expressionForConstantValue:@"foo"]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -428,7 +428,7 @@
     return YES;
 }
 
-- (BOOL)testStrings3
+test(Strings3)
 {
     NSExpression *expression = [NSExpression expressionForFunction:@"_convertStringToNumber:" arguments:@[[NSExpression expressionForConstantValue:@"112233"]]];
     id value = [expression expressionValueWithObject:nil context:nil];
@@ -436,7 +436,7 @@
     return YES;
 }
 
-- (BOOL)testDistance
+test(Distance)
 {
     CLLocation *l1 = [[CLLocation alloc] initWithLatitude:5.5 longitude:3.3];
     CLLocation *l2 = [[CLLocation alloc] initWithLatitude:7.7 longitude:2.2];
@@ -447,7 +447,7 @@
     return YES;
 }
 
-- (BOOL)testContainerIndex
+test(ContainerIndex)
 {
     NSDictionary *container = @{@"foo": @"bar", @"baz" : @"Foo"};
     NSExpression *expression = [NSExpression expressionForFunction:@"objectFrom:withIndex:" arguments:@[[NSExpression expressionForConstantValue:container], [NSExpression expressionForSymbolicString:@"SIZE"]]];

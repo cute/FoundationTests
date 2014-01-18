@@ -109,7 +109,7 @@ static CFRuntimeClass MyObjectClass = {
     "MyObject"
 };
 
-- (BOOL)testCFTypeIDCustom
+test(CFTypeIDCustom)
 {
     // Custom object
     CFTypeID myTypeID = _CFRuntimeRegisterClass(&MyObjectClass);
@@ -127,14 +127,14 @@ static CFRuntimeClass MyObjectClass = {
     return retVal;
 }
 
-- (BOOL)testCFTypeIDString
+test(CFTypeIDString)
 // CFString
 {
     CFStringRef string = (CFStringRef)@"test";
     return TestCFGetTypeID(string, CFStringGetTypeID());
 }
 
-- (BOOL)testCFTypeIDArray
+test(CFTypeIDArray)
 // CFArray
 {
     CFArrayRef array = CFArrayCreate(kCFAllocatorDefault, NULL, 0, NULL);
@@ -143,7 +143,7 @@ static CFRuntimeClass MyObjectClass = {
     return retVal;
 }
 
-- (BOOL) testDataCFTypeID
+test(DataCFTypeID)
 {
     NSData *data = [NSData data];
     testassert((int)[data _cfTypeID] == CFDataGetTypeID());
@@ -151,7 +151,7 @@ static CFRuntimeClass MyObjectClass = {
     return YES;
 }
 
-- (BOOL) testMutableDataCFTypeID
+test(MutableDataCFTypeID)
 {
     NSMutableData *data = [NSMutableData dataWithLength:7];
     testassert((int)[data _cfTypeID] == CFDataGetTypeID());
@@ -159,7 +159,7 @@ static CFRuntimeClass MyObjectClass = {
     return YES;
 }
 
-- (BOOL)testErrorCFTypeID
+test(ErrorCFTypeID)
 {
     NSError *error = [[NSError alloc] initWithDomain:@"foo" code:-1 userInfo:nil];
     CFTypeID genericType = __CFGenericTypeID(error);

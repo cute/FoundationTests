@@ -4,7 +4,7 @@
 
 @testcase(NSScanner)
 
-- (BOOL)testScannerWithStringNil
+test(ScannerWithStringNil)
 {
     NSScanner* scanner = [NSScanner scannerWithString:nil];
 
@@ -15,7 +15,7 @@
     return YES;
 }
 
-- (BOOL)testScannerWithStringEmpty
+test(ScannerWithStringEmpty)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@""];
 
@@ -28,7 +28,7 @@
     return YES;
 }
 
-- (BOOL)testScannerWithStringSpaces
+test(ScannerWithStringSpaces)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"    "];
 
@@ -40,7 +40,7 @@
     return YES;
 }
 
-- (BOOL)testScannerIsAtEnd
+test(ScannerIsAtEnd)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"ABC"];
     testassert(![scanner isAtEnd]);
@@ -55,7 +55,7 @@
     return YES;
 }
 
-- (BOOL)testScannerWithStringNotEmpty
+test(ScannerWithStringNotEmpty)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"123"];
 
@@ -68,7 +68,7 @@
     return YES;
 }
 
-- (BOOL)testScannerWithStringLeadingSpaces
+test(ScannerWithStringLeadingSpaces)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"  123"];
 
@@ -81,7 +81,7 @@
     return YES;
 }
 
-- (BOOL)testScannerWithStringNegative
+test(ScannerWithStringNegative)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"   -123 14"];
 
@@ -94,7 +94,7 @@
     return YES;
 }
 
-- (BOOL)testScannerWithStringOverflow
+test(ScannerWithStringOverflow)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"12345678901"];
 
@@ -105,7 +105,7 @@
     return YES;
 }
 
-- (BOOL)testScanInteger
+test(ScanInteger)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"123"];
     NSInteger value = -1;
@@ -115,7 +115,7 @@
     return YES;
 }
 
-- (BOOL)testScanInt_Empty
+test(ScanInt_Empty)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@""];
     int value = 0;
@@ -126,7 +126,7 @@
     return YES;
 }
 
-- (BOOL)testScanInt_Nil
+test(ScanInt_Nil)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"0"];
     testassert([scanner scanInt:nil]);
@@ -135,7 +135,7 @@
     return YES;
 }
 
-- (BOOL)testScanInt_Uninitialized
+test(ScanInt_Uninitialized)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"feefiefofum"];
     int value = 0xDEADC0DE;
@@ -146,7 +146,7 @@
     return YES;
 }
 
-- (BOOL)testScanInt_Dot
+test(ScanInt_Dot)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"."];
     int value = 0;
@@ -158,7 +158,7 @@
     return YES;
 }
 
-- (BOOL)testScanInt_ZeroDot
+test(ScanInt_ZeroDot)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"0."];
     int value = 0;
@@ -170,7 +170,7 @@
     return YES;
 }
 
-- (BOOL)testScanInt_Zero
+test(ScanInt_Zero)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"0"];
     int value = 0;
@@ -182,7 +182,7 @@
     return YES;
 }
 
-- (BOOL)testScanInt_Zeroes
+test(ScanInt_Zeroes)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"000000000000"];
     int value = 0;
@@ -194,7 +194,7 @@
     return YES;
 }
 
-- (BOOL)testScanInt_Dots
+test(ScanInt_Dots)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"............"];
     int value = 0;
@@ -206,7 +206,7 @@
     return YES;
 }
 
-- (BOOL)testScanInt_DotsAndStuff
+test(ScanInt_DotsAndStuff)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"1.0."];
     int value = 0;
@@ -218,7 +218,7 @@
     return YES;
 }
 
-- (BOOL)testScanInt_Minus
+test(ScanInt_Minus)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"-"];
     int value = 0;
@@ -230,7 +230,7 @@
     return YES;
 }
 
-- (BOOL)testScanInt_Minuses
+test(ScanInt_Minuses)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"-------"];
     int value = 0;
@@ -242,7 +242,7 @@
     return YES;
 }
 
-- (BOOL)testScanInt_Pluses
+test(ScanInt_Pluses)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"+++++++++"];
     int value = 0;
@@ -254,7 +254,7 @@
     return YES;
 }
 
-- (BOOL)testScanInt_Plus
+test(ScanInt_Plus)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"+"];
     int value = 0;
@@ -266,7 +266,7 @@
     return YES;
 }
 
-- (BOOL)testScanInt_NegativeZero
+test(ScanInt_NegativeZero)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"-0.000"];
     int value = 0;
@@ -278,7 +278,7 @@
     return YES;
 }
 
-- (BOOL)testScanInt_PlusZero
+test(ScanInt_PlusZero)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"+0.000"];
     int value = 0;
@@ -290,7 +290,7 @@
     return YES;
 }
 
-- (BOOL)testScannerWithLongLong
+test(ScannerWithLongLong)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"12345678901"];
 
@@ -301,7 +301,7 @@
     return YES;
 }
 
-- (BOOL)testScannerWithNegativeLongLong
+test(ScannerWithNegativeLongLong)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"-98712345678901"];
 
@@ -312,7 +312,7 @@
     return YES;
 }
 
-- (BOOL)testScanLongLong_Empty
+test(ScanLongLong_Empty)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@""];
     long long value = 0LL;
@@ -323,7 +323,7 @@
     return YES;
 }
 
-- (BOOL)testScanLongLong_Nil
+test(ScanLongLong_Nil)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"0"];
     testassert([scanner scanLongLong:nil]);
@@ -332,7 +332,7 @@
     return YES;
 }
 
-- (BOOL)testScanLongLong_Uninitialized
+test(ScanLongLong_Uninitialized)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"feefiefofum"];
     long long value = 0xDEADCAFEBEEFC0DE;
@@ -343,7 +343,7 @@
     return YES;
 }
 
-- (BOOL)testScanLongLong_Dot
+test(ScanLongLong_Dot)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"."];
     long long value = 0LL;
@@ -355,7 +355,7 @@
     return YES;
 }
 
-- (BOOL)testScanLongLong_ZeroDot
+test(ScanLongLong_ZeroDot)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"0."];
     long long value = 0LL;
@@ -367,7 +367,7 @@
     return YES;
 }
 
-- (BOOL)testScanLongLong_Zero
+test(ScanLongLong_Zero)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"0"];
     long long value = 0LL;
@@ -379,7 +379,7 @@
     return YES;
 }
 
-- (BOOL)testScanLongLong_Zeroes
+test(ScanLongLong_Zeroes)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"000000000000"];
     long long value = 0LL;
@@ -391,7 +391,7 @@
     return YES;
 }
 
-- (BOOL)testScanLongLong_Dots
+test(ScanLongLong_Dots)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"............"];
     long long value = 0LL;
@@ -403,7 +403,7 @@
     return YES;
 }
 
-- (BOOL)testScanLongLong_DotsAndStuff
+test(ScanLongLong_DotsAndStuff)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"1.0."];
     long long value = 0LL;
@@ -415,7 +415,7 @@
     return YES;
 }
 
-- (BOOL)testScanLongLong_Minus
+test(ScanLongLong_Minus)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"-"];
     long long value = 0LL;
@@ -427,7 +427,7 @@
     return YES;
 }
 
-- (BOOL)testScanLongLong_Minuses
+test(ScanLongLong_Minuses)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"-------"];
     long long value = 0LL;
@@ -439,7 +439,7 @@
     return YES;
 }
 
-- (BOOL)testScanLongLong_Pluses
+test(ScanLongLong_Pluses)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"+++++++++"];
     long long value = 0LL;
@@ -451,7 +451,7 @@
     return YES;
 }
 
-- (BOOL)testScanLongLong_Plus
+test(ScanLongLong_Plus)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"+"];
     long long value = 0LL;
@@ -463,7 +463,7 @@
     return YES;
 }
 
-- (BOOL)testScanLongLong_NegativeZero
+test(ScanLongLong_NegativeZero)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"-0.000"];
     long long value = 0LL;
@@ -475,7 +475,7 @@
     return YES;
 }
 
-- (BOOL)testScanLongLong_PlusZero
+test(ScanLongLong_PlusZero)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"+0.000"];
     long long value = 0LL;
@@ -487,7 +487,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexInt
+test(ScanHexInt)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"0x1a3 4444"];
     unsigned value = -1;
@@ -501,7 +501,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexInt_Empty
+test(ScanHexInt_Empty)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@""];
     unsigned value = 0;
@@ -512,7 +512,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexInt_Nil
+test(ScanHexInt_Nil)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"0x0"];
     testassert([scanner scanHexInt:nil]);
@@ -521,7 +521,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexInt_Uninitialized
+test(ScanHexInt_Uninitialized)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"NOfeefiefofum"];
     unsigned value = 0xDEADCAFE;
@@ -532,7 +532,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexInt_Dot
+test(ScanHexInt_Dot)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"."];
     unsigned value = 0;
@@ -544,7 +544,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexInt_ZeroDot
+test(ScanHexInt_ZeroDot)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"0."];
     unsigned value = 0;
@@ -556,7 +556,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexInt_Zero
+test(ScanHexInt_Zero)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"0"];
     unsigned value = 0;
@@ -568,7 +568,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexInt_Zeroes
+test(ScanHexInt_Zeroes)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"000000000000"];
     unsigned value = 0;
@@ -580,7 +580,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexInt_Dots
+test(ScanHexInt_Dots)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"............"];
     unsigned value = 0;
@@ -592,7 +592,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexInt_DotsAndStuff
+test(ScanHexInt_DotsAndStuff)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"1.0."];
     unsigned value = 0;
@@ -604,7 +604,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexInt_Minus
+test(ScanHexInt_Minus)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"-"];
     unsigned value = 0;
@@ -616,7 +616,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexInt_Minuses
+test(ScanHexInt_Minuses)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"-------"];
     unsigned value = 0;
@@ -628,7 +628,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexInt_Pluses
+test(ScanHexInt_Pluses)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"+++++++++"];
     unsigned value = 0;
@@ -640,7 +640,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexInt_Plus
+test(ScanHexInt_Plus)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"+"];
     unsigned value = 0;
@@ -652,7 +652,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexInt_NegativeZero
+test(ScanHexInt_NegativeZero)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"-0.000"];
     unsigned value = 0;
@@ -664,7 +664,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexInt_PlusZero
+test(ScanHexInt_PlusZero)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"+0.000"];
     unsigned value = 0;
@@ -676,7 +676,7 @@
     return YES;
 }
 
-- (BOOL)testScannerHexLongLong
+test(ScannerHexLongLong)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"f7 0x1234abCDe01"];
 
@@ -691,7 +691,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexLongLong_Empty
+test(ScanHexLongLong_Empty)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@""];
     unsigned long long value = 0LL;
@@ -702,7 +702,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexLongLong_Nil
+test(ScanHexLongLong_Nil)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"0x0"];
     testassert([scanner scanHexLongLong:nil]);
@@ -711,7 +711,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexLongLong_Uninitialized
+test(ScanHexLongLong_Uninitialized)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"NOfeefiefofum"];
     unsigned long long value = 0xDEADCAFEBEEFC0DE;
@@ -722,7 +722,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexLongLong_Dot
+test(ScanHexLongLong_Dot)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"."];
     unsigned long long value = 0LL;
@@ -734,7 +734,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexLongLong_ZeroDot
+test(ScanHexLongLong_ZeroDot)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"0."];
     unsigned long long value = 0LL;
@@ -746,7 +746,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexLongLong_Zero
+test(ScanHexLongLong_Zero)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"0"];
     unsigned long long value = 0LL;
@@ -758,7 +758,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexLongLong_Zeroes
+test(ScanHexLongLong_Zeroes)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"000000000000"];
     unsigned long long value = 0LL;
@@ -770,7 +770,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexLongLong_Dots
+test(ScanHexLongLong_Dots)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"............"];
     unsigned long long value = 0LL;
@@ -782,7 +782,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexLongLong_DotsAndStuff
+test(ScanHexLongLong_DotsAndStuff)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"1.0."];
     unsigned long long value = 0LL;
@@ -794,7 +794,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexLongLong_Minus
+test(ScanHexLongLong_Minus)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"-"];
     unsigned long long value = 0LL;
@@ -806,7 +806,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexLongLong_Minuses
+test(ScanHexLongLong_Minuses)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"-------"];
     unsigned long long value = 0LL;
@@ -818,7 +818,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexLongLong_Pluses
+test(ScanHexLongLong_Pluses)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"+++++++++"];
     unsigned long long value = 0LL;
@@ -830,7 +830,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexLongLong_Plus
+test(ScanHexLongLong_Plus)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"+"];
     unsigned long long value = 0LL;
@@ -842,7 +842,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexLongLong_NegativeZero
+test(ScanHexLongLong_NegativeZero)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"-0.000"];
     unsigned long long value = 0LL;
@@ -854,7 +854,7 @@
     return YES;
 }
 
-- (BOOL)testScanHexLongLong_PlusZero
+test(ScanHexLongLong_PlusZero)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"+0.000"];
     unsigned long long value = 0LL;
@@ -866,7 +866,7 @@
     return YES;
 }
 
-- (BOOL)testScannerWithSLongLongOverflow
+test(ScannerWithSLongLongOverflow)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"  -9223372036854775809 "];
 
@@ -877,7 +877,7 @@
     return YES;
 }
 
-- (BOOL)testScanFloat
+test(ScanFloat)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"123"];
     float value = -1.f;
@@ -887,7 +887,7 @@
     return YES;
 }
 
-- (BOOL)testScanFloat2
+test(ScanFloat2)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@" 123.5000 "];  // terminating binary for equality test
     float value = -1.f;
@@ -897,7 +897,7 @@
     return YES;
 }
 
-- (BOOL)testScanFloat_Empty
+test(ScanFloat_Empty)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@""];
     float value = -1.f;
@@ -907,7 +907,7 @@
     return YES;
 }
 
-- (BOOL)testScanFloat_Nil
+test(ScanFloat_Nil)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"0.0"];
     testassert([scanner scanFloat:nil]);
@@ -915,7 +915,7 @@
     return YES;
 }
 
-- (BOOL)testScanFloat_Uninitialized
+test(ScanFloat_Uninitialized)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"feefiefofum"];
     float value = -111.1f;
@@ -926,7 +926,7 @@
     return YES;
 }
 
-- (BOOL)testScanFloat_Minus
+test(ScanFloat_Minus)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"-"];
     float value = -1.f;
@@ -936,7 +936,7 @@
     return YES;
 }
 
-- (BOOL)testScanFloat_Plus
+test(ScanFloat_Plus)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"+"];
     float value = -1.f;
@@ -946,7 +946,7 @@
     return YES;
 }
 
-- (BOOL)testScanFloat_Negative1
+test(ScanFloat_Negative1)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"-42"];
     float value = -1.f;
@@ -956,7 +956,7 @@
     return YES;
 }
 
-- (BOOL)testScanFloat_Positive
+test(ScanFloat_Positive)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"+42.1818"];
     float value = -1.f;
@@ -966,7 +966,7 @@
     return YES;
 }
 
-- (BOOL)testScanFloat_Exponent1
+test(ScanFloat_Exponent1)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@".1e7"];
     float value = -1.f;
@@ -976,7 +976,7 @@
     return YES;
 }
 
-- (BOOL)testScanFloat_Exponent2
+test(ScanFloat_Exponent2)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"0.1e7"];
     float value = -1.f;
@@ -986,7 +986,7 @@
     return YES;
 }
 
-- (BOOL)testScanFloat_Exponent3
+test(ScanFloat_Exponent3)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"1.1e+7"];
     float value = -1.f;
@@ -996,7 +996,7 @@
     return YES;
 }
 
-- (BOOL)testScanFloat_Exponent4
+test(ScanFloat_Exponent4)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"10.1E6"];
     float value = -1.f;
@@ -1006,7 +1006,7 @@
     return YES;
 }
 
-- (BOOL)testScanFloat_Exponent5
+test(ScanFloat_Exponent5)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"1.0e-6"];
     float value = -1.f;
@@ -1015,7 +1015,7 @@
     testassert([scanner scanLocation] == 6);
     return YES;
 }
-- (BOOL)testScanFloat_Exponent6
+test(ScanFloat_Exponent6)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"0.0e0"];
     float value = -1.f;
@@ -1025,7 +1025,7 @@
     return YES;
 }
 
-- (BOOL)testScanFloat_Zero
+test(ScanFloat_Zero)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"0"];
     float value = -1.f;
@@ -1035,7 +1035,7 @@
     return YES;
 }
 
-- (BOOL)testScanFloat_NegativeZero
+test(ScanFloat_NegativeZero)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"-0"];
     float value = -1.f;
@@ -1045,7 +1045,7 @@
     return YES;
 }
 
-- (BOOL)testScanFloat_PositiveZero
+test(ScanFloat_PositiveZero)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"+0"];
     float value = -1.f;
@@ -1055,7 +1055,7 @@
     return YES;
 }
 
-- (BOOL)testScanFloat_ZeroPointZero
+test(ScanFloat_ZeroPointZero)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"0.000"];
     float value = -1.f;
@@ -1067,7 +1067,7 @@
 
 #warning TODO test NaNs
 
-- (BOOL)testScanDouble
+test(ScanDouble)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"123"];
     double value = -1.0;
@@ -1077,7 +1077,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble2
+test(ScanDouble2)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@" 123.5000 "]; // terminating binary for equality test
     double value = -1.0;
@@ -1087,7 +1087,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_Empty
+test(ScanDouble_Empty)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@""];
     double value = 0.0;
@@ -1098,7 +1098,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_Nil
+test(ScanDouble_Nil)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"0.0"];
     testassert([scanner scanDouble:nil]);
@@ -1107,7 +1107,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_Uninitialized
+test(ScanDouble_Uninitialized)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"feefiefofum"];
     double value = -111.1;
@@ -1118,7 +1118,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_Negative1
+test(ScanDouble_Negative1)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"-42"];
     double value = -1.0;
@@ -1128,7 +1128,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_Positive
+test(ScanDouble_Positive)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"+42.1818"];
     double value = -1.0;
@@ -1138,7 +1138,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_Exponent1
+test(ScanDouble_Exponent1)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@".1e7"];
     double value = -1.0;
@@ -1148,7 +1148,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_Exponent2
+test(ScanDouble_Exponent2)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"0.1e7"];
     double value = -1.0;
@@ -1158,7 +1158,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_Exponent3
+test(ScanDouble_Exponent3)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"1.1e+7"];
     double value = -1.0;
@@ -1168,7 +1168,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_Exponent4
+test(ScanDouble_Exponent4)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"10.1E6"];
     double value = -1.0;
@@ -1178,7 +1178,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_Exponent5
+test(ScanDouble_Exponent5)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"1.0e-6"];
     double value = -1.0;
@@ -1187,7 +1187,7 @@
     testassert([scanner scanLocation] == 6);
     return YES;
 }
-- (BOOL)testScanDouble_Exponent6
+test(ScanDouble_Exponent6)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@"0.0e0"];
     double value = -1.0;
@@ -1197,7 +1197,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_Dot
+test(ScanDouble_Dot)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"."];
     double value = 0.0;
@@ -1209,7 +1209,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_ZeroDot
+test(ScanDouble_ZeroDot)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"0."];
     double value = 0.0;
@@ -1221,7 +1221,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_Zero
+test(ScanDouble_Zero)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"0"];
     double value = 0.0;
@@ -1233,7 +1233,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_Zeroes
+test(ScanDouble_Zeroes)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"000000000000"];
     double value = 0.0;
@@ -1245,7 +1245,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_Dots
+test(ScanDouble_Dots)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"............"];
     double value = 0.0;
@@ -1257,7 +1257,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_DotsAndStuff
+test(ScanDouble_DotsAndStuff)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"1.0.0.0.0.0.0"];
     double value = 0.0;
@@ -1269,7 +1269,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_Minus
+test(ScanDouble_Minus)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"-"];
     double value = 0.0;
@@ -1281,7 +1281,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_Minuses
+test(ScanDouble_Minuses)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"-------"];
     double value = 0.0;
@@ -1293,7 +1293,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_Pluses
+test(ScanDouble_Pluses)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"+++++++++"];
     double value = 0.0;
@@ -1305,7 +1305,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_Plus
+test(ScanDouble_Plus)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"+"];
     double value = 0.0;
@@ -1317,7 +1317,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_NegativeZero
+test(ScanDouble_NegativeZero)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"-0.000"];
     double value = 0.0;
@@ -1329,7 +1329,7 @@
     return YES;
 }
 
-- (BOOL)testScanDouble_PlusZero
+test(ScanDouble_PlusZero)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"+0.000"];
     double value = 0.0;
@@ -1341,7 +1341,7 @@
     return YES;
 }
 
-- (BOOL)testScannerWithStringDefaultConfiguration
+test(ScannerWithStringDefaultConfiguration)
 {
     NSScanner* scanner = [NSScanner scannerWithString:@""];
 
@@ -1354,7 +1354,7 @@
     return YES;
 }
 
-- (BOOL)testLocalizedScannerWithStringConfiguration
+test(LocalizedScannerWithStringConfiguration)
 {
     NSScanner* scanner = [NSScanner localizedScannerWithString:@""];
 
@@ -1363,7 +1363,7 @@
     return YES;
 }
 
-- (BOOL)testAllocClass
+test(AllocClass)
 {
     NSScanner* scanner = [NSScanner alloc];
 
@@ -1374,7 +1374,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithStringClass
+test(InitWithStringClass)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@""];
 
@@ -1385,7 +1385,7 @@
     return YES;
 }
 
-- (BOOL)testScanCharactersFromSetEmpty
+test(ScanCharactersFromSetEmpty)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@""];
 
@@ -1398,7 +1398,7 @@
     return YES;
 }
 
-- (BOOL)testScanCharactersFromSetNone
+test(ScanCharactersFromSetNone)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"ABC"];
 
@@ -1411,7 +1411,7 @@
     return YES;
 }
 
-- (BOOL)testCFStringFindCharacterFromSet
+test(CFStringFindCharacterFromSet)
 {
     NSCharacterSet *charSet = [NSCharacterSet characterSetWithCharactersInString:@"ABC"];
     NSString *s = @"ABBAXYZA";
@@ -1421,7 +1421,7 @@
     return YES;
 }
 
-- (BOOL)testNSStringRangeOfCharacterFromSet
+test(NSStringRangeOfCharacterFromSet)
 {
     NSCharacterSet *charSet = [NSCharacterSet characterSetWithCharactersInString:@"ABC"];
     NSString *s = @"ABBAXYZA";
@@ -1430,7 +1430,7 @@
     return YES;
 }
 
-- (BOOL)testScanCharactersFromSetSimple
+test(ScanCharactersFromSetSimple)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"ABBABXYZA"];
 
@@ -1444,7 +1444,7 @@
     return YES;
 }
 
-- (BOOL)testScanCharactersFromSetSkipping
+test(ScanCharactersFromSetSkipping)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@" \n\tABC"];
 
@@ -1457,7 +1457,7 @@
     return YES;
 }
 
-- (BOOL)testNSStringRangeOfCharacterFromSet2
+test(NSStringRangeOfCharacterFromSet2)
 {
     NSCharacterSet *charSet = [NSCharacterSet characterSetWithCharactersInString:@"XYZ"];
     NSString *s = @"ABCXYZ";
@@ -1466,7 +1466,7 @@
     return YES;
 }
 
-- (BOOL)testScanCharactersFromSetLocation
+test(ScanCharactersFromSetLocation)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"ABCXYZ"];
     scanner.scanLocation = 3;
@@ -1481,7 +1481,7 @@
     return YES;
 }
 
-- (BOOL)testSetScanLocationOverflow
+test(SetScanLocationOverflow)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"ABCXYZ"];
     scanner.scanLocation = 6;
@@ -1503,7 +1503,7 @@
     return YES;
 }
 
-- (BOOL)testScanCharactersScanUpToCharacters
+test(ScanCharactersScanUpToCharacters)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"ABCXYZ"];
 
@@ -1525,7 +1525,7 @@
     return YES;
 }
 
-- (BOOL)testScanCharactersScanUpToString
+test(ScanCharactersScanUpToString)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"ABCXYZ"];
 
@@ -1547,7 +1547,7 @@
     return YES;
 }
 
-- (BOOL)testScanCharactersToBeSkipped
+test(ScanCharactersToBeSkipped)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"AAAABCXYZ"];
     testassert(![scanner scanString:@"BCX" intoString:nil]);
@@ -1558,7 +1558,7 @@
     return YES;
 }
 
-- (BOOL)testScanDecimal
+test(ScanDecimal)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@" 5.67   0 -0 -12 .981"];
     NSDecimal decimal;
@@ -1594,7 +1594,7 @@
     return YES;
 }
 
-- (BOOL)testScanDecimal_Empty
+test(ScanDecimal_Empty)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@""];
     NSDecimal decimal = { 0 };
@@ -1606,7 +1606,7 @@
     return YES;
 }
 
-- (BOOL)testScanDecimal_Nil
+test(ScanDecimal_Nil)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"0.0"];
     testassert([scanner scanDecimal:nil]);
@@ -1615,7 +1615,7 @@
     return YES;
 }
 
-- (BOOL)testScanDecimal_Uninitialized
+test(ScanDecimal_Uninitialized)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"feefiefofum"];
 
@@ -1634,7 +1634,7 @@
     return YES;
 }
 
-- (BOOL)testScanDecimal_Dot
+test(ScanDecimal_Dot)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"."];
     NSDecimal decimal = { 0 };
@@ -1648,7 +1648,7 @@
     return YES;
 }
 
-- (BOOL)testScanDecimal_ZeroDot
+test(ScanDecimal_ZeroDot)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"0."];
     NSDecimal decimal = { 0 };
@@ -1662,7 +1662,7 @@
     return YES;
 }
 
-- (BOOL)testScanDecimal_Zero
+test(ScanDecimal_Zero)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"0"];
     NSDecimal decimal = { 0 };
@@ -1676,7 +1676,7 @@
     return YES;
 }
 
-- (BOOL)testScanDecimal_Zeroes
+test(ScanDecimal_Zeroes)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"000000000000"];
     NSDecimal decimal = { 0 };
@@ -1690,7 +1690,7 @@
     return YES;
 }
 
-- (BOOL)testScanDecimal_Dots
+test(ScanDecimal_Dots)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"............"];
     NSDecimal decimal = { 0 };
@@ -1704,7 +1704,7 @@
     return YES;
 }
 
-- (BOOL)testScanDecimal_DotsAndStuff
+test(ScanDecimal_DotsAndStuff)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"1.0.0.0.0.0.0"];
     NSDecimal decimal = { 0 };
@@ -1718,7 +1718,7 @@
     return YES;
 }
 
-- (BOOL)testScanDecimal_Minus
+test(ScanDecimal_Minus)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"-"];
     NSDecimal decimal = { 0 };
@@ -1732,7 +1732,7 @@
     return YES;
 }
 
-- (BOOL)testScanDecimal_Minuses
+test(ScanDecimal_Minuses)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"-------"];
     NSDecimal decimal = { 0 };
@@ -1746,7 +1746,7 @@
     return YES;
 }
 
-- (BOOL)testScanDecimal_Pluses
+test(ScanDecimal_Pluses)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"+++++++++"];
     NSDecimal decimal = { 0 };
@@ -1760,7 +1760,7 @@
     return YES;
 }
 
-- (BOOL)testScanDecimal_Plus
+test(ScanDecimal_Plus)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"+"];
     NSDecimal decimal = { 0 };
@@ -1774,7 +1774,7 @@
     return YES;
 }
 
-- (BOOL)testScanDecimal_NegativeZero
+test(ScanDecimal_NegativeZero)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"-0.000"];
     NSDecimal decimal = { 0 };
@@ -1788,7 +1788,7 @@
     return YES;
 }
 
-- (BOOL)testScanDecimal_PlusZero
+test(ScanDecimal_PlusZero)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@"+0.000"];
     NSDecimal decimal = { 0 };
@@ -1802,7 +1802,7 @@
     return YES;
 }
 
-- (BOOL)testSetNilSkipSet
+test(SetNilSkipSet)
 {
     NSScanner *scanner = [[NSScanner alloc] initWithString:@" 123"];
     [scanner setCharactersToBeSkipped:nil];

@@ -18,7 +18,7 @@
 @testcase(NSFileManager)
 
 
-- (BOOL)testURLsForDirectory
+test(URLsForDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
@@ -26,7 +26,7 @@
     return YES;
 }
 
-- (BOOL)testFileDoesNotExist
+test(FileDoesNotExist)
 {
     NSFileManager* manager = [NSFileManager defaultManager];
     testassert([manager fileExistsAtPath:@"IDontExist"] == NO);
@@ -43,14 +43,14 @@ static NSString *makePath(NSFileManager *manager, NSString *name)
     return path;
 }
 
-- (BOOL)testCreateFile
+test(CreateFile)
 {
     NSFileManager* manager = [NSFileManager defaultManager];
     testassert([manager createFileAtPath:makePath(manager, @"createTest") contents:nil attributes:nil] == YES);
     return YES;
 }
 
-- (BOOL)testFileSize
+test(FileSize)
 {
     NSError* error;
     NSFileManager* manager = [NSFileManager defaultManager];
@@ -62,7 +62,7 @@ static NSString *makePath(NSFileManager *manager, NSString *name)
     return YES;
 }
 
-- (BOOL)testContentsOfDirectoryAtPath
+test(ContentsOfDirectoryAtPath)
 {
     NSError *error = nil;
     NSArray *bundleContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[NSBundle mainBundle] bundlePath] error:&error];
@@ -74,7 +74,7 @@ static NSString *makePath(NSFileManager *manager, NSString *name)
 
 /* Android and iOS main bundle matches except for FoundationTests and PkgInfo */
 
-- (BOOL)testMainBundleContentsTODO
+test(MainBundleContentsTODO)
 {
     NSError *error = nil;
     NSArray *bundleContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[NSBundle mainBundle] bundlePath] error:&error];
@@ -83,7 +83,7 @@ static NSString *makePath(NSFileManager *manager, NSString *name)
     return YES;
 }
 
-- (BOOL)testContentsOfDirectoryAtPathWithExtension
+test(ContentsOfDirectoryAtPathWithExtension)
 {
     NSError *error = nil;
     NSArray *bundleContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[NSBundle mainBundle] bundlePath] error:&error];
@@ -93,7 +93,7 @@ static NSString *makePath(NSFileManager *manager, NSString *name)
     return YES;
 }
 
-- (BOOL)testDirectoryEnumeratorAtPath
+test(DirectoryEnumeratorAtPath)
 {
     NSString *path = [[NSBundle mainBundle] bundlePath];
     NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:path];
@@ -132,7 +132,7 @@ static NSString *makePath(NSFileManager *manager, NSString *name)
     return YES;
 }
 
-- (BOOL)testDirectoryEnumeratorAtURL
+test(DirectoryEnumeratorAtURL)
 {
     __block BOOL errorOccurred = NO;
     NSString *path = [[NSBundle mainBundle] bundlePath];
@@ -177,7 +177,7 @@ static NSString *makePath(NSFileManager *manager, NSString *name)
     return YES;
 }
 
-- (BOOL)testGetFileSystemRepresentationBlank
+test(GetFileSystemRepresentationBlank)
 {
     NSUInteger sz = PATH_MAX;
     char buffer[sz];
@@ -188,7 +188,7 @@ static NSString *makePath(NSFileManager *manager, NSString *name)
     return YES;
 }
 
-- (BOOL)testGetFileSystemRepresentation
+test(GetFileSystemRepresentation)
 {
     NSUInteger sz = PATH_MAX;
     char buffer[sz];
@@ -200,7 +200,7 @@ static NSString *makePath(NSFileManager *manager, NSString *name)
     return YES;
 }
 
-- (BOOL)testCurrentDirectoryIsFSRoot
+test(CurrentDirectoryIsFSRoot)
 {
     testassert([[[NSFileManager defaultManager] currentDirectoryPath] isEqualToString:@"/"]);
     
@@ -212,7 +212,7 @@ static NSString *makePath(NSFileManager *manager, NSString *name)
     return YES;
 }
 
-- (BOOL)testRelativePathWithBundleCWD
+test(RelativePathWithBundleCWD)
 {
     NSString* oldCWD = [[NSFileManager defaultManager] currentDirectoryPath];
     

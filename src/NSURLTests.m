@@ -2,7 +2,7 @@
 
 @testcase(NSURL)
 
-- (BOOL)testStandardizedURL
+test(StandardizedURL)
 {
     NSURL *url = [[NSURL alloc] initWithString:@"base://foo/bar/../bar/./././/baz"];
     testassert([[[url standardizedURL] absoluteString] isEqualToString:@"base://foo/bar//baz"]);
@@ -12,7 +12,7 @@
     return YES;
 }
 
-- (BOOL)testURLdescription
+test(URLdescription)
 {
     NSURL *url = [[NSURL alloc] initWithString:@"basestring" relativeToURL:[NSURL URLWithString:@"relative://url"]];
     NSString *expected = @"basestring -- relative://url";
@@ -22,7 +22,7 @@
     return YES;
 }
 
-- (BOOL) testURLByAppendingPathComponent
+test(URLByAppendingPathComponent)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
@@ -33,7 +33,7 @@
     return YES;
 }
 
-- (BOOL) testNSSearchPathForDirectoriesInDomains
+test(NSSearchPathForDirectoriesInDomains)
 {
     NSArray *a1 = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSLocalDomainMask, YES);
     NSArray *a2 = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSNetworkDomainMask, YES);
@@ -48,7 +48,7 @@
     return YES;
 }
 
-- (BOOL)testInitFileURLWithNilPath
+test(InitFileURLWithNilPath)
 {
     void (^block)() = ^{
         [[NSURL alloc] initFileURLWithPath:nil];
@@ -72,21 +72,21 @@
 
 // Make sure empty non-User Domains return empty arrays
 
-- (BOOL) testURLsForDirectoryDocL
+test(URLsForDirectoryDocL)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSDocumentDirectory inDomains:NSLocalDomainMask];
     testassert([directories count] == 0);
     return YES;
 }
-- (BOOL) testURLsForDirectoryDocN
+test(URLsForDirectoryDocN)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSDocumentDirectory inDomains:NSNetworkDomainMask];
     testassert([directories count] == 0);
     return YES;
 }
-- (BOOL) testURLsForDirectoryDocS
+test(URLsForDirectoryDocS)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSDocumentDirectory inDomains:NSSystemDomainMask];
@@ -121,7 +121,7 @@
 //NSAllLibrariesDirectory = 101
 
 
-- (BOOL) testURLsForDirectoryNSApplicationDirectory
+test(URLsForDirectoryNSApplicationDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSApplicationDirectory inDomains:NSUserDomainMask];
@@ -132,7 +132,7 @@
 }
 
 
-- (BOOL) testURLsForDirectoryNSDemoApplicationDirectory
+test(URLsForDirectoryNSDemoApplicationDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSDemoApplicationDirectory inDomains:NSUserDomainMask];
@@ -142,7 +142,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSDeveloperApplicationDirectory
+test(URLsForDirectoryNSDeveloperApplicationDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSDeveloperApplicationDirectory inDomains:NSUserDomainMask];
@@ -152,7 +152,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSAdminApplicationDirectory
+test(URLsForDirectoryNSAdminApplicationDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSAdminApplicationDirectory inDomains:NSUserDomainMask];
@@ -162,7 +162,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSDeveloperDirectory
+test(URLsForDirectoryNSDeveloperDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSDeveloperDirectory inDomains:NSUserDomainMask];
@@ -172,7 +172,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSLibraryDirectory
+test(URLsForDirectoryNSLibraryDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask];
@@ -182,7 +182,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSUserDirectory
+test(URLsForDirectoryNSUserDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSUserDirectory inDomains:NSUserDomainMask];
@@ -190,7 +190,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSDocumentationDirectory
+test(URLsForDirectoryNSDocumentationDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSDocumentationDirectory inDomains:NSUserDomainMask];
@@ -200,7 +200,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSDocument
+test(URLsForDirectoryNSDocument)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
@@ -210,7 +210,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSCoreServiceDirectory
+test(URLsForDirectoryNSCoreServiceDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSCoreServiceDirectory inDomains:NSUserDomainMask];
@@ -218,7 +218,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSAutosavedInformationDirectory
+test(URLsForDirectoryNSAutosavedInformationDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSAutosavedInformationDirectory inDomains:NSUserDomainMask];
@@ -228,7 +228,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSDesktopDirectory
+test(URLsForDirectoryNSDesktopDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSDesktopDirectory inDomains:NSUserDomainMask];
@@ -238,7 +238,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSCachesDirectory
+test(URLsForDirectoryNSCachesDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask];
@@ -248,7 +248,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSApplicationSupportDirectory
+test(URLsForDirectoryNSApplicationSupportDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
@@ -258,7 +258,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSDownloadsDirectory
+test(URLsForDirectoryNSDownloadsDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSDownloadsDirectory inDomains:NSUserDomainMask];
@@ -268,7 +268,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSInputMethodsDirectory
+test(URLsForDirectoryNSInputMethodsDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSInputMethodsDirectory inDomains:NSUserDomainMask];
@@ -278,7 +278,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSMoviesDirectory
+test(URLsForDirectoryNSMoviesDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSMoviesDirectory inDomains:NSUserDomainMask];
@@ -288,7 +288,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSMusicDirectory
+test(URLsForDirectoryNSMusicDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSMusicDirectory inDomains:NSUserDomainMask];
@@ -298,7 +298,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSPicturesDirectory
+test(URLsForDirectoryNSPicturesDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSPicturesDirectory inDomains:NSUserDomainMask];
@@ -308,7 +308,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSPrinterDescriptionDirectory
+test(URLsForDirectoryNSPrinterDescriptionDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSPrinterDescriptionDirectory inDomains:NSUserDomainMask];
@@ -316,7 +316,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSSharedPublicDirectory
+test(URLsForDirectoryNSSharedPublicDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSSharedPublicDirectory inDomains:NSUserDomainMask];
@@ -326,7 +326,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSPreferencePanesDirectory
+test(URLsForDirectoryNSPreferencePanesDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSPreferencePanesDirectory inDomains:NSUserDomainMask];
@@ -336,7 +336,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSAllApplicationsDirectory
+test(URLsForDirectoryNSAllApplicationsDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSAllApplicationsDirectory inDomains:NSUserDomainMask];
@@ -347,7 +347,7 @@
     return YES;
 }
 
-- (BOOL) testURLsForDirectoryNSAllLibrariesDirectory
+test(URLsForDirectoryNSAllLibrariesDirectory)
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSArray *directories = [fm URLsForDirectory:NSAllLibrariesDirectory inDomains:NSUserDomainMask];
@@ -358,7 +358,7 @@
     return YES;
 }
 
-- (BOOL)testURLByStandardizingPath
+test(URLByStandardizingPath)
 {
     NSURL *url = [NSURL fileURLWithPath:@"/foo/bar/baz/../foo/./.././baz"];
     NSURL *standardized = [url URLByStandardizingPath];
@@ -366,7 +366,7 @@
     return YES;
 }
 
-- (BOOL)testLongFileURL
+test(LongFileURL)
 {
     NSMutableString *str = [NSMutableString stringWithString:@"/foo"];
     while ([str length] + 4 < PATH_MAX)
@@ -379,7 +379,7 @@
     return YES;
 }
 
-- (BOOL)testLongFileURLfileSystemRepresentation
+test(LongFileURLfileSystemRepresentation)
 {
     NSMutableString *str = [NSMutableString stringWithString:@"/foo"];
     while ([str length] + 4 < PATH_MAX)
@@ -393,7 +393,7 @@
     return YES;
 }
 
-- (BOOL)testFilePathEquality
+test(FilePathEquality)
 {
     NSURL *url1 = [NSURL fileURLWithPath:@"/foo/bar/baz"];
     NSURL *url2 = [NSURL URLWithString:@"file://localhost/foo/bar/baz"];
@@ -401,7 +401,7 @@
     return YES;
 }
 
-- (BOOL)testConstructedFilePathEquality
+test(ConstructedFilePathEquality)
 {
     NSURL *url1 = [NSURL fileURLWithPath:@"/foo/bar/baz"];
     NSURL *url2 = [NSURL URLWithString:@"file:///foo/bar/baz"];

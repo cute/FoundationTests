@@ -10,19 +10,19 @@
 
 @testcase(NSNull)
 
-- (BOOL)testNullSingleton
+test(NullSingleton)
 {
     testassert([NSNull null] == [NSNull null]);
     return YES;
 }
 
-- (BOOL)testCFNull
+test(CFNull)
 {
     testassert([NSNull null] == (id)kCFNull);
     return YES;
 }
 
-- (BOOL)testCFNullClass
+test(CFNullClass)
 {
     testassert([(id)kCFNull class] == [NSNull class]);
     return YES;

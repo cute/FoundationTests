@@ -32,7 +32,7 @@
 
 @testcase(NSDictionary)
 
-- (BOOL)testAllocate
+test(Allocate)
 {
     NSDictionary *d1 = [NSDictionary alloc];
     NSDictionary *d2 = [NSDictionary alloc];
@@ -43,7 +43,7 @@
     return YES;
 }
 
-- (BOOL)testAllocateMutable
+test(AllocateMutable)
 {
     NSMutableDictionary *d1 = [NSMutableDictionary alloc];
     NSMutableDictionary *d2 = [NSMutableDictionary alloc];
@@ -54,7 +54,7 @@
     return YES;
 }
 
-- (BOOL)testAllocateDifferential
+test(AllocateDifferential)
 {
     NSDictionary *d1 = [NSDictionary alloc];
     NSMutableDictionary *d2 = [NSMutableDictionary alloc];
@@ -65,7 +65,7 @@
     return YES;
 }
 
-- (BOOL)testAllocatedRetainCount
+test(AllocatedRetainCount)
 {
     NSDictionary *d = [NSDictionary alloc];
 
@@ -75,7 +75,7 @@
     return YES;
 }
 
-- (BOOL)testAllocatedClass
+test(AllocatedClass)
 {
     // Allocation must be a NSDictionary subclass
     testassert([[NSDictionary alloc] isKindOfClass:[NSDictionary class]]);
@@ -92,7 +92,7 @@
     return YES;
 }
 
-- (BOOL)testRetainCount
+test(RetainCount)
 {
     NSDictionary *d = [NSDictionary alloc];
 
@@ -101,7 +101,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleDeallocAllocate
+test(DoubleDeallocAllocate)
 {
     NSDictionary *d = [NSDictionary alloc];
 
@@ -112,7 +112,7 @@
     return YES;
 }
 
-- (BOOL)testDoubleInit
+test(DoubleInit)
 {
     void (^block)() = ^{
         [[NSDictionary dictionaryWithObjectsAndKeys:@"foo", @"bar", nil] initWithObjectsAndKeys:@"bar", @"baz", nil];
@@ -134,7 +134,7 @@
     return YES;
 }
 
-- (BOOL)testBlankCreation
+test(BlankCreation)
 {
     NSDictionary *dict = [[NSDictionary alloc] init];
 
@@ -146,7 +146,7 @@
     return YES;
 }
 
-- (BOOL)testBlankMutableCreation
+test(BlankMutableCreation)
 {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
 
@@ -158,7 +158,7 @@
     return YES;
 }
 
-- (BOOL)testDefaultCreation
+test(DefaultCreation)
 {
     NSString *key1 = @"key";
     id obj1 = [[NSObject alloc] init];
@@ -173,7 +173,7 @@
     return YES;
 }
 
-- (BOOL)testDefaultMutableCreation
+test(DefaultMutableCreation)
 {
     NSString *key1 = @"key";
     id obj1 = [[NSObject alloc] init];
@@ -187,7 +187,7 @@
     return YES;
 }
 
-- (BOOL)testDefaultCreationMany
+test(DefaultCreationMany)
 {
     int count = 10;
     id<NSCopying> *keys = malloc(sizeof(*keys) * count);
@@ -210,7 +210,7 @@
     return YES;
 }
 
-- (BOOL)testDefaultMutableCreationMany
+test(DefaultMutableCreationMany)
 {
     int count = 10;
     id<NSCopying> *keys = malloc(sizeof(*keys) * count);
@@ -234,7 +234,7 @@
     return YES;
 }
 
-- (BOOL)testVarArgsCreation
+test(VarArgsCreation)
 {
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:@"foo", @"bar", @"baz", @"bar", nil];
 
@@ -247,7 +247,7 @@
     return YES;
 }
 
-- (BOOL)testVarArgsMutableCreation
+test(VarArgsMutableCreation)
 {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"foo", @"bar", @"baz", @"bar", nil];
 
@@ -261,7 +261,7 @@
     return YES;
 }
 
-- (BOOL)testOtherDictionaryCreation
+test(OtherDictionaryCreation)
 {
     NSDictionary *dict = [[NSDictionary alloc] initWithDictionary:(NSDictionary *)@{
                                                                                     @"foo" : @"bar",
@@ -277,7 +277,7 @@
     return YES;
 }
 
-- (BOOL)testOtherDictionaryMutableCreation
+test(OtherDictionaryMutableCreation)
 {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithDictionary:(NSDictionary *)@{
                                                                                                   @"foo" : @"bar",
@@ -293,7 +293,7 @@
     return YES;
 }
 
-- (BOOL)testOtherDictionaryCopyCreation
+test(OtherDictionaryCopyCreation)
 {
     NSDictionary *dict = [[NSDictionary alloc] initWithDictionary:(NSDictionary *)@{
                                                                                     @"foo" : @"bar",
@@ -309,7 +309,7 @@
     return YES;
 }
 
-- (BOOL)testOtherDictionaryCopyMutableCreation
+test(OtherDictionaryCopyMutableCreation)
 {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithDictionary:(NSDictionary *)@{
                                                                                                   @"foo" : @"bar",
@@ -326,7 +326,7 @@
     return YES;
 }
 
-- (BOOL)testOtherDictionaryNoCopyCreation
+test(OtherDictionaryNoCopyCreation)
 {
     NSDictionary *dict = [[NSDictionary alloc] initWithDictionary:(NSDictionary *)@{
                                                                                     @"foo" : @"bar",
@@ -342,7 +342,7 @@
     return YES;
 }
 
-- (BOOL)testOtherDictionaryNoCopyMutableCreation
+test(OtherDictionaryNoCopyMutableCreation)
 {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithDictionary:(NSDictionary *)@{
                                                                                                   @"foo" : @"bar",
@@ -359,7 +359,7 @@
     return YES;
 }
 
-- (BOOL)testDictionaryCreation
+test(DictionaryCreation)
 {
     NSDictionary *dict = [[NSDictionary alloc] initWithObjects:(NSArray *)@[@"foo", @"bar", @"baz"] forKeys:(NSArray *)@[@"foo", @"bar", @"baz"]];
 
@@ -372,7 +372,7 @@
     return YES;
 }
 
-- (BOOL)testMutableDictionaryCreation
+test(MutableDictionaryCreation)
 {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithObjects:(NSArray *)@[@"foo", @"bar", @"baz"] forKeys:(NSArray *)@[@"foo", @"bar", @"baz"]];
 
@@ -386,7 +386,7 @@
     return YES;
 }
 
-- (BOOL)testMutable_setObject_forKey
+test(Mutable_setObject_forKey)
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
@@ -398,7 +398,7 @@
     return YES;
 }
 
-- (BOOL)testMutable_setObject_forNilKey
+test(Mutable_setObject_forNilKey)
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
@@ -417,7 +417,7 @@
     return YES;
 }
 
-- (BOOL)testMutable_setNilObject_forKey
+test(Mutable_setNilObject_forKey)
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
@@ -436,7 +436,7 @@
     return YES;
 }
 
-- (BOOL)testMutableDictionary_removeObjectForKey
+test(MutableDictionary_removeObjectForKey)
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"foo", @"fooKey", nil];
     
@@ -447,7 +447,7 @@
     return YES;
 }
 
-- (BOOL)testMutableDictionary_removeObjectForNilKey
+test(MutableDictionary_removeObjectForNilKey)
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"foo", @"fooKey", nil];
     
@@ -466,7 +466,7 @@
     return YES;
 }
 
-- (BOOL)testRemoveUnretainedObject
+test(RemoveUnretainedObject)
 {
     NSMutableDictionary* m = [@{@"foo": @"bar"} mutableCopy];
     [self unretainedObjectInMutableDictionary:m forKey:@"baz"];
@@ -479,7 +479,7 @@
 }
 #warning TODO
 
-- (BOOL)testFileCreation
+test(FileCreation)
 {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"ATestPlist" ofType:@"plist"];
     NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:path];
@@ -493,7 +493,7 @@
     return YES;
 }
 
-- (BOOL)testFileMutableCreation
+test(FileMutableCreation)
 {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"ATestPlist" ofType:@"plist"];
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
@@ -517,7 +517,7 @@
     return YES;
 }
 
-- (BOOL)testFileMutableCreation_dictionaryWithContentsOfFile
+test(FileMutableCreation_dictionaryWithContentsOfFile)
 {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"ATestPlist" ofType:@"plist"];
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:path];
@@ -539,7 +539,7 @@
     return YES;
 }
 
-- (BOOL)testFileMutableCreation_dictionaryWithContentsOfNilFile
+test(FileMutableCreation_dictionaryWithContentsOfNilFile)
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:nil];
 
@@ -548,7 +548,7 @@
     return YES;
 }
 
-- (BOOL)testNSDictionary_writeToFileAtomicallyYes
+test(NSDictionary_writeToFileAtomicallyYes)
 {
     NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"fooObj", @"fooKey", nil];
     
@@ -565,7 +565,7 @@
     return YES;
 }
 
-- (BOOL)testNSDictionary_writeToFileAtomically_withNilValue
+test(NSDictionary_writeToFileAtomically_withNilValue)
 {
     NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"fooObj", @"fooKey", nil];
     BOOL result = [dict writeToFile:nil atomically:YES];
@@ -573,7 +573,7 @@
     return YES;
 }
 
-- (BOOL)testNSDictionary_writeToFileAtomically_withEmptyValue
+test(NSDictionary_writeToFileAtomically_withEmptyValue)
 {
     NSDictionary *dict = [NSDictionary dictionary];
     
@@ -590,7 +590,7 @@
     return YES;
 }
 
-- (BOOL)testNSDictionary_writeToURLAtomicallyYes
+test(NSDictionary_writeToURLAtomicallyYes)
 {
     NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"fooObj", @"fooKey", nil];
     
@@ -607,7 +607,7 @@
     return YES;
 }
 
-- (BOOL)testNSDictionary_writeToRULAtomically_withNilValue
+test(NSDictionary_writeToRULAtomically_withNilValue)
 {
     NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"fooObj", @"fooKey", nil];
     BOOL result = [dict writeToURL:nil atomically:YES];
@@ -615,7 +615,7 @@
     return YES;
 }
 
-- (BOOL)testNSDictionary_writeToRULAtomically_withEmptyValue
+test(NSDictionary_writeToRULAtomically_withEmptyValue)
 {
     NSDictionary *dict = [NSDictionary dictionary];
     
@@ -632,7 +632,7 @@
     return YES;
 }
 
-- (BOOL)testURLCreation
+test(URLCreation)
 {
     NSURL *URL = [[NSBundle mainBundle] URLForResource:@"ATestPlist" withExtension:@"plist"];
     NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfURL:URL];
@@ -646,7 +646,7 @@
     return YES;
 }
 
-- (BOOL)testURLNilCreation
+test(URLNilCreation)
 {
     NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfURL:[NSURL URLWithString:nil]];
 
@@ -655,7 +655,7 @@
     return YES;
 }
 
-- (BOOL)testURLMutableCreation
+test(URLMutableCreation)
 {
     NSURL *URL = [[NSBundle mainBundle] URLForResource:@"ATestPlist" withExtension:@"plist"];
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithContentsOfURL:URL];
@@ -679,7 +679,7 @@
     return YES;
 }
 
-- (BOOL)testURLMutableCreation_dictionaryWithContentsOfURL
+test(URLMutableCreation_dictionaryWithContentsOfURL)
 {
     NSURL *URL = [[NSBundle mainBundle] URLForResource:@"ATestPlist" withExtension:@"plist"];
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfURL:URL];
@@ -701,7 +701,7 @@
     return YES;
 }
 
-- (BOOL)testURLMutableCreation_dictionaryWithContentsOfNilURL
+test(URLMutableCreation_dictionaryWithContentsOfNilURL)
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfURL:nil];
 
@@ -710,7 +710,7 @@
     return YES;
 }
 
-- (BOOL)testEncodeDictionaryWithKeyedArchiver
+test(EncodeDictionaryWithKeyedArchiver)
 {
     NSDictionary *dict = @{@"boolValue" : (id)kCFBooleanFalse, @"intValue" : @(42), @"stringValue" : @"foo bar", @"doubleValue" : @(3.14)};
     
@@ -727,7 +727,7 @@
     return YES;
 }
 
-- (BOOL)testSubclassCreation
+test(SubclassCreation)
 {
     NSDictionarySubclass *dict = [[NSDictionarySubclass alloc] initWithObjectsAndKeys:@"foo", @"bar", @"baz", @"foo", nil];
 
@@ -742,7 +742,7 @@
     return YES;
 }
 
-- (BOOL)testKeysOfEntriesPassingTestWithEmptyDict
+test(KeysOfEntriesPassingTestWithEmptyDict)
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
@@ -757,7 +757,7 @@
     
 }
 
-- (BOOL)testDescription
+test(Description)
 {
     // If all keys are same type and type is sortable, description should sort
 
@@ -788,7 +788,7 @@
     return YES;
 }
 
-- (BOOL)testGetObjectsAndKeys
+test(GetObjectsAndKeys)
 {
     NSDictionary *dict = @{ @"k2" : @1, @"k3" : @2, @"k1" : @3 };
     size_t size = sizeof(id) * [dict count] ;
@@ -813,7 +813,7 @@
     return YES;
 }
 
-- (BOOL)testEnumerateKeysAndObject
+test(EnumerateKeysAndObject)
 {
     NSDictionary *dict = @{ @"k2" : @1, @"k3" : @2, @"k1" : @3 };
     static int sum = 0;
@@ -878,7 +878,7 @@ static const char *allData[] = {
 	"America/Jamaica",
 };
 
-- (BOOL)testCFDictionaryWithCStringKey
+test(CFDictionaryWithCStringKey)
 {
 	CFDictionaryRef d = CFDictionaryCreate(NULL, (const void **)allKeys, (const void **)allData, 6, &cStringCallbacks, &dataCallbacks);
     char localCopy[15];   /* Make sure key value is different */
@@ -890,7 +890,7 @@ static const char *allData[] = {
     return YES;
 }
 
-- (BOOL)testBadCapacity
+test(BadCapacity)
 {
     __block BOOL raised = NO;
     __block NSMutableDictionary *dict = nil;
@@ -909,7 +909,7 @@ static const char *allData[] = {
     return YES;
 }
 
-- (BOOL)testLargeCapacity
+test(LargeCapacity)
 {
     __block BOOL raised = NO;
     __block NSMutableDictionary *dict = nil;

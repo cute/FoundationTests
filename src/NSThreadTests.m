@@ -1,11 +1,11 @@
 #import "FoundationTests.h"
 
-@testcase(NSThread) {
+@testcase(NSThread, {
     BOOL _thread1Passed;
     BOOL _thread2Passed;
-}
+})
 
-- (BOOL)testThreadCreation
+test(ThreadCreation)
 {
     NSThread *thread = [[NSThread alloc] init];
     testassert(thread != nil);
@@ -21,7 +21,7 @@
     return YES;
 }
 
-- (BOOL)testThreadSpawning1
+test(ThreadSpawning1)
 {
     _thread1Passed = NO;
     NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(thread1) object:nil];
@@ -40,7 +40,7 @@
     return YES;
 }
 
-- (BOOL)testThreadSpawning2
+test(ThreadSpawning2)
 {
     _thread2Passed = NO;
     NSObject *obj = [[NSObject alloc] init];
