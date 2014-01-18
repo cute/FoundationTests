@@ -9,10 +9,954 @@
 #import "FoundationTests.h"
 
 @testcase(NSDecimalNumber)
-#if 0
 
-- (BOOL)testInitWithDecimal1
+- (BOOL)testInitWithDouble1
 {
+    double original = SCHAR_MAX;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 1);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 127);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble2
+{
+    double original = SCHAR_MIN;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 1);
+    testassert(decimal._isNegative == 1);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 128);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble3
+{
+    double original = UCHAR_MAX;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 1);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 255);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble4
+{
+    double original = CHAR_MAX;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 1);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 127);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble5
+{
+    double original = CHAR_MIN;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 1);
+    testassert(decimal._isNegative == 1);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 128);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble6
+{
+    double original = USHRT_MAX;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 1);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 65535);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble7
+{
+    double original = SHRT_MAX;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 1);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 32767);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble8
+{
+    double original = SHRT_MIN;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 1);
+    testassert(decimal._isNegative == 1);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 32768);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble9
+{
+    double original = UINT_MAX;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 2);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 65535);
+    testassert(decimal._mantissa[1] == 65535);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble10
+{
+    double original = INT_MAX;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 2);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 65535);
+    testassert(decimal._mantissa[1] == 32767);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble11
+{
+    double original = INT_MIN;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 2);
+    testassert(decimal._isNegative == 1);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._mantissa[1] == 32768);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble12
+{
+#if __LP64__
+    double original = ULONG_MAX;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 0);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 0);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+#else
+    double original = ULONG_MAX;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 2);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 65535);
+    testassert(decimal._mantissa[1] == 65535);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+#endif
+    return YES;
+}
+
+- (BOOL)testInitWithDouble13
+{
+#if __LP64__
+    double original = LONG_MAX;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 4);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 32768);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+#else
+    double original = LONG_MAX;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 2);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 65535);
+    testassert(decimal._mantissa[1] == 32767);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+#endif
+    return YES;
+}
+
+- (BOOL)testInitWithDouble14
+{
+#if __LP64__
+    double original = LONG_MIN;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 4);
+    testassert(decimal._isNegative == 1);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 32768);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+#else
+    double original = LONG_MIN;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 2);
+    testassert(decimal._isNegative == 1);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._mantissa[1] == 32768);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+#endif
+    return YES;
+}
+
+- (BOOL)testInitWithDouble15
+{
+    double original = ULLONG_MAX;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 0);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 0);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble16
+{
+    double original = LLONG_MAX;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 4);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 32768);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble17
+{
+    double original = LLONG_MIN;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 4);
+    testassert(decimal._isNegative == 1);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 32768);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble18
+{
+    double original = FLT_MAX;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 20);
+    testassert(decimal._length == 4);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 12288);
+    testassert(decimal._mantissa[1] == 60226);
+    testassert(decimal._mantissa[2] == 16873);
+    testassert(decimal._mantissa[3] == 12089);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble19
+{
+    double original = DBL_MAX;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 127);
+    testassert(decimal._length == 4);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 65535);
+    testassert(decimal._mantissa[1] == 65535);
+    testassert(decimal._mantissa[2] == 65535);
+    testassert(decimal._mantissa[3] == 65535);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble20
+{
+    double original = LDBL_MAX;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 127);
+    testassert(decimal._length == 4);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 65535);
+    testassert(decimal._mantissa[1] == 65535);
+    testassert(decimal._mantissa[2] == 65535);
+    testassert(decimal._mantissa[3] == 65535);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble21
+{
+    double original = FLT_EPSILON;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == -25);
+    testassert(decimal._length == 4);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 36864);
+    testassert(decimal._mantissa[1] == 10242);
+    testassert(decimal._mantissa[2] == 10796);
+    testassert(decimal._mantissa[3] == 4235);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble22
+{
+    double original = DBL_EPSILON;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == -33);
+    testassert(decimal._length == 4);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 13184);
+    testassert(decimal._mantissa[1] == 18649);
+    testassert(decimal._mantissa[2] == 56420);
+    testassert(decimal._mantissa[3] == 788);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble23
+{
+#if TARGET_OS_IPHONE
+    double original = LDBL_EPSILON;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == -33);
+    testassert(decimal._length == 4);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 13184);
+    testassert(decimal._mantissa[1] == 18649);
+    testassert(decimal._mantissa[2] == 56420);
+    testassert(decimal._mantissa[3] == 788);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+#else
+    double original = LDBL_EPSILON;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == -38);
+    testassert(decimal._length == 4);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 32768);
+    testassert(decimal._mantissa[1] == 46349);
+    testassert(decimal._mantissa[2] == 39248);
+    testassert(decimal._mantissa[3] == 38518);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+#endif
+    return YES;
+}
+
+- (BOOL)testInitWithDouble24
+{
+    double original = FLT_MIN;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == -57);
+    testassert(decimal._length == 4);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 38912);
+    testassert(decimal._mantissa[1] == 8808);
+    testassert(decimal._mantissa[2] == 62167);
+    testassert(decimal._mantissa[3] == 41761);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble25
+{
+    double original = DBL_MIN;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 0);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 0);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble26
+{
+    double original = LDBL_MIN;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 0);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 0);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble27
+{
+    double original = FLT_TRUE_MIN;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == -64);
+    testassert(decimal._length == 4);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 45056);
+    testassert(decimal._mantissa[1] == 65487);
+    testassert(decimal._mantissa[2] == 8009);
+    testassert(decimal._mantissa[3] == 49784);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble28
+{
+    double original = DBL_TRUE_MIN;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 0);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 0);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble29
+{
+    double original = LDBL_TRUE_MIN;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 0);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 0);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble30
+{
+    double original = LDBL_TRUE_MIN;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 0);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 0);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble31
+{
+    double original = 1.0e-110;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 127);
+    testassert(decimal._length == 4);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 8192);
+    testassert(decimal._mantissa[1] == 35304);
+    testassert(decimal._mantissa[2] == 8964);
+    testassert(decimal._mantissa[3] == 35527);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble32
+{
+    double original = 1.0e-110 - DBL_MIN;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 127);
+    testassert(decimal._length == 4);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 8192);
+    testassert(decimal._mantissa[1] == 35304);
+    testassert(decimal._mantissa[2] == 8964);
+    testassert(decimal._mantissa[3] == 35527);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble33
+{
+    double original = 1.8e146;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 127);
+    testassert(decimal._length == 4);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._mantissa[1] == 50440);
+    testassert(decimal._mantissa[2] == 55457);
+    testassert(decimal._mantissa[3] == 63948);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble34
+{
+    double original = 1.8e146 + DBL_MIN;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 127);
+    testassert(decimal._length == 4);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._mantissa[1] == 50440);
+    testassert(decimal._mantissa[2] == 55457);
+    testassert(decimal._mantissa[3] == 63948);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble35
+{
+    double original = 1.8446744073709551616e19;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 0);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 0);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDouble36
+{
+    double original = 1.8446744073709551616e19 + DBL_MIN;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 0);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 0);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 0);
+    testassert(decimal._mantissa[1] == 0);
+    testassert(decimal._mantissa[2] == 0);
+    testassert(decimal._mantissa[3] == 0);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithDecimal
+{
+#if __LP64__
     NSDecimal decimal;
     decimal._mantissa[0] = 65535;
     decimal._mantissa[1] = 65535;
@@ -31,235 +975,36 @@
     testassert(decimal._exponent == 0);
     testassert(decimal._length == 8);
     testassert(decimal._isNegative == 1);
-    testassert(decimal._isCompact == 1);
+    testassert(decimal._isCompact == 0);
+    testassert(decimal._reserved == 98047);
+    for (int i = 0; i < NSDecimalMaxSize; i++) {
+        testassert(decimal._mantissa[i] == 65535);
+    }
+#else
+    NSDecimal decimal;
+    decimal._mantissa[0] = 65535;
+    decimal._mantissa[1] = 65535;
+    decimal._mantissa[2] = 65535;
+    decimal._mantissa[3] = 65535;
+    decimal._mantissa[4] = 65535;
+    decimal._mantissa[5] = 65535;
+    decimal._mantissa[6] = 65535;
+    decimal._mantissa[7] = 65535;
+    decimal._exponent = 0;
+    decimal._length = NSDecimalMaxSize;
+    
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDecimal:decimal];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == 0);
+    testassert(decimal._length == 8);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 0);
     testassert(decimal._reserved == 0);
     for (int i = 0; i < NSDecimalMaxSize; i++) {
         testassert(decimal._mantissa[i] == 65535);
     }
-    
-    return YES;
-}
-
-- (BOOL)testInitWithMantissa1
-{
-    NSNumber *number = [[NSDecimalNumber alloc] initWithMantissa:0ULL exponent:0 isNegative:NO];
-    NSDecimal decimal = [number decimalValue];
-    
-    testassert([number isEqual:[NSDecimalNumber zero]]);
-    testassert(number != nil);
-    testassert(decimal._exponent == 0);
-    testassert(decimal._length == 0);
-    testassert(decimal._isNegative == 0);
-    testassert(decimal._isCompact == 0);
-    testassert(decimal._reserved == 0);
-    for (int i = 0; i < NSDecimalMaxSize; i++) {
-        testassert(decimal._mantissa[i] == 0);
-    }
-    
-    return YES;
-}
-
-- (BOOL)testInitWithMantissa2
-{
-    NSNumber *number = [[NSDecimalNumber alloc] initWithMantissa:0ULL exponent:0 isNegative:YES];
-    NSDecimal decimal = [number decimalValue];
-    
-    testassert([number isEqual:[NSDecimalNumber notANumber]]);
-    testassert(number != nil);
-    testassert(decimal._exponent == 0);
-    testassert(decimal._length == 0);
-    testassert(decimal._isNegative == 1);
-    testassert(decimal._isCompact == 0);
-    testassert(decimal._reserved == 0);
-    for (int i = 0; i < NSDecimalMaxSize; i++) {
-        testassert(decimal._mantissa[i] == 0);
-    }
-    
-    return YES;
-}
-
-- (BOOL)testInitWithMantissa3
-{
-    NSNumber *number = [[NSDecimalNumber alloc] initWithMantissa:1ULL exponent:0 isNegative:NO];
-    NSDecimal decimal = [number decimalValue];
-    
-    testassert([number isEqual:[NSDecimalNumber one]]);
-    testassert(number != nil);
-    testassert(decimal._exponent == 0);
-    testassert(decimal._length == 1);
-    testassert(decimal._isNegative == 0);
-    testassert(decimal._isCompact == 1);
-    testassert(decimal._reserved == 0);
-    testassert(decimal._mantissa[0] == 1);
-    testassert(decimal._mantissa[1] == 0);
-    testassert(decimal._mantissa[2] == 0);
-    testassert(decimal._mantissa[3] == 0);
-    testassert(decimal._mantissa[4] == 0);
-    testassert(decimal._mantissa[5] == 0);
-    testassert(decimal._mantissa[6] == 0);
-    testassert(decimal._mantissa[7] == 0);
-    
-    return YES;
-}
-
-- (BOOL)testInitWithMantissa4
-{
-    NSNumber *number = [[NSDecimalNumber alloc] initWithMantissa:0xffffffff exponent:0x7f isNegative:NO];
-    NSDecimal decimal = [number decimalValue];
-    
-    testassert(number != nil);
-    testassert(decimal._exponent == 127);
-    testassert(decimal._length == 2);
-    testassert(decimal._isNegative == 0);
-    testassert(decimal._isCompact == 1);
-    testassert(decimal._reserved == 0);
-    testassert(decimal._mantissa[0] == 65535);
-    testassert(decimal._mantissa[1] == 65535);
-    testassert(decimal._mantissa[2] == 0);
-    testassert(decimal._mantissa[3] == 0);
-    testassert(decimal._mantissa[4] == 0);
-    testassert(decimal._mantissa[5] == 0);
-    testassert(decimal._mantissa[6] == 0);
-    testassert(decimal._mantissa[7] == 0);
-    
-    return YES;
-}
-
-- (BOOL)testInitWithMantissa5
-{
-    NSNumber *number = [[NSDecimalNumber alloc] initWithMantissa:0xffffffff exponent:0x7f isNegative:YES];
-    NSDecimal decimal = [number decimalValue];
-    
-    testassert(number != nil);
-    testassert(decimal._exponent == 127);
-    testassert(decimal._length == 2);
-    testassert(decimal._isNegative == 1);
-    testassert(decimal._isCompact == 1);
-    testassert(decimal._reserved == 0);
-    testassert(decimal._mantissa[0] == 65535);
-    testassert(decimal._mantissa[1] == 65535);
-    testassert(decimal._mantissa[2] == 0);
-    testassert(decimal._mantissa[3] == 0);
-    testassert(decimal._mantissa[4] == 0);
-    testassert(decimal._mantissa[5] == 0);
-    testassert(decimal._mantissa[6] == 0);
-    testassert(decimal._mantissa[7] == 0);
-    
-    return YES;
-}
-
-- (BOOL)testInitWithMantissa6
-{
-    NSNumber *number = [[NSDecimalNumber alloc] initWithMantissa:0x43f0000000000000ULL exponent:0 isNegative:NO];
-    NSDecimal decimal = [number decimalValue];
-    
-    testassert(number != nil);
-    testassert(decimal._exponent == 0);
-    testassert(decimal._length == 4);
-    testassert(decimal._isNegative == 0);
-    testassert(decimal._isCompact == 1);
-    testassert(decimal._reserved == 0);
-    testassert(decimal._mantissa[0] == 0);
-    testassert(decimal._mantissa[1] == 0);
-    testassert(decimal._mantissa[2] == 0);
-    testassert(decimal._mantissa[3] == 17392);
-    testassert(decimal._mantissa[4] == 0);
-    testassert(decimal._mantissa[5] == 0);
-    testassert(decimal._mantissa[6] == 0);
-    testassert(decimal._mantissa[7] == 0);
-    
-    return YES;
-}
-
-- (BOOL)testInitWithMantissa7
-{
-    NSNumber *number = [[NSDecimalNumber alloc] initWithMantissa:0x43f0000000000000ULL exponent:0 isNegative:NO];
-    NSDecimal decimal = [number decimalValue];
-    
-    testassert(number != nil);
-    testassert(decimal._exponent == 0);
-    testassert(decimal._length == 4);
-    testassert(decimal._isNegative == 0);
-    testassert(decimal._isCompact == 1);
-    testassert(decimal._reserved == 0);
-    testassert(decimal._mantissa[0] == 0);
-    testassert(decimal._mantissa[1] == 0);
-    testassert(decimal._mantissa[2] == 0);
-    testassert(decimal._mantissa[3] == 17392);
-    testassert(decimal._mantissa[4] == 0);
-    testassert(decimal._mantissa[5] == 0);
-    testassert(decimal._mantissa[6] == 0);
-    testassert(decimal._mantissa[7] == 0);
-    
-    return YES;
-}
-
-- (BOOL)testInitWithMantissa8
-{
-    NSNumber *number = [[NSDecimalNumber alloc] initWithMantissa:1.8e+146 exponent:0 isNegative:NO];
-    NSDecimal decimal = [number decimalValue];
-    
-    testassert(number != nil);
-    testassert(decimal._exponent == 0);
-    testassert(decimal._length == 4);
-    testassert(decimal._isNegative == 0);
-    testassert(decimal._isCompact == 1);
-    testassert(decimal._reserved == 0);
-    testassert(decimal._mantissa[0] == 65535);
-    testassert(decimal._mantissa[1] == 65535);
-    testassert(decimal._mantissa[2] == 65535);
-    testassert(decimal._mantissa[3] == 65535);
-    testassert(decimal._mantissa[4] == 0);
-    testassert(decimal._mantissa[5] == 0);
-    testassert(decimal._mantissa[6] == 0);
-    testassert(decimal._mantissa[7] == 0);
-    
-    return YES;
-}
-
-- (BOOL)testInitWithMantissa9
-{
-    NSNumber *number = [[NSDecimalNumber alloc] initWithMantissa:1.8e+146 + 1 exponent:0 isNegative:NO];
-    NSDecimal decimal = [number decimalValue];
-    
-    testassert(number != nil);
-    testassert(decimal._exponent == 0);
-    testassert(decimal._length == 4);
-    testassert(decimal._isNegative == 0);
-    testassert(decimal._isCompact == 1);
-    testassert(decimal._reserved == 0);
-    testassert(decimal._mantissa[0] == 65535);
-    testassert(decimal._mantissa[1] == 65535);
-    testassert(decimal._mantissa[2] == 65535);
-    testassert(decimal._mantissa[3] == 65535);
-    testassert(decimal._mantissa[4] == 0);
-    testassert(decimal._mantissa[5] == 0);
-    testassert(decimal._mantissa[6] == 0);
-    testassert(decimal._mantissa[7] == 0);
-    
-    return YES;
-}
-
-- (BOOL)testInitWithMantissa10
-{
-    NSNumber *number = [[NSDecimalNumber alloc] initWithMantissa:0x43e0000000000000 exponent:0 isNegative:NO];
-    NSDecimal decimal = [number decimalValue];
-    
-    testassert(number != nil);
-    testassert(decimal._exponent == 0);
-    testassert(decimal._length == 4);
-    testassert(decimal._isNegative == 0);
-    testassert(decimal._isCompact == 1);
-    testassert(decimal._reserved == 0);
-    testassert(decimal._mantissa[0] == 0);
-    testassert(decimal._mantissa[1] == 0);
-    testassert(decimal._mantissa[2] == 0);
-    testassert(decimal._mantissa[3] == 17392);
-    testassert(decimal._mantissa[4] == 0);
-    testassert(decimal._mantissa[5] == 0);
-    testassert(decimal._mantissa[6] == 0);
-    testassert(decimal._mantissa[7] == 0);
-    
+#endif
     return YES;
 }
 
@@ -341,8 +1086,6 @@
 
 - (BOOL)testNSDecimalNumberRepresentation5
 {
-    unsigned long long max = (unsigned long long)-1;
-
     NSDecimal decimal = [[NSDecimalNumber numberWithDouble:65536.65536] decimalValue];
     testassert(decimal._exponent == -5);
     testassert(decimal._length == 3);
@@ -634,7 +1377,39 @@
 //}
 
 - (BOOL)testDecimalNumberInitWithCoder
-{    
+{
+#if __LP64__
+    NSDecimalNumber *number1 = [NSDecimalNumber decimalNumberWithString:@"123"];
+    NSData *archive = [NSKeyedArchiver archivedDataWithRootObject:number1];
+    NSDecimalNumber *number2 = [NSKeyedUnarchiver unarchiveObjectWithData:archive];
+    
+    unsigned char expectedArchiveBytes[] = {
+        0x62, 0x70, 0x6c, 0x69, 0x73, 0x74, 0x30, 0x30, 0xd4, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x20, 0x21, 0x58, 0x24, 0x76, 0x65, 0x72, 0x73, 0x69,
+        0x6f, 0x6e, 0x58, 0x24, 0x6f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x73, 0x59, 0x24, 0x61, 0x72, 0x63, 0x68, 0x69, 0x76, 0x65, 0x72, 0x54, 0x24, 0x74,
+        0x6f, 0x70, 0x12, 0x00, 0x01, 0x86, 0xa0, 0xa3, 0x07, 0x08, 0x16, 0x55, 0x24, 0x6e, 0x75, 0x6c, 0x6c, 0xd7, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e,
+        0x0f, 0x10, 0x11, 0x12, 0x13, 0x14, 0x14, 0x15, 0x56, 0x24, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x5b, 0x4e, 0x53, 0x2e, 0x6d, 0x61, 0x6e, 0x74, 0x69,
+        0x73, 0x73, 0x61, 0x5b, 0x4e, 0x53, 0x2e, 0x6e, 0x65, 0x67, 0x61, 0x74, 0x69, 0x76, 0x65, 0x5b, 0x4e, 0x53, 0x2e, 0x65, 0x78, 0x70, 0x6f, 0x6e,
+        0x65, 0x6e, 0x74, 0x5e, 0x4e, 0x53, 0x2e, 0x6d, 0x61, 0x6e, 0x74, 0x69, 0x73, 0x73, 0x61, 0x2e, 0x62, 0x6f, 0x59, 0x4e, 0x53, 0x2e, 0x6c, 0x65,
+        0x6e, 0x67, 0x74, 0x68, 0x5a, 0x4e, 0x53, 0x2e, 0x63, 0x6f, 0x6d, 0x70, 0x61, 0x63, 0x74, 0x80, 0x02, 0x4f, 0x10, 0x10, 0x7b, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0x10, 0x00, 0x10, 0x01, 0x09, 0xd2, 0x17, 0x18, 0x19, 0x1a, 0x5a,
+        0x24, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x6e, 0x61, 0x6d, 0x65, 0x58, 0x24, 0x63, 0x6c, 0x61, 0x73, 0x73, 0x65, 0x73, 0x5f, 0x10, 0x1a, 0x4e, 0x53,
+        0x44, 0x65, 0x63, 0x69, 0x6d, 0x61, 0x6c, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x50, 0x6c, 0x61, 0x63, 0x65, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72,
+        0xa5, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x5f, 0x10, 0x1a, 0x4e, 0x53, 0x44, 0x65, 0x63, 0x69, 0x6d, 0x61, 0x6c, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72,
+        0x50, 0x6c, 0x61, 0x63, 0x65, 0x68, 0x6f, 0x6c, 0x64, 0x65, 0x72, 0x5f, 0x10, 0x0f, 0x4e, 0x53, 0x44, 0x65, 0x63, 0x69, 0x6d, 0x61, 0x6c, 0x4e,
+        0x75, 0x6d, 0x62, 0x65, 0x72, 0x58, 0x4e, 0x53, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x57, 0x4e, 0x53, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x58, 0x4e,
+        0x53, 0x4f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x5f, 0x10, 0x0f, 0x4e, 0x53, 0x4b, 0x65, 0x79, 0x65, 0x64, 0x41, 0x72, 0x63, 0x68, 0x69, 0x76, 0x65,
+        0x72, 0xd1, 0x22, 0x23, 0x54, 0x72, 0x6f, 0x6f, 0x74, 0x80, 0x01, 0x00, 0x08, 0x00, 0x11, 0x00, 0x1a, 0x00, 0x23, 0x00, 0x2d, 0x00, 0x32, 0x00,
+        0x37, 0x00, 0x3b, 0x00, 0x41, 0x00, 0x50, 0x00, 0x57, 0x00, 0x63, 0x00, 0x6f, 0x00, 0x7b, 0x00, 0x8a, 0x00, 0x94, 0x00, 0x9f, 0x00, 0xa1, 0x00,
+        0xb4, 0x00, 0xb5, 0x00, 0xb7, 0x00, 0xb9, 0x00, 0xba, 0x00, 0xbf, 0x00, 0xca, 0x00, 0xd3, 0x00, 0xf0, 0x00, 0xf6, 0x01, 0x13, 0x01, 0x25, 0x01,
+        0x2e, 0x01, 0x36, 0x01, 0x3f, 0x01, 0x51, 0x01, 0x54, 0x01, 0x59, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x24, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x5b,
+    };
+    
+    NSData *bytesToCompare = [NSData dataWithBytes:expectedArchiveBytes length:sizeof(expectedArchiveBytes)];
+    
+    testassert([archive isEqualToData:bytesToCompare]);
+    testassert([number1 isEqual:number2]);
+#else
     NSDecimalNumber *number1 = [NSDecimalNumber decimalNumberWithString:@"123"];
     NSData *archive = [NSKeyedArchiver archivedDataWithRootObject:number1];
     NSDecimalNumber *number2 = [NSKeyedUnarchiver unarchiveObjectWithData:archive];
@@ -665,7 +1440,7 @@
     
     testassert([archive isEqualToData:bytesToCompare]);
     testassert([number1 isEqual:number2]);
-    
+#endif
     return YES;
 }
 
@@ -819,5 +1594,4 @@
     
     return YES;
 }
-#endif
 @end
