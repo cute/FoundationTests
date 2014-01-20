@@ -1199,6 +1199,65 @@ test(SortUsingComparatorOptions)
     return YES;
 }
 
+test(SubscriptAccess)
+{
+    NSArray *array = @[@0, @1, @2];
+    testassert([array[0] isEqualToNumber:@0]);
+    testassert([array[1] isEqualToNumber:@1]);
+    testassert([array[2] isEqualToNumber:@2]);
+    return YES;
+}
+
+test(SubscriptBoundsException)
+{
+    NSArray *array = @[@0, @1, @2];
+    BOOL raised = NO;
+    @try {
+        id val = array[NSNotFound];
+        NSLog(@"%@", val);
+    }
+    @catch (NSException *exception) {
+        raised = YES;
+        testassert([[exception name] isEqualToString:NSRangeException]);
+    }
+    testassert(raised);
+    return YES;
+}
+
+test(SubscriptAppend)
+{
+    NSMutableArray *array = [NSMutableArray arrayWithObjects:@1, @2, nil];
+    array[2] = @3;
+    testassert([array count] == 3);
+    testassert([[array objectAtIndex:2] isEqualToNumber:@3]);
+    return YES;
+}
+
+test(SubscriptAppendViaNotFound)
+{
+    NSMutableArray *array = [NSMutableArray array];
+    BOOL raised = NO;
+    @try {
+        array[NSNotFound] = @1;
+    }
+    @catch (NSException *exception) {
+        raised = YES;
+        testassert([[exception name] isEqualToString:NSRangeException]);
+    }
+    testassert(raised);
+    testassert([array count] == 0);
+    return YES;
+}
+
+test(SubscriptReplace)
+{
+    NSMutableArray *array = [NSMutableArray arrayWithObjects:@0, @0, @0, nil];
+    array[0] = @3;
+    array[1] = @2;
+    array[2] = @1;
+    testassert([array isEqualToArray:@[@3, @2, @1]]);
+    return YES;
+}
 
 #pragma mark Helpers
 
