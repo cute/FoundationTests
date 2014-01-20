@@ -429,4 +429,131 @@ test(NSPurgeableData_writeToNilURL_options_error)
     return YES;
 }
 
+#pragma mark - NSDiscardableContent tests
+
+test(DiscardableContentProtocol)
+{
+    NSPurgeableData *d = [[[NSPurgeableData alloc] init] autorelease];
+
+    testassert([d respondsToSelector:@selector(beginContentAccess)]);
+    testassert([d respondsToSelector:@selector(endContentAccess)]);
+    testassert([d respondsToSelector:@selector(discardContentIfPossible)]);
+    testassert([d respondsToSelector:@selector(isContentDiscarded)]);
+
+    return YES;
+}
+
+test(ContentAccessCount)
+{
+    NSPurgeableData *d = [NSPurgeableData data]; // Access count 1 on allocation
+    [d beginContentAccess]; // Access count 2
+    [d endContentAccess]; // 1
+    [d endContentAccess]; // 0
+
+    BOOL raised = NO;
+    @try {
+        [d endContentAccess]; // -1, will throw
+    }
+    @catch (NSException *e) {
+        raised = [[e name] isEqualToString:NSGenericException];
+    }
+    testassert(raised);
+
+    return YES;
+}
+
+test(ContentAccessScope_Bytes)
+{
+    NSPurgeableData *d = [[[NSPurgeableData alloc] initWithBytes:"abc" length:3] autorelease];
+
+    testassert([d bytes] != NULL);
+
+    [d endContentAccess];
+
+    BOOL raised = NO;
+    @try {
+        [d bytes];
+    }
+    @catch (NSException *e) {
+        raised = [[e name] isEqualToString:NSGenericException];
+    }
+    testassert(raised);
+
+    return YES;
+}
+
+test(ContentAccessScope_MutableBytes)
+{
+    NSPurgeableData *d = [[[NSPurgeableData alloc] initWithBytes:"abc" length:3] autorelease];
+
+    testassert([d mutableBytes] != NULL);
+
+    [d endContentAccess];
+
+    BOOL raised = NO;
+    @try {
+        [d mutableBytes];
+    }
+    @catch (NSException *e) {
+        raised = [[e name] isEqualToString:NSGenericException];
+    }
+    testassert(raised);
+
+    return YES;
+}
+
+test(ContentAccessScope_Length)
+{
+    NSPurgeableData *d = [[[NSPurgeableData alloc] initWithBytes:"abc" length:3] autorelease];
+
+    testassert([d length] == 3);
+
+    [d endContentAccess];
+
+    BOOL raised = NO;
+    @try {
+        [d length];
+    }
+    @catch (NSException *e) {
+        raised = [[e name] isEqualToString:NSGenericException];
+    }
+    testassert(raised);
+
+    return YES;
+}
+
+test(ContentAccessScope_SetLength)
+{
+    NSPurgeableData *d = [[[NSPurgeableData alloc] initWithBytes:"abc" length:3] autorelease];
+
+    [d setLength:5];
+    testassert([d length] == 5);
+
+    [d endContentAccess];
+
+    BOOL raised = NO;
+    @try {
+        [d setLength:6];
+    }
+    @catch (NSException *e) {
+        raised = [[e name] isEqualToString:NSGenericException];
+    }
+    testassert(raised);
+
+    return YES;
+}
+
+test(ContentAccessScope_Description)
+{
+    NSPurgeableData *d = [[[NSPurgeableData alloc] initWithBytes:"abc" length:3] autorelease];
+
+    testassert([[d description] isEqualToString:@"<616263>"]);
+
+    [d endContentAccess];
+
+    testassert([[d description] isEqualToString:[NSString stringWithFormat:@"<NSPurgeableData: %p>", d]]);
+
+    return YES;
+}
+
 @end
