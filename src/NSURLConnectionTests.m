@@ -181,4 +181,40 @@ test(GZipDecodeFail)
     return YES;
 }
 
+test(SimplePost)
+{
+    NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/simplePost", HOST]]
+                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                        timeoutInterval:10.0];
+    [theRequest setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [theRequest setHTTPMethod:@"POST"];
+    NSError *err = nil;
+    NSURLResponse *response = nil;
+    NSData *data = [NSURLConnection sendSynchronousRequest:theRequest returningResponse:&response error:&err];
+    testassert(data.length > 0);
+    testassert(response != nil);
+    testassert(err == nil);
+    testassert([[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease] isEqualToString:@"Hello World"]);
+    return YES;
+}
+
+test(PostWithBodyFromData)
+{
+    NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/postWithFormBody", HOST]]
+                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                        timeoutInterval:10.0];
+    [theRequest setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [theRequest setHTTPMethod:@"POST"];
+    const char *body = "uuid=BFFC8B8B-C0B9-4C87-8AC3-E1B53469B642&happendtime=1390104433&modtime=1390104433&rectime=1390104433&myrefercode=BJZZZv&refereecode=3333";
+    [theRequest setHTTPBody:[NSData dataWithBytes:body length:strlen(body)]];
+    NSError *err = nil;
+    NSURLResponse *response = nil;
+    NSData *data = [NSURLConnection sendSynchronousRequest:theRequest returningResponse:&response error:&err];
+    testassert(data.length > 0);
+    testassert(response != nil);
+    testassert(err == nil);
+    testassert([[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease] isEqualToString:@"{\"uuid\":\"BFFC8B8B-C0B9-4C87-8AC3-E1B53469B642\",\"happendtime\":\"1390104433\",\"modtime\":\"1390104433\",\"rectime\":\"1390104433\",\"myrefercode\":\"BJZZZv\",\"refereecode\":\"3333\"}"]);
+    return YES;
+}
+
 @end
