@@ -8,11 +8,9 @@
 
 #import "FoundationTests.h"
 
-
-
 @testcase(AANSDecimalNumber)
 
-- (BOOL)testInitWithCoder1
+test(InitWithCoder1)
 {
     NSNumber *original = [NSDecimalNumber numberWithInt:0];
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:original];
@@ -24,7 +22,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithCoder2
+test(testInitWithCoder2)
 {
     NSNumber *original = [NSDecimalNumber numberWithInt:1];
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:original];
@@ -32,11 +30,11 @@
     
     testassert([original isEqual:number]);
     testassert([original isEqual:[NSDecimalNumber one]]);
-    
+        
     return YES;
 }
 
-- (BOOL)testInitWithCoder3
+test(InitWithCoder3)
 {
     NSNumber *original = [NSDecimalNumber notANumber];
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:original];
@@ -48,7 +46,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithCoder4
+test(InitWithCoder4)
 {
     NSNumber *original = [NSDecimalNumber numberWithLongLong:LONG_LONG_MAX];
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:original];
@@ -59,7 +57,7 @@
     return YES;
 }
 
-- (BOOL)testInitWithCoder5
+test(InitWithCoder5)
 {
     NSNumber *original = [NSDecimalNumber numberWithDouble:123456.7890];
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:original];
@@ -660,26 +658,7 @@ test(InitWithDouble22)
 
 test(InitWithDouble23)
 {
-#if TARGET_OS_IPHONE
-    double original = LDBL_EPSILON;
-    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
-    NSDecimal decimal = [number decimalValue];
-    
-    testassert(number != nil);
-    testassert(decimal._exponent == -33);
-    testassert(decimal._length == 4);
-    testassert(decimal._isNegative == 0);
-    testassert(decimal._isCompact == 1);
-    testassert(decimal._reserved == 0);
-    testassert(decimal._mantissa[0] == 13184);
-    testassert(decimal._mantissa[1] == 18649);
-    testassert(decimal._mantissa[2] == 56420);
-    testassert(decimal._mantissa[3] == 788);
-    testassert(decimal._mantissa[4] == 0);
-    testassert(decimal._mantissa[5] == 0);
-    testassert(decimal._mantissa[6] == 0);
-    testassert(decimal._mantissa[7] == 0);
-#else
+#if TARGET_IPHONE_SIMULATOR
     double original = LDBL_EPSILON;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
     NSDecimal decimal = [number decimalValue];
@@ -696,6 +675,26 @@ test(InitWithDouble23)
     testassert(decimal._mantissa[3] == 38518);
     testassert(decimal._mantissa[4] == 0);
     testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+#else
+    double original = LDBL_EPSILON;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == -33);
+    testassert(decimal._length == 4);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 13184);
+    testassert(decimal._mantissa[1] == 18649);
+    testassert(decimal._mantissa[2] == 56420);
+    testassert(decimal._mantissa[3] == 788);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    
     testassert(decimal._mantissa[6] == 0);
     testassert(decimal._mantissa[7] == 0);
 #endif
