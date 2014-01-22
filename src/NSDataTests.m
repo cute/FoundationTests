@@ -453,4 +453,25 @@ test(NoCopySmallAllocation)
     return YES;
 }
 
+test(InitWithData)
+{
+    NSData *d1 = [NSData dataWithBytes:"abc" length:3];
+    NSData *d2 = [[[NSData alloc] initWithData:d1] autorelease];
+    testassert([d1 isEqualToData:d2]);
+
+    return YES;
+}
+
+test(InitWithEmptyData)
+{
+    NSData *d1 = [NSData dataWithBytes:"" length:0];
+    testassert([d1 length] == 0);
+
+    NSData *d2 = [[[NSData alloc] initWithData:d1] autorelease];
+    testassert(d2 != nil);
+    testassert([d2 length] == 0);
+
+    return YES;
+}
+
 @end
