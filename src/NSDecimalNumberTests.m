@@ -8,8 +8,68 @@
 
 #import "FoundationTests.h"
 
-@testcase(NSDecimalNumber)
-#if 0
+
+
+@testcase(AANSDecimalNumber)
+
+- (BOOL)testInitWithCoder1
+{
+    NSNumber *original = [NSDecimalNumber numberWithInt:0];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:original];
+    NSDecimalNumber *number = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    testassert([original isEqual:number]);
+    testassert([original isEqual:[NSDecimalNumber zero]]);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithCoder2
+{
+    NSNumber *original = [NSDecimalNumber numberWithInt:1];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:original];
+    NSDecimalNumber *number = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    testassert([original isEqual:number]);
+    testassert([original isEqual:[NSDecimalNumber one]]);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithCoder3
+{
+    NSNumber *original = [NSDecimalNumber notANumber];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:original];
+    NSDecimalNumber *number = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    testassert([original isEqual:number]);
+    testassert([original isEqual:[NSDecimalNumber notANumber]]);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithCoder4
+{
+    NSNumber *original = [NSDecimalNumber numberWithLongLong:LONG_LONG_MAX];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:original];
+    NSDecimalNumber *number = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    testassert([original isEqual:number]);
+    
+    return YES;
+}
+
+- (BOOL)testInitWithCoder5
+{
+    NSNumber *original = [NSDecimalNumber numberWithDouble:123456.7890];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:original];
+    NSDecimalNumber *number = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    testassert([original isEqual:number]);
+    
+    return YES;
+}
+
 test(InitWithDouble1)
 {
     double original = SCHAR_MAX;
@@ -1594,5 +1654,4 @@ test(DecimalNumber_notANumber_doubleBits)
     
     return YES;
 }
-#endif
 @end
