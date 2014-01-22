@@ -386,7 +386,7 @@ test(MutableDictionaryCreation)
     return YES;
 }
 
-test(MutabeDictionaryCreationWithCount)
+test(MutableDictionaryCreationWithCount)
 {
     id objects[] = { @(23), @(42) };
     id keys[] = { @"foo", @"bar" };
