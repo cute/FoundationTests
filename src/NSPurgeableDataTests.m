@@ -179,6 +179,26 @@ test(PurgeableDataReplaceBytes)
     return YES;
 }
 
+test(PurgeableDataReplaceBytesExtend)
+{
+    const char *letters = "abcdefghijklmnop";
+    testassert(strlen(letters) == 16);
+    NSPurgeableData *data = [NSMutableData dataWithLength:strlen(letters)];
+    [data replaceBytesInRange:NSMakeRange(8, 16) withBytes:letters];
+
+    testassert([data length] == 24);
+
+    const char *bytes = [data bytes];
+    for (int i = 0; i < 8; i++)
+    {
+        testassert(bytes[i] == 0);
+    }
+
+    testassert(!strncmp(bytes + 8, letters, strlen(letters)));
+
+    return YES;
+}
+
 test(PurgeableDataResetBytes)
 {
     NSPurgeableData *data = [NSPurgeableData dataWithLength:16];

@@ -195,6 +195,26 @@ test(MutableDataReplaceBytes)
     return YES;
 }
 
+test(MutableDataReplaceBytesExtend)
+{
+    const char *letters = "abcdefghijklmnop";
+    testassert(strlen(letters) == 16);
+    NSMutableData *data = [NSMutableData dataWithLength:strlen(letters)];
+    [data replaceBytesInRange:NSMakeRange(8, 16) withBytes:letters];
+
+    testassert([data length] == 24);
+
+    const char *bytes = [data bytes];
+    for (int i = 0; i < 8; i++)
+    {
+        testassert(bytes[i] == 0);
+    }
+
+    testassert(!strncmp(bytes + 8, letters, strlen(letters)));
+
+    return YES;
+}
+
 test(MutableDataResetBytes)
 {
     NSMutableData *data = [NSMutableData dataWithLength:16];
