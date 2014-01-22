@@ -8,7 +8,7 @@
 
 #import "FoundationTests.h"
 
-@testcase(AANSDecimalNumber)
+@testcase(NSDecimalNumber)
 
 test(InitWithCoder1)
 {
