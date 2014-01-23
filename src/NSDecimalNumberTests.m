@@ -10,6 +10,87 @@
 
 @testcase(NSDecimalNumber)
 
+test(AllocPattern)
+{
+    testassert([NSDecimalNumber alloc] == [NSDecimalNumber alloc]);
+    
+    return YES;
+}
+
+test(DecimalValue1)
+{
+    NSDecimal decimal1;
+    decimal1._exponent = 0;
+    decimal1._isNegative = 0;
+    decimal1._length = 1;
+    decimal1._mantissa[0] = 1;
+    decimal1._mantissa[1] = 0;
+    decimal1._mantissa[2] = 0;
+    decimal1._mantissa[3] = 0;
+    decimal1._mantissa[4] = 0;
+    decimal1._mantissa[5] = 0;
+    decimal1._mantissa[6] = 0;
+    decimal1._mantissa[7] = 0;
+    decimal1._reserved = 0;
+    
+    NSDecimalCompact(&decimal1);
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDecimal:decimal1];
+    NSDecimal decimal2 = [number decimalValue];
+    
+    testassert(decimal1._exponent == decimal2._exponent);
+    testassert(decimal1._isCompact == decimal2._isCompact);
+    testassert(decimal1._isNegative == decimal2._isNegative);
+    testassert(decimal1._length == decimal2._length);
+    testassert(decimal1._mantissa[0] == decimal2._mantissa[0]);
+    testassert(decimal1._mantissa[1] == decimal2._mantissa[1]);
+    testassert(decimal1._mantissa[2] == decimal2._mantissa[2]);
+    testassert(decimal1._mantissa[3] == decimal2._mantissa[3]);
+    testassert(decimal1._mantissa[4] == decimal2._mantissa[4]);
+    testassert(decimal1._mantissa[5] == decimal2._mantissa[5]);
+    testassert(decimal1._mantissa[6] == decimal2._mantissa[6]);
+    testassert(decimal1._mantissa[7] == decimal2._mantissa[7]);
+    testassert(decimal1._reserved == decimal2._reserved);
+    
+    return YES;
+}
+
+test(DecimalValue2)
+{
+    NSDecimal decimal1;
+    decimal1._exponent = 1;
+    decimal1._isNegative = 1;
+    decimal1._length = 8;
+    decimal1._mantissa[0] = 1;
+    decimal1._mantissa[1] = 2;
+    decimal1._mantissa[2] = 3;
+    decimal1._mantissa[3] = 4;
+    decimal1._mantissa[4] = 5;
+    decimal1._mantissa[5] = 6;
+    decimal1._mantissa[6] = 7;
+    decimal1._mantissa[7] = 8;
+    decimal1._reserved = 9;
+    
+    NSDecimalCompact(&decimal1);
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDecimal:decimal1];
+    NSDecimal decimal2 = [number decimalValue];
+    
+    testassert(decimal1._exponent == decimal2._exponent);
+    testassert(decimal1._isCompact == decimal2._isCompact);
+    testassert(decimal1._isNegative == decimal2._isNegative);
+    testassert(decimal1._length == decimal2._length);
+    testassert(decimal1._mantissa[0] == decimal2._mantissa[0]);
+    testassert(decimal1._mantissa[1] == decimal2._mantissa[1]);
+    testassert(decimal1._mantissa[2] == decimal2._mantissa[2]);
+    testassert(decimal1._mantissa[3] == decimal2._mantissa[3]);
+    testassert(decimal1._mantissa[4] == decimal2._mantissa[4]);
+    testassert(decimal1._mantissa[5] == decimal2._mantissa[5]);
+    testassert(decimal1._mantissa[6] == decimal2._mantissa[6]);
+    testassert(decimal1._mantissa[7] == decimal2._mantissa[7]);
+    testassert(decimal1._reserved != decimal2._reserved);
+    
+    return YES;
+}
+
 test(InitWithCoder1)
 {
     NSNumber *original = [NSDecimalNumber numberWithInt:0];
@@ -1013,7 +1094,7 @@ test(InitWithDouble36)
     return YES;
 }
 
-test(InitWithDecimal)
+test(InitWithDecimal1)
 {
 #if __LP64__
     NSDecimal decimal;
@@ -1064,6 +1145,35 @@ test(InitWithDecimal)
         testassert(decimal._mantissa[i] == 65535);
     }
 #endif
+    return YES;
+}
+
+test(testSingletons)
+{
+    NSDecimalNumber *one1 = [NSDecimalNumber one];
+    NSDecimalNumber *one2 = [NSDecimalNumber one];
+    
+    testassert(one1 == one2);
+    
+    return YES;
+}
+
+test(DecimalNumberWithString)
+{
+    NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:@"0.0"];
+    
+    testassert(number != [NSDecimalNumber zero]);
+    testassert([number isEqual:[NSDecimalNumber zero]]);
+    
+    return YES;
+}
+
+test(initWithMantissa1)
+{
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithMantissa:0ULL exponent:0 isNegative:NO];
+    
+    testassert(number != [NSDecimalNumber zero]);
+    
     return YES;
 }
 
