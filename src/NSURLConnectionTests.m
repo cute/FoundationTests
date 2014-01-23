@@ -22,6 +22,26 @@ test(Synchronous)
     return YES;
 }
 
+test(SynchronousHTTPS)
+{
+    NSString *urlStr = [NSString stringWithFormat:@"https://apportableplayground.herokuapp.com/hamletInTheRaw"];
+    
+    NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
+    
+    NSURLResponse *response = nil;
+    NSError *error = nil;
+    
+    NSData *data = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&error];
+    NSString *hamlet = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+    
+    testassert([hamlet length] == 193080);
+    testassert([hamlet hash] == 2475820992u);
+    NSString *thouArtSlain = [hamlet substringWithRange:NSMakeRange(188534, 14)];
+    
+    testassert([thouArtSlain isEqualToString:@"thou art slain"]);
+    return YES;
+}
+
 test(GZip)
 {
     ConnectionDelegate *delegate = [[[ConnectionDelegate alloc] init] autorelease];
