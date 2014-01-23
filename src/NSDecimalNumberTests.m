@@ -9,7 +9,65 @@
 #import "FoundationTests.h"
 
 @testcase(NSDecimalNumber)
-#if 0
+
+test(InitWithCoder1)
+{
+    NSNumber *original = [NSDecimalNumber numberWithInt:0];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:original];
+    NSDecimalNumber *number = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    testassert([original isEqual:number]);
+    testassert([original isEqual:[NSDecimalNumber zero]]);
+    
+    return YES;
+}
+
+test(testInitWithCoder2)
+{
+    NSNumber *original = [NSDecimalNumber numberWithInt:1];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:original];
+    NSDecimalNumber *number = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    testassert([original isEqual:number]);
+    testassert([original isEqual:[NSDecimalNumber one]]);
+        
+    return YES;
+}
+
+test(InitWithCoder3)
+{
+    NSNumber *original = [NSDecimalNumber notANumber];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:original];
+    NSDecimalNumber *number = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    testassert([original isEqual:number]);
+    testassert([original isEqual:[NSDecimalNumber notANumber]]);
+    
+    return YES;
+}
+
+test(InitWithCoder4)
+{
+    NSNumber *original = [NSDecimalNumber numberWithLongLong:LONG_LONG_MAX];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:original];
+    NSDecimalNumber *number = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    testassert([original isEqual:number]);
+    
+    return YES;
+}
+
+test(InitWithCoder5)
+{
+    NSNumber *original = [NSDecimalNumber numberWithDouble:123456.7890];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:original];
+    NSDecimalNumber *number = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    testassert([original isEqual:number]);
+    
+    return YES;
+}
+
 test(InitWithDouble1)
 {
     double original = SCHAR_MAX;
@@ -600,26 +658,7 @@ test(InitWithDouble22)
 
 test(InitWithDouble23)
 {
-#if TARGET_OS_IPHONE
-    double original = LDBL_EPSILON;
-    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
-    NSDecimal decimal = [number decimalValue];
-    
-    testassert(number != nil);
-    testassert(decimal._exponent == -33);
-    testassert(decimal._length == 4);
-    testassert(decimal._isNegative == 0);
-    testassert(decimal._isCompact == 1);
-    testassert(decimal._reserved == 0);
-    testassert(decimal._mantissa[0] == 13184);
-    testassert(decimal._mantissa[1] == 18649);
-    testassert(decimal._mantissa[2] == 56420);
-    testassert(decimal._mantissa[3] == 788);
-    testassert(decimal._mantissa[4] == 0);
-    testassert(decimal._mantissa[5] == 0);
-    testassert(decimal._mantissa[6] == 0);
-    testassert(decimal._mantissa[7] == 0);
-#else
+#if TARGET_IPHONE_SIMULATOR
     double original = LDBL_EPSILON;
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
     NSDecimal decimal = [number decimalValue];
@@ -636,6 +675,26 @@ test(InitWithDouble23)
     testassert(decimal._mantissa[3] == 38518);
     testassert(decimal._mantissa[4] == 0);
     testassert(decimal._mantissa[5] == 0);
+    testassert(decimal._mantissa[6] == 0);
+    testassert(decimal._mantissa[7] == 0);
+#else
+    double original = LDBL_EPSILON;
+    NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDouble:original];
+    NSDecimal decimal = [number decimalValue];
+    
+    testassert(number != nil);
+    testassert(decimal._exponent == -33);
+    testassert(decimal._length == 4);
+    testassert(decimal._isNegative == 0);
+    testassert(decimal._isCompact == 1);
+    testassert(decimal._reserved == 0);
+    testassert(decimal._mantissa[0] == 13184);
+    testassert(decimal._mantissa[1] == 18649);
+    testassert(decimal._mantissa[2] == 56420);
+    testassert(decimal._mantissa[3] == 788);
+    testassert(decimal._mantissa[4] == 0);
+    testassert(decimal._mantissa[5] == 0);
+    
     testassert(decimal._mantissa[6] == 0);
     testassert(decimal._mantissa[7] == 0);
 #endif
@@ -1594,5 +1653,4 @@ test(DecimalNumber_notANumber_doubleBits)
     
     return YES;
 }
-#endif
 @end

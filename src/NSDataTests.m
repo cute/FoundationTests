@@ -195,6 +195,26 @@ test(MutableDataReplaceBytes)
     return YES;
 }
 
+test(MutableDataReplaceBytesExtend)
+{
+    const char *letters = "abcdefghijklmnop";
+    testassert(strlen(letters) == 16);
+    NSMutableData *data = [NSMutableData dataWithLength:strlen(letters)];
+    [data replaceBytesInRange:NSMakeRange(8, 16) withBytes:letters];
+
+    testassert([data length] == 24);
+
+    const char *bytes = [data bytes];
+    for (int i = 0; i < 8; i++)
+    {
+        testassert(bytes[i] == 0);
+    }
+
+    testassert(!strncmp(bytes + 8, letters, strlen(letters)));
+
+    return YES;
+}
+
 test(MutableDataResetBytes)
 {
     NSMutableData *data = [NSMutableData dataWithLength:16];
@@ -450,6 +470,27 @@ test(NoCopySmallAllocation)
     char *buffer = malloc(10);
     NSData *data = [NSData dataWithBytesNoCopy:buffer length:10 freeWhenDone:YES];
     testassert([data bytes] == buffer);
+    return YES;
+}
+
+test(InitWithData)
+{
+    NSData *d1 = [NSData dataWithBytes:"abc" length:3];
+    NSData *d2 = [[[NSData alloc] initWithData:d1] autorelease];
+    testassert([d1 isEqualToData:d2]);
+
+    return YES;
+}
+
+test(InitWithEmptyData)
+{
+    NSData *d1 = [NSData dataWithBytes:"" length:0];
+    testassert([d1 length] == 0);
+
+    NSData *d2 = [[[NSData alloc] initWithData:d1] autorelease];
+    testassert(d2 != nil);
+    testassert([d2 length] == 0);
+
     return YES;
 }
 

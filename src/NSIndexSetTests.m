@@ -686,6 +686,7 @@ test(IndexesPassingTestReverseRange)
 
 test(IndexesPassingTestConcurrentRange)
 {
+#warning TODO data race makes this test fail intermittently
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 4)];
     NSArray *a = @[@1, @20, @300, @4000, @50000];
 

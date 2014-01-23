@@ -386,6 +386,16 @@ test(MutableDictionaryCreation)
     return YES;
 }
 
+test(MutableDictionaryCreationWithCount)
+{
+    id objects[] = { @(23), @(42) };
+    id keys[] = { @"foo", @"bar" };
+    NSMutableDictionary *d = [[[NSMutableDictionary alloc] initWithObjects:objects forKeys:keys count:2] autorelease];
+    testassert([d count] == 2);
+
+    return YES;
+}
+
 test(Mutable_setObject_forKey)
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
