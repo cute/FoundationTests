@@ -22,6 +22,20 @@ test(Synchronous)
     return YES;
 }
 
+test(SSL3TLS1)
+{
+    NSString *urlStr = [NSString stringWithFormat:@"https://www.google.com"];
+    
+    NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
+    
+    NSURLResponse *response = nil;
+    NSError *error = nil;
+    
+    NSData *data = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&error];
+    testassert([data length] > 0);
+    return YES;
+}
+
 test(SynchronousHTTPS)
 {
     NSString *urlStr = [NSString stringWithFormat:@"https://apportableplayground.herokuapp.com/hamletInTheRaw"];
