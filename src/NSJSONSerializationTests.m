@@ -111,6 +111,19 @@ test(DictionaryWithStringWithEscaptedCharacters2)
     return YES;
 }
 
+test(EscapedUnicodeCharacter)
+{
+    unsigned char expectedArchiveBytes[] = {
+        0x7b, 0x22, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x22, 0x3a, 0x22, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x5c,
+        0x75, 0x30, 0x30, 0x34, 0x30, 0x67, 0x6d, 0x61, 0x69, 0x6c, 0x2e, 0x63, 0x6f, 0x6d, 0x22, 0x7d
+    };
+    NSData *data = [NSData dataWithBytes:expectedArchiveBytes length:sizeof(expectedArchiveBytes)];
+    testassert(data != nil);
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    testassert(json != nil);
+    return YES;
+}
+
 test(GeneralDataSeralization)
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
