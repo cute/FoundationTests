@@ -330,4 +330,13 @@ test(SecondsFromGMTForDate)
     return YES;
 }
 
+//WARNING: mileage will vary depending on where you run this test...change check to your current time zone if it fails
+test(GetLocalTimeZoneAbbreviation)
+{
+    NSTimeZone *tz = [NSTimeZone localTimeZone];
+    NSString *abbreviation = tz.abbreviation;
+    testassert([abbreviation isEqualToString:@"PST"]);
+    return YES;
+}
+
 @end
