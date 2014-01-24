@@ -210,6 +210,17 @@ test(PurgeableDataReplaceBytesLength)
     return YES;
 }
 
+test(PurgeableDataReplaceBytesSameLength)
+{
+    NSPurgeableData *d = [NSPurgeableData dataWithBytes:"abcdefgh" length:8];
+    testassert(d != nil);
+
+    [d replaceBytesInRange:NSMakeRange(2, 4) withBytes:"wxyz" length:4];
+    testassert(!strncmp([d bytes], "abwxyzgh", 8));
+
+    return YES;
+}
+
 test(PurgeableDataReplaceBytesLengthNull)
 {
     NSPurgeableData *d = [NSPurgeableData dataWithBytes:"abc" length:3];

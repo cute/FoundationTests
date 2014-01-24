@@ -226,6 +226,17 @@ test(MutableDataReplaceBytesLength)
     return YES;
 }
 
+test(MutableDataReplaceBytesSameLength)
+{
+    NSMutableData *d = [NSMutableData dataWithBytes:"abcdefgh" length:8];
+    testassert(d != nil);
+
+    [d replaceBytesInRange:NSMakeRange(2, 4) withBytes:"wxyz" length:4];
+    testassert(!strncmp([d bytes], "abwxyzgh", 8));
+
+    return YES;
+}
+
 test(MutableDataReplaceBytesLengthNull)
 {
     NSMutableData *d = [NSMutableData dataWithBytes:"abc" length:3];
