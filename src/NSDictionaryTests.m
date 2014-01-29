@@ -476,6 +476,16 @@ test(MutableDictionary_removeObjectForNilKey)
     return YES;
 }
 
+test(MutableDictionary_retrieveObjectForNilKey)
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"blah", @"blahKey", nil];
+    
+    id ret = [dict objectForKey: nil];
+    testassert(ret == nil);
+    
+    return YES;
+}
+
 test(RemoveUnretainedObject)
 {
     NSMutableDictionary* m = [@{@"foo": @"bar"} mutableCopy];
