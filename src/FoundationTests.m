@@ -10,6 +10,10 @@
 #define DEBUG_LOG printf
 #endif
 
+#if __LP64__
+#error 64 bit tests currently do not work correctly https://code.google.com/p/apportable/issues/detail?id=605
+#endif
+
 @implementation SubclassTracker {
     CFMutableArrayRef calls;
     Class class;
