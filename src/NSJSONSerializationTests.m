@@ -135,7 +135,7 @@ test(GeneralDataSeralization)
     uint32_t uint32 = 3124141341;
     unsigned long long ull = 312414134131241413ull;
     double dlrep = 1.5;
-    double dlmayrep = 1.1234567891011127;
+    double dlmayrep = 1.123456789101112;
     float fl = 3124134134678.13;
     double dl = 13421331.72348729 * 1000000000000000000000000000000000000000000000000000.0;
     long long negLong = -632414314135135234;
