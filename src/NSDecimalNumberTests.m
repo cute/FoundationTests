@@ -1110,6 +1110,7 @@ test(InitWithDecimal1)
     decimal._mantissa[6] = 65535;
     decimal._mantissa[7] = 65535;
     decimal._exponent = 0;
+    decimal._isNegative = 0;
     decimal._length = NSDecimalMaxSize;
     
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDecimal:decimal];
@@ -1134,6 +1135,7 @@ test(InitWithDecimal1)
     decimal._mantissa[6] = 65535;
     decimal._mantissa[7] = 65535;
     decimal._exponent = 0;
+    decimal._isNegative = 0;
     decimal._length = NSDecimalMaxSize;
     
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDecimal:decimal];
