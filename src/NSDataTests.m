@@ -217,11 +217,12 @@ test(MutableDataReplaceBytesExtend)
 
 test(MutableDataReplaceBytesLength)
 {
-    NSMutableData *d = [NSMutableData dataWithBytes:"abcdefgh" length:8];
+    NSMutableData *d = [NSMutableData dataWithBytes:"abcdefghij" length:10];
     testassert(d != nil);
 
     [d replaceBytesInRange:NSMakeRange(2, 4) withBytes:"wxyz" length:2];
-    testassert(!strncmp([d bytes], "abwxghgh", 8));
+    testassert(!strncmp([d bytes], "abwxghij", 8));
+    testassert([d length] == 8);
 
     return YES;
 }
@@ -233,6 +234,7 @@ test(MutableDataReplaceBytesSameLength)
 
     [d replaceBytesInRange:NSMakeRange(2, 4) withBytes:"wxyz" length:4];
     testassert(!strncmp([d bytes], "abwxyzgh", 8));
+    testassert([d length] == 8);
 
     return YES;
 }
@@ -243,12 +245,14 @@ test(MutableDataReplaceBytesLengthNull)
     testassert(d != nil);
 
     [d replaceBytesInRange:NSMakeRange(1, 1) withBytes:NULL length:0];
-    testassert(!strncmp([d bytes], "acdefghh", 8));
+    testassert(!strncmp([d bytes], "acdefgh", 7));
+    testassert([d length] == 7);
 
     [d replaceBytesInRange:NSMakeRange(2, 4) withBytes:NULL length:2];
-    char expectedBytes[8] = { 0x61, 0x63, 0x0, 0x0, 0x68, 0x67, 0x68, 0x68 };
+    testassert([d length] == 5);
+    char expectedBytes[5] = { 0x61, 0x63, 0x0, 0x0, 0x68 };
     const char *bytes = [d bytes];
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 5; i++)
     {
         testassert(bytes[i] == expectedBytes[i]);
     }
