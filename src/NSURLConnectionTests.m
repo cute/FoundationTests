@@ -48,7 +48,11 @@ test(SynchronousHTTPS)
     NSString *hamlet = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
     
     testassert([hamlet length] == 193080);
+#if __LP64__
+    testassert([hamlet hash] == 14636902918340609984ull);
+#else
     testassert([hamlet hash] == 2475820992u);
+#endif
     NSString *thouArtSlain = [hamlet substringWithRange:NSMakeRange(188534, 14)];
     
     testassert([thouArtSlain isEqualToString:@"thou art slain"]);
@@ -113,7 +117,11 @@ test(HamletRaw)
     NSString *hamlet = [[[NSString alloc] initWithData:[delegate resultData] encoding:NSUTF8StringEncoding] autorelease];
     
     testassert([hamlet length] == 193080);
+#if __LP64__
+    testassert([hamlet hash] == 14636902918340609984ull);
+#else
     testassert([hamlet hash] == 2475820992u);
+#endif
     NSString *thouArtSlain = [hamlet substringWithRange:NSMakeRange(188534, 14)];
     
     testassert([thouArtSlain isEqualToString:@"thou art slain"]);
@@ -138,7 +146,11 @@ test(HamletRawWithDelay)
     NSString *hamlet = [[[NSString alloc] initWithData:[delegate resultData] encoding:NSUTF8StringEncoding] autorelease];
     
     testassert([hamlet length] == 193080);
+#if __LP64__
+    testassert([hamlet hash] == 14636902918340609984ull);
+#else
     testassert([hamlet hash] == 2475820992u);
+#endif
     NSString *thouArtSlain = [hamlet substringWithRange:NSMakeRange(188534, 14)];
     
     testassert([thouArtSlain isEqualToString:@"thou art slain"]);
@@ -163,7 +175,11 @@ test(HamletGzipped)
     NSString *hamlet = [[[NSString alloc] initWithData:[delegate resultData] encoding:NSUTF8StringEncoding] autorelease];
     
     testassert([hamlet length] == 193080);
+#if __LP64__
+    testassert([hamlet hash] == 14636902918340609984ull);
+#else
     testassert([hamlet hash] == 2475820992u);
+#endif
     NSString *thouArtSlain = [hamlet substringWithRange:NSMakeRange(188534, 14)];
     
     testassert([thouArtSlain isEqualToString:@"thou art slain"]);
@@ -188,7 +204,11 @@ test(HamletGzipped2)
     NSString *hamlet = [[[NSString alloc] initWithData:[delegate resultData] encoding:NSUTF8StringEncoding] autorelease];
     
     testassert([hamlet length] == 193080);
+#if __LP64__
+    testassert([hamlet hash] == 14636902918340609984ull);
+#else
     testassert([hamlet hash] == 2475820992u);
+#endif
     NSString *thouArtSlain = [hamlet substringWithRange:NSMakeRange(188534, 14)];
     
     testassert([thouArtSlain isEqualToString:@"thou art slain"]);

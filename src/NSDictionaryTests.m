@@ -798,11 +798,19 @@ test(Description)
     testassert([d isEqualToString:[nestedInArray description]]);
 
     dict = @{ @2 : @1, @3 : @2, @1 : @3};
+#if __LP64__
+    d = @"{\n    3 = 2;\n    1 = 3;\n    2 = 1;\n}";
+#else
     d = @"{\n    1 = 3;\n    2 = 1;\n    3 = 2;\n}";
+#endif
     testassert([d isEqualToString:[dict description]]);
 
     dict = @{ @2 : @1, @3 : @2, @1 : @3, @"k1" : @9 };
+#if __LP64__
+    d = @"{\n    3 = 2;\n    2 = 1;\n    1 = 3;\n    k1 = 9;\n}";
+#else
     d = @"{\n    k1 = 9;\n    3 = 2;\n    1 = 3;\n    2 = 1;\n}";
+#endif
     testassert([d isEqualToString:[dict description]]);
 
     return YES;
@@ -915,7 +923,12 @@ test(BadCapacity)
     __block BOOL raised = NO;
     __block NSMutableDictionary *dict = nil;
     void (^block)(void) = ^{
-        dict = [[NSMutableDictionary alloc] initWithCapacity:1073741824];
+#if __LP64__
+        NSInteger capacity = 1ull << 62;
+#else
+        NSInteger capacity = 1073741824;
+#endif
+        dict = [[NSMutableDictionary alloc] initWithCapacity:capacity];
     };
     @try {
         block();

@@ -186,7 +186,12 @@ test(BadCapacity)
     __block BOOL raised = NO;
     __block NSMutableArray *array = nil;
     void (^block)(void) = ^{
-        array = [[NSMutableArray alloc] initWithCapacity:1073741824];
+#if __LP64__
+        NSUInteger capacity = 1ull << 62;
+#else
+        NSUInteger capacity = 1073741824;
+#endif
+        array = [[NSMutableArray alloc] initWithCapacity:capacity];
     };
     @try {
         block();

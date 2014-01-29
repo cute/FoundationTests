@@ -1062,35 +1062,47 @@ test(IsEqualToStringWithNSPathStore2)
 test(HashValue)
 {
     NSString *str = @"Hello world";
+#if __LP64__
+    testassert([str hash] == 16216313663434135879ull);
+#else
     testassert([str hash] == 4081981767u);
+#endif
     return YES;
 }
 
 test(HashValueEmptyStr)
 {
     NSString *str = @"";
-    testassert([str hash] == 0u);
+    testassert([str hash] == 0);
     return YES;
 }
 
 test(HashValueNil)
 {
     NSString *str = nil;
-    testassert([str hash] == 0u);
+    testassert([str hash] == 0);
     return YES;
 }
 
 test(HashValueUnicode)
 {
     NSString *str = @"你好世界";
+#if __LP64__
+    testassert([str hash] == 52948922483ull);
+#else
     testassert([str hash] == 1409314931u);
+#endif
     return YES;
 }
 
 test(HashValueSpaces)
 {
     NSString *str = @"    ";
+#if __LP64__
+    testassert([str hash] == 13860460740ull);
+#else
     testassert([str hash] == 975558852u);
+#endif
     return YES;
 }
 

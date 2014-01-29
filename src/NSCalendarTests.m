@@ -149,20 +149,20 @@ test(ComponentsFromDate)
 test(BlankDateComponents)
 {
     NSDateComponents *comps = [[NSDateComponents alloc] init];
-    testassert([comps era] == INT_MAX);
-    testassert([comps year] == INT_MAX);
-    testassert([comps month] == INT_MAX);
-    testassert([comps day] == INT_MAX);
-    testassert([comps hour] == INT_MAX);
-    testassert([comps minute] == INT_MAX);
-    testassert([comps second] == INT_MAX);
-    testassert([comps week] == INT_MAX);
-    testassert([comps weekday] == INT_MAX);
-    testassert([comps weekdayOrdinal] == INT_MAX);
-    testassert([comps quarter] == INT_MAX);
-    testassert([comps weekOfMonth] == INT_MAX);
-    testassert([comps weekOfYear] == INT_MAX);
-    testassert([comps yearForWeekOfYear] == INT_MAX);
+    testassert([comps era] == NSIntegerMax);
+    testassert([comps year] == NSIntegerMax);
+    testassert([comps month] == NSIntegerMax);
+    testassert([comps day] == NSIntegerMax);
+    testassert([comps hour] == NSIntegerMax);
+    testassert([comps minute] == NSIntegerMax);
+    testassert([comps second] == NSIntegerMax);
+    testassert([comps week] == NSIntegerMax);
+    testassert([comps weekday] == NSIntegerMax);
+    testassert([comps weekdayOrdinal] == NSIntegerMax);
+    testassert([comps quarter] == NSIntegerMax);
+    testassert([comps weekOfMonth] == NSIntegerMax);
+    testassert([comps weekOfYear] == NSIntegerMax);
+    testassert([comps yearForWeekOfYear] == NSIntegerMax);
     testassert([comps calendar] == nil);
     testassert([comps timeZone] == nil);
     return YES;
