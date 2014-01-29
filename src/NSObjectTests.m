@@ -273,4 +273,104 @@ test(MissingForwarding)
     return YES;
 }
 
+static BOOL performed = NO;
+static BOOL objectRecieved = NO;
+
+- (void)recipient
+{
+    performed = YES;
+}
+
+- (void)recipientObject:(NSString *)obj
+{
+    performed = YES;
+    objectRecieved = [obj isEqualToString:@"foo"];
+}
+
+
+test(DelayedPerformer)
+{
+    performed = NO;
+    [self performSelector:@selector(recipient) withObject:nil afterDelay:0.1 inModes:@[NSDefaultRunLoopMode]];
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.2]];
+    testassert(performed == YES);
+    return YES;
+}
+
+test(DelayedPerformerExtraObject)
+{
+    performed = NO;
+    [self performSelector:@selector(recipient) withObject:@"foo" afterDelay:0.1 inModes:@[NSDefaultRunLoopMode]];
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.2]];
+    testassert(performed == YES);
+    return YES;
+}
+
+test(DelayedPerformerObject)
+{
+    performed = NO;
+    objectRecieved = NO;
+    [self performSelector:@selector(recipientObject:) withObject:@"foo" afterDelay:0.1 inModes:@[NSDefaultRunLoopMode]];
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.2]];
+    testassert(performed == YES);
+    testassert(objectRecieved == YES);
+    return YES;
+}
+
+test(DelayedPerformerCancelation)
+{
+    performed = NO;
+    [self performSelector:@selector(recipient) withObject:nil afterDelay:0.1 inModes:@[NSDefaultRunLoopMode]];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.2]];
+    testassert(performed == NO);
+    return YES;
+}
+
+test(DelayedPerformerCancelation1)
+{
+    performed = NO;
+    [self performSelector:@selector(recipient) withObject:nil afterDelay:0.1 inModes:@[NSDefaultRunLoopMode]];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(recipient) object:nil];
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.2]];
+    testassert(performed == NO);
+    return YES;
+}
+
+test(DelayedPerformerObjectCancellation)
+{
+    performed = NO;
+    objectRecieved = NO;
+    [self performSelector:@selector(recipientObject:) withObject:@"foo" afterDelay:0.1 inModes:@[NSDefaultRunLoopMode]];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(recipientObject:) object:nil];
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.2]];
+    testassert(performed == YES);
+    testassert(objectRecieved == YES);
+    return YES;
+}
+
+test(DelayedPerformerObjectCancellation2)
+{
+    performed = NO;
+    objectRecieved = NO;
+    [self performSelector:@selector(recipientObject:) withObject:@"foo" afterDelay:0.1 inModes:@[NSDefaultRunLoopMode]];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(recipientObject:) object:@"foo"];
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.2]];
+    testassert(performed == NO);
+    testassert(objectRecieved == NO);
+    return YES;
+}
+
+test(DelayedPerformerObjectCancellation3)
+{
+    performed = NO;
+    objectRecieved = NO;
+    [self performSelector:@selector(recipientObject:) withObject:@"foo" afterDelay:0.1 inModes:@[NSDefaultRunLoopMode]];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(recipientObject:) object:[NSString stringWithUTF8String:"foo"]];
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.2]];
+    testassert(performed == NO);
+    testassert(objectRecieved == NO);
+    return YES;
+}
+
 @end
