@@ -53,7 +53,7 @@ test(Main)
 {
     NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
     testassert(mainQueue != nil);
-    testassert([[mainQueue name] isEqualToString:@"NSOperationQueue Main Queue"]);
+    testassert([[mainQueue name] rangeOfString:@"main" options:NSCaseInsensitiveSearch].location != NSNotFound);
 
     return YES;
 }
