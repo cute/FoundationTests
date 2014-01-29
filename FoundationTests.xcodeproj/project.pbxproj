@@ -17,6 +17,7 @@
 		21BC2852184FCE3000F5967E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 21BC2851184FCE3000F5967E /* Localizable.strings */; };
 		21BC2854184FD1CA00F5967E /* SpecialCharactersJSONTest.json in Resources */ = {isa = PBXBuildFile; fileRef = 21BC2853184FD1CA00F5967E /* SpecialCharactersJSONTest.json */; };
 		470A08B5181C647C006BFAB4 /* NSCoderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 470A08B4181C647C006BFAB4 /* NSCoderTests.m */; };
+		4711151E1898BEF7007FCCE0 /* NSOperationQueueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4711151D1898BEF7007FCCE0 /* NSOperationQueueTests.m */; };
 		47118C45188DA87500F39933 /* NSPurgeableDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47118C44188DA87500F39933 /* NSPurgeableDataTests.m */; };
 		47178C9217ADD9D40062E7B0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47178C9117ADD9D40062E7B0 /* Foundation.framework */; };
 		47178C9A17ADD9D40062E7B0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 47178C9817ADD9D40062E7B0 /* InfoPlist.strings */; };
@@ -168,6 +169,7 @@
 		21BC2851184FCE3000F5967E /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		21BC2853184FD1CA00F5967E /* SpecialCharactersJSONTest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SpecialCharactersJSONTest.json; sourceTree = "<group>"; };
 		470A08B4181C647C006BFAB4 /* NSCoderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSCoderTests.m; sourceTree = "<group>"; };
+		4711151D1898BEF7007FCCE0 /* NSOperationQueueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSOperationQueueTests.m; sourceTree = "<group>"; };
 		47118C44188DA87500F39933 /* NSPurgeableDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSPurgeableDataTests.m; sourceTree = "<group>"; };
 		47178C8C17ADD9D40062E7B0 /* FoundationTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoundationTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47178C9117ADD9D40062E7B0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -409,6 +411,7 @@
 				47178CB817ADDA340062E7B0 /* NSNumberTests.m */,
 				5B5547FD1857B9DB002AE461 /* NSObjectTests.m */,
 				47178CB917ADDA340062E7B0 /* NSObjCRuntimeTests.m */,
+				4711151D1898BEF7007FCCE0 /* NSOperationQueueTests.m */,
 				47AF6BA5185E79FF00DB82CA /* NSOrderedSetTests.m */,
 				B0AD4BCF17B0B0A200B5014F /* NSPathUtilitesTests.m */,
 				4796653918355B1C00A40F89 /* NSPointerFunctionsTests.m */,
@@ -581,6 +584,7 @@
 				DE242DC217BC446900D668DF /* NSThreadTests.m in Sources */,
 				DE242DC317BC446900D668DF /* NSURLTests.m in Sources */,
 				DE242DC617BFD7EF00D668DF /* NSByteCountFormatterTests.m in Sources */,
+				4711151E1898BEF7007FCCE0 /* NSOperationQueueTests.m in Sources */,
 				5B5547FE1857B9DB002AE461 /* NSObjectTests.m in Sources */,
 				DE242DC717BFD7F600D668DF /* NSNumberTests.m in Sources */,
 				DE242DCA17C1586900D668DF /* NSDateTests.m in Sources */,
