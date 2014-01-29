@@ -1,5 +1,4 @@
 #import "FoundationTests.h"
-#import "WebServer.h"
 #import "ConnectionDelegate.h"
 
 #define HOST @"http://apportableplayground.herokuapp.com"
