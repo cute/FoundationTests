@@ -24,7 +24,7 @@ test(Name)
 {
     NSOperationQueue *queue = [[[NSOperationQueue alloc] init] autorelease];
     NSString *name = [queue name];
-    testassert([name hasPrefix:@"NSOperationQueue 0x"]);
+    testassert([name hasPrefix:@"NSOperationQueue "]);
 
     return YES;
 }
