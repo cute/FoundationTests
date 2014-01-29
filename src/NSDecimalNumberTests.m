@@ -10,6 +10,13 @@
 
 @testcase(NSDecimalNumber)
 
+test(Alloc)
+{
+    testassert([NSDecimalNumber alloc] == [NSDecimalNumber alloc]);
+    return YES;
+}
+
+
 test(InitWithCoder1)
 {
     NSNumber *original = [NSDecimalNumber numberWithInt:0];
