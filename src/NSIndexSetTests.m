@@ -1218,6 +1218,89 @@ test(IndexSetMultipleRanges)
     return YES;
 }
 
+test(OrderedContiguousAdditions)
+{
+    NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
+    [indexSet addIndex:0];
+    testassert(indexSet.count == 1);
+    testassert([indexSet containsIndex:0]);
+    testassert(![indexSet containsIndex:1]);
+    testassert(![indexSet containsIndex:2]);
+    [indexSet addIndex:1];
+    testassert(indexSet.count == 2);
+    testassert([indexSet containsIndex:0]);
+    testassert([indexSet containsIndex:1]);
+    testassert(![indexSet containsIndex:2]);
+    [indexSet addIndex:2];
+    testassert(indexSet.count == 3);
+    testassert([indexSet containsIndex:0]);
+    testassert([indexSet containsIndex:1]);
+    testassert([indexSet containsIndex:2]);
+    return YES;
+}
+
+test(OrderedNonContiguousAdditions)
+{
+    NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
+    [indexSet addIndex:0];
+    testassert(indexSet.count == 1);
+    testassert([indexSet containsIndex:0]);
+    testassert(![indexSet containsIndex:2]);
+    testassert(![indexSet containsIndex:4]);
+    [indexSet addIndex:2];
+    testassert(indexSet.count == 2);
+    testassert([indexSet containsIndex:0]);
+    testassert([indexSet containsIndex:2]);
+    testassert(![indexSet containsIndex:4]);
+    [indexSet addIndex:4];
+    testassert(indexSet.count == 3);
+    testassert([indexSet containsIndex:0]);
+    testassert([indexSet containsIndex:2]);
+    testassert([indexSet containsIndex:4]);
+    return YES;
+}
+
+test(OutOfOrderAdditions)
+{
+    NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
+    [indexSet addIndex:3];
+    testassert(indexSet.count == 1);
+    testassert([indexSet containsIndex:3]);
+    testassert(![indexSet containsIndex:0]);
+    testassert(![indexSet containsIndex:1]);
+    [indexSet addIndex:0];
+    testassert(indexSet.count == 2);
+    testassert([indexSet containsIndex:3]);
+    testassert([indexSet containsIndex:0]);
+    testassert(![indexSet containsIndex:1]);
+    [indexSet addIndex:1];
+    testassert(indexSet.count == 3);
+    testassert([indexSet containsIndex:3]);
+    testassert([indexSet containsIndex:0]);
+    testassert([indexSet containsIndex:1]);
+    return YES;
+}
+
+test(OutOfOrderAdditions2)
+{
+    NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
+    [indexSet addIndex:3];
+    testassert(indexSet.count == 1);
+    testassert([indexSet containsIndex:3]);
+    testassert(![indexSet containsIndex:5]);
+    testassert(![indexSet containsIndex:1]);
+    [indexSet addIndex:5];
+    testassert(indexSet.count == 2);
+    testassert([indexSet containsIndex:3]);
+    testassert([indexSet containsIndex:5]);
+    testassert(![indexSet containsIndex:1]);
+    [indexSet addIndex:1];
+    testassert(indexSet.count == 3);
+    testassert([indexSet containsIndex:3]);
+    testassert([indexSet containsIndex:5]);
+    testassert([indexSet containsIndex:1]);
+    return YES;
+}
 
 test(IndexSetShiftIndexesStartingAtIndexByRollunder)
 {
