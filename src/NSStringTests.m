@@ -1094,6 +1094,26 @@ test(HashValueSpaces)
     return YES;
 }
 
+#pragma mark - Test [NSString initWithData: encoding:]
+
+test(InitWithNSUTF16BigEndianStringEncoding)
+{
+    NSString *strPath = [[NSBundle mainBundle] pathForResource:@"stringData.bin" ofType:nil];
+    NSData * dataStr = [NSData dataWithContentsOfFile:strPath];
+    NSString *str = [[NSString alloc] initWithData:dataStr encoding:NSUTF16BigEndianStringEncoding];
+    testassert([str isEqualToString:@"Muscle: Leavator Scapulae\nArticulation: Glenohumeral\nRange of Motion: Elevation 0°-40°"]);
+    return YES;
+}
+
+test(InitWithNSUTF16StringEncoding)
+{
+    NSString *strPath = [[NSBundle mainBundle] pathForResource:@"stringData.bin" ofType:nil];
+    NSData * dataStr = [NSData dataWithContentsOfFile:strPath];
+    NSString *str = [[NSString alloc] initWithData:dataStr encoding:NSUTF16StringEncoding];
+    testassert([str isEqualToString:@"Muscle: Leavator Scapulae\nArticulation: Glenohumeral\nRange of Motion: Elevation 0°-40°"]);
+    return YES;
+}
+
 #pragma mark -
 
 @end
