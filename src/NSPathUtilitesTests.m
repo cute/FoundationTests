@@ -503,8 +503,12 @@ test(NSPathStore2Hash)
     NSString *path = [NSString pathWithComponents:@[@"/", @"foo", @"bar", @"baz"]];
     testassert([path class] == NSClassFromString(@"NSPathStore2"));
     testassert([path isEqualToString:@"/foo/bar/baz"]);
-    
+
+#if __LP64__
+    testassert([path hash] == 15732706541598988367ull);
+#else
     testassert([path hash] == 2138626127);
+#endif
     
     return YES;
 }

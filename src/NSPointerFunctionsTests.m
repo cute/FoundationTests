@@ -19,7 +19,11 @@ test(CStringHash)
 
     const char nuls[10] = {0};
     NSUInteger tenNulsHash = hashFunction(nuls, &constTen);
+#if __LP64__
+    testassert(tenNulsHash == 7832317117341010954ull);
+#else
     testassert(tenNulsHash == 3142749194);
+#endif
 
     char chars[2] = {0};
     for (int i = 0; i < 256; i++)
@@ -31,7 +35,11 @@ test(CStringHash)
 
     const char *alphabet = "abcdefghijklmnopqrstuvwxyz";
     NSUInteger alphabetHash = hashFunction(alphabet, &strlen);
+#if __LP64__
+    testassert(alphabetHash == 3027273625588202553ull);
+#else
     testassert(alphabetHash == 3273129017);
+#endif
 
     return YES;
 }

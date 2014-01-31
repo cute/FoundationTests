@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #import <objc/runtime.h>
+#import <mach/mach_time.h>
 
 @testcase(NSDate)
 
@@ -37,6 +38,19 @@ test(ReasonableDate)
     testassert(t2 >= t1 && (t1 + 1.0) > t2);
     testassert(t1 == CFDateGetAbsoluteTime((CFDateRef)(d2)));
     
+    return YES;
+}
+
+test(Uptime)
+{
+    struct mach_timebase_info tinfo;
+    mach_timebase_info(&tinfo);
+    
+    NSTimeInterval uptime = [[NSProcessInfo processInfo] systemUptime];
+    uint64_t t = mach_absolute_time();
+    NSTimeInterval mach_timeup = (double)((tinfo.numer * t) / tinfo.denom) / (double)NSEC_PER_SEC;
+    NSLog(@"processInfo = %f mach = %f", uptime, mach_timeup);
+    testassert(abs(uptime - mach_timeup) < 0.001);
     return YES;
 }
 

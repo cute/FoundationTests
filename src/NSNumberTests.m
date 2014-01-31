@@ -1,6 +1,10 @@
 #import "FoundationTests.h"
 #import <limits.h>
 
+@interface NSObject ()
+- (BOOL)isNSNumber__;
+@end
+
 @testcase(NSNumber)
 
 test(Allocate)
@@ -1033,7 +1037,6 @@ test(IsNumber)
 {
     NSNumber *n = [NSNumber numberWithBool:YES];
     testassert([n isNSNumber__]);
-
     testassert([@"abc" isNSNumber__] == NO);
 
     return YES;

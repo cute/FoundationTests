@@ -1110,6 +1110,7 @@ test(InitWithDecimal1)
     decimal._mantissa[6] = 65535;
     decimal._mantissa[7] = 65535;
     decimal._exponent = 0;
+    decimal._isNegative = 0;
     decimal._length = NSDecimalMaxSize;
     
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDecimal:decimal];
@@ -1117,7 +1118,7 @@ test(InitWithDecimal1)
     testassert(number != nil);
     testassert(decimal._exponent == 0);
     testassert(decimal._length == 8);
-    testassert(decimal._isNegative == 1);
+    testassert(decimal._isNegative == 0);
     testassert(decimal._isCompact == 0);
     testassert(decimal._reserved == 98047);
     for (int i = 0; i < NSDecimalMaxSize; i++) {
@@ -1134,6 +1135,7 @@ test(InitWithDecimal1)
     decimal._mantissa[6] = 65535;
     decimal._mantissa[7] = 65535;
     decimal._exponent = 0;
+    decimal._isNegative = 0;
     decimal._length = NSDecimalMaxSize;
     
     NSDecimalNumber *number = [[NSDecimalNumber alloc] initWithDecimal:decimal];
@@ -1339,7 +1341,7 @@ test(ObjCType)
     return YES;
 }
 
-test(_cfNumberType)
+test(cfNumberType)
 {
     NSDecimalNumber *n = [NSDecimalNumber decimalNumberWithString:@"1.99"];
     testassert([n _cfNumberType] == kCFNumberDoubleType);

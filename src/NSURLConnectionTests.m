@@ -1,5 +1,4 @@
 #import "FoundationTests.h"
-#import "WebServer.h"
 #import "ConnectionDelegate.h"
 
 #define HOST @"http://apportableplayground.herokuapp.com"
@@ -49,7 +48,11 @@ test(SynchronousHTTPS)
     NSString *hamlet = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
     
     testassert([hamlet length] == 193080);
+#if __LP64__
+    testassert([hamlet hash] == 14636902918340609984ull);
+#else
     testassert([hamlet hash] == 2475820992u);
+#endif
     NSString *thouArtSlain = [hamlet substringWithRange:NSMakeRange(188534, 14)];
     
     testassert([thouArtSlain isEqualToString:@"thou art slain"]);
@@ -114,7 +117,11 @@ test(HamletRaw)
     NSString *hamlet = [[[NSString alloc] initWithData:[delegate resultData] encoding:NSUTF8StringEncoding] autorelease];
     
     testassert([hamlet length] == 193080);
+#if __LP64__
+    testassert([hamlet hash] == 14636902918340609984ull);
+#else
     testassert([hamlet hash] == 2475820992u);
+#endif
     NSString *thouArtSlain = [hamlet substringWithRange:NSMakeRange(188534, 14)];
     
     testassert([thouArtSlain isEqualToString:@"thou art slain"]);
@@ -139,7 +146,11 @@ test(HamletRawWithDelay)
     NSString *hamlet = [[[NSString alloc] initWithData:[delegate resultData] encoding:NSUTF8StringEncoding] autorelease];
     
     testassert([hamlet length] == 193080);
+#if __LP64__
+    testassert([hamlet hash] == 14636902918340609984ull);
+#else
     testassert([hamlet hash] == 2475820992u);
+#endif
     NSString *thouArtSlain = [hamlet substringWithRange:NSMakeRange(188534, 14)];
     
     testassert([thouArtSlain isEqualToString:@"thou art slain"]);
@@ -164,7 +175,11 @@ test(HamletGzipped)
     NSString *hamlet = [[[NSString alloc] initWithData:[delegate resultData] encoding:NSUTF8StringEncoding] autorelease];
     
     testassert([hamlet length] == 193080);
+#if __LP64__
+    testassert([hamlet hash] == 14636902918340609984ull);
+#else
     testassert([hamlet hash] == 2475820992u);
+#endif
     NSString *thouArtSlain = [hamlet substringWithRange:NSMakeRange(188534, 14)];
     
     testassert([thouArtSlain isEqualToString:@"thou art slain"]);
@@ -189,7 +204,11 @@ test(HamletGzipped2)
     NSString *hamlet = [[[NSString alloc] initWithData:[delegate resultData] encoding:NSUTF8StringEncoding] autorelease];
     
     testassert([hamlet length] == 193080);
+#if __LP64__
+    testassert([hamlet hash] == 14636902918340609984ull);
+#else
     testassert([hamlet hash] == 2475820992u);
+#endif
     NSString *thouArtSlain = [hamlet substringWithRange:NSMakeRange(188534, 14)];
     
     testassert([thouArtSlain isEqualToString:@"thou art slain"]);
@@ -212,6 +231,42 @@ test(GZipDecodeFail)
     testassert(delegate.error != nil);
     testassert(delegate.error.code == -1015);
     testassert(delegate.resultData.length == 0);
+    return YES;
+}
+
+test(SimplePost)
+{
+    NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/simplePost", HOST]]
+                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                        timeoutInterval:10.0];
+    [theRequest setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [theRequest setHTTPMethod:@"POST"];
+    NSError *err = nil;
+    NSURLResponse *response = nil;
+    NSData *data = [NSURLConnection sendSynchronousRequest:theRequest returningResponse:&response error:&err];
+    testassert(data.length > 0);
+    testassert(response != nil);
+    testassert(err == nil);
+    testassert([[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease] isEqualToString:@"Hello World"]);
+    return YES;
+}
+
+test(PostWithBodyFromData)
+{
+    NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/postWithFormBody", HOST]]
+                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                        timeoutInterval:10.0];
+    [theRequest setValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [theRequest setHTTPMethod:@"POST"];
+    const char *body = "uuid=BFFC8B8B-C0B9-4C87-8AC3-E1B53469B642&happendtime=1390104433&modtime=1390104433&rectime=1390104433&myrefercode=BJZZZv&refereecode=3333";
+    [theRequest setHTTPBody:[NSData dataWithBytes:body length:strlen(body)]];
+    NSError *err = nil;
+    NSURLResponse *response = nil;
+    NSData *data = [NSURLConnection sendSynchronousRequest:theRequest returningResponse:&response error:&err];
+    testassert(data.length > 0);
+    testassert(response != nil);
+    testassert(err == nil);
+    testassert([[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease] isEqualToString:@"{\"uuid\":\"BFFC8B8B-C0B9-4C87-8AC3-E1B53469B642\",\"happendtime\":\"1390104433\",\"modtime\":\"1390104433\",\"rectime\":\"1390104433\",\"myrefercode\":\"BJZZZv\",\"refereecode\":\"3333\"}"]);
     return YES;
 }
 

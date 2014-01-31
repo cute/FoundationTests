@@ -586,7 +586,12 @@ test(BadCapacity)
     __block BOOL raised = NO;
     __block NSMutableOrderedSet *orderedSet = nil;
     void (^block)(void) = ^{
-        orderedSet = [[NSMutableOrderedSet alloc] initWithCapacity:1073741824];
+#if __LP64__
+        NSInteger capacity = 1ull << 62;
+#else
+        NSInteger capacity = 1073741824;
+#endif
+        orderedSet = [[NSMutableOrderedSet alloc] initWithCapacity:capacity];
     };
     @try {
         block();
