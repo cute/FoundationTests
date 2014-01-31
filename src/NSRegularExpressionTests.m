@@ -207,6 +207,22 @@ test(RegularExpressionNilString)
     return YES;
 }
 
+test(ReplacementStringForResult)
+{
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"XXXX" options:NSRegularExpressionCaseInsensitive error:&error];
+    NSRange ranges[] = {
+        {4, 3},
+        {7, 3},
+        {10, 3},
+    };
+    NSUInteger count = sizeof(ranges) / sizeof(NSRange);
+    NSTextCheckingResult *result = [NSTextCheckingResult regularExpressionCheckingResultWithRanges:&ranges[0] count:count - 1 regularExpression:regex];
+    NSString *replacement = [regex replacementStringForResult:result inString:@"aaa<foobarbaz>ccc" offset:0 template:@"Zero = $0 One = $1 Two = $2 $$ \\$0 $10 \\\\\\$\\\\$"];
+    testassert([replacement isEqualToString:@"Zero = foo One = bar Two =  $$ $0 bar0 \\$\\$"]);
+    return YES;
+}
+
 
 test(StringByReplacingMatchesInString) // issue 571
 {
