@@ -127,6 +127,22 @@ test(RemovePersistentDomainForName) // issue 573
 
     return YES;
 }
+
+test(AppleLanguages)
+{
+    NSArray *languages = [NSLocale preferredLanguages];
+    testassert([languages isEqualToArray:[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"]]);
+    return YES;
+}
+
+test(AppleLanguagesRemoval)
+{
+    NSArray *languages = [NSLocale preferredLanguages];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"AppleLanguages"];
+    testassert([languages isEqualToArray:[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"]]);
+    return YES;
+}
+
 @end
 
 
