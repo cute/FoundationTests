@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00671A5A189BB95E0022BED3 /* stringData.bin in Resources */ = {isa = PBXBuildFile; fileRef = 00671A59189BB95E0022BED3 /* stringData.bin */; };
 		148B7C0D1872398000CB69E8 /* ConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 148B7C0C1872398000CB69E8 /* ConnectionDelegate.m */; };
 		1AFCF48917B9AE350085CA15 /* 0.asset in Resources */ = {isa = PBXBuildFile; fileRef = 1AFCF48117B9AE350085CA15 /* 0.asset */; };
 		1AFCF48A17B9AE350085CA15 /* 0.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1AFCF48217B9AE350085CA15 /* 0.bundle */; };
@@ -162,6 +163,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		00671A59189BB95E0022BED3 /* stringData.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = stringData.bin; sourceTree = "<group>"; };
 		148B7C0B1872398000CB69E8 /* ConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionDelegate.h; sourceTree = "<group>"; };
 		148B7C0C1872398000CB69E8 /* ConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionDelegate.m; sourceTree = "<group>"; };
 		1AFCF46317B9842D0085CA15 /* NSBundleTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSBundleTests.m; sourceTree = "<group>"; };
@@ -352,6 +354,7 @@
 		47178C9617ADD9D40062E7B0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				00671A59189BB95E0022BED3 /* stringData.bin */,
 				4A1C12F4183471540055723E /* ATestPlist.plist */,
 				1AFCF48017B9AE350085CA15 /* NSBundleTests */,
 				47178C9717ADD9D40062E7B0 /* FoundationTests-Info.plist */,
@@ -563,6 +566,7 @@
 				1AFCF48A17B9AE350085CA15 /* 0.bundle in Resources */,
 				1AFCF48F17B9AE480085CA15 /* folderref0 in Resources */,
 				58664D0B180E47E700B72D1F /* website.html in Resources */,
+				00671A5A189BB95E0022BED3 /* stringData.bin in Resources */,
 				4A1C12F5183471540055723E /* ATestPlist.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
