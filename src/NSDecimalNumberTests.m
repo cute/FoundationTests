@@ -106,7 +106,7 @@ test(InitWithCoder1)
     return YES;
 }
 
-test(testInitWithCoder2)
+test(InitWithCoder2)
 {
     NSNumber *original = [NSDecimalNumber numberWithInt:1];
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:original];
