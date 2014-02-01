@@ -347,6 +347,17 @@ test(ForwardingObjectChains)
     return YES;
 }
 
+test(ForwardingMethodCallWithArguments)
+{
+    // proxy a string
+    NSString* test_string = @"Hello";
+    NSString* proxied_string = (NSString*)[[[ForwardingTestsProxyForwardTarget alloc] initWithTarget:test_string] autorelease];
+    
+    NSString* substr = [proxied_string substringFromIndex:0];
+    testassert([substr isEqualToString:test_string]);
+    
+    return YES;
+}
 test(CustomForwardInvocation)
 {
     ForwardingTestsCustomForwardInvocation* obj = [[ForwardingTestsCustomForwardInvocation new] autorelease];
