@@ -17,8 +17,6 @@ test(AllocPattern)
     return YES;
 }
 
-#warning REMOVE THIS WHEN NSDECIMALCOMPACT WORKS
-#if 0
 test(DecimalValue1)
 {
     NSDecimal decimal1;
