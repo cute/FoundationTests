@@ -1336,71 +1336,79 @@ test(NSDecimalNumberRepresentation8)
 
 test(ObjCType)
 {
-    NSDecimalNumber *n = [NSDecimalNumber decimalNumberWithString:@"1.99"];
+    NSDecimalNumber *n = [[NSDecimalNumber alloc] initWithDouble:1.99];
     testassert(strcmp([n objCType], "d") == 0);
+    [n release];
     return YES;
 }
 
 test(cfNumberType)
 {
-    NSDecimalNumber *n = [NSDecimalNumber decimalNumberWithString:@"1.99"];
+    NSDecimalNumber *n = [[NSDecimalNumber alloc] initWithDouble:1.99];
     testassert([n _cfNumberType] == kCFNumberDoubleType);
+    [n release];
     return YES;
 }
 
 test(DoubleValue1)
 {
     NSDecimalNumber *n = nil;
-    n = [NSDecimalNumber decimalNumberWithString:@"0"];
+    n = [[NSDecimalNumber alloc] initWithDouble:0];
     testassert([n doubleValue] == 0.0);
-    
+    [n release];
+
     return YES;
 }
 
 test(DoubleValue2)
 {
     NSDecimalNumber *n = nil;
-    n = [NSDecimalNumber decimalNumberWithString:@"0.0"];
+    n = [[NSDecimalNumber alloc] initWithDouble:0.0];
     testassert([n doubleValue] == 0.0);
-    
+    [n release];
+
     return YES;
 }
 
 test(DoubleValue3)
 {
     NSDecimalNumber *n = nil;
-    n = [NSDecimalNumber decimalNumberWithString:@"-0"];
+    n = [[NSDecimalNumber alloc] initWithDouble:-0];
     testassert([n doubleValue] == +0.0);
     testassert([n doubleValue] == -0.0);
-    
+    [n release];
+
     return YES;
 }
 
 test(DoubleValue4)
 {
     NSDecimalNumber *n = nil;
-    n = [NSDecimalNumber decimalNumberWithString:@"-0.0"];
+    n = [[NSDecimalNumber alloc] initWithDouble:-0.0];
     testassert([n doubleValue] == +0.0);
     testassert([n doubleValue] == -0.0);
-    
+    [n release];
+
     return YES;
 }
 
 test(DoubleValue5)
 {
     NSDecimalNumber *n = nil;
-    n = [NSDecimalNumber decimalNumberWithString:@"0.33"];
+    n = [[NSDecimalNumber alloc] initWithDouble:0.33];
     testassert([n doubleValue] != 0.33);
     testassert([n doubleValue] - 0.33 < DBL_MIN);
-    
+    [n release];
+
     return YES;
 }
 
 test(DoubleValue6)
 {
     NSDecimalNumber *n = nil;
-    n = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%d", USHRT_MAX]];
+    n = [[NSDecimalNumber alloc] initWithDouble:(double)USHRT_MAX];
     testassert([n doubleValue] == (double)USHRT_MAX);
+    [n release];
     
     return YES;
 }
@@ -1408,64 +1416,71 @@ test(DoubleValue6)
 test(DoubleValue7)
 {
     NSDecimalNumber *n = nil;
-    n = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%f",(double)USHRT_MAX + 1.0]];
+    n = [[NSDecimalNumber alloc] initWithDouble:(double)USHRT_MAX + 1.0];
     testassert([n doubleValue] == 1.0 + (double)USHRT_MAX);
-    
+    [n release];
+
     return YES;
 }
 
 test(DoubleValue8)
 {
     NSDecimalNumber *n = nil;
-    n = [NSDecimalNumber decimalNumberWithString:@"65536"];
+    n = [[NSDecimalNumber alloc] initWithDouble:65536];
     testassert([n doubleValue] == 65536.0);
-    
+    [n release];
+
     return YES;
 }
 
 test(DoubleValue9)
 {
     NSDecimalNumber *n = nil;
-    n = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%llu", ULLONG_MAX]];
-    testassert([n doubleValue] == (double)ULLONG_MAX);
-    
+    n = [[NSDecimalNumber alloc] initWithDouble:(double)ULLONG_MAX];
+    testassert([n doubleValue] == 0.0); // WAT WAT WAT
+    [n release];
+
     return YES;
 }
 
 test(DoubleValue10)
 {
     NSDecimalNumber *n = nil;
-    n = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%f", 1 + (double)ULLONG_MAX]];
-    testassert([n doubleValue] == (double)ULLONG_MAX);
-    
+    n = [[NSDecimalNumber alloc] initWithDouble:1.0 + (double)ULLONG_MAX];
+    testassert([n doubleValue] == 0.0);
+    [n release];
+
     return YES;
 }
 
 test(DoubleValue11)
 {
     NSDecimalNumber *n = nil;
-    n = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"%f", 2.0 * (double)ULLONG_MAX]];
+    n = [[NSDecimalNumber alloc] initWithDouble:2.0 * (double)ULLONG_MAX];
     testassert([n doubleValue] == 2.0 * (double)ULLONG_MAX);
-    
+    [n release];
+
     return YES;
 }
 
 test(DoubleValue12)
 {
     NSDecimalNumber *n = nil;
-    n = [NSDecimalNumber decimalNumberWithString:@"123234623564.12351251345134"];
+    n = [[NSDecimalNumber alloc] initWithDouble:123234623564.12351251345134];
     testassert([n doubleValue] != 123234623564.1235);
     testassert([n doubleValue] - 123234623564.1235 == 0.000030517578125);
-    
+    [n release];
+
     return YES;
 }
 
 test(DoubleValue13)
 {
     NSDecimalNumber *n = nil;
-    n = [NSDecimalNumber decimalNumberWithString:@"12345678901234567890123456789012345678"];
-    testassert([n doubleValue] == 12345678901234567890123456789012345678.0);
-    
+    n = [[NSDecimalNumber alloc] initWithDouble:12345678901234567890123456789012345678ULL];
+    testassert([n doubleValue] == 1.414399478173381E+19);
+    [n release];
+
     return YES;
 }
 
@@ -1534,7 +1549,7 @@ test(DecimalNumberDoubleValue)
     double uShortMaxPlusOne = [[NSDecimalNumber numberWithInt:((unsigned short)-1) + 1] doubleValue];
     testassert(uShortMaxPlusOne == 65536.0);
     
-    NSDecimalNumber *dn = [NSDecimalNumber decimalNumberWithString:@"1.99"];
+    NSDecimalNumber *dn = [[NSDecimalNumber alloc] initWithDouble:1.99];
     double d = [dn doubleValue];
     testassert(d >= 1.98999 && d <= 1.990001);
     
@@ -1543,7 +1558,7 @@ test(DecimalNumberDoubleValue)
 //
 //test(DecimalNumberGetValueForType)
 //{
-//    NSDecimalNumber *dn = [NSDecimalNumber decimalNumberWithString:@"1.99"];
+//    NSDecimalNumber *dn = [[NSDecimalNumber alloc] initWithDouble:1.99];
 //    double d;
 //    [dn _getValue:&d forType:@encode(double)];
 //    testassert(d >= 1.98999 && d <= 1.990001);
@@ -1620,12 +1635,15 @@ test(DecimalNumberInitWithCoder)
 
 test(DecimalNumberInitWithDecimal)
 {
-    NSDecimalNumber *dn = [NSDecimalNumber decimalNumberWithString:@"1.99"];
+    NSDecimalNumber *dn = [[NSDecimalNumber alloc] initWithDouble:1.99];
     NSDecimal dv = [dn decimalValue];
     NSDecimalNumber *dn2 = [[NSDecimalNumber alloc] initWithDecimal:dv];
     double d = [dn2 doubleValue];
-    [dn2 release];
     testassert(d >= 1.98999 && d <= 1.990001);
+    
+    [dn release];
+    [dn2 release];
+    
     return YES;
 }
 
@@ -1650,13 +1668,16 @@ test(DecimalNumberCopy)
 
 test(DecimalNumberGetValueForDecimal)
 {
-    NSDecimalNumber *dn = [NSDecimalNumber decimalNumberWithString:@"1.99"];
+    NSDecimalNumber *dn = [[NSDecimalNumber alloc] initWithDouble:1.99];
     NSDecimal decimal = [dn decimalValue];
     decimal._mantissa[0] = 33;
     decimal._isNegative = YES;
     NSDecimalNumber *dn2 = [NSDecimalNumber decimalNumberWithDecimal:decimal];
     double d = [dn2 doubleValue];
     testassert(d >= -0.330001 && d <= -0.32999);
+    
+    [dn release];
+    
     return YES;
 }
 
