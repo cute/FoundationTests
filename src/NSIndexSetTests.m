@@ -975,6 +975,36 @@ test(RemoveIndexesInRange2)
     return YES;
 }
 
+test(RemoveIndexesInRangeZero)
+{
+    NSMutableIndexSet *indexSet0 = [[[NSIndexSet indexSet] mutableCopy] autorelease];
+    [indexSet0 removeIndexesInRange:NSMakeRange(2,2)];
+    NSMutableIndexSet *indexSet = [[[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 4)] mutableCopy] autorelease];
+    [indexSet addIndex:9];
+    [indexSet addIndex:11];
+    [indexSet addIndex:6];
+    
+    testassert([indexSet count] == 7);
+    
+    [indexSet removeIndexesInRange:NSMakeRange(0,2)];
+    testassert([indexSet count] == 5);
+    NSArray *a = @[@1, @20, @300, @4000, @50000, @2, @30, @400, @5000, @60000, @700000, @80000000];
+    __block int sum = 0;
+    [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        sum += [[a objectAtIndex:idx] intValue];
+    }];
+    testassert(sum == 80064330);
+    [indexSet removeIndexesInRange:NSMakeRange(4,2)];
+    testassert([indexSet count] == 5);
+    [indexSet removeIndexesInRange:NSMakeRange(1,1)];
+    testassert([indexSet count] == 5);
+    [indexSet removeIndexesInRange:NSMakeRange(11,10)];
+    testassert([indexSet count] == 4);
+    [indexSet removeIndexesInRange:NSMakeRange(1, 1000000)];
+    testassert([indexSet count] == 0);
+    return YES;
+}
+
 test(RemoveIndexes)
 {
     NSMutableIndexSet *indexSet = [[[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 4)] mutableCopy] autorelease];
