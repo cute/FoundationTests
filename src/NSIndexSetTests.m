@@ -1385,4 +1385,27 @@ test(IndexSetShiftIndexesStartingAtIndexByRollover)
     return YES;
 }
 
+test(IndexSetBug625)
+{
+    NSMutableIndexSet *indexSet;
+    indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndexesInRange:NSMakeRange(0, 3)];
+    [indexSet addIndexesInRange:NSMakeRange(10, 3)];
+    testassert([indexSet count] == 6);
+    
+    [indexSet removeIndex:0];
+    [indexSet removeIndex:10];
+    testassert([indexSet count] == 4);
+    
+    indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndexesInRange:NSMakeRange(0, 3)];
+    [indexSet addIndexesInRange:NSMakeRange(10, 3)];
+    testassert([indexSet count] == 6);
+    
+    [indexSet removeIndexesInRange:NSMakeRange(0, 3)];
+    [indexSet removeIndexesInRange:NSMakeRange(10, 3)];
+    testassert([indexSet count] == 0);
+    return YES;
+}
+
 @end
