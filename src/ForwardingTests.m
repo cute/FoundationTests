@@ -354,10 +354,12 @@ test(ForwardingMethodCallWithArguments)
     NSString* proxied_string = (NSString*)[[[ForwardingTestsProxyForwardTarget alloc] initWithTarget:test_string] autorelease];
     
     NSString* substr = [proxied_string substringFromIndex:0];
-    testassert([substr isEqualToString:test_string]);
+    BOOL equals = [substr isEqualToString:test_string];
+    testassert(equals);
     
     return YES;
 }
+
 test(CustomForwardInvocation)
 {
     ForwardingTestsCustomForwardInvocation* obj = [[ForwardingTestsCustomForwardInvocation new] autorelease];
@@ -365,8 +367,9 @@ test(CustomForwardInvocation)
     SEL selector = sel_registerName("custom_selector");
     id forwardResult = [obj performSelector:selector];
     id expectedResult = [obj objectForKey:NSStringFromSelector(selector)];
-    testassert([forwardResult isEqual:expectedResult]);
-
+    BOOL equals = [forwardResult isEqual:expectedResult];
+    testassert(equals);
+    
     return YES;
 }
 
