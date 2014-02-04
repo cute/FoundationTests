@@ -237,4 +237,15 @@ test(Percent2BInURLRequest)
     return YES;
 }
 
+test(StatusCodeAvailableInNSURLResponse)
+{
+    NSURLResponse* resp = [[NSURLResponse alloc] init];
+    testassert(![resp respondsToSelector:@selector(statusCode)]);
+    
+    NSHTTPURLResponse* httpResp = [[NSHTTPURLResponse alloc] init];
+    testassert([httpResp respondsToSelector:@selector(statusCode)]);
+    
+    return YES;
+}
+
 @end
