@@ -347,14 +347,39 @@ test(ForwardingObjectChains)
     return YES;
 }
 
+void __attribute__ ((noinline)) WriteValues(int* a, int* b, int* c) {
+    *a = 0x111;
+    *b = 0x222;
+    *c = 0x333;
+}
+BOOL __attribute__ ((noinline)) CheckValues(int* a, int* b, int* c) {
+    testassert(*a == 0x111);
+    testassert(*b == 0x222);
+    testassert(*c == 0x333);
+    return YES;
+}
+
 test(ForwardingMethodCallWithArguments)
 {
+    int a,b,c;
+    
     // proxy a string
     NSString* test_string = @"Hello";
     NSString* proxied_string = (NSString*)[[[ForwardingTestsProxyForwardTarget alloc] initWithTarget:test_string] autorelease];
     
+    // set stack canary
+    WriteValues(&a, &b, &c);
+    
     NSString* substr = [proxied_string substringFromIndex:0];
-    testassert([substr isEqualToString:test_string]);
+    
+    // check stack canary
+    if (CheckValues(&a, &b, &c) == NO)
+    {
+        return NO;
+    }
+    
+    BOOL result = [substr isEqualToString:test_string];
+    testassert(result);
     
     return YES;
 }
