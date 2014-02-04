@@ -105,8 +105,8 @@
 		94B59035182B3A9E0008F848 /* ForwardingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B5902E1829E47B0008F848 /* ForwardingTests.m */; };
 		B08392EB18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B08392EA18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m */; };
 		B08392EC18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B08392EA18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m */; };
-		B0F4B75218A003C90085754C /* NSKeyValueCodingSubclassTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B0F4B75118A003C90085754C /* NSKeyValueCodingSubclassTests.m */; };
-		B0F4B75318A004010085754C /* NSKeyValueCodingSubclassTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B0F4B75118A003C90085754C /* NSKeyValueCodingSubclassTests.m */; };
+		B0F4B75218A003C90085754C /* NSKeyValueCodingMutableContainerSubclassTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B0F4B75118A003C90085754C /* NSKeyValueCodingMutableContainerSubclassTests.m */; };
+		B0F4B75318A004010085754C /* NSKeyValueCodingMutableContainerSubclassTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B0F4B75118A003C90085754C /* NSKeyValueCodingMutableContainerSubclassTests.m */; };
 		BCA81FAA17B2E125004745B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47178C9117ADD9D40062E7B0 /* Foundation.framework */; };
 		BCA81FB117B2E125004745B2 /* FoundationTestsMac.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = BCA81FB017B2E125004745B2 /* FoundationTestsMac.1 */; };
 		BCA81FC517B31394004745B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178C9B17ADD9D40062E7B0 /* main.m */; };
@@ -240,7 +240,7 @@
 		B02ABB8C17B5ECA000CB5C94 /* NSScannerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScannerTests.m; sourceTree = "<group>"; };
 		B08392EA18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSKeyValueCodingMutableContainerTests.m; sourceTree = "<group>"; };
 		B0AD4BCF17B0B0A200B5014F /* NSPathUtilitesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSPathUtilitesTests.m; sourceTree = "<group>"; };
-		B0F4B75118A003C90085754C /* NSKeyValueCodingSubclassTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSKeyValueCodingSubclassTests.m; sourceTree = "<group>"; };
+		B0F4B75118A003C90085754C /* NSKeyValueCodingMutableContainerSubclassTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSKeyValueCodingMutableContainerSubclassTests.m; sourceTree = "<group>"; };
 		BCA81FA917B2E125004745B2 /* FoundationTestsMac */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FoundationTestsMac; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCA81FAF17B2E125004745B2 /* FoundationTestsMac-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FoundationTestsMac-Prefix.pch"; sourceTree = "<group>"; };
 		BCA81FB017B2E125004745B2 /* FoundationTestsMac.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = FoundationTestsMac.1; sourceTree = "<group>"; };
@@ -417,7 +417,7 @@
 				BCA81FCE17B316E5004745B2 /* NSInvocationTests.m */,
 				4A54638717F0C18700876D50 /* NSKeyValueCodingTests.m */,
 				B08392EA18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m */,
-				B0F4B75118A003C90085754C /* NSKeyValueCodingSubclassTests.m */,
+				B0F4B75118A003C90085754C /* NSKeyValueCodingMutableContainerSubclassTests.m */,
 				47E33E4A180C873A00A7E10F /* NSKVOTests.m */,
 				DE212C22180EF73300DDB3AA /* NSLocaleTests.m */,
 				47178CB617ADDA340062E7B0 /* NSLockTests.m */,
@@ -602,7 +602,7 @@
 				47BAA20018203D8000E7C337 /* NSDecimalNumberTests.m in Sources */,
 				DEE0C5BD1809D1EE00CA59BD /* NSFileHandleTests.m in Sources */,
 				DE242DBC17BC446900D668DF /* NSObjCRuntimeTests.m in Sources */,
-				B0F4B75218A003C90085754C /* NSKeyValueCodingSubclassTests.m in Sources */,
+				B0F4B75218A003C90085754C /* NSKeyValueCodingMutableContainerSubclassTests.m in Sources */,
 				DE242DBD17BC446900D668DF /* NSPathUtilitesTests.m in Sources */,
 				DE242DBE17BC446900D668DF /* NSScannerSubclassTests.m in Sources */,
 				DE242DBF17BC446900D668DF /* NSScannerTests.m in Sources */,
@@ -657,7 +657,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B0F4B75318A004010085754C /* NSKeyValueCodingSubclassTests.m in Sources */,
+				B0F4B75318A004010085754C /* NSKeyValueCodingMutableContainerSubclassTests.m in Sources */,
 				B08392EC18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m in Sources */,
 				DE227B461819BEB50004570F /* NSCalendarTests.m in Sources */,
 				BCA81FC517B31394004745B2 /* main.m in Sources */,

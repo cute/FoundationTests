@@ -143,7 +143,7 @@
 
 @end
 
-@testcase(NSKeyValueCodingSubclass)
+@testcase(NSKeyValueCodingMutableContainerSubclass)
 
 test(ArrayMutation_insertObject_atIndex_CallPattern)
 {
