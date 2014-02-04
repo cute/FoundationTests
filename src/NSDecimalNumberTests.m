@@ -1670,7 +1670,7 @@ test(DoubleValue12)
 test(DoubleValue13)
 {
     NSDecimalNumber *n = nil;
-    n = [[NSDecimalNumber alloc] initWithDouble:12345678901234567890123456789012345678ULL];
+    n = [[NSDecimalNumber alloc] initWithDouble:14143994781733811022ULL];
     testassert([n doubleValue] == 1.414399478173381E+19);
     [n release];
 
