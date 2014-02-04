@@ -103,6 +103,8 @@
 		5BFA539A183DD6FD0037A890 /* NSNullTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BFA5399183DD6FD0037A890 /* NSNullTests.m */; };
 		7D70A7CD186257A30087745C /* ForwardingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B5902E1829E47B0008F848 /* ForwardingTests.m */; };
 		94B59035182B3A9E0008F848 /* ForwardingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B5902E1829E47B0008F848 /* ForwardingTests.m */; };
+		B08392EB18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B08392EA18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m */; };
+		B08392EC18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B08392EA18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m */; };
 		B0F4B75218A003C90085754C /* NSKeyValueCodingSubclassTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B0F4B75118A003C90085754C /* NSKeyValueCodingSubclassTests.m */; };
 		B0F4B75318A004010085754C /* NSKeyValueCodingSubclassTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B0F4B75118A003C90085754C /* NSKeyValueCodingSubclassTests.m */; };
 		BCA81FAA17B2E125004745B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47178C9117ADD9D40062E7B0 /* Foundation.framework */; };
@@ -236,6 +238,7 @@
 		94B59031182B1D890008F848 /* NSProxyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSProxyTests.m; sourceTree = "<group>"; };
 		B02ABB8B17B5ECA000CB5C94 /* NSScannerSubclassTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScannerSubclassTests.m; sourceTree = "<group>"; };
 		B02ABB8C17B5ECA000CB5C94 /* NSScannerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScannerTests.m; sourceTree = "<group>"; };
+		B08392EA18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSKeyValueCodingMutableContainerTests.m; sourceTree = "<group>"; };
 		B0AD4BCF17B0B0A200B5014F /* NSPathUtilitesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSPathUtilitesTests.m; sourceTree = "<group>"; };
 		B0F4B75118A003C90085754C /* NSKeyValueCodingSubclassTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSKeyValueCodingSubclassTests.m; sourceTree = "<group>"; };
 		BCA81FA917B2E125004745B2 /* FoundationTestsMac */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FoundationTestsMac; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -413,6 +416,7 @@
 				DEA2B81E17DE663C00B27809 /* NSIndexSetTests.m */,
 				BCA81FCE17B316E5004745B2 /* NSInvocationTests.m */,
 				4A54638717F0C18700876D50 /* NSKeyValueCodingTests.m */,
+				B08392EA18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m */,
 				B0F4B75118A003C90085754C /* NSKeyValueCodingSubclassTests.m */,
 				47E33E4A180C873A00A7E10F /* NSKVOTests.m */,
 				DE212C22180EF73300DDB3AA /* NSLocaleTests.m */,
@@ -642,6 +646,7 @@
 				4796653A18355B1C00A40F89 /* NSPointerFunctionsTests.m in Sources */,
 				58DD2827180F51F7007C4D8F /* SecureTransportTests.m in Sources */,
 				4A27AE82183C02D9003D36F6 /* ConcurrencyTests.m in Sources */,
+				B08392EB18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m in Sources */,
 				21BB4E9F183C2B3500DEFF63 /* NSJSONSerializationTests.m in Sources */,
 				47118C45188DA87500F39933 /* NSPurgeableDataTests.m in Sources */,
 				148B7C0D1872398000CB69E8 /* ConnectionDelegate.m in Sources */,
@@ -653,6 +658,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B0F4B75318A004010085754C /* NSKeyValueCodingSubclassTests.m in Sources */,
+				B08392EC18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m in Sources */,
 				DE227B461819BEB50004570F /* NSCalendarTests.m in Sources */,
 				BCA81FC517B31394004745B2 /* main.m in Sources */,
 				58B2D03A17EBBC0300A999DA /* NSPortTests.m in Sources */,
