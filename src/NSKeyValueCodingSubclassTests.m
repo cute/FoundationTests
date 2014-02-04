@@ -87,6 +87,40 @@
 
 @end
 
+@interface ArrayCodingMutationIndexesSubclassTest : ArrayCodingMutationSubclassTest
+@end
+
+@implementation ArrayCodingMutationIndexesSubclassTest
+
+- (void)insertFoo:(NSArray *)objects atIndexes:(NSIndexSet *)indexes
+{
+    track([self insertObjects:objects atIndexes:indexes]);
+}
+
+- (void)removeFooAtIndexes:(NSIndexSet *)indexes
+{
+    track([self removeObjectsAtIndexes:indexes]);
+}
+
+@end
+
+@interface ArrayCodingMutationReplaceSubclassTest : ArrayCodingMutationSubclassTest
+@end
+
+@implementation ArrayCodingMutationReplaceSubclassTest
+
+-(void)replaceObjectInFooAtIndex:(NSUInteger)index withObject:(id)anObject
+{
+    track([self replaceObjectAtIndex:index withObject:anObject]);
+}
+
+-(void)replaceFooAtIndexes:(NSIndexSet *)indexes withFoo:(NSArray *)objects
+{
+    track([self replaceObjectsAtIndexes:indexes withObjects:objects]);
+}
+
+@end
+
 @interface ArrayCodingAccessorSubclassTest : KVCNSMutableArray
 @end
 
@@ -111,21 +145,21 @@
 
 @testcase(NSKeyValueCodingSubclass)
 
-test(Mutation_insertObject_atIndex_CallPattern)
+test(ArrayMutation_insertObject_atIndex_CallPattern)
 {
     ArrayCodingMutationSubclassTest *target = [[[ArrayCodingMutationSubclassTest alloc] init] autorelease];
     
     NSMutableArray* foo = [target mutableArrayValueForKey:@"foo"];
     [foo addObject:@"Zero"];
     
-//    [SubclassTracker dumpVerification:target]
+//    [SubclassTracker dumpVerification:target];
     BOOL verified = [SubclassTracker verify:target commands:@selector(foo), @selector(count), @selector(insertObject:inFooAtIndex:), @selector(insertObject:atIndex:), nil];
     testassert(verified);
     
     return YES;
 }
 
-test(Mutation_removeObjectAtIndex_CallPattern)
+test(ArrayMutation_removeObjectAtIndex_CallPattern)
 {
     ArrayCodingMutationSubclassTest *target = [[[ArrayCodingMutationSubclassTest alloc] init] autorelease];
     [target->_backing addObject:@"Remove"];
@@ -133,14 +167,82 @@ test(Mutation_removeObjectAtIndex_CallPattern)
     NSMutableArray* foo = [target mutableArrayValueForKey:@"foo"];
     [foo removeLastObject];
     
-//    [SubclassTracker dumpVerification:target]
+//    [SubclassTracker dumpVerification:target];
     BOOL verified = [SubclassTracker verify:target commands:@selector(foo), @selector(count), @selector(removeObjectFromFooAtIndex:), @selector(removeObjectAtIndex:), nil];
     testassert(verified);
     
     return YES;
 }
 
-test(Accessor_isEqualToArray_CallPattern)
+test(ArrayMutation_insertObjects_atIndexes_CallPattern)
+{
+    ArrayCodingMutationIndexesSubclassTest *target = [[[ArrayCodingMutationIndexesSubclassTest alloc] init] autorelease];
+    [target->_backing addObject:@"One"];
+    
+    NSMutableArray* foo = [target mutableArrayValueForKey:@"foo"];
+    NSArray *objects = @[@"Zero", @"Two"];
+    NSMutableIndexSet *indexes = [NSMutableIndexSet indexSetWithIndex:0];
+    [indexes addIndex:2];
+    [foo insertObjects:objects atIndexes:indexes];
+    
+//    [SubclassTracker dumpVerification:target];
+    BOOL verified = [SubclassTracker verify:target commands:@selector(insertFoo:atIndexes:), @selector(count), @selector(count), @selector(insertObject:atIndex:), @selector(count), @selector(insertObject:atIndex:), nil];
+    testassert(verified);
+    
+    return YES;
+}
+
+test(ArrayMutation_removeObjectsAtIndexes_CallPattern)
+{
+    ArrayCodingMutationIndexesSubclassTest *target = [[[ArrayCodingMutationIndexesSubclassTest alloc] init] autorelease];
+    [target->_backing addObjectsFromArray:@[@(0), @(1), @(2)]];
+    
+    NSMutableArray* foo = [target mutableArrayValueForKey:@"foo"];
+    NSMutableIndexSet *indexes = [NSMutableIndexSet indexSetWithIndex:0];
+    [indexes addIndex:2];
+    [foo removeObjectsAtIndexes:indexes];
+    
+//    [SubclassTracker dumpVerification:target];
+    BOOL verified = [SubclassTracker verify:target commands:@selector(removeFooAtIndexes:), @selector(count), @selector(count), @selector(removeObjectAtIndex:), @selector(count), @selector(removeObjectAtIndex:), nil];
+    testassert(verified);
+    
+    return YES;
+}
+
+test(ArrayMutation_replaceObjectAtIndex_withObject_CallPattern)
+{
+    ArrayCodingMutationReplaceSubclassTest *target = [[[ArrayCodingMutationReplaceSubclassTest alloc] init] autorelease];
+    [target->_backing addObjectsFromArray:@[@"Zero", @"Three", @"Two"]];
+    
+    NSMutableArray* foo = [target mutableArrayValueForKey:@"foo"];
+    [foo replaceObjectAtIndex:1 withObject:@"One"];
+    
+//    [SubclassTracker dumpVerification:target];
+    BOOL verified = [SubclassTracker verify:target commands:@selector(replaceObjectInFooAtIndex:withObject:), @selector(replaceObjectAtIndex:withObject:), nil];
+    testassert(verified);
+    
+    return YES;
+}
+
+test(ArrayMutation_replaceObjectsAtIndexes_withObjects_CallPattern)
+{
+    ArrayCodingMutationReplaceSubclassTest *target = [[[ArrayCodingMutationReplaceSubclassTest alloc] init] autorelease];
+    [target->_backing addObjectsFromArray:@[@(0), @"One", @(2), @"Three"]];
+    
+    NSMutableArray* foo = [target mutableArrayValueForKey:@"foo"];
+    NSArray *objects = @[@(1), @(3)];
+    NSMutableIndexSet *indexes = [NSMutableIndexSet indexSetWithIndex:1];
+    [indexes addIndex:3];
+    [foo replaceObjectsAtIndexes:indexes withObjects:objects];
+    
+//    [SubclassTracker dumpVerification:target];
+    BOOL verified = [SubclassTracker verify:target commands:@selector(replaceFooAtIndexes:withFoo:), @selector(count), @selector(count), @selector(replaceObjectAtIndex:withObject:), @selector(count), @selector(replaceObjectAtIndex:withObject:), nil];
+    testassert(verified);
+    
+    return YES;
+}
+
+test(ArrayAccessor_isEqualToArray_CallPattern)
 {
     ArrayCodingAccessorSubclassTest *target = [[[ArrayCodingAccessorSubclassTest alloc] init] autorelease];
     [target->_backing addObject:@(42)];
@@ -148,14 +250,14 @@ test(Accessor_isEqualToArray_CallPattern)
     NSMutableArray* foo = [target mutableArrayValueForKey:@"foo"];
     [foo isEqualToArray:@[@(42)]];
     
-//    [SubclassTracker dumpVerification:target]
+//    [SubclassTracker dumpVerification:target];
     BOOL verified = [SubclassTracker verify:target commands:@selector(foo), @selector(count), @selector(foo), @selector(count), @selector(objectAtIndex:), nil];
     testassert(verified);
     
     return YES;
 }
 
-test(Accessor_addObject_CallPattern)
+test(ArrayAccessor_addObject_CallPattern)
 {
     ArrayCodingAccessorSubclassTest *target = [[[ArrayCodingAccessorSubclassTest alloc] init] autorelease];
     [target->_backing addObject:@"Hello"];
@@ -171,7 +273,7 @@ test(Accessor_addObject_CallPattern)
     return YES;
 }
 
-test(Accessor_removeObjectAtIndex_CallPattern)
+test(ArrayAccessor_removeObjectAtIndex_CallPattern)
 {
     ArrayCodingAccessorSubclassTest *target = [[[ArrayCodingAccessorSubclassTest alloc] init] autorelease];
     [target->_backing addObject:@"Hello, world!"];
