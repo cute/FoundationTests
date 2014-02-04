@@ -213,4 +213,26 @@ test(NumberParsing)
     return YES;
 }
 
+test(TrueRootObject)
+{
+    NSString *str = @"true";
+    NSError *error = nil;
+    NSNumber *t = [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
+    testassert(t == nil);
+    testassert(error != nil);
+    return YES;
+}
+
+test(TrueRootFragment)
+{
+    NSString *str = @"true";
+    NSError *error = nil;
+    NSNumber *t = [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:&error];
+    testassert(t != nil);
+    testassert(error == nil);
+    testassert([t isEqualToNumber:@YES]);
+    testassert(t == (id)kCFBooleanTrue);
+    return YES;
+}
+
 @end
