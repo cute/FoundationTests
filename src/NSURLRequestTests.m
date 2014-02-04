@@ -248,4 +248,12 @@ test(StatusCodeAvailableInNSURLResponse)
     return YES;
 }
 
+test(CopyNSURLResponse)
+{
+    NSURLResponse* resp = [[NSURLResponse alloc] init];
+    testassert(resp == [resp copy]);
+    
+    return YES;
+}
+
 @end
