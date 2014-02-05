@@ -26,6 +26,7 @@
 		47178CA217ADD9D40062E7B0 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 47178CA117ADD9D40062E7B0 /* Default.png */; };
 		47178CA417ADD9D40062E7B0 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47178CA317ADD9D40062E7B0 /* Default@2x.png */; };
 		47178CA617ADD9D40062E7B0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47178CA517ADD9D40062E7B0 /* Default-568h@2x.png */; };
+		47939BF518A2FF86009CE394 /* NSLocaleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47939BF418A2FF86009CE394 /* NSLocaleTests.m */; };
 		4796653A18355B1C00A40F89 /* NSPointerFunctionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4796653918355B1C00A40F89 /* NSPointerFunctionsTests.m */; };
 		47AF6BA6185E79FF00DB82CA /* NSOrderedSetTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47AF6BA5185E79FF00DB82CA /* NSOrderedSetTests.m */; };
 		47BAA20018203D8000E7C337 /* NSDecimalNumberTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BAA1FF18203D8000E7C337 /* NSDecimalNumberTests.m */; };
@@ -81,7 +82,6 @@
 		58DD2828180F51F7007C4D8F /* SecureTransportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58DD2826180F51F7007C4D8F /* SecureTransportTests.m */; };
 		58DD282B180F520E007C4D8F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58DD282A180F520E007C4D8F /* Security.framework */; };
 		58DD282D180F5213007C4D8F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58DD282C180F5213007C4D8F /* Security.framework */; };
-		58DD282E180F55E7007C4D8F /* NSLocaleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE212C22180EF73300DDB3AA /* NSLocaleTests.m */; };
 		5B0DF58D1873A9F4008A7E6A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B0DF58C1873A9F4008A7E6A /* CoreLocation.framework */; };
 		5B5547FE1857B9DB002AE461 /* NSObjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5547FD1857B9DB002AE461 /* NSObjectTests.m */; };
 		5B5E26F0187BBAB800760D8D /* NSPredicateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B5E26EF187BBAB800760D8D /* NSPredicateTests.m */; };
@@ -96,7 +96,6 @@
 		BCA81FAA17B2E125004745B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47178C9117ADD9D40062E7B0 /* Foundation.framework */; };
 		BCA81FB117B2E125004745B2 /* FoundationTestsMac.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = BCA81FB017B2E125004745B2 /* FoundationTestsMac.1 */; };
 		BCA81FC517B31394004745B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178C9B17ADD9D40062E7B0 /* main.m */; };
-		DE212C23180EF73300DDB3AA /* NSLocaleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE212C22180EF73300DDB3AA /* NSLocaleTests.m */; };
 		DE212C26180F431000DDB3AA /* NSTimeZoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE212C25180F431000DDB3AA /* NSTimeZoneTests.m */; };
 		DE227B42181846040004570F /* NSTimeZoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE212C25180F431000DDB3AA /* NSTimeZoneTests.m */; };
 		DE227B451819BEB00004570F /* NSCalendarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE227B441819BEB00004570F /* NSCalendarTests.m */; };
@@ -190,6 +189,7 @@
 		47178CBB17ADDA340062E7B0 /* NSStringTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringTests.m; sourceTree = "<group>"; };
 		47178CBC17ADDA340062E7B0 /* NSThreadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSThreadTests.m; sourceTree = "<group>"; };
 		47178CBD17ADDA340062E7B0 /* NSURLTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLTests.m; sourceTree = "<group>"; };
+		47939BF418A2FF86009CE394 /* NSLocaleTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSLocaleTests.m; sourceTree = "<group>"; };
 		4796653918355B1C00A40F89 /* NSPointerFunctionsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSPointerFunctionsTests.m; sourceTree = "<group>"; };
 		47AF6BA5185E79FF00DB82CA /* NSOrderedSetTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSOrderedSetTests.m; sourceTree = "<group>"; };
 		47BAA1FF18203D8000E7C337 /* NSDecimalNumberTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDecimalNumberTests.m; sourceTree = "<group>"; };
@@ -225,7 +225,6 @@
 		BCA81FB017B2E125004745B2 /* FoundationTestsMac.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = FoundationTestsMac.1; sourceTree = "<group>"; };
 		BCA81FCE17B316E5004745B2 /* NSInvocationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSInvocationTests.m; sourceTree = "<group>"; };
 		DE06A9F117B9B7AA0069C996 /* NSArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSArrayTests.m; sourceTree = "<group>"; };
-		DE212C22180EF73300DDB3AA /* NSLocaleTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSLocaleTests.m; sourceTree = "<group>"; };
 		DE212C25180F431000DDB3AA /* NSTimeZoneTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSTimeZoneTests.m; sourceTree = "<group>"; };
 		DE227B441819BEB00004570F /* NSCalendarTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSCalendarTests.m; sourceTree = "<group>"; };
 		DE242DC917C1586900D668DF /* NSDateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDateTests.m; sourceTree = "<group>"; };
@@ -266,15 +265,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		148B7C0A187237EF00CB69E8 /* Networking */ = {
-			isa = PBXGroup;
-			children = (
-				148B7C0B1872398000CB69E8 /* ConnectionDelegate.h */,
-				148B7C0C1872398000CB69E8 /* ConnectionDelegate.m */,
-			);
-			name = Networking;
-			sourceTree = "<group>";
-		};
 		1AFCF48017B9AE350085CA15 /* NSBundleTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -366,14 +356,13 @@
 		47178CAF17ADDA340062E7B0 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				5B5E26EF187BBAB800760D8D /* NSPredicateTests.m */,
-				148B7C0A187237EF00CB69E8 /* Networking */,
-				21BB4E9E183C2B3500DEFF63 /* NSJSONSerializationTests.m */,
-				4A27AE81183C02D9003D36F6 /* ConcurrencyTests.m */,
 				DE69B48817FB4E2A00EB5F59 /* CFGetTypeIDTests.m */,
 				47178CB017ADDA340062E7B0 /* CFRunLoopTests.m */,
-				47178CB117ADDA340062E7B0 /* FoundationTests.m */,
+				4A27AE81183C02D9003D36F6 /* ConcurrencyTests.m */,
+				148B7C0B1872398000CB69E8 /* ConnectionDelegate.h */,
+				148B7C0C1872398000CB69E8 /* ConnectionDelegate.m */,
 				94B5902E1829E47B0008F848 /* ForwardingTests.m */,
+				47178CB117ADDA340062E7B0 /* FoundationTests.m */,
 				DE06A9F117B9B7AA0069C996 /* NSArrayTests.m */,
 				DE6BDA8D17EA5BE8006B5392 /* NSAttributedStringTests.m */,
 				47178CB217ADDA340062E7B0 /* NSBlockTests.m */,
@@ -394,40 +383,41 @@
 				47E36D2A189B611F0038E74F /* NSHashTableTests.m */,
 				DEA2B81E17DE663C00B27809 /* NSIndexSetTests.m */,
 				BCA81FCE17B316E5004745B2 /* NSInvocationTests.m */,
+				21BB4E9E183C2B3500DEFF63 /* NSJSONSerializationTests.m */,
 				4A54638717F0C18700876D50 /* NSKeyValueCodingTests.m */,
+				47939BF418A2FF86009CE394 /* NSLocaleTests.m */,
 				47E33E4A180C873A00A7E10F /* NSKVOTests.m */,
-				DE212C22180EF73300DDB3AA /* NSLocaleTests.m */,
 				47178CB617ADDA340062E7B0 /* NSLockTests.m */,
 				47178CB717ADDA340062E7B0 /* NSMethodSignatureTests.m */,
+				5BFA5399183DD6FD0037A890 /* NSNullTests.m */,
 				58C57F27180E16AA008C28D3 /* NSNumberFormatterTests.m */,
 				47178CB817ADDA340062E7B0 /* NSNumberTests.m */,
-				5B5547FD1857B9DB002AE461 /* NSObjectTests.m */,
 				47178CB917ADDA340062E7B0 /* NSObjCRuntimeTests.m */,
+				5B5547FD1857B9DB002AE461 /* NSObjectTests.m */,
 				4711151D1898BEF7007FCCE0 /* NSOperationQueueTests.m */,
 				47AF6BA5185E79FF00DB82CA /* NSOrderedSetTests.m */,
 				B0AD4BCF17B0B0A200B5014F /* NSPathUtilitesTests.m */,
 				4796653918355B1C00A40F89 /* NSPointerFunctionsTests.m */,
 				58B2D03817EBBC0300A999DA /* NSPortTests.m */,
+				5B5E26EF187BBAB800760D8D /* NSPredicateTests.m */,
 				94B59031182B1D890008F848 /* NSProxyTests.m */,
 				47118C44188DA87500F39933 /* NSPurgeableDataTests.m */,
+				DEC734291856A52F00C2277B /* NSRegularExpressionTests.m */,
 				B02ABB8B17B5ECA000CB5C94 /* NSScannerSubclassTests.m */,
 				B02ABB8C17B5ECA000CB5C94 /* NSScannerTests.m */,
 				DEFB624D17CBC8E4004908E6 /* NSSetTests.m */,
 				47178CBA17ADDA340062E7B0 /* NSSortDescriptorTests.m */,
+				5BBFC3EB1870E64700439799 /* NSStringSubclassTests.m */,
+				5B8B202B183ECCA2000C2C36 /* NSStringTests+ExternalSymbols.m */,
 				47178CBB17ADDA340062E7B0 /* NSStringTests.m */,
 				47178CBC17ADDA340062E7B0 /* NSThreadTests.m */,
+				DE212C25180F431000DDB3AA /* NSTimeZoneTests.m */,
 				58C57F24180E1513008C28D3 /* NSURLConnectionTests.m */,
 				58C57F29180E16B7008C28D3 /* NSURLRequestTests.m */,
 				47178CBD17ADDA340062E7B0 /* NSURLTests.m */,
 				DEB8A25B17BC373E0044AFB9 /* NSUserDefaultsTests.m */,
 				DEFB624917C41104004908E6 /* NSValueTests.m */,
 				58DD2826180F51F7007C4D8F /* SecureTransportTests.m */,
-				DE212C22180EF73300DDB3AA /* NSLocaleTests.m */,
-				DE212C25180F431000DDB3AA /* NSTimeZoneTests.m */,
-				5BFA5399183DD6FD0037A890 /* NSNullTests.m */,
-				5B8B202B183ECCA2000C2C36 /* NSStringTests+ExternalSymbols.m */,
-				DEC734291856A52F00C2277B /* NSRegularExpressionTests.m */,
-				5BBFC3EB1870E64700439799 /* NSStringSubclassTests.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -568,8 +558,8 @@
 				DE242DBC17BC446900D668DF /* NSObjCRuntimeTests.m in Sources */,
 				DE242DBD17BC446900D668DF /* NSPathUtilitesTests.m in Sources */,
 				DE242DBE17BC446900D668DF /* NSScannerSubclassTests.m in Sources */,
+				47939BF518A2FF86009CE394 /* NSLocaleTests.m in Sources */,
 				DE242DBF17BC446900D668DF /* NSScannerTests.m in Sources */,
-				DE212C23180EF73300DDB3AA /* NSLocaleTests.m in Sources */,
 				DE242DC017BC446900D668DF /* NSSortDescriptorTests.m in Sources */,
 				DE242DC117BC446900D668DF /* NSStringTests.m in Sources */,
 				DE242DC217BC446900D668DF /* NSThreadTests.m in Sources */,
@@ -659,7 +649,6 @@
 				DE227B42181846040004570F /* NSTimeZoneTests.m in Sources */,
 				58664D38180F28E500B72D1F /* NSAttributedStringTests.m in Sources */,
 				58DD2828180F51F7007C4D8F /* SecureTransportTests.m in Sources */,
-				58DD282E180F55E7007C4D8F /* NSLocaleTests.m in Sources */,
 				DE323BE41821CE36003742EC /* NSDecimalNumberTests.m in Sources */,
 				94B59035182B3A9E0008F848 /* ForwardingTests.m in Sources */,
 			);
