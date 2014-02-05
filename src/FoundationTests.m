@@ -10,6 +10,10 @@
 #define DEBUG_LOG printf
 #endif
 
+#if __LP64__
+#error 64 bit tests currently do not work correctly https://code.google.com/p/apportable/issues/detail?id=605
+#endif
+
 @implementation SubclassTracker {
     CFMutableArrayRef calls;
     Class class;
@@ -140,7 +144,6 @@ static void failure_log(const char *error)
 
 static unsigned int total_success_count = 0;
 static unsigned int total_assertion_count = 0;
-static unsigned int total_skip_count = 0;
 static unsigned int total_uncaught_exception_count = 0;
 static unsigned int total_failure_count = 0;
 static unsigned int total_signal_count = 0;
@@ -335,7 +338,6 @@ void runFoundationTests(void)
     DEBUG_LOG("Foundation test totals %.02f%%\n", 100.0 * ((double)total_success_count / (double)total_test_count));
     DEBUG_LOG("%u/%u successes\n", total_success_count, total_test_count);
     DEBUG_LOG("%u assertions\n", total_assertion_count);
-    DEBUG_LOG("%u skipped\n", total_skip_count);
     DEBUG_LOG("%u uncaught exceptions\n", total_uncaught_exception_count);
     DEBUG_LOG("%u signals raised\n", total_signal_count);
     DEBUG_LOG("%u failures (assertions, signals, and uncaught exceptions)\n\n", total_failure_count);

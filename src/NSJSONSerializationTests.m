@@ -134,20 +134,26 @@ test(GeneralDataSeralization)
     int32_t int32 = 2134567890;
     uint32_t uint32 = 3124141341;
     unsigned long long ull = 312414134131241413ull;
+    double dlrep = 1.5;
+    double dlmayrep = 1.123456789101112;
     float fl = 3124134134678.13;
     double dl = 13421331.72348729 * 1000000000000000000000000000000000000000000000000000.0;
     long long negLong = -632414314135135234;
-    
+    unsigned long long unrepresentable = 10765432100123457789ull;
+
     dict[@"dict"] = dict2;
     dict[@"arr"] = arr1;
     dict[@"bool"] = @(boolYes);
     dict[@"int16"] = @(int16);
     dict[@"int32"] = @(int32);
+    dict[@"dlrep"] = @(dlrep);
+    dict[@"dlmayrep"] = @(dlmayrep);
     dict[@"fl"] = @(fl);
     dict[@"dl"] = @(dl);
     dict[@"uint32"] = @(uint32);
     dict[@"ull"] = @(ull);
     dict[@"negLong"] = @(negLong);
+    dict[@"unrepresentable"] = @(unrepresentable);
     
     NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:0 error:nil];
     testassert(data != nil);
@@ -166,7 +172,10 @@ test(GeneralDataSeralization)
     testassert(([(NSNumber *)dict_back[@"ull"] unsignedLongLongValue] == ull));
     testassert(abs([(NSNumber *)dict_back[@"fl"] floatValue] - fl) < (fl/100000.0));
     testassert(abs([(NSNumber *)dict_back[@"dl"] doubleValue] - dl) < (dl/1000000000.0));
+    testassert([(NSNumber *)dict_back[@"dlrep"] doubleValue] == dlrep);
+    testassert([(NSNumber *)dict_back[@"dlmayrep"] doubleValue] == dlmayrep);
     testassert(([(NSNumber *)dict_back[@"negLong"] longLongValue] == negLong));
+    testassert([(NSNumber *)dict_back[@"unrepresentable"] unsignedLongLongValue] != unrepresentable);
     return YES;
 }
 
@@ -201,6 +210,28 @@ test(NumberParsing)
     testassert(abs([numbers[0] doubleValue] - 42.0) < EPSILON);
     testassert(abs([numbers[1] doubleValue] - 3.14) < EPSILON);
     testassert(abs([numbers[2] doubleValue] - 1.23456) < EPSILON);
+    return YES;
+}
+
+test(TrueRootObject)
+{
+    NSString *str = @"true";
+    NSError *error = nil;
+    NSNumber *t = [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
+    testassert(t == nil);
+    testassert(error != nil);
+    return YES;
+}
+
+test(TrueRootFragment)
+{
+    NSString *str = @"true";
+    NSError *error = nil;
+    NSNumber *t = [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:&error];
+    testassert(t != nil);
+    testassert(error == nil);
+    testassert([t isEqualToNumber:@YES]);
+    testassert(t == (id)kCFBooleanTrue);
     return YES;
 }
 

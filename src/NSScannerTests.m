@@ -1087,6 +1087,16 @@ test(ScanDouble2)
     return YES;
 }
 
+test(ScanDouble3)
+{
+    NSScanner* scanner = [NSScanner scannerWithString:@"4.99"];
+    double value = 0;
+    testassert([scanner scanDouble:&value]);
+    testassert(value == 4.99);
+    testassert([scanner scanLocation] == 4);
+    return YES;
+}
+
 test(ScanDouble_Empty)
 {
     NSScanner* scanner = [[NSScanner alloc] initWithString:@""];

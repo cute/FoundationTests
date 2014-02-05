@@ -207,6 +207,22 @@ test(RegularExpressionNilString)
     return YES;
 }
 
+test(ReplacementStringForResult)
+{
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"XXXX" options:NSRegularExpressionCaseInsensitive error:&error];
+    NSRange ranges[] = {
+        {4, 3},
+        {7, 3},
+        {10, 3},
+    };
+    NSUInteger count = sizeof(ranges) / sizeof(NSRange);
+    NSTextCheckingResult *result = [NSTextCheckingResult regularExpressionCheckingResultWithRanges:&ranges[0] count:count - 1 regularExpression:regex];
+    NSString *replacement = [regex replacementStringForResult:result inString:@"aaa<foobarbaz>ccc" offset:0 template:@"Zero = $0 One = $1 Two = $2 $$ \\$0 $10 \\\\\\$\\\\$"];
+    testassert([replacement isEqualToString:@"Zero = foo One = bar Two =  $$ $0 bar0 \\$\\$"]);
+    return YES;
+}
+
 
 test(StringByReplacingMatchesInString) // issue 571
 {
@@ -217,6 +233,28 @@ test(StringByReplacingMatchesInString) // issue 571
     
     testStr = [regex stringByReplacingMatchesInString:testStr options:0 range:NSMakeRange(0, [testStr length]) withTemplate:@""];
     testassert([testStr isEqualToString:@"aaaccc"]);
+    return YES;
+}
+
+test(FirstMatchInString)
+{
+    NSString *name = @"foo{0.5,0.8}.png";
+    NSString *pattern = @"\\{\\s*([-+]?\\d+(\\.\\d+)?)+\\s*,\\s*([-+]?\\d+(\\.\\d+)?)+\\s*\\}";
+    NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:pattern
+                                                                      options:NSRegularExpressionCaseInsensitive
+                                                                        error:NULL];
+    NSTextCheckingResult *match = [regex firstMatchInString:name options:0 range:NSMakeRange(0, [name length])];
+    NSString *s = [name substringWithRange:[match range]];
+    testassert([s isEqualToString:@"{0.5,0.8}"]);
+    return YES;
+}
+
+test(RangeOfFirstMatchInString)
+{
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\w" options:0 error:NULL];
+    NSString *sampleText = @"*** sample";
+    NSRange result = [regex rangeOfFirstMatchInString:sampleText options:0 range:NSMakeRange(0, [sampleText length])];
+    testassert(result.location == 4);
     return YES;
 }
 

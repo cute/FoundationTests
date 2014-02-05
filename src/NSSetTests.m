@@ -602,7 +602,12 @@ test(BadCapacity)
     __block BOOL raised = NO;
     __block NSMutableSet *set = nil;
     void (^block)(void) = ^{
-        set = [[NSMutableSet alloc] initWithCapacity:1073741824];
+#if __LP64__
+        NSInteger capacity = 1ull << 62;
+#else
+        NSInteger capacity = 1073741824;
+#endif
+        set = [[NSMutableSet alloc] initWithCapacity:capacity];
     };
     @try {
         block();

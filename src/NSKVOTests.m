@@ -318,111 +318,6 @@ test(PriorObservanceWithBadObservable)
     OBSERVER_EPILOGUE();
 }
 
-test(MidCycleUnregister)
-{
-    @autoreleasepool
-    {
-        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
-        Observer *observer = [Observer observer];
-        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
-        [badObservable willChangeValueForKey:@"anInt"];
-        [badObservable setAnInt:50];
-        [badObservable removeObserver:observer forKeyPath:@"anInt"];
-        [badObservable didChangeValueForKey:@"anInt"];
-        testassert([observer observationCountForKeyPath:@"anInt"] == 0);
-        return YES;
-    }
-}
-test(MidCycleRegister)
-{
-    @autoreleasepool
-    {
-        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
-        Observer *observer = [Observer observer];
-        Observer *observer2 = [Observer observer];
-        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
-        [badObservable willChangeValueForKey:@"anInt"];
-        [badObservable addObserver:observer2 forKeyPath:@"anInt" options:0 context:NULL];
-        [badObservable setAnInt:50];
-        [badObservable didChangeValueForKey:@"anInt"];
-        [badObservable removeObserver:observer forKeyPath:@"anInt"];
-        [badObservable removeObserver:observer2 forKeyPath:@"anInt"];
-        testassert([observer observationCountForKeyPath:@"anInt"] == 1); //TODO: is this a bug in iOS?
-        testassert([observer2 observationCountForKeyPath:@"anInt"] == 0);
-        return YES;
-    }
-}
-test(MidCycleRegisterSame)
-{
-    @autoreleasepool
-    {
-        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
-        Observer *observer = [Observer observer];
-        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
-        [badObservable willChangeValueForKey:@"anInt"];
-        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
-        [badObservable setAnInt:50];
-        [badObservable didChangeValueForKey:@"anInt"];
-        [badObservable removeObserver:observer forKeyPath:@"anInt"];
-        [badObservable removeObserver:observer forKeyPath:@"anInt"];
-        testassert([observer observationCountForKeyPath:@"anInt"] == 1); //TODO: is this a bug in iOS?
-        return YES;
-    }
-}
-
-test(MidCyclePartialUnregister)
-{
-    @autoreleasepool
-    {
-        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
-        Observer *observer = [Observer observer];
-        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
-        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
-        [badObservable willChangeValueForKey:@"anInt"];
-        [badObservable setAnInt:50];
-        [badObservable removeObserver:observer forKeyPath:@"anInt"];
-        [badObservable didChangeValueForKey:@"anInt"];
-        [badObservable removeObserver:observer forKeyPath:@"anInt"];
-        testassert([observer observationCountForKeyPath:@"anInt"] == 2); //This seems wrong. 
-        return YES;
-    }
-}
-
-test(MidCycleReregister)
-{
-    @autoreleasepool
-    {
-        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
-        Observer *observer = [Observer observer];
-        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
-        [badObservable willChangeValueForKey:@"anInt"];
-        [badObservable removeObserver:observer forKeyPath:@"anInt"];
-        [badObservable setAnInt:50];
-        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
-        [badObservable didChangeValueForKey:@"anInt"];
-        [badObservable removeObserver:observer forKeyPath:@"anInt"];
-        testassert([observer observationCountForKeyPath:@"anInt"] == 1); // really?
-        return YES;
-    }
-}
-
-test(MidCycleReregisterWithContext)
-{
-    @autoreleasepool
-    {
-        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
-        Observer *observer = [Observer observer];
-        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
-        [badObservable willChangeValueForKey:@"anInt"];
-        [badObservable removeObserver:observer forKeyPath:@"anInt"];
-        [badObservable setAnInt:50];
-        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:badObservable];
-        [badObservable didChangeValueForKey:@"anInt"];
-        [badObservable removeObserver:observer forKeyPath:@"anInt"];
-        testassert([observer observationCountForKeyPath:@"anInt"] == 0);
-        return YES;
-    }
-}
 
 test(DependantKeyChange)
 {
@@ -512,6 +407,120 @@ test(NestedObservableBranch)
     }
 }
 
+// "Bad" Tests. These tests tests things you shouldn't do with KVO that existing implementations
+// let you do anyway. It would not more accurate to call these tests of unspecified behavior
+// rather than undocumented, although they are generally not documented either. These tests have
+// the potential to break the global data structures used by KVO; as such they are at the bottom
+// of the test suite, and should remain there, to avoid fouling other tests. Tests which are found
+// to break these data structures should be removed. As some of them are relatively common
+// programming errors, however, they should be supported where possible, at least to the extent
+// that exists in KVO implementations already.
+
+test(MidCycleUnregister)
+{
+    @autoreleasepool
+    {
+        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
+        Observer *observer = [Observer observer];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable willChangeValueForKey:@"anInt"];
+        [badObservable setAnInt:50];
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        [badObservable didChangeValueForKey:@"anInt"];
+        testassert([observer observationCountForKeyPath:@"anInt"] == 0);
+        return YES;
+    }
+}
+test(MidCycleRegister)
+{
+    @autoreleasepool
+    {
+        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
+        Observer *observer = [Observer observer];
+        Observer *observer2 = [Observer observer];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable willChangeValueForKey:@"anInt"];
+        [badObservable addObserver:observer2 forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable setAnInt:50];
+        [badObservable didChangeValueForKey:@"anInt"];
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        [badObservable removeObserver:observer2 forKeyPath:@"anInt"];
+        testassert([observer observationCountForKeyPath:@"anInt"] == 1); //TODO: is this a bug in iOS?
+        testassert([observer2 observationCountForKeyPath:@"anInt"] == 0);
+        return YES;
+    }
+}
+test(MidCycleRegisterSame)
+{
+    @autoreleasepool
+    {
+        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
+        Observer *observer = [Observer observer];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable willChangeValueForKey:@"anInt"];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable setAnInt:50];
+        [badObservable didChangeValueForKey:@"anInt"];
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        testassert([observer observationCountForKeyPath:@"anInt"] == 1); //TODO: is this a bug in iOS?
+        return YES;
+    }
+}
+
+test(MidCyclePartialUnregister)
+{
+    @autoreleasepool
+    {
+        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
+        Observer *observer = [Observer observer];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable willChangeValueForKey:@"anInt"];
+        [badObservable setAnInt:50];
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        [badObservable didChangeValueForKey:@"anInt"];
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        testassert([observer observationCountForKeyPath:@"anInt"] == 2); //This seems wrong.
+        return YES;
+    }
+}
+
+test(MidCycleReregister)
+{
+    @autoreleasepool
+    {
+        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
+        Observer *observer = [Observer observer];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable willChangeValueForKey:@"anInt"];
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        [badObservable setAnInt:50];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable didChangeValueForKey:@"anInt"];
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        testassert([observer observationCountForKeyPath:@"anInt"] == 1); // really?
+        return YES;
+    }
+}
+
+test(MidCycleReregisterWithContext)
+{
+    @autoreleasepool
+    {
+        ReallyBadObservable *badObservable = [ReallyBadObservable observable];
+        Observer *observer = [Observer observer];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:NULL];
+        [badObservable willChangeValueForKey:@"anInt"];
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        [badObservable setAnInt:50];
+        [badObservable addObserver:observer forKeyPath:@"anInt" options:0 context:badObservable];
+        [badObservable didChangeValueForKey:@"anInt"];
+        [badObservable removeObserver:observer forKeyPath:@"anInt"];
+        testassert([observer observationCountForKeyPath:@"anInt"] == 0);
+        return YES;
+    }
+}
 
 #undef OBSERVER_PROLOGUE
 #undef OBSERVER_EPILOGUE

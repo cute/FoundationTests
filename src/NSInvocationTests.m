@@ -694,7 +694,9 @@ struct doubleStruct {
 
 test(DoubleStructReturn)
 {
+#if !__LP64__
     IOS_SIMULATOR_BUG_FAILURE();
+#endif
 
     NSInvocation *inv = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:@selector(doubleStructRetMethod)]];
     [inv setSelector:@selector(doubleStructRetMethod)];

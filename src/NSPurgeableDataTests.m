@@ -12,6 +12,14 @@ test(Allocate)
     return YES;
 }
 
+test(Init)
+{
+    NSPurgeableData *d = [[[NSPurgeableData alloc] init] autorelease];
+    testassert(d != nil);
+
+    return YES;
+}
+
 test(InitWithContentsOfFileNil)
 {
     NSPurgeableData *data = [[NSPurgeableData alloc] initWithContentsOfFile:nil];
@@ -228,6 +236,16 @@ test(PurgeableDataReplaceBytesLengthNull)
 
     [d replaceBytesInRange:NSMakeRange(1, 1) withBytes:NULL length:0];
     testassert(!strncmp([d bytes], "ac", 2));
+
+    return YES;
+}
+
+test(MutableDataReplaceBytesLengthOverlap)
+{
+    NSPurgeableData *d = [NSPurgeableData dataWithBytes:"abcdefgh" length:8];
+    const char *bytes = [d bytes];
+    [d replaceBytesInRange:NSMakeRange(2, 4) withBytes:bytes + 4 length:2];
+    testassert(!strncmp([d bytes], "abefgh", 6));
 
     return YES;
 }
