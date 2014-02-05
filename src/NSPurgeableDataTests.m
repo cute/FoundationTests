@@ -240,6 +240,16 @@ test(PurgeableDataReplaceBytesLengthNull)
     return YES;
 }
 
+test(MutableDataReplaceBytesLengthOverlap)
+{
+    NSPurgeableData *d = [NSPurgeableData dataWithBytes:"abcdefgh" length:8];
+    const char *bytes = [d bytes];
+    [d replaceBytesInRange:NSMakeRange(2, 4) withBytes:bytes + 4 length:2];
+    testassert(!strncmp([d bytes], "abefgh", 6));
+
+    return YES;
+}
+
 test(PurgeableDataResetBytes)
 {
     NSPurgeableData *data = [NSPurgeableData dataWithLength:16];

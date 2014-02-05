@@ -260,6 +260,16 @@ test(MutableDataReplaceBytesLengthNull)
     return YES;
 }
 
+test(MutableDataReplaceBytesLengthOverlap)
+{
+    NSMutableData *d = [NSMutableData dataWithBytes:"abcdefgh" length:8];
+    const char *bytes = [d bytes];
+    [d replaceBytesInRange:NSMakeRange(2, 4) withBytes:bytes + 4 length:2];
+    testassert(!strncmp([d bytes], "abefgh", 6));
+
+    return YES;
+}
+
 test(MutableDataResetBytes)
 {
     NSMutableData *data = [NSMutableData dataWithLength:16];
