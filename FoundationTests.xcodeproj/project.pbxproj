@@ -70,20 +70,12 @@
 		58664D30180F28BA00B72D1F /* NSURLConnectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C57F24180E1513008C28D3 /* NSURLConnectionTests.m */; };
 		58664D31180F28BA00B72D1F /* NSNumberFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C57F27180E16AA008C28D3 /* NSNumberFormatterTests.m */; };
 		58664D32180F28BA00B72D1F /* NSURLRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C57F29180E16B7008C28D3 /* NSURLRequestTests.m */; };
-		58664D33180F28BA00B72D1F /* NSHTTPCookieStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C57F2B180E16C5008C28D3 /* NSHTTPCookieStorageTests.m */; };
-		58664D34180F28BA00B72D1F /* NSCachedURLResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C57F2D180E16CF008C28D3 /* NSCachedURLResponseTests.m */; };
-		58664D35180F28BA00B72D1F /* NSURLCacheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C57F2F180E16DA008C28D3 /* NSURLCacheTests.m */; };
-		58664D36180F28BA00B72D1F /* NSURLAuthenticationChallengeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C57F31180E16E5008C28D3 /* NSURLAuthenticationChallengeTests.m */; };
 		58664D38180F28E500B72D1F /* NSAttributedStringTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6BDA8D17EA5BE8006B5392 /* NSAttributedStringTests.m */; };
 		58B2D03917EBBC0300A999DA /* NSPortTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B2D03817EBBC0300A999DA /* NSPortTests.m */; };
 		58B2D03A17EBBC0300A999DA /* NSPortTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B2D03817EBBC0300A999DA /* NSPortTests.m */; };
 		58C57F25180E1513008C28D3 /* NSURLConnectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C57F24180E1513008C28D3 /* NSURLConnectionTests.m */; };
 		58C57F28180E16AA008C28D3 /* NSNumberFormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C57F27180E16AA008C28D3 /* NSNumberFormatterTests.m */; };
 		58C57F2A180E16B7008C28D3 /* NSURLRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C57F29180E16B7008C28D3 /* NSURLRequestTests.m */; };
-		58C57F2C180E16C5008C28D3 /* NSHTTPCookieStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C57F2B180E16C5008C28D3 /* NSHTTPCookieStorageTests.m */; };
-		58C57F2E180E16CF008C28D3 /* NSCachedURLResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C57F2D180E16CF008C28D3 /* NSCachedURLResponseTests.m */; };
-		58C57F30180E16DA008C28D3 /* NSURLCacheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C57F2F180E16DA008C28D3 /* NSURLCacheTests.m */; };
-		58C57F32180E16E5008C28D3 /* NSURLAuthenticationChallengeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C57F31180E16E5008C28D3 /* NSURLAuthenticationChallengeTests.m */; };
 		58D2CED817FA50EF00B5585D /* bigfile.txt in Resources */ = {isa = PBXBuildFile; fileRef = 58D2CED717FA50EF00B5585D /* bigfile.txt */; };
 		58DD2827180F51F7007C4D8F /* SecureTransportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58DD2826180F51F7007C4D8F /* SecureTransportTests.m */; };
 		58DD2828180F51F7007C4D8F /* SecureTransportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58DD2826180F51F7007C4D8F /* SecureTransportTests.m */; };
@@ -210,10 +202,6 @@
 		58C57F24180E1513008C28D3 /* NSURLConnectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLConnectionTests.m; sourceTree = "<group>"; };
 		58C57F27180E16AA008C28D3 /* NSNumberFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSNumberFormatterTests.m; sourceTree = "<group>"; };
 		58C57F29180E16B7008C28D3 /* NSURLRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLRequestTests.m; sourceTree = "<group>"; };
-		58C57F2B180E16C5008C28D3 /* NSHTTPCookieStorageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSHTTPCookieStorageTests.m; sourceTree = "<group>"; };
-		58C57F2D180E16CF008C28D3 /* NSCachedURLResponseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSCachedURLResponseTests.m; sourceTree = "<group>"; };
-		58C57F2F180E16DA008C28D3 /* NSURLCacheTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLCacheTests.m; sourceTree = "<group>"; };
-		58C57F31180E16E5008C28D3 /* NSURLAuthenticationChallengeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLAuthenticationChallengeTests.m; sourceTree = "<group>"; };
 		58D2CED717FA50EF00B5585D /* bigfile.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bigfile.txt; sourceTree = "<group>"; };
 		58DD2826180F51F7007C4D8F /* SecureTransportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecureTransportTests.m; sourceTree = "<group>"; };
 		58DD282A180F520E007C4D8F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -391,7 +379,6 @@
 				47178CB217ADDA340062E7B0 /* NSBlockTests.m */,
 				1AFCF46317B9842D0085CA15 /* NSBundleTests.m */,
 				5BF54E3E17B0B18500B47B76 /* NSByteCountFormatterTests.m */,
-				58C57F2D180E16CF008C28D3 /* NSCachedURLResponseTests.m */,
 				DE227B441819BEB00004570F /* NSCalendarTests.m */,
 				470A08B4181C647C006BFAB4 /* NSCoderTests.m */,
 				47178CB317ADDA340062E7B0 /* NSCountedSetTests.m */,
@@ -405,7 +392,6 @@
 				DEE0C5BC1809D1EE00CA59BD /* NSFileHandleTests.m */,
 				DE242DCC17C2A78200D668DF /* NSFileManagerTests.m */,
 				47E36D2A189B611F0038E74F /* NSHashTableTests.m */,
-				58C57F2B180E16C5008C28D3 /* NSHTTPCookieStorageTests.m */,
 				DEA2B81E17DE663C00B27809 /* NSIndexSetTests.m */,
 				BCA81FCE17B316E5004745B2 /* NSInvocationTests.m */,
 				4A54638717F0C18700876D50 /* NSKeyValueCodingTests.m */,
@@ -430,8 +416,6 @@
 				47178CBA17ADDA340062E7B0 /* NSSortDescriptorTests.m */,
 				47178CBB17ADDA340062E7B0 /* NSStringTests.m */,
 				47178CBC17ADDA340062E7B0 /* NSThreadTests.m */,
-				58C57F31180E16E5008C28D3 /* NSURLAuthenticationChallengeTests.m */,
-				58C57F2F180E16DA008C28D3 /* NSURLCacheTests.m */,
 				58C57F24180E1513008C28D3 /* NSURLConnectionTests.m */,
 				58C57F29180E16B7008C28D3 /* NSURLRequestTests.m */,
 				47178CBD17ADDA340062E7B0 /* NSURLTests.m */,
@@ -550,7 +534,6 @@
 				1AFCF48917B9AE350085CA15 /* 0.asset in Resources */,
 				1AFCF48A17B9AE350085CA15 /* 0.bundle in Resources */,
 				1AFCF48F17B9AE480085CA15 /* folderref0 in Resources */,
-				58664D0B180E47E700B72D1F /* website.html in Resources */,
 				00671A5A189BB95E0022BED3 /* stringData.bin in Resources */,
 				4A1C12F5183471540055723E /* ATestPlist.plist in Resources */,
 			);
@@ -612,13 +595,9 @@
 				58C57F28180E16AA008C28D3 /* NSNumberFormatterTests.m in Sources */,
 				58C57F2A180E16B7008C28D3 /* NSURLRequestTests.m in Sources */,
 				DEC7342A1856A52F00C2277B /* NSRegularExpressionTests.m in Sources */,
-				58C57F2C180E16C5008C28D3 /* NSHTTPCookieStorageTests.m in Sources */,
-				58C57F2E180E16CF008C28D3 /* NSCachedURLResponseTests.m in Sources */,
 				47AF6BA6185E79FF00DB82CA /* NSOrderedSetTests.m in Sources */,
-				58C57F30180E16DA008C28D3 /* NSURLCacheTests.m in Sources */,
 				470A08B5181C647C006BFAB4 /* NSCoderTests.m in Sources */,
 				5BFA539A183DD6FD0037A890 /* NSNullTests.m in Sources */,
-				58C57F32180E16E5008C28D3 /* NSURLAuthenticationChallengeTests.m in Sources */,
 				5B8B202C183ECCA2000C2C36 /* NSStringTests+ExternalSymbols.m in Sources */,
 				DE212C26180F431000DDB3AA /* NSTimeZoneTests.m in Sources */,
 				5B5E26F0187BBAB800760D8D /* NSPredicateTests.m in Sources */,
@@ -677,10 +656,6 @@
 				58664D30180F28BA00B72D1F /* NSURLConnectionTests.m in Sources */,
 				58664D31180F28BA00B72D1F /* NSNumberFormatterTests.m in Sources */,
 				58664D32180F28BA00B72D1F /* NSURLRequestTests.m in Sources */,
-				58664D33180F28BA00B72D1F /* NSHTTPCookieStorageTests.m in Sources */,
-				58664D34180F28BA00B72D1F /* NSCachedURLResponseTests.m in Sources */,
-				58664D35180F28BA00B72D1F /* NSURLCacheTests.m in Sources */,
-				58664D36180F28BA00B72D1F /* NSURLAuthenticationChallengeTests.m in Sources */,
 				DE227B42181846040004570F /* NSTimeZoneTests.m in Sources */,
 				58664D38180F28E500B72D1F /* NSAttributedStringTests.m in Sources */,
 				58DD2828180F51F7007C4D8F /* SecureTransportTests.m in Sources */,
