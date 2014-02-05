@@ -236,4 +236,26 @@ test(StringByReplacingMatchesInString) // issue 571
     return YES;
 }
 
+test(FirstMatchInString)
+{
+    NSString *name = @"foo{0.5,0.8}.png";
+    NSString *pattern = @"\\{\\s*([-+]?\\d+(\\.\\d+)?)+\\s*,\\s*([-+]?\\d+(\\.\\d+)?)+\\s*\\}";
+    NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:pattern
+                                                                      options:NSRegularExpressionCaseInsensitive
+                                                                        error:NULL];
+    NSTextCheckingResult *match = [regex firstMatchInString:name options:0 range:NSMakeRange(0, [name length])];
+    NSString *s = [name substringWithRange:[match range]];
+    testassert([s isEqualToString:@"{0.5,0.8}"]);
+    return YES;
+}
+
+test(RangeOfFirstMatchInString)
+{
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\w" options:0 error:NULL];
+    NSString *sampleText = @"*** sample";
+    NSRange result = [regex rangeOfFirstMatchInString:sampleText options:0 range:NSMakeRange(0, [sampleText length])];
+    testassert(result.location == 4);
+    return YES;
+}
+
 @end
