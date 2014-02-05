@@ -12,6 +12,14 @@ test(Allocate)
     return YES;
 }
 
+test(Init)
+{
+    NSPurgeableData *d = [[[NSPurgeableData alloc] init] autorelease];
+    testassert(d != nil);
+
+    return YES;
+}
+
 test(InitWithContentsOfFileNil)
 {
     NSPurgeableData *data = [[NSPurgeableData alloc] initWithContentsOfFile:nil];

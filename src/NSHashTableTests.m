@@ -1,5 +1,31 @@
 #import "FoundationTests.h"
 
+@interface WeakHelper : NSObject
+{
+    BOOL *_deallocated;
+}
+@end
+
+@implementation WeakHelper
+
+- (void)dealloc
+{
+    *_deallocated = YES;
+    [super dealloc];
+}
+
+- (id)initWithPtr:(BOOL *)ptr
+{
+    self = [super init];
+    if (self != nil)
+    {
+        _deallocated = ptr;
+    }
+    return self;
+}
+
+@end
+
 @testcase(NSHashTable)
 
 test(Allocate)
@@ -412,6 +438,36 @@ test(UnionHashTable)
     testassert([cs member:o2] == o2);
     [cs release];
     [s release];
+    return YES;
+}
+
+test(WeakHashTable)
+{
+    NSPointerFunctions *pf = [[[NSPointerFunctions alloc] initWithOptions:NSPointerFunctionsWeakMemory] autorelease];
+    NSHashTable *ht = [[NSHashTable alloc] initWithPointerFunctions:pf capacity:0];
+    testassert(ht != nil);
+
+    testassert([ht count] == 0);
+
+    BOOL deallocated = NO;
+    WeakHelper *w = [[WeakHelper alloc] initWithPtr:&deallocated];
+    [ht addObject:w];
+    testassert([ht count] == 1);
+
+    [w release];
+    testassert(deallocated);
+
+    testassert([ht count] == 1); // !!!
+
+    NSUInteger count = 0;
+    for (id obj in ht)
+    {
+        count++;
+    }
+    testassert(count == 0);
+
+    [ht release];
+
     return YES;
 }
 
