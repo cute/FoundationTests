@@ -42,12 +42,6 @@ BOOL _testassert(BOOL b, const char *file, int line) __attribute__((analyzer_nor
     YES; \
 }) ? sup : sup
 
-#if defined(APPORTABLE) && !defined(__Foundation_h_GNUSTEP_BASE_INCLUDE)
-#define APPORTABLE_KNOWN_CRASHER() DEBUG_LOG("SKIPPING KNOWN CRASHING TEST!"); testassert(0)
-#else
-#define APPORTABLE_KNOWN_CRASHER()
-#endif
-
 #if TARGET_IPHONE_SIMULATOR
 #define IOS_SIMULATOR_BUG_FAILURE() NSLog(@"SKIPPING FAILURE DUE TO SIMULATOR BUG!"); testassert(0)
 #else
