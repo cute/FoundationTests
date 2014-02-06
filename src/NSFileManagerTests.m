@@ -62,6 +62,32 @@ test(FileSize)
     return YES;
 }
 
+test(FileSystemAttributes)
+{
+    NSError *error = nil;
+    NSFileManager* manager = [NSFileManager defaultManager];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSDictionary *attributes = [manager attributesOfFileSystemForPath:paths[0] error:&error];
+    testassert(attributes != nil);
+    testassert(error == nil);
+    
+    NSString* fileSystemAttributes[] = {
+        NSFileSystemSize,
+        NSFileSystemFreeSize,
+        NSFileSystemNodes,
+        NSFileSystemFreeNodes
+    };
+    const int num = sizeof(fileSystemAttributes) / sizeof(fileSystemAttributes[0]);
+    
+    for (int i=0; i<num; ++i)
+    {
+        NSNumber *number = [attributes objectForKey:fileSystemAttributes[i]];
+        testassert([number unsignedLongLongValue] > 0);
+    }
+    
+    return YES;
+}
+
 test(ContentsOfDirectoryAtPath)
 {
     NSError *error = nil;
