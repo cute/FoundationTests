@@ -103,6 +103,7 @@
 		94B59035182B3A9E0008F848 /* ForwardingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B5902E1829E47B0008F848 /* ForwardingTests.m */; };
 		B08392EB18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B08392EA18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m */; };
 		B08392EC18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B08392EA18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m */; };
+		B08F5F4018A3AFC7003F0402 /* utf8.txt in Resources */ = {isa = PBXBuildFile; fileRef = B08F5F3F18A3AFC7003F0402 /* utf8.txt */; };
 		B0F4B75218A003C90085754C /* NSKeyValueCodingMutableContainerSubclassTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B0F4B75118A003C90085754C /* NSKeyValueCodingMutableContainerSubclassTests.m */; };
 		B0F4B75318A004010085754C /* NSKeyValueCodingMutableContainerSubclassTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B0F4B75118A003C90085754C /* NSKeyValueCodingMutableContainerSubclassTests.m */; };
 		BCA81FAA17B2E125004745B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47178C9117ADD9D40062E7B0 /* Foundation.framework */; };
@@ -236,6 +237,7 @@
 		B02ABB8B17B5ECA000CB5C94 /* NSScannerSubclassTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScannerSubclassTests.m; sourceTree = "<group>"; };
 		B02ABB8C17B5ECA000CB5C94 /* NSScannerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScannerTests.m; sourceTree = "<group>"; };
 		B08392EA18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSKeyValueCodingMutableContainerTests.m; sourceTree = "<group>"; };
+		B08F5F3F18A3AFC7003F0402 /* utf8.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = utf8.txt; sourceTree = "<group>"; };
 		B0AD4BCF17B0B0A200B5014F /* NSPathUtilitesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSPathUtilitesTests.m; sourceTree = "<group>"; };
 		B0F4B75118A003C90085754C /* NSKeyValueCodingMutableContainerSubclassTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSKeyValueCodingMutableContainerSubclassTests.m; sourceTree = "<group>"; };
 		BCA81FA917B2E125004745B2 /* FoundationTestsMac */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FoundationTestsMac; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -369,6 +371,7 @@
 				21BC284E184408BC00F5967E /* data.json */,
 				21BC2851184FCE3000F5967E /* Localizable.strings */,
 				21BC2853184FD1CA00F5967E /* SpecialCharactersJSONTest.json */,
+				B08F5F3F18A3AFC7003F0402 /* utf8.txt */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -554,11 +557,11 @@
 				58D2CED817FA50EF00B5585D /* bigfile.txt in Resources */,
 				47178CA417ADD9D40062E7B0 /* Default@2x.png in Resources */,
 				47178CA617ADD9D40062E7B0 /* Default-568h@2x.png in Resources */,
+				B08F5F4018A3AFC7003F0402 /* utf8.txt in Resources */,
 				21BC2854184FD1CA00F5967E /* SpecialCharactersJSONTest.json in Resources */,
 				1AFCF48917B9AE350085CA15 /* 0.asset in Resources */,
 				1AFCF48A17B9AE350085CA15 /* 0.bundle in Resources */,
 				1AFCF48F17B9AE480085CA15 /* folderref0 in Resources */,
-				58664D0B180E47E700B72D1F /* website.html in Resources */,
 				00671A5A189BB95E0022BED3 /* stringData.bin in Resources */,
 				4A1C12F5183471540055723E /* ATestPlist.plist in Resources */,
 			);
