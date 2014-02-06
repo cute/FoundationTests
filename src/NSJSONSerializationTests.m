@@ -51,6 +51,17 @@ test(FailingAtCreatingAJSONObjectAndPassingANilError1)
     return YES;
 }
 
+test(FailingAtCreatingAJSONObjectAndPassingAnError)
+{
+    NSError *error = nil;
+    NSData *someData = [@"true" dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *json = [NSJSONSerialization JSONObjectWithData:someData options:0 error:&error];
+    testassert(json == nil);
+    testassert(error != nil);
+    testassert(error.domain == NSCocoaErrorDomain);
+    return YES;
+}
+
 test(SuccessAtCreatingASimpleJSONObject)
 {
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"data" ofType:@"json"];
