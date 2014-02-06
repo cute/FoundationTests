@@ -1914,4 +1914,207 @@ test(DecimalNumber_notANumber_doubleBits)
     
     return YES;
 }
+
+test(DecimalNumberDefaultBehavior)
+{
+    id<NSDecimalNumberBehaviors> defaultBehavior = [NSDecimalNumber defaultBehavior];
+    
+    testassert([defaultBehavior roundingMode] == NSRoundPlain);
+    testassert([defaultBehavior scale] == 32767);
+    
+    SEL selectors[] = { 0, @selector(decimalNumberByAdding:), @selector(decimalNumberByDividingBy:),
+        @selector(decimalNumberByMultiplyingBy:), @selector(decimalNumberByDividingBy:) };
+    NSString *exceptionName[] = { nil, nil, @"NSDecimalNumberUnderflowException",
+        @"NSDecimalNumberOverflowException", @"NSDecimalNumberDivideByZeroException" };
+    NSString *exceptionReason[] = { nil, nil, @"NSDecimalNumber underflow exception",
+        @"NSDecimalNumber overflow exception", @"NSDecimalNumber divide by zero exception" };
+    BOOL expectException[] = { NO, NO, YES, YES, YES };
+    
+    for (int i=NSCalculationLossOfPrecision; i<=NSCalculationDivideByZero; ++i)
+    {
+        BOOL exception = NO;
+        @try
+        {
+            NSDecimalNumber* result =
+                [defaultBehavior exceptionDuringOperation:selectors[i] error:(NSCalculationError)i
+                                              leftOperand:[NSDecimalNumber one] rightOperand:[NSDecimalNumber zero]];
+            testassert(result == nil);
+        }
+        @catch (NSException *e)
+        {
+            testassert([exceptionName[i] isEqualToString:e.name]);
+            testassert([exceptionReason[i] isEqualToString:e.reason]);
+            exception = YES;
+        }
+        testassert(exception == expectException[i]);
+    }
+    
+    return YES;
+}
+
+test(DecimalNumberByAdding)
+{
+    NSDecimalNumber *result = [[NSDecimalNumber one] decimalNumberByAdding:[NSDecimalNumber one]];
+    NSDecimalNumber *two = [NSDecimalNumber decimalNumberWithString:@"2"];
+    
+    testassert([result isEqualToNumber:two]);
+    
+    return YES;
+}
+
+test(DecimalNumberBySubtracting)
+{
+    NSDecimalNumber *result = [[NSDecimalNumber one] decimalNumberBySubtracting:[NSDecimalNumber one]];
+    NSDecimalNumber *zero = [NSDecimalNumber zero];
+    
+    testassert([result isEqualToNumber:zero]);
+    
+    return YES;
+}
+
+test(DecimalNumberByMultiplyingBy)
+{
+    NSDecimalNumber *result = [[NSDecimalNumber decimalNumberWithString:@"2"] decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"2"]];
+    NSNumber *four = [NSDecimalNumber numberWithInt:4];
+    
+    testassert([result isEqualToNumber:four]);
+    
+    return YES;
+}
+
+test(DecimalNumberByDividingBy)
+{
+    NSDecimalNumber *result = [[NSDecimalNumber decimalNumberWithString:@"2"] decimalNumberByDividingBy:[NSDecimalNumber decimalNumberWithString:@"2"]];
+    NSDecimalNumber *one = [NSDecimalNumber one];
+    
+    testassert([result isEqualToNumber:one]);
+    
+    return YES;
+}
+
+test(DecimalNumberByRaisingToPower)
+{
+    NSDecimalNumber *result = [[NSDecimalNumber decimalNumberWithString:@"2"] decimalNumberByRaisingToPower:2];
+    NSNumber *four = [NSDecimalNumber numberWithInt:4];
+    
+    testassert([result isEqualToNumber:four]);
+    
+    return YES;
+}
+
+test(DecimalNumberByMultiplyingByPowerOf10)
+{
+    NSDecimalNumber *result = [[NSDecimalNumber decimalNumberWithString:@"2"] decimalNumberByMultiplyingByPowerOf10:2];
+    NSDecimalNumber *twohundred = [NSDecimalNumber decimalNumberWithString:@"200"];
+    
+    testassert([result isEqualToNumber:twohundred]);
+    
+    return YES;
+}
+
+test(DecimalNumberCharValue)
+{
+    NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:@"42"];
+    testassert(number.charValue == 42);
+    return YES;
+}
+
+test(DecimalNumberUnsignedCharValue)
+{
+    NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:@"42"];
+    testassert(number.unsignedCharValue == 42);
+    return YES;
+}
+
+test(DecimalNumberShortValue)
+{
+    NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:@"42"];
+    testassert(number.shortValue == 42);
+    return YES;
+}
+
+test(DecimalNumberUnsignedShortValue)
+{
+    NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:@"42"];
+    testassert(number.unsignedShortValue == 42);
+    return YES;
+}
+
+test(DecimalNumberIntValue)
+{
+    NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:@"42"];
+    testassert(number.intValue == 42);
+    return YES;
+}
+
+test(DecimalNumberUnsignedIntValue)
+{
+    NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:@"42"];
+    testassert(number.unsignedIntValue == 42);
+    return YES;
+}
+
+test(DecimalNumberLongValue)
+{
+    NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:@"42"];
+    testassert(number.longValue == 42);
+    return YES;
+}
+
+test(DecimalNumberUnsignedLongValue)
+{
+    NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:@"42"];
+    testassert(number.unsignedLongValue == 42);
+    return YES;
+}
+
+test(DecimalNumberLongLongValue)
+{
+    NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:@"42"];
+    testassert(number.longLongValue == 42);
+    return YES;
+}
+
+test(DecimalNumberUnsignedLongLongValue)
+{
+    NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:@"42"];
+    testassert(number.unsignedLongLongValue == 42);
+    return YES;
+}
+
+test(DecimalNumberFloatValue)
+{
+    NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:@"32"];
+    testassert(number.floatValue == 32.f);
+    return YES;
+}
+
+test(DecimalNumberBoolValue)
+{
+    NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:@"-1"];
+    testassert(number.boolValue);
+    return YES;
+}
+
+test(DecimalNumberIntegerValue)
+{
+    NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:@"42"];
+    testassert(number.integerValue == 42);
+    return YES;
+}
+
+test(DecimalNumberUnsignedIntegerValue)
+{
+    NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:@"42"];
+    testassert(number.unsignedIntegerValue == 42);
+    return YES;
+}
+
+test(DecimalNumberStringValue)
+{
+    NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:@"42"];
+    testassert([number.stringValue isEqualToString:@"42"]);
+    return YES;
+}
+
 @end
