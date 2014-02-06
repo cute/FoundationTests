@@ -284,4 +284,136 @@ test(RelativePathWithBundleCWD)
     return YES;
 }
 
+test(CopyItemAtPath)
+{
+    NSString *documentDir =
+        NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    
+    NSError *error = nil;
+    NSFileManager* manager = [NSFileManager defaultManager];
+    NSString *src = [documentDir stringByAppendingPathComponent:@"copyItemAtPath.txt"];
+    NSString *dst = [documentDir stringByAppendingPathComponent:@"copyItemAtPath copy.txt"];
+    
+    [manager removeItemAtPath:src error:nil];
+    [manager removeItemAtPath:dst error:nil];
+    
+    testassert([manager createFileAtPath:src contents:nil attributes:nil]);
+    testassert([manager copyItemAtPath:src toPath:dst error:&error]);
+    testassert(error == nil);
+    
+    testassert([manager fileExistsAtPath:src isDirectory:NULL]);
+    testassert([manager fileExistsAtPath:dst isDirectory:NULL]);
+    
+    return YES;
+}
+
+test(MoveItemAtPath)
+{
+    NSString *documentDir =
+        NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    
+    NSError *error = nil;
+    NSFileManager* manager = [NSFileManager defaultManager];
+    NSString *src = [documentDir stringByAppendingPathComponent:@"moveItemAtPath.txt"];
+    NSString *dst = [documentDir stringByAppendingPathComponent:@"moveItemAtPath move.txt"];
+    
+    [manager removeItemAtPath:src error:nil];
+    [manager removeItemAtPath:dst error:nil];
+    
+    testassert([manager createFileAtPath:src contents:nil attributes:nil]);
+    testassert([manager moveItemAtPath:src toPath:dst error:&error]);
+    testassert(error == nil);
+    
+    testassert(![manager fileExistsAtPath:src isDirectory:NULL]);
+    testassert([manager fileExistsAtPath:dst isDirectory:NULL]);
+    
+    return YES;
+}
+
+test(RemoveItemAtPath)
+{
+    NSString *documentDir =
+        NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    
+    NSError *error = nil;
+    NSFileManager* manager = [NSFileManager defaultManager];
+    NSString *path = [documentDir stringByAppendingPathComponent:@"removeItemAtPath.txt"];
+    
+    [manager removeItemAtPath:path error:nil];
+    
+    testassert([manager createFileAtPath:path contents:nil attributes:nil]);
+    testassert([manager removeItemAtPath:path error:&error]);
+    testassert(error == nil);
+    
+    testassert(![manager fileExistsAtPath:path isDirectory:NULL]);
+    
+    return YES;
+}
+
+test(CopyItemAtURL)
+{
+    NSString *documentDir =
+        NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    
+    NSError *error = nil;
+    NSFileManager* manager = [NSFileManager defaultManager];
+    NSURL *src = [NSURL fileURLWithPath:[documentDir stringByAppendingPathComponent:@"copyItemAtURL.txt"]];
+    NSURL *dst = [NSURL fileURLWithPath:[documentDir stringByAppendingPathComponent:@"copyItemAtURL copy.txt"]];
+    
+    [manager removeItemAtPath:src.path error:nil];
+    [manager removeItemAtPath:dst.path error:nil];
+    
+    testassert([manager createFileAtPath:src.path contents:nil attributes:nil]);
+    testassert([manager copyItemAtURL:src toURL:dst error:&error]);
+    testassert(error == nil);
+    
+    testassert([manager fileExistsAtPath:src.path isDirectory:NULL]);
+    testassert([manager fileExistsAtPath:dst.path isDirectory:NULL]);
+    
+    return YES;
+}
+
+test(MoveItemAtURL)
+{
+    NSString *documentDir =
+        NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    
+    NSError *error = nil;
+    NSFileManager* manager = [NSFileManager defaultManager];
+    NSURL *src = [NSURL fileURLWithPath:[documentDir stringByAppendingPathComponent:@"moveItemAtURL.txt"]];
+    NSURL *dst = [NSURL fileURLWithPath:[documentDir stringByAppendingPathComponent:@"moveItemAtURL copy.txt"]];
+    
+    [manager removeItemAtPath:src.path error:nil];
+    [manager removeItemAtPath:dst.path error:nil];
+    
+    testassert([manager createFileAtPath:src.path contents:nil attributes:nil]);
+    testassert([manager moveItemAtURL:src toURL:dst error:&error]);
+    testassert(error == nil);
+    
+    testassert(![manager fileExistsAtPath:src.path isDirectory:NULL]);
+    testassert([manager fileExistsAtPath:dst.path isDirectory:NULL]);
+    
+    return YES;
+}
+
+test(RemoveItemAtURL)
+{
+    NSString *documentDir =
+        NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    
+    NSError *error = nil;
+    NSFileManager* manager = [NSFileManager defaultManager];
+    NSURL *url = [NSURL fileURLWithPath:[documentDir stringByAppendingPathComponent:@"removeItemAtURL.txt"]];
+    
+    [manager removeItemAtPath:url.path error:nil];
+    
+    testassert([manager createFileAtPath:url.path contents:nil attributes:nil]);
+    testassert([manager removeItemAtURL:url error:&error]);
+    testassert(error == nil);
+    
+    testassert(![manager fileExistsAtPath:url.path isDirectory:NULL]);
+    
+    return YES;
+}
+
 @end
