@@ -22,6 +22,7 @@ static const NSUInteger AsciiSampleMaxUTF8Length = 150;
 
 @interface NSString (TestInternal)
 - (BOOL)_getCString:(char *)buffer maxLength:(NSUInteger)maxBufferCount encoding:(CFStringEncoding)encoding;
+- (unsigned int)unsignedIntValue;
 @end
 
 @testcase(NSString)
@@ -894,6 +895,48 @@ test(BoolValue)
     testassert([@"" boolValue] == NO);
     testassert([@"apple" boolValue] == NO);
 
+    return YES;
+}
+
+test(DoubleValue)
+{
+    testassert([@"256" doubleValue] == 256.);
+    
+    return YES;
+}
+
+test(FloatValue)
+{
+    testassert([@"128" floatValue] == 128.);
+    
+    return YES;
+}
+
+test(IntValue)
+{
+    testassert([@"123456" intValue] == 123456);
+    
+    return YES;
+}
+
+test(IntegerValue)
+{
+    testassert([@"7654321" integerValue] == 7654321);
+    
+    return YES;
+}
+
+test(LongLongValue)
+{
+    testassert([@"12345654321" longLongValue] == 12345654321LL);
+    
+    return YES;
+}
+
+test(UnsignedIntValue)
+{
+    testassert([@"42" unsignedIntValue] == 42);
+    
     return YES;
 }
 
