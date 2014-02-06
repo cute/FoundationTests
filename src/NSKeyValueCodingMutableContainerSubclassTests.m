@@ -777,7 +777,7 @@ test(SetMutation_setSet_CallPattern)
     NSMutableSet* foo = [target mutableSetValueForKey:@"foo"];
     [foo setSet:[NSSet setWithArray:@[@"A", @"B", @"C"]]];
     
-    [SubclassTracker dumpVerification:target];
+//    [SubclassTracker dumpVerification:target];
     BOOL verified = [SubclassTracker verify:target commands:@selector(count), @selector(count), @selector(objectEnumerator), @selector(addObject:), @selector(addObject:), @selector(addObject:), nil];
     testassert(verified);
     
