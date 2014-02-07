@@ -1920,7 +1920,7 @@ test(DecimalNumberDefaultBehavior)
     id<NSDecimalNumberBehaviors> defaultBehavior = [NSDecimalNumber defaultBehavior];
     
     testassert([defaultBehavior roundingMode] == NSRoundPlain);
-    testassert([defaultBehavior scale] == 32767);
+    testassert([defaultBehavior scale] == NSDecimalNoScale);
     
     SEL selectors[] = { 0, @selector(decimalNumberByAdding:), @selector(decimalNumberByDividingBy:),
         @selector(decimalNumberByMultiplyingBy:), @selector(decimalNumberByDividingBy:) };
@@ -1948,6 +1948,19 @@ test(DecimalNumberDefaultBehavior)
         }
         testassert(exception == expectException[i]);
     }
+    
+    return YES;
+}
+
+test(DecimalNumberDefaultBehaviorInternal)
+{
+    id<NSDecimalNumberBehaviors> defaultBehavior = [NSDecimalNumber defaultBehavior];
+    testassert([(id)defaultBehavior class] == NSClassFromString(@"NSDecimalNumberHandler"));
+    
+    [NSDecimalNumber setDefaultBehavior:defaultBehavior];
+    id<NSDecimalNumberBehaviors> tlsBehaviour =
+        [[[NSThread currentThread] threadDictionary] objectForKey:@"NSDecimalNumberBehaviors"];
+    testassert(defaultBehavior == tlsBehaviour);
     
     return YES;
 }
