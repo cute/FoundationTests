@@ -203,6 +203,26 @@ test(DirectoryEnumeratorAtURL)
     return YES;
 }
 
+test(DirectoryEnumeratorAtNilURL)
+{
+    void (^block)() = ^{
+        [[NSFileManager defaultManager] enumeratorAtURL:nil includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants errorHandler:nil];
+    };
+    
+    // Enumerator with nil URL is invalid
+    BOOL raised = NO;
+    
+    @try {
+        block();
+    }
+    @catch (NSException *e) {
+        raised = [[e name] isEqualToString:NSInvalidArgumentException];
+    }
+    
+    testassert(raised);
+    return YES;
+}
+
 test(GetFileSystemRepresentationBlank)
 {
     NSUInteger sz = PATH_MAX;

@@ -112,13 +112,11 @@ test(SimpleMathWithComments2)
     return YES;
 }
 
-test(Trigraph)
+test(SimpleMathWithComments3)
 {
     BOOL thrown = NO;
     @try {
         NSExpression *expression = [NSExpression expressionWithFormat:@"1//+1"];
-        id value = [expression expressionValueWithObject:nil context:nil];
-        testassert([value isEqual:@(2)]);
     } @catch (NSException *e) {
         thrown = YES;
         testassert([[e name] isEqualToString:NSInvalidArgumentException]);
