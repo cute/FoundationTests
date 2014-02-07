@@ -388,6 +388,51 @@ test(PathWithComponentsComponentsTwin)
     return YES;
 }
 
+test(LastPathComponentEmpty)
+{
+    NSString* lastPathComponent = [@"" lastPathComponent];
+    
+    testassert([lastPathComponent isEqualToString:@""]);
+    
+    return YES;
+}
+
+test(LastPathComponentSlash)
+{
+    NSString* lastPathComponent = [@"/" lastPathComponent];
+    
+    testassert([lastPathComponent isEqualToString:@"/"]);
+    
+    return YES;
+}
+
+test(LastPathComponentSlashDot)
+{
+    NSString* lastPathComponent = [@"/." lastPathComponent];
+    
+    testassert([lastPathComponent isEqualToString:@"."]);
+    
+    return YES;
+}
+
+test(LastPathComponentTrailingSlash)
+{
+    NSString* lastPathComponent = [@"/foo/" lastPathComponent];
+    
+    testassert([lastPathComponent isEqualToString:@"foo"]);
+    
+    return YES;
+}
+
+test(LastPathComponentSplit)
+{
+    NSString* lastPathComponent = [@"foo/bar" lastPathComponent];
+    
+    testassert([lastPathComponent isEqualToString:@"bar"]);
+    
+    return YES;
+}
+
 test(StringByAppendingPathExtension1)
 {
     NSString *str = [@"foo" stringByAppendingPathExtension:@"bar"];
