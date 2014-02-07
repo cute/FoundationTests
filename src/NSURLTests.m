@@ -401,6 +401,13 @@ test(FilePathEquality)
     return YES;
 }
 
+test(FilePathIsDirectory)
+{
+    NSURL *url1 = [NSURL fileURLWithPath:@"/foo/bar/baz" isDirectory:YES];
+    testassert(url1 != nil);
+    return YES;
+}
+
 test(ConstructedFilePathEquality)
 {
     NSURL *url1 = [NSURL fileURLWithPath:@"/foo/bar/baz"];
