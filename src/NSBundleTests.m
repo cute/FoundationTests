@@ -164,6 +164,7 @@ test(PrivateFrameworksPath)
 	return YES;
 }
 
+#ifdef __IPHONE_7_0
 test(AppStoreReceiptURL)
 {
 	NSURL *appStoreReceiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
@@ -171,5 +172,6 @@ test(AppStoreReceiptURL)
     testassert([appStoreReceiptURL isEqual:[[[[[NSBundle mainBundle] bundleURL] URLByDeletingLastPathComponent] URLByAppendingPathComponent:@"StoreKit"] URLByAppendingPathComponent:@"receipt"]]);
 	return YES;
 }
+#endif
 
 @end

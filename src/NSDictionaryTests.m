@@ -918,6 +918,146 @@ test(CFDictionaryWithCStringKey)
     return YES;
 }
 
+test(CFDictionaryGetCount)
+{
+    NSDictionary *testDict  = @{@(1): @"One", @(2): @"Two"};
+    
+    int count = CFDictionaryGetCount((CFDictionaryRef)testDict);
+    testassert(count == 2);
+    
+    return YES;
+}
+
+test(CFDictionaryGetCountOfKey)
+{
+    NSDictionary *testDict  = @{@"A": @(1), @"B": @(2)};
+    
+    int count = CFDictionaryGetCountOfKey((CFDictionaryRef)testDict, @"B");
+    testassert(count == 1);
+    
+    return YES;
+}
+
+test(CFDictionaryContainsKey)
+{
+    NSDictionary *testDict  = @{@(42): @"Answer"};
+    
+    BOOL contains = CFDictionaryContainsKey((CFDictionaryRef)testDict, @(42));
+    testassert(contains);
+    
+    return YES;
+}
+    
+test(CFDictionaryGetValue)
+{
+    NSString *key = @"P != NP";
+    NSString *value = @"I have a proof of this theorem, but there is not enough space in this margin";
+    NSDictionary *testDict = @{key: value};
+    
+    NSString *found = CFDictionaryGetValue((CFDictionaryRef)testDict, key);
+    testassert(value == found);
+    
+    return YES;
+}
+        
+test(CFDictionaryGetValueIfPresent)
+{
+    NSDictionary *testDict = @{@"key": @"value"};
+    const void* value = nil;
+    BOOL result = CFDictionaryGetValueIfPresent((CFDictionaryRef)testDict, @"key", &value);
+    testassert(result);
+    testassert([(NSString*)value isEqualToString:@"value"]);
+    
+    return YES;
+}
+
+test(CFDictionaryGetKeysAndValues)
+{
+    NSArray *testKeys = @[@(97), @(98), @(99)];
+    NSArray *testValues = @[@"a", @"b", @"c"];
+    NSDictionary *testDict = @{@(97): @"a", @(98): @"b", @(99): @"c"};
+    const void* keys[3] = {0};
+    const void* values[3] = {0};
+    
+    CFDictionaryGetKeysAndValues((CFDictionaryRef)testDict, keys, values);
+    
+    for (int i=0; i<3; ++i)
+    {
+        testassert([testKeys containsObject:keys[i]]);
+        testassert([testValues containsObject:values[i]]);
+    }
+    
+    return YES;
+}
+
+static void applier(NSString *key, NSString *value, NSMutableArray *context)
+{
+    if ([key isEqualToString:@"Key"]) {
+        [context addObject:value];
+    }
+}
+
+test(CFDictionaryApplyFunction)
+{
+    NSDictionary *testDict = @{@"Key": @"Value"};
+    NSMutableArray *context = [NSMutableArray array];
+    
+    CFDictionaryApplyFunction((CFDictionaryRef)testDict, (CFDictionaryApplierFunction)applier, context);
+    testassert([context[0] isEqualToString:@"Value"]);
+    
+    return YES;
+}
+
+test(CFDictionaryAddValue)
+{
+    NSMutableDictionary *testDict = [NSMutableDictionary dictionaryWithDictionary:@{@(1): @"One"}];
+    
+    CFDictionaryAddValue((CFMutableDictionaryRef)testDict, @(1), @"1");
+    testassert([testDict isEqualToDictionary:@{@(1): @"One"}]);
+    
+    return YES;
+}
+
+test(CFDictionaryReplaceValue)
+{
+    NSMutableDictionary *testDict = [NSMutableDictionary dictionaryWithDictionary:@{@(1): @"One"}];
+    
+    CFDictionaryReplaceValue((CFMutableDictionaryRef)testDict, @(1), @"1");
+    testassert([testDict isEqualToDictionary:@{@(1): @"1"}]);
+    
+    return YES;
+}
+    
+test(CFDictionarySetValue)
+{
+    NSMutableDictionary *testDict = [NSMutableDictionary dictionaryWithDictionary:@{@(1): @"1"}];
+    
+    CFDictionarySetValue((CFMutableDictionaryRef)testDict, @(2), @"2");
+    testassert([testDict isEqualToDictionary:@{@(1): @"1", @(2): @"2"}]);
+    
+    return YES;
+}
+        
+test(CFDictionaryRemoveValue)
+{
+    NSMutableDictionary *testDict = [NSMutableDictionary dictionaryWithDictionary:@{@(1): @"1"}];
+    
+    CFDictionaryRemoveValue((CFMutableDictionaryRef)testDict, @(1));
+    testassert([testDict isEqualToDictionary:@{}]);
+    
+    return YES;
+}
+
+test(CFDictionaryRemoveAllValues)
+{
+    NSMutableDictionary *testDict = [NSMutableDictionary dictionaryWithDictionary:@{@(1): @"1", @"1": @(1)}];
+    
+    CFDictionaryRemoveAllValues((CFMutableDictionaryRef)testDict);
+    testassert([testDict isEqualToDictionary:@{}]);
+    
+    return YES;
+}
+
 test(BadCapacity)
 {
     __block BOOL raised = NO;

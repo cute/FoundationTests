@@ -12,6 +12,27 @@
 
 @end
 
+@interface DescriptionObject : NSString
+@property (nonatomic, copy) NSString *description;
+@end
+
+@implementation DescriptionObject
+
++(DescriptionObject*)withDescription:(NSString*)description
+{
+    DescriptionObject *object = [DescriptionObject new];
+    object.description = description;
+    return object;
+}
+
+-(void)dealloc
+{
+    self.description = nil;
+    [super dealloc];
+}
+
+@end
+
 @interface NSArraySubclass : NSArray {
     NSArray *inner;
 }
@@ -1261,6 +1282,38 @@ test(SubscriptReplace)
     array[1] = @2;
     array[2] = @1;
     testassert([array isEqualToArray:@[@3, @2, @1]]);
+    return YES;
+}
+
+test(StringComponentsJoinedByString)
+{
+    NSArray *array = @[@"a", @"b", @"c"];
+    
+    NSString *result = [array componentsJoinedByString:@"-"];
+    testassert([result isEqualToString:@"a-b-c"]);
+    
+    return YES;
+}
+
+test(NumberComponentsJoinedByString)
+{
+    NSArray *array = @[@(0), @(1), @(2)];
+    
+    NSString *result = [array componentsJoinedByString:@"."];
+    testassert([result isEqualToString:@"0.1.2"]);
+    
+    return YES;
+}
+
+test(DesciptionComponentsJoinedByString)
+{
+    NSArray *array = @[[DescriptionObject withDescription:@"x"],
+                       [DescriptionObject withDescription:@"y"],
+                       [DescriptionObject withDescription:@"z"]];
+    
+    NSString *result = [array componentsJoinedByString:@""];
+    testassert([result isEqualToString:@"xyz"]);
+    
     return YES;
 }
 

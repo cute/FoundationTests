@@ -319,114 +319,6 @@
 
 @end
 
-@interface ArrayCodingTest : NSObject
-@end
-
-@implementation ArrayCodingTest
-{
-    NSMutableArray *_foo;
-}
-
-- (id)init
-{
-    self = [super init];
-    if (self != nil)
-    {
-        _foo = [[NSMutableArray alloc] initWithObjects:@(42), nil];
-    }
-    return self;
-}
-
-- (void)dealloc
-{
-    [_foo release];
-    [super dealloc];
-}
-
-- (void)insertObject:(id)object inFooAtIndex:(NSUInteger)index
-{
-    [_foo insertObject:object atIndex:index];
-}
-
-- (void)removeObjectFromFooAtIndex:(NSUInteger)index
-{
-    [_foo removeObjectAtIndex:index];
-}
-
-@end
-
-@interface OrderedSetCodingTest : NSObject
-@end
-
-@implementation OrderedSetCodingTest
-{
-    NSMutableOrderedSet *_foo;
-}
-
-- (id)init
-{
-    self = [super init];
-    if (self != nil)
-    {
-        _foo = [[NSMutableOrderedSet alloc] initWithObjects:@(42), nil];
-    }
-    return self;
-}
-
-- (void)dealloc
-{
-    [_foo release];
-    [super dealloc];
-}
-
-- (void)insertObject:(id)object inFooAtIndex:(NSUInteger)index
-{
-    [_foo insertObject:object atIndex:index];
-}
-
-- (void)removeObjectFromFooAtIndex:(NSUInteger)index
-{
-    [_foo removeObjectAtIndex:index];
-}
-
-@end
-
-@interface SetCodingTest : NSObject
-@end
-
-@implementation SetCodingTest
-{
-    NSMutableSet *_foo;
-}
-
-- (id)init
-{
-    self = [super init];
-    if (self != nil)
-    {
-        _foo = [[NSMutableSet alloc] initWithObjects:@(42), nil];
-    }
-    return self;
-}
-
-- (void)dealloc
-{
-    [_foo release];
-    [super dealloc];
-}
-
-- (void)addFooObject:(id)object
-{
-    [_foo addObject:object];
-}
-
-- (void)removeFooObject:(id)object
-{
-    [_foo removeObject:object];
-}
-
-@end
-
 
 @interface SomeObjectWithCGPoint : NSObject {
     CGPoint point;
@@ -520,6 +412,49 @@ typedef struct SomeLargeStruct {
     }
     return YES;
 }
+@end
+
+@interface SomePropertyObject : NSObject
+@property (nonatomic, retain) NSObject* objectProperty;
+@property char charProperty;
+@property unsigned char unsignedCharProperty;
+@property short shortProperty;
+@property unsigned short unsignedShortProperty;
+@property int intProperty;
+@property unsigned int unsignedIntProperty;
+@property long longProperty;
+@property unsigned long unsignedLongProperty;
+@property long long longLongProperty;
+@property unsigned long long unsignedLongLongProperty;
+@property float floatProperty;
+@property double doubleProperty;
+@property BOOL boolProperty;
+@end
+
+@implementation SomePropertyObject
+@end
+
+@interface SomeIvarObject : NSObject
+{
+@public
+    NSObject* _objectIvar;
+    char _charIvar;
+    char _unsignedCharIvar;
+    short _shortIvar;
+    unsigned short _unsignedShortIvar;
+    int _intIvar;
+    unsigned int _unsignedIntIvar;
+    long _longIvar;
+    unsigned long _unsignedLongIvar;
+    long long _longLongIvar;
+    unsigned long long _unsignedLongLongIvar;
+    float _floatIvar;
+    double _doubleIvar;
+    BOOL _boolIvar;
+}
+@end
+
+@implementation SomeIvarObject
 @end
 
 @interface NSValue (Internal)
@@ -4397,79 +4332,6 @@ test(valueForKeyPath_onEmptySet)
     return YES;
 }
 
-test(mutableArrayValueForKey_basicMethodAccess)
-{
-    ArrayCodingTest *arrayCoding = [[[ArrayCodingTest alloc] init] autorelease];
-
-    [arrayCoding insertObject:@(23) inFooAtIndex:1];
-    NSMutableArray *mutableArrayValues = [arrayCoding mutableArrayValueForKey:@"foo"];
-    testassert([mutableArrayValues isEqualToArray:@[@(42), @(23)]]);
-
-    [arrayCoding insertObject:@(23) inFooAtIndex:2];
-    mutableArrayValues = [arrayCoding mutableArrayValueForKey:@"foo"];
-    testassert([mutableArrayValues isEqualToArray:@[@(42), @(23), @(23)]]);
-
-    [arrayCoding removeObjectFromFooAtIndex:0];
-    mutableArrayValues = [arrayCoding mutableArrayValueForKey:@"foo"];
-    testassert([mutableArrayValues isEqualToArray:@[@(23), @(23)]]);
-
-    [arrayCoding removeObjectFromFooAtIndex:0];
-    mutableArrayValues = [arrayCoding mutableArrayValueForKey:@"foo"];
-    testassert([mutableArrayValues isEqualToArray:@[@(23)]]);
-
-    [arrayCoding removeObjectFromFooAtIndex:0];
-    mutableArrayValues = [arrayCoding mutableArrayValueForKey:@"foo"];
-    testassert([mutableArrayValues isEqualToArray:@[]]);
-
-    return YES;
-}
-
-test(mutableOrderedSetValueForKey_basicMethodAccess)
-{
-    OrderedSetCodingTest *orderedSetCoding = [[[OrderedSetCodingTest alloc] init] autorelease];
-
-    [orderedSetCoding insertObject:@(23) inFooAtIndex:1];
-    NSMutableOrderedSet *mutableOrderedSetValues = [orderedSetCoding mutableOrderedSetValueForKey:@"foo"];
-    testassert([mutableOrderedSetValues isEqualToOrderedSet:[NSOrderedSet orderedSetWithArray:@[@(42), @(23)]]]);
-
-    [orderedSetCoding insertObject:@(23) inFooAtIndex:2];
-    mutableOrderedSetValues = [orderedSetCoding mutableOrderedSetValueForKey:@"foo"];
-    testassert([mutableOrderedSetValues isEqualToOrderedSet:[NSOrderedSet orderedSetWithArray:@[@(42), @(23)]]]);
-
-    [orderedSetCoding removeObjectFromFooAtIndex:0];
-    mutableOrderedSetValues = [orderedSetCoding mutableOrderedSetValueForKey:@"foo"];
-    testassert([mutableOrderedSetValues isEqualToOrderedSet:[NSOrderedSet orderedSetWithArray:@[@(23)]]]);
-
-    [orderedSetCoding removeObjectFromFooAtIndex:0];
-    mutableOrderedSetValues = [orderedSetCoding mutableOrderedSetValueForKey:@"foo"];
-    testassert([mutableOrderedSetValues isEqualToOrderedSet:[NSOrderedSet orderedSetWithArray:@[]]]);
-
-    return YES;
-}
-
-test(mutableSetValueForKey_basicMethodAccess)
-{
-    SetCodingTest *setCoding = [[[SetCodingTest alloc] init] autorelease];
-
-    [setCoding addFooObject:@(23)];
-    NSMutableSet *mutableSetValues = [setCoding mutableSetValueForKey:@"foo"];
-    testassert([mutableSetValues isEqualToSet:[NSSet setWithArray:@[@(42), @(23)]]]);
-
-    [setCoding addFooObject:@(23)];
-    mutableSetValues = [setCoding mutableSetValueForKey:@"foo"];
-    testassert([mutableSetValues isEqualToSet:[NSSet setWithArray:@[@(42), @(23)]]]);
-
-    [setCoding removeFooObject:@(42)];
-    mutableSetValues = [setCoding mutableSetValueForKey:@"foo"];
-    testassert([mutableSetValues isEqualToSet:[NSSet setWithArray:@[@(23)]]]);
-
-    [setCoding removeFooObject:@(23)];
-    mutableSetValues = [setCoding mutableSetValueForKey:@"foo"];
-    testassert([mutableSetValues isEqualToSet:[NSSet setWithArray:@[]]]);
-
-    return YES;
-}
-
 test(SetValueForKeyOnInnerCGPoint)
 {
     SomeObjectWithCGPoint *obj = [[SomeObjectWithCGPoint alloc] init];
@@ -4556,6 +4418,350 @@ test(SetValueForKeyOnLargeInnerStruct)
     
     [obj setValue:val forKey:@"aLargeStruct"];
     testassert([obj verifyInnerStruct:aStruct]);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnObjectProperty)
+{
+    SomePropertyObject *obj = [[SomePropertyObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"objectProperty"];
+    testassert([obj.objectProperty isEqual:@(42)]);
+    
+    [obj setValue:@"32" forKey:@"objectProperty"];
+    testassert([obj.objectProperty isEqual:@"32"]);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnCharProperty)
+{
+    SomePropertyObject *obj = [[SomePropertyObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"charProperty"];
+    testassert(obj.charProperty == 42);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnUnsignedCharProperty)
+{
+    SomePropertyObject *obj = [[SomePropertyObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"unsignedCharProperty"];
+    testassert(obj.unsignedCharProperty == 42);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnShortProperty)
+{
+    SomePropertyObject *obj = [[SomePropertyObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"shortProperty"];
+    testassert(obj.shortProperty == 42);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnUnsignedShortProperty)
+{
+    SomePropertyObject *obj = [[SomePropertyObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"unsignedShortProperty"];
+    testassert(obj.unsignedShortProperty == 42);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnIntProperty)
+{
+    SomePropertyObject *obj = [[SomePropertyObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"intProperty"];
+    testassert(obj.intProperty == 42);
+    
+    [obj setValue:@"32" forKey:@"intProperty"];
+    testassert(obj.intProperty == 32);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnUnsignedIntProperty)
+{
+    SomePropertyObject *obj = [[SomePropertyObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"unsignedIntProperty"];
+    testassert(obj.unsignedIntProperty == 42);
+    
+    [obj setValue:@"32" forKey:@"unsignedIntProperty"];
+    testassert(obj.unsignedIntProperty == 32);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnLongProperty)
+{
+    SomePropertyObject *obj = [[SomePropertyObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"longProperty"];
+    testassert(obj.longProperty == 42);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnUnsignedLongProperty)
+{
+    SomePropertyObject *obj = [[SomePropertyObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"unsignedLongProperty"];
+    testassert(obj.unsignedLongProperty == 42);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnLongLongProperty)
+{
+    SomePropertyObject *obj = [[SomePropertyObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"longLongProperty"];
+    testassert(obj.longLongProperty == 42);
+    
+    [obj setValue:@"32" forKey:@"longLongProperty"];
+    testassert(obj.longLongProperty == 32);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnUnsignedLongLongProperty)
+{
+    SomePropertyObject *obj = [[SomePropertyObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"unsignedLongLongProperty"];
+    testassert(obj.unsignedLongLongProperty == 42);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnFloatProperty)
+{
+    SomePropertyObject *obj = [[SomePropertyObject alloc] init];
+    
+    [obj setValue:@(128) forKey:@"floatProperty"];
+    testassert(obj.floatProperty == 128.f);
+    
+    [obj setValue:@"256" forKey:@"floatProperty"];
+    testassert(obj.floatProperty == 256.f);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnDoubleProperty)
+{
+    SomePropertyObject *obj = [[SomePropertyObject alloc] init];
+    
+    [obj setValue:@(128) forKey:@"doubleProperty"];
+    testassert(obj.doubleProperty == 128.);
+    
+    [obj setValue:@"256" forKey:@"doubleProperty"];
+    testassert(obj.doubleProperty == 256.);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnBoolProperty)
+{
+    SomePropertyObject *obj = [[SomePropertyObject alloc] init];
+    
+    [obj setValue:@(0) forKey:@"boolProperty"];
+    testassert(obj.boolProperty == NO);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnObjectIvar)
+{
+    SomeIvarObject *obj = [[SomeIvarObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"objectIvar"];
+    testassert([obj->_objectIvar isEqual:@(42)]);
+    
+    [obj setValue:@"32" forKey:@"objectIvar"];
+    testassert([obj->_objectIvar isEqual:@"32"]);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnCharIvar)
+{
+    SomeIvarObject *obj = [[SomeIvarObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"charIvar"];
+    testassert(obj->_charIvar == 42);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnUnsignedCharIvar)
+{
+    SomeIvarObject *obj = [[SomeIvarObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"unsignedCharIvar"];
+    testassert(obj->_unsignedCharIvar == 42);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnShortIvar)
+{
+    SomeIvarObject *obj = [[SomeIvarObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"shortIvar"];
+    testassert(obj->_shortIvar == 42);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnUnsignedShortIvar)
+{
+    SomeIvarObject *obj = [[SomeIvarObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"unsignedShortIvar"];
+    testassert(obj->_unsignedShortIvar == 42);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnIntIvar)
+{
+    SomeIvarObject *obj = [[SomeIvarObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"intIvar"];
+    testassert(obj->_intIvar == 42);
+    
+    [obj setValue:@"32" forKey:@"intIvar"];
+    testassert(obj->_intIvar == 32);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnUnsignedIntIvar)
+{
+    SomeIvarObject *obj = [[SomeIvarObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"unsignedIntIvar"];
+    testassert(obj->_unsignedIntIvar == 42);
+    
+    [obj setValue:@"32" forKey:@"unsignedIntIvar"];
+    testassert(obj->_unsignedIntIvar == 32);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnLongIvar)
+{
+    SomeIvarObject *obj = [[SomeIvarObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"longIvar"];
+    testassert(obj->_longIvar == 42);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnUnsignedLongIvar)
+{
+    SomeIvarObject *obj = [[SomeIvarObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"unsignedLongIvar"];
+    testassert(obj->_unsignedLongIvar == 42);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnLongLongIvar)
+{
+    SomeIvarObject *obj = [[SomeIvarObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"longLongIvar"];
+    testassert(obj->_longLongIvar == 42);
+    
+    [obj setValue:@"32" forKey:@"longLongIvar"];
+    testassert(obj->_longLongIvar == 32);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnUnsignedLongLongIvar)
+{
+    SomeIvarObject *obj = [[SomeIvarObject alloc] init];
+    
+    [obj setValue:@(42) forKey:@"unsignedLongLongIvar"];
+    testassert(obj->_unsignedLongLongIvar == 42);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnFloatIvar)
+{
+    SomeIvarObject *obj = [[SomeIvarObject alloc] init];
+    
+    [obj setValue:@(128) forKey:@"floatIvar"];
+    testassert(obj->_floatIvar == 128.f);
+    
+    [obj setValue:@"256" forKey:@"floatIvar"];
+    testassert(obj->_floatIvar == 256.f);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnDoubleIvar)
+{
+    SomeIvarObject *obj = [[SomeIvarObject alloc] init];
+    
+    [obj setValue:@(128) forKey:@"doubleIvar"];
+    testassert(obj->_doubleIvar == 128.);
+    
+    [obj setValue:@"256" forKey:@"doubleIvar"];
+    testassert(obj->_doubleIvar == 256.);
+    
+    [obj release];
+    return YES;
+}
+
+test(SetValueForKeyOnBoolIvar)
+{
+    SomeIvarObject *obj = [[SomeIvarObject alloc] init];
+    
+    [obj setValue:@(0) forKey:@"boolIvar"];
+    testassert(obj->_boolIvar == NO);
     
     [obj release];
     return YES;
