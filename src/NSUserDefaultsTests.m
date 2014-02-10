@@ -143,6 +143,13 @@ test(AppleLanguagesRemoval)
     return YES;
 }
 
+test(bug640)
+{
+    NSInteger deaths = 1;
+    [[NSUserDefaults standardUserDefaults] setInteger:deaths forKey:@"State_Deaths"];
+    return YES;
+}
+
 @end
 
 
