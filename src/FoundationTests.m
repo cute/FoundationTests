@@ -84,7 +84,7 @@ static CFStringRef sel_copyDescription(const void *value)
     }
     else
     {
-        
+
         DEBUG_LOG("Expected call pattern: %s", [(NSString *)CFCopyDescription(expected) UTF8String]);
         DEBUG_LOG("Recieved call pattern: %s", [(NSString *)CFCopyDescription(calls) UTF8String]);
         return NO;
@@ -203,12 +203,11 @@ static void runTests(struct testClassEntry *testSuite)
 
     unsigned int success_count = 0;
     unsigned int assertion_count = 0;
-    unsigned int skip_count = 0;
     unsigned int uncaught_exception_count = 0;
     unsigned int failure_count = 0;
     unsigned int signal_count = 0;
     unsigned int test_count = 0;
-    
+
     DEBUG_LOG("Running tests for %.*s:\n", (int)strlen(class_name) - (int)strlen("TestsApportable"), class_name);
 
     for (unsigned int idx = 0; idx < testSuite->count; idx++)
@@ -217,7 +216,7 @@ static void runTests(struct testClassEntry *testSuite)
         SEL sel = sel_registerName(testSuite->methods[idx].methodName);
         Method m = class_getInstanceMethod(c, sel);
         IMP imp = method_getImplementation(m);
-        
+
         BOOL success = NO;
         BOOL exception = NO;
 
@@ -264,14 +263,14 @@ static void runTests(struct testClassEntry *testSuite)
                 uncaught_exception_count++;
                 total_uncaught_exception_count++;
             }
-            
+
             if (signal_hit)
             {
                 signal_count++;
                 DEBUG_LOG("Got signal %s\n", strsignal(signal_hit));
                 total_signal_count++;
             }
-            
+
             DEBUG_LOG("%s: %s FAILED\n", class_name, sel_name);
             failure_count++;
             total_failure_count++;
@@ -282,13 +281,12 @@ static void runTests(struct testClassEntry *testSuite)
     if (success_count < test_count)
     {
         DEBUG_LOG("%u assertions\n", assertion_count);
-        DEBUG_LOG("%u skipped\n", skip_count);
         DEBUG_LOG("%u uncaught exceptions\n", uncaught_exception_count);
         DEBUG_LOG("%u signals raised\n", signal_count);
         DEBUG_LOG("%u failures (assertions, signals, and uncaught exceptions)\n", failure_count);
     }
     DEBUG_LOG("\n");
-    
+
     [tests release];
 }
 
@@ -299,7 +297,7 @@ void runFoundationTests(void)
         DEBUG_LOG("No tests are registered\n");
         return;
     }
-    
+
     qsort_b(testClasses, testClassCount, sizeof(struct testClassEntry), ^(const void *c1, const void *c2) {
         return strcmp(class_getName(((struct testClassEntry *)c1)->cls), class_getName(((struct testClassEntry *)c2)->cls));
     });
@@ -316,7 +314,7 @@ void runFoundationTests(void)
             tc->count++;
             ptr = ptr->next;
         }
-        
+
         tc->methods = malloc(tc->count * sizeof(*tc->methods));
 
         ptr = testNames;
@@ -329,7 +327,7 @@ void runFoundationTests(void)
         qsort_b(tc->methods, tc->count, sizeof(struct testName), ^int(const void *c1, const void *c2) {
             return ((struct testName *)c1)->line - ((struct testName *)c2)->line;
         });
-        
+
         runTests(tc);
 
         free(tc->methods);
