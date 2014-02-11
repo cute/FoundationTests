@@ -158,7 +158,27 @@ test(DirectoryEnumeratorAtPath)
     return YES;
 }
 
-test(DirectoryEnumeratorAtURL)
+test(DirectoryEnumeratorAtNilURL)
+{
+    void (^block)() = ^{
+        [[NSFileManager defaultManager] enumeratorAtURL:nil includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants errorHandler:nil];
+    };
+    
+    // Enumerator with nil URL is invalid
+    BOOL raised = NO;
+    
+    @try {
+        block();
+    }
+    @catch (NSException *e) {
+        raised = [[e name] isEqualToString:NSInvalidArgumentException];
+    }
+    
+    testassert(raised);
+    return YES;
+}
+
+test(DirectoryEnumeratorAtURL1)
 {
     __block BOOL errorOccurred = NO;
     NSString *path = [[NSBundle mainBundle] bundlePath];
@@ -203,23 +223,212 @@ test(DirectoryEnumeratorAtURL)
     return YES;
 }
 
-test(DirectoryEnumeratorAtNilURL)
+test(DirectoryEnumeratorAtURL2)
 {
-    void (^block)() = ^{
-        [[NSFileManager defaultManager] enumeratorAtURL:nil includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsSubdirectoryDescendants errorHandler:nil];
+
+    
+    union ive_seen_it_all {
+        int i;
+        struct {
+            BOOL saw0:1;
+            BOOL saw1:1;
+            BOOL saw2:1;
+            BOOL saw3:1;
+            BOOL saw4:1;
+            BOOL saw5:1;
+            BOOL saw6:1;
+            BOOL saw7:1;
+            BOOL saw8:1;
+            BOOL saw9:1;
+            BOOL saw10:1;
+            BOOL saw11:1;
+            BOOL saw12:1;
+            BOOL saw13:1;
+            BOOL saw14:1;
+            BOOL saw15:1;
+            BOOL saw16:1;
+            BOOL saw17:1;
+            BOOL saw18:1;
+            BOOL saw19:1;
+            BOOL saw20:1;
+            BOOL saw21:1;
+            BOOL saw22:1;
+            BOOL saw23:1;
+            BOOL saw24:1;
+            BOOL saw25:1;
+            BOOL saw26:1;
+            BOOL saw27:1;
+            BOOL saw28:1;
+        };
     };
     
-    // Enumerator with nil URL is invalid
-    BOOL raised = NO;
+    // Tests ordering of items returned by enumerator
     
-    @try {
-        block();
-    }
-    @catch (NSException *e) {
-        raised = [[e name] isEqualToString:NSInvalidArgumentException];
+    union ive_seen_it_all seenitall = { 0 };
+    NSURL *url = [[NSBundle mainBundle] bundleURL];
+    NSDirectoryEnumerator* dirEnum = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:0 errorHandler:nil ];
+    
+    int i = 0;
+    for (; YES; i++)
+    {
+        static int previousLine = 0;
+        NSURL *nextURL = [dirEnum nextObject];
+        if (nextURL == nil) {
+            break;
+        }
+        
+        testassert([[NSFileManager defaultManager] fileExistsAtPath:[nextURL path]]);
+        
+        // We keep track of line numbers to ensure that we find resources in the correct order
+        if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"0" withExtension:@"asset"]]) {
+            seenitall.saw0 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"0" withExtension:@"bundle"]]) {
+            seenitall.saw1 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"0-0" withExtension:@"bundle" subdirectory:@"0.bundle"]]) {
+            seenitall.saw2 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"0-0-0" withExtension:@"bundle" subdirectory:@"0.bundle/0-0.bundle"]]) {
+            seenitall.saw3 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"0-0-0" withExtension:@"asset" subdirectory:@"0.bundle/0-0.bundle/0-0-0.bundle"]]) {
+            seenitall.saw4 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"0-0" withExtension:@"asset" subdirectory:@"0.bundle/0-0.bundle"]]) {
+            seenitall.saw5 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"0" withExtension:@"asset" subdirectory:@"0.bundle"]]) {
+            seenitall.saw6 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"ATestPlist" withExtension:@"plist"]]) {
+            seenitall.saw7 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"bigfile" withExtension:@"txt"]]) {
+            seenitall.saw8 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"data" withExtension:@"json"]]) {
+            seenitall.saw9 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"Default-568h@2x" withExtension:@"png"]]) {
+            seenitall.saw10 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"Default" withExtension:@"png"]]) {
+            seenitall.saw11 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"Default@2x" withExtension:@"png"]]) {
+            seenitall.saw12 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"en" withExtension:@"lproj"]]) {
+            seenitall.saw13 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"InfoPlist" withExtension:@"strings" subdirectory:@"en.lproj"]]) {
+            seenitall.saw14 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"folderref0" withExtension:nil]]) {
+            seenitall.saw15 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"0" withExtension:@"asset" subdirectory:@"folderref0"]]) {
+            seenitall.saw16 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"folderref0-0" withExtension:nil subdirectory:@"folderref0"]]) {
+            seenitall.saw17 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"0" withExtension:@"asset" subdirectory:@"folderref0/folderref0-0"]]) {
+            seenitall.saw18 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"0" withExtension:@"bundle" subdirectory:@"folderref0/folderref0-0"]]) {
+            seenitall.saw19 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"0" withExtension:@"asset" subdirectory:@"folderref0/folderref0-0/0.bundle"]]) {
+            seenitall.saw20 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+
+        // Isn't implemented on platform, so it will appear as NO
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"FoundationTests" withExtension:nil]]) {
+            seenitall.saw21 = NO;//YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"Info" withExtension:@"plist"]]) {
+            seenitall.saw22 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"Localizable" withExtension:@"strings"]]) {
+            seenitall.saw23 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        // Isn't implemented on platform, so it will appear as NO
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"PkgInfo" withExtension:nil]]) {
+            seenitall.saw24 = NO;// YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"SpecialCharactersJSONTest" withExtension:@"json"]]) {
+            seenitall.saw25 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"stringData" withExtension:@"bin"]]) {
+            seenitall.saw26 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
+        
+        else if ([nextURL isEqual:[[NSBundle mainBundle] URLForResource:@"utf8" withExtension:@"txt"]]) {
+            seenitall.saw27 = YES & (previousLine < __LINE__);
+            previousLine = __LINE__;
+        }
     }
     
-    testassert(raised);
+    // Remove this test when the above items are implemented
+    testassert(seenitall.i == 249561087);
+    
+    // Enable the below test when above items are implemented
+    //    testassert(seenitall.i == 536870911);
+    
     return YES;
 }
 
