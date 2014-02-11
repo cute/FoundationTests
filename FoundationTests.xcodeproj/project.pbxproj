@@ -35,6 +35,7 @@
 		4A1C12F5183471540055723E /* ATestPlist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A1C12F4183471540055723E /* ATestPlist.plist */; };
 		4A27AE82183C02D9003D36F6 /* ConcurrencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A27AE81183C02D9003D36F6 /* ConcurrencyTests.m */; };
 		4A54638817F0C18700876D50 /* NSKeyValueCodingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A54638717F0C18700876D50 /* NSKeyValueCodingTests.m */; };
+		558568F318AA6599004BF8DE /* NSKeyedArchiverTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 558568F218AA6599004BF8DE /* NSKeyedArchiverTests.m */; };
 		58664D0E180F28AF00B72D1F /* FoundationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47178CB117ADDA340062E7B0 /* FoundationTests.m */; };
 		58664D0F180F28BA00B72D1F /* CFGetTypeIDTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE69B48817FB4E2A00EB5F59 /* CFGetTypeIDTests.m */; };
 		58664D10180F28BA00B72D1F /* NSUserDefaultsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DEB8A25B17BC373E0044AFB9 /* NSUserDefaultsTests.m */; };
@@ -203,6 +204,7 @@
 		4A1C12F4183471540055723E /* ATestPlist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ATestPlist.plist; sourceTree = "<group>"; };
 		4A27AE81183C02D9003D36F6 /* ConcurrencyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConcurrencyTests.m; sourceTree = "<group>"; };
 		4A54638717F0C18700876D50 /* NSKeyValueCodingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSKeyValueCodingTests.m; sourceTree = "<group>"; };
+		558568F218AA6599004BF8DE /* NSKeyedArchiverTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSKeyedArchiverTests.m; sourceTree = "<group>"; };
 		58B2D03817EBBC0300A999DA /* NSPortTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSPortTests.m; sourceTree = "<group>"; };
 		58C57F24180E1513008C28D3 /* NSURLConnectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLConnectionTests.m; sourceTree = "<group>"; };
 		58C57F27180E16AA008C28D3 /* NSNumberFormatterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSNumberFormatterTests.m; sourceTree = "<group>"; };
@@ -396,7 +398,7 @@
 				4A54638717F0C18700876D50 /* NSKeyValueCodingTests.m */,
 				B08392EA18A10D2F00BDB4CC /* NSKeyValueCodingMutableContainerTests.m */,
 				B0F4B75118A003C90085754C /* NSKeyValueCodingMutableContainerSubclassTests.m */,
-                47939BF418A2FF86009CE394 /* NSLocaleTests.m */,
+				47939BF418A2FF86009CE394 /* NSLocaleTests.m */,
 				47E33E4A180C873A00A7E10F /* NSKVOTests.m */,
 				47178CB617ADDA340062E7B0 /* NSLockTests.m */,
 				47178CB717ADDA340062E7B0 /* NSMethodSignatureTests.m */,
@@ -429,6 +431,7 @@
 				DEB8A25B17BC373E0044AFB9 /* NSUserDefaultsTests.m */,
 				DEFB624917C41104004908E6 /* NSValueTests.m */,
 				58DD2826180F51F7007C4D8F /* SecureTransportTests.m */,
+				558568F218AA6599004BF8DE /* NSKeyedArchiverTests.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -553,6 +556,7 @@
 				47178C9C17ADD9D40062E7B0 /* main.m in Sources */,
 				5BA8C69E1873517D007F6E2E /* NSExpressionTests.m in Sources */,
 				DE242DAA17BC433C00D668DF /* NSUserDefaultsTests.m in Sources */,
+				558568F318AA6599004BF8DE /* NSKeyedArchiverTests.m in Sources */,
 				5BF45DAD182DB0560010D465 /* NSProxyTests.m in Sources */,
 				DE242DAB17BC433C00D668DF /* NSArrayTests.m in Sources */,
 				DE242DAC17BC433C00D668DF /* CFRunLoopTests.m in Sources */,
