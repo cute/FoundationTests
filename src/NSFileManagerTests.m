@@ -268,14 +268,9 @@ test(DirectoryEnumeratorAtURL2)
     NSURL *url = [[NSBundle mainBundle] bundleURL];
     NSDirectoryEnumerator* dirEnum = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:0 errorHandler:nil ];
     
-    int i = 0;
-    for (; YES; i++)
-    {
+    NSURL *nextURL = nil;
+    while ((nextURL = [dirEnum nextObject]) != nil) {
         static int previousLine = 0;
-        NSURL *nextURL = [dirEnum nextObject];
-        if (nextURL == nil) {
-            break;
-        }
         
         testassert([[NSFileManager defaultManager] fileExistsAtPath:[nextURL path]]);
         
