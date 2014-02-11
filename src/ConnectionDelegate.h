@@ -16,4 +16,6 @@
 
 @property (nonatomic, assign) BOOL done;
 
+@property (nonatomic, assign) BOOL didRedirect;
+
 @end

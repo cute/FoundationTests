@@ -2,6 +2,7 @@
 #import "ConnectionDelegate.h"
 
 #define HOST @"http://apportableplayground.herokuapp.com"
+#define ALBIE_PROFILE_ORIGINAL_URL @"https://graph.facebook.com/100004655439664/picture?type=square&return_ssl_resources=1"
 #define TIMEOUT 5
 
 @testcase(NSURLConnection)
@@ -267,6 +268,24 @@ test(PostWithBodyFromData)
     testassert(response != nil);
     testassert(err == nil);
     testassert([[[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease] isEqualToString:@"{\"uuid\":\"BFFC8B8B-C0B9-4C87-8AC3-E1B53469B642\",\"happendtime\":\"1390104433\",\"modtime\":\"1390104433\",\"rectime\":\"1390104433\",\"myrefercode\":\"BJZZZv\",\"refereecode\":\"3333\"}"]);
+    return YES;
+}
+
+test(Redirection)
+{
+    ConnectionDelegate *delegate = [[[ConnectionDelegate alloc] init] autorelease];
+    NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:ALBIE_PROFILE_ORIGINAL_URL]
+                                                              cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                          timeoutInterval:TIMEOUT];
+    NSURLConnection *connection = [NSURLConnection connectionWithRequest:theRequest delegate:delegate];
+    [connection start];
+    NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:TIMEOUT];
+    do {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:timeoutDate];
+    } while (!delegate.done);
+    
+    testassert(delegate.didRedirect);
+    testassert(delegate.resultData.length != 0);
     return YES;
 }
 

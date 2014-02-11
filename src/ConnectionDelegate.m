@@ -16,6 +16,7 @@
     self = [super init];
     if (self) {
         _resultData = [[NSMutableData alloc] init];
+        _didRedirect = YES;
         _done = NO;
         _error = nil;
     }
@@ -30,6 +31,10 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
+    if (![[[connection originalRequest] URL] isEqual:[response URL]])
+    {
+        _didRedirect = YES;
+    }
     [_resultData setLength:0];
 }
 
